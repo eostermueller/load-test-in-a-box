@@ -1,0 +1,69 @@
+<mat-sidenav-container class="all-wrap">
+
+  <mat-sidenav #sidenav over>
+    <mat-list>
+      <mat-list-item
+        *ngFor="let route of routes"
+        [routerLink]="route.path"
+        (click)="sidenav.toggle()"
+      >
+        <mat-icon>code</mat-icon>&emsp;{{route.name}}
+      </mat-list-item>
+    </mat-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="page-wrap img-bg">
+
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <span>
+          <mat-icon
+            (click)="sidenav.open()"
+          >menu
+          </mat-icon>
+        </span>
+        <span><h1>Toolbar</h1></span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div class="info">
+      <button
+        mat-raised-button
+        (click)="sidenav.open()"
+      >Open sidenav</button>
+      <mat-card class="home">
+        <mat-card-title>Angular 7 and Material 2 Sticky Footer Example</mat-card-title>
+        <mat-card-content>
+          This demo was created with Material Version 7.1.1
+        </mat-card-content>
+        <mat-card-actions>
+          <button class="color-font" mat-button>
+            <a
+              href="https://github.com/CanKattwinkel/material-2-sticky-footer-mat-sidenav/"
+              target="_blank"
+            >Source code at GitHub
+            </a>
+          </button>
+          <button class="color-font" mat-button>
+            <a
+              href="https://www.thecodecampus.de/blog/material-2-sticky-footer-mat-sidenav/"
+              target="_blank"
+            >Our blog post
+            </a>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+
+    <footer>
+      <h2>Sticky Footer !!</h2>
+      <p>... with variable height</p>
+    </footer>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

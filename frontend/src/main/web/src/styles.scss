@@ -1,0 +1,77 @@
+//
+// Customized Material Theme
+//
+
+@import '~@angular/material/theming';
+
+@import url('//fonts.googleapis.com/icon?family=Material+Icons');
+
+@include mat-core();
+
+$primary: mat-palette($mat-lime, 500);
+$accent:  mat-palette($mat-lime, 500, A200, A400);
+$warn:    mat-palette($mat-red, 500);
+
+$config: mat-typography-config();
+
+$theme: mat-light-theme($primary, $accent, $warn);
+
+@include angular-material-theme($theme);
+
+body {
+  font-family: mat-font-family($config);
+  font-weight: normal;
+}
+
+h1, h2, h3, h4 {
+  font-weight: normal;
+}
+
+
+/*
+ * NICIFY: Demo appearance
+ */
+
+body {
+  margin: 0;
+  width: 100%;
+}
+
+.mat-toolbar {
+  background: #f19f45;
+  color: white;
+  span { margin-right: 2rem; }
+  mat-icon {
+    cursor: pointer;
+    font-size: 1.6em;
+    transform: translateY(3px);
+  }
+  h1 { font-size: 1.2em; }
+}
+
+mat-sidenav { width: 30vw; }
+mat-list-item { cursor: pointer; }
+
+footer {
+  width: 100%;
+  height: inherit;
+  background: #f2803c;
+  color: white;
+  padding: .5rem 0 1rem 0;
+  > * { padding: 0 0 0 2rem; }
+  h2 { font-size: 1.4em; }
+}
+
+.info { padding: 2vh 1.7vw; }
+.home {
+  margin: 1.7vw 0 0;
+  button.color-font { color: #4d4daa; }
+}
+.info-card {
+  margin: 1vh 1.7vw;
+  color: #7b2f94;
+}
+
+.img-bg {
+  background: no-repeat center 65% / 35% url("assets/thecodecampus_branding.svg");
+}
