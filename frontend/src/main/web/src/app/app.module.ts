@@ -1,42 +1,79 @@
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 
-import {MatButtonModule, MatCardModule, MatIconModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
+import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {AppComponent} from './app.component';
-import {AppRoutingModule} from './app-routing.module';
-import {OneComponent} from './one/one.component';
-import {TwoComponent} from './two/two.component';
-import {ThreeComponent} from './three/three.component';
-import {ThreeModule} from './three/three.module';
-import {OneModule} from './one/one.module';
-import {TwoModule} from './two/two.module';
+import { CoreModule } from './core/core.module';
+import { NavComponent } from './nav/nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule,
+          MatButtonModule,
+          MatIconModule,
+          MatCardModule,
+          MatSidenavModule,
+          MatListModule,
+          MatPaginatorModule,
+           } from '@angular/material';
+import { WorkloadComponent } from './workload/workload.component';
+
+import { RouterModule, Routes } from '@angular/router';
+import { LoadGenMetricsComponent } from './load-gen-metrics/load-gen-metrics.component';
+import { TrafficJvmParametersComponent } from './traffic-jvm-parameters/traffic-jvm-parameters.component';
+import { WorkloadSelectionTypeComponent } from './workload-selection-type/workload-selection-type.component';
+import { UseCasesComponent } from './use-cases/use-cases.component';
+import { DeploymentComponent } from './deployment/deployment.component';
+
+import {MatTabsModule} from '@angular/material';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MatPaginationDemoComponent } from './mat-pagination-demo/mat-pagination-demo.component';
+import { DemoCardComponent } from './demo-card/demo-card.component';
+import { UseCaseCardComponent } from './use-case-card/use-case-card.component';
+
+
+  const appRoutes: Routes = [
+    { path: 'workload', component: WorkloadComponent },
+    { path: 'metrics', component: LoadGenMetricsComponent },
+    { path: 'jvm-parameters', component: TrafficJvmParametersComponent },
+    { path: 'deployment', component: DeploymentComponent },
+  ];
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    OneComponent,
-    TwoComponent,
-    ThreeComponent
+    NavComponent,
+    WorkloadComponent,
+    LoadGenMetricsComponent,
+    TrafficJvmParametersComponent,
+    WorkloadSelectionTypeComponent,
+    UseCasesComponent,
+    DeploymentComponent,
+    MatPaginationDemoComponent,
+    DemoCardComponent,
+    UseCaseCardComponent
   ],
   imports: [
+    RouterModule.forRoot(appRoutes),
+    CoreModule,
     BrowserModule,
     BrowserAnimationsModule,
-
-    MatSidenavModule,
-    MatButtonModule,
+    LayoutModule,
+    MatCardModule,
+    MatPaginatorModule,
     MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
     MatIconModule,
     MatListModule,
-    MatCardModule,
-
-    AppRoutingModule,
-    OneModule,
-    TwoModule,
-    ThreeModule
+    MatTabsModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  exports: [
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

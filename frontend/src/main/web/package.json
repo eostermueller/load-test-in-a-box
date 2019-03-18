@@ -32,6 +32,7 @@
     "core-js": "^2.5.4",
     "node-gyp": "^3.8.0",
     "rxjs": "^6.4.0",
+    "rxjs-compat": "^6.4.0",
     "webpack": "^4.29.6",
     "zone.js": "^0.8.26"
   },
@@ -46,7 +47,7 @@
     "codelyzer": "~4.2.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
-    "karma": "~1.7.1",
+    "karma": "^4.0.1",
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage-istanbul-reporter": "~2.0.0",
     "karma-jasmine": "~1.1.1",

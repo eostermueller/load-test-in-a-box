@@ -1,14 +1,14 @@
 /**
  * 
  */
-package com.github.eostermueller.backend;
+package com.github.eostermueller.havoc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 /**
- * @author eostermueller@gmail.com
+ * @author eostermueller
  *
  */
 @SpringBootApplication
