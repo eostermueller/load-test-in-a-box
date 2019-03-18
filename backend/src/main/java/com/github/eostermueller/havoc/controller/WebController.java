@@ -1,23 +1,24 @@
 /**
  * 
  */
-package com.github.eostermueller.controller;
+package com.github.eostermueller.havoc.controller;
+
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * @author eostermueller@gmail.com
+ * @author eostermueller
  *
  */
 @Controller
 @RequestMapping("/home")
-public class HomeController {
+public class WebController {
+	
 	
 	@GetMapping
 	public String home() {
 		return "forward:/index.html";
 	}
-
 }

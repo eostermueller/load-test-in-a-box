@@ -8,12 +8,20 @@ import {Component} from '@angular/core';
 export class AppComponent {
 
   routes = [
-    { path: '/', name: 'Home' },
+    { path: 'workload', name: 'Worload' },
     { path: 'one', name: 'One' },
     { path: 'two', name: 'Two' },
     { path: 'three', name: 'Three' }
   ];
 
+  /*
+  routes = [
+    { path: '/', name: 'Home' },
+    { path: 'one', name: 'One' },
+    { path: 'two', name: 'Two' },
+    { path: 'three', name: 'Three' }
+  ];
+*/
   constructor() {
   }
 
