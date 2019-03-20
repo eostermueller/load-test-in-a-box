@@ -30,6 +30,7 @@
     "@schematics/update": "^0.800.0-beta.7",
     "ajv-keywords": "^3.4.0",
     "core-js": "^2.5.4",
+    "hammerjs": "^2.0.8",
     "node-gyp": "^3.8.0",
     "rxjs": "^6.4.0",
     "rxjs-compat": "^6.4.0",

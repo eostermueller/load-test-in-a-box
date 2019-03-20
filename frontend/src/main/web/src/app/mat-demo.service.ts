@@ -14,7 +14,7 @@ export class MatDemoService {
   constructor(private http: HttpClient) {}
 
       getElements() :Observable<any> {
-        return this.http.get('assets/elements.json');
+        return this.http.get('havocAgent/elements.json');
           // }));
       }
 
