@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-use-case-card',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./use-case-card.component.scss']
 })
 export class UseCaseCardComponent implements OnInit {
+  @Input() useCase: any;
 
   constructor() { }
 

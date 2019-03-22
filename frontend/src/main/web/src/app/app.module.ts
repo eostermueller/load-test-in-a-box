@@ -21,13 +21,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoadGenMetricsComponent } from './load-gen-metrics/load-gen-metrics.component';
 import { TrafficJvmParametersComponent } from './traffic-jvm-parameters/traffic-jvm-parameters.component';
 import { WorkloadSelectionTypeComponent } from './workload-selection-type/workload-selection-type.component';
-import { UseCasesComponent } from './use-cases/use-cases.component';
 import { DeploymentComponent } from './deployment/deployment.component';
 
 import {MatTabsModule} from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+
 import { MatPaginationDemoComponent } from './mat-pagination-demo/mat-pagination-demo.component';
 import { DemoCardComponent } from './demo-card/demo-card.component';
+
+import { UseCasesComponent } from './use-cases/use-cases.component';
 import { UseCaseCardComponent } from './use-case-card/use-case-card.component';
 
 
@@ -48,10 +50,10 @@ import { UseCaseCardComponent } from './use-case-card/use-case-card.component';
     TrafficJvmParametersComponent,
     WorkloadSelectionTypeComponent,
     UseCasesComponent,
+    UseCaseCardComponent,
     DeploymentComponent,
     MatPaginationDemoComponent,
-    DemoCardComponent,
-    UseCaseCardComponent
+    DemoCardComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
