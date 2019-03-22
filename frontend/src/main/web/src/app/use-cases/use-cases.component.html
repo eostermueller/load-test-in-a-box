@@ -1,4 +1,19 @@
-<p>
-  use-cases works!
-  <app-mat-pagination-demo></app-mat-pagination-demo>
-</p>
+  <H3>Choose the UseCases in the workload</H3>>
+
+
+  <div height="400px" >
+      <ul class="list">
+          <li *ngFor="let useCase of dataSource?.connect() |  async">
+          <app-use-case-card [useCase]="useCase"></app-use-case-card>
+          </li>
+      </ul>
+    </div>  
+      <mat-paginator   #paginator class="mat-elevation-z8"
+        [length]="length"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        (page)="pageEvent = $event; pageChange($event)"
+      ></mat-paginator>
+    
+    
