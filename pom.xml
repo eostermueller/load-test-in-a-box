@@ -13,6 +13,7 @@
   </parent>
   <modules>
    <module>backend</module>
+   <module>workload</module>
     <module>frontend</module>
   </modules>
   
