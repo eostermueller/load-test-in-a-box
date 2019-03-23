@@ -14,6 +14,7 @@ import com.github.eostermueller.havoc.workload.model.Descriptor;
 import com.github.eostermueller.havoc.workload.model.MethodWrapper;
 import com.github.eostermueller.havoc.workload.model.ProcessingUnitImpl;
 import com.github.eostermueller.havoc.workload.model.UseCases;
+import com.github.eostermueller.havoc.workload.model.WorkloadSpecRq;
 import com.github.eostermueller.havoc.workload.model.json.SerializaionUtil;
 
 class JsonSerializationTest {
@@ -72,11 +73,11 @@ class JsonSerializationTest {
 		
 		
 		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
-		String json = util.marshal(useCases);
+		String json = util.marshalUseCases(useCases);
 		System.out.println(json);
 		//String js0n = "{\"useCases\":[{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"methodWrapper\":{\"parameters\":[],\"descriptor\":{\"messages\":[]},\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"binarySort\"}},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"methodWrapper\":{\"parameters\":[],\"descriptor\":{\"messages\":[]},\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"selectionSort\"}}],\"name\":\"Sorting\"}]}";
 		
-		UseCases newUseCases = util.unmmarshal(json);
+		UseCases newUseCases = util.unmmarshalUseCases(json);
 
 		ProcessingUnitImpl processingUnit = newUseCases.getUseCase(USE_CASE_NAME).getProcessingUnits().get(0);
 		
@@ -95,6 +96,43 @@ class JsonSerializationTest {
 		assertEquals( DECLARING_CLASS, m.getDeclaringClassName() );
 	}
 	@Test
+	void canUnmarshallWorkloadRequestToJson() throws HavocException {
+		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
+		String js0n = "{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"binarySort\"}},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"selectionSort\"}}]}";
+		WorkloadSpecRq rq = util.unmmarshalWorkloadSpecRq(js0n);
+		ProcessingUnitImpl processingUnit = rq.getProcessingUnits().get(0);
+		
+		assertEquals( USE_CASE_NAME, processingUnit.getUseCaseName() );
+		
+		MethodWrapper m = processingUnit.getMethodWrapper();
+		
+		assertEquals( BINARY_SORT_METHOD_NAME, m.getMethodName() );
+		
+		Locale locale = Locale.forLanguageTag("en-US");
+		assertEquals( "MyMessage", processingUnit
+									.getDescriptor()
+									.getMessage(locale)
+									.getMessage() );
+		
+		assertEquals( DECLARING_CLASS, m.getDeclaringClassName() );
+		
+	}
+	@Test
+	void canMarshallWorkloadRequestToJson() throws HavocException {
+		WorkloadSpecRq rq = new WorkloadSpecRq();
+		
+		
+		rq.addProcessingUnit(  this.createTestProcessingUnit_Binary() );
+		rq.addProcessingUnit( this.createTestProcessingUnit_Selection());
+		
+		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
+		String actualJson = util.marshalWorkloadSpecRq(rq);
+		String expectedJson = "{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"binarySort\"}},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"selectionSort\"}}]}";
+		
+		assertEquals(expectedJson, actualJson);
+		
+	}
+	@Test
 	void canSerializeUseCasesToJson() throws HavocException {
 		UseCases useCases = new UseCases();
 		
@@ -102,7 +140,7 @@ class JsonSerializationTest {
 		useCases.addProcessingUnit( this.createTestProcessingUnit_Selection());
 		
 		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
-		String actualJson = util.marshal(useCases);
+		String actualJson = util.marshalUseCases(useCases);
 		String expectedJson = "{\"useCases\":[{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"binarySort\"}},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"selectionSort\"}}],\"name\":\"Sorting\"}]}";
 		
 		assertEquals(expectedJson, actualJson);
