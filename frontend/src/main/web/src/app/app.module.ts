@@ -14,6 +14,7 @@ import { MatToolbarModule,
           MatSidenavModule,
           MatListModule,
           MatPaginatorModule,
+          MatTabsModule
            } from '@angular/material';
 import { WorkloadComponent } from './workload/workload.component';
 
@@ -23,7 +24,8 @@ import { TrafficJvmParametersComponent } from './traffic-jvm-parameters/traffic-
 import { WorkloadSelectionTypeComponent } from './workload-selection-type/workload-selection-type.component';
 import { DeploymentComponent } from './deployment/deployment.component';
 
-import {MatTabsModule} from '@angular/material';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { MatPaginationDemoComponent } from './mat-pagination-demo/mat-pagination-demo.component';
@@ -69,6 +71,7 @@ import { UseCaseCardComponent } from './use-case-card/use-case-card.component';
     MatIconModule,
     MatListModule,
     MatTabsModule,
+    MatCheckboxModule,
     FormsModule,
     ReactiveFormsModule,
   ],
