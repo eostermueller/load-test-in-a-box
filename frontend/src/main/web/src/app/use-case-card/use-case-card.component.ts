@@ -11,6 +11,7 @@ export class UseCaseCardComponent implements OnInit {
   IsIndeterminate:boolean;
   LabelAlign:string;
   IsDisabled:boolean;
+  selectedStatus: string;
   @Input() useCase: any;
 
   constructor() {

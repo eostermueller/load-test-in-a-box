@@ -25,6 +25,7 @@ import { WorkloadSelectionTypeComponent } from './workload-selection-type/worklo
 import { DeploymentComponent } from './deployment/deployment.component';
 
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
@@ -72,6 +73,7 @@ import { UseCaseCardComponent } from './use-case-card/use-case-card.component';
     MatListModule,
     MatTabsModule,
     MatCheckboxModule,
+    MatRadioModule,
     FormsModule,
     ReactiveFormsModule,
   ],
