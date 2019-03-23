@@ -3,8 +3,10 @@ package com.github.eostermueller.havoc.workload.model.json;
 
 import com.github.eostermueller.havoc.workload.HavocException;
 import com.github.eostermueller.havoc.workload.model.UseCases;
+import com.github.eostermueller.havoc.workload.model.WorkloadSpecRq;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * Why I chose gson:
@@ -28,18 +30,34 @@ public class DefaultSerializationUtil implements SerializaionUtil {
 	
 
 	@Override
-	public String marshal(UseCases useCases) {
+	public String marshalUseCases(UseCases useCases) {
 		return getGson().toJson(useCases);
 	}
 
 	@Override
-	public UseCases unmmarshal(String json) throws HavocException {
+	public UseCases unmmarshalUseCases(String json) throws HavocException {
 		UseCases useCases 
 		= this.getGson().fromJson(
 			json,
 			UseCases.class
 				); 
 		return useCases;
+	}
+
+
+	@Override
+	public WorkloadSpecRq unmmarshalWorkloadSpecRq(String json) throws JsonSyntaxException, HavocException {
+		WorkloadSpecRq rq 
+		= this.getGson().fromJson(
+			json,
+			WorkloadSpecRq.class
+				); 
+		return rq;
+	}
+	
+	@Override
+	public String marshalWorkloadSpecRq(WorkloadSpecRq rq) throws JsonSyntaxException, HavocException {
+		return getGson().toJson(rq);
 	}
 
 }

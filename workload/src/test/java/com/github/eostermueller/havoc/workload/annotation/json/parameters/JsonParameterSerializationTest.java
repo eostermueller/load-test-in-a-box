@@ -74,10 +74,10 @@ class JsonParameterSerializationTest {
 		
 		
 		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
-		String json = util.marshal(useCases);
+		String json = util.marshalUseCases(useCases);
 		System.out.println(json);
 		
-		UseCases newUseCases = util.unmmarshal(json);
+		UseCases newUseCases = util.unmmarshalUseCases(json);
 		
 		//Destroy this so we don't
 		//accidently use it and mistakenly think that
@@ -134,7 +134,7 @@ class JsonParameterSerializationTest {
 		useCases.addProcessingUnit( this.createTestProcessingUnit_Selection());
 		
 		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
-		String actualJson = util.marshal(useCases);
+		String actualJson = util.marshalUseCases(useCases);
 		
 		System.out.println(actualJson);
 		String expectedJson = "{\"useCases\":[{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[{\"parameterType\":\"STRING\",\"name\":\"hostname\",\"defaultLongValue\":0,\"defaultIntValue\":0,\"defaultStringValue\":\"mystubserver.com\",\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"the ProcessingUnit will send HTTP data to this hostname\"},{\"locale\":\"fr_FR\",\"message\":\"FR the ProcessingUnit will send HTTP data to this hostname\"}]}},{\"parameterType\":\"INTEGER\",\"name\":\"numBytes\",\"defaultLongValue\":0,\"defaultIntValue\":1000,\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"The number of bytes that will be added to the heap ever iteration.\"},{\"locale\":\"fr_FR\",\"message\":\"FR The number of bytes that will be added to the heap ever iteration.\"}]}},{\"parameterType\":\"LONG\",\"name\":\"duration\",\"defaultLongValue\":5500000,\"defaultIntValue\":0,\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"the number of milliseconds that each byte will (roughly) spend of the heap\"},{\"locale\":\"fr_FR\",\"message\":\"FR the number of milliseconds that each byte will (roughly) spend of the heap\"}]}}],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.annotation.json.parameters.SortingWithParameter\",\"name\":\"selectionSort\"}}],\"name\":\"Sorting\"}]}";
