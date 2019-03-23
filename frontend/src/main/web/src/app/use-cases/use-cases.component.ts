@@ -7,6 +7,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/merge';
 import { map } from 'rxjs/operators';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 export class Database { // {{{
   /** Stream that emits whenever the data has been modified. If filter is applied on the data*/

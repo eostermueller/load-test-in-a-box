@@ -1,7 +1,8 @@
 <mat-card class="democard">
+    <mat-checkbox [(ngModel)]="IsChecked" >Running?</mat-checkbox>
  
   <mat-card-header>
-   
+   {{useCase.enabled}}
   <mat-card-title>{{useCase.name}}</mat-card-title>
    
    
