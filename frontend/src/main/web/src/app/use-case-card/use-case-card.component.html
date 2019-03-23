@@ -2,7 +2,7 @@
     <mat-checkbox [(ngModel)]="IsChecked" >Running?</mat-checkbox>
  
   <mat-card-header>
-   {{useCase.enabled}}
+   
   <mat-card-title>{{useCase.name}}</mat-card-title>
    
    
@@ -10,11 +10,29 @@
    
   <mat-card-content>
    
-  <section >
-   
+  <section>
+
+      <label id="example-radio-group-label">Which implementation to run?</label>   
+      <p>
+        <mat-radio-group
+          aria-labelledby="example-radio-group-label"
+          class="example-radio-group"
+          [(ngModel)]="selectedStatus">
+
+              <mat-radio-button 
+               *ngFor="let processingUnit of useCase.processingUnits" 
+               [value]="processingUnit.method.name">
+                Name: {{processingUnit.method.name}}
+                <mat-divider></mat-divider>
+              </mat-radio-button>
+
+        </mat-radio-group>
+
+    <div>Your favorite season is: {{puMethod}}</div>    
    
   </section>
    
   </mat-card-content>
    
   </mat-card>
+  <p></p>
