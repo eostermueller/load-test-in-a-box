@@ -1,38 +1,98 @@
-<mat-card class="democard">
-    <mat-checkbox [(ngModel)]="IsChecked" >Running?</mat-checkbox>
- 
-  <mat-card-header>
-   
-  <mat-card-title>{{useCase.name}}</mat-card-title>
-   
-   
-  </mat-card-header>
-   
-  <mat-card-content>
-   
-  <section>
+<!--
 
-      <label id="example-radio-group-label">Which implementation to run?</label>   
-      <p>
-        <mat-radio-group
-          aria-labelledby="example-radio-group-label"
-          class="example-radio-group"
-          [(ngModel)]="selectedStatus">
+Layout:
 
-              <mat-radio-button 
-               *ngFor="let processingUnit of useCase.processingUnits" 
-               [value]="processingUnit.method.name">
-                Name: {{processingUnit.method.name}}
-                <mat-divider></mat-divider>
-              </mat-radio-button>
+I started out with this, checkbox, radio buttons, source.
 
-        </mat-radio-group>
+   X   X   X
 
-    <div>Your favorite season is: {{puMethod}}</div>    
-   
-  </section>
-   
-  </mat-card-content>
+   But there was no header/footer margin.
+
+   to get header/footers, I dropped the above XXX onto this:
+
+   V   <<<-----   header        (vertical_spacer)
+   V   <<<-----   X   X   X     (vertical-content)
+   V   <<<-----   footer        (vertical-spacer)
+
+H0RIZ0NTAL:  https://stackblitz.com/edit/angular-gdy5m9 (missing header/footer)  
+VERTICAL:  https://stackblitz.com/edit/angular-opnseh (header/footer -- but no content)
+B0TH/FINAL:  https://stackblitz.com/edit/angular-8ojahg
+
+-->
+
+<mat-card class="democard" [style.background-color]="IsChecked ? 'orange' : 'white'" >
+    <div class="vertical_box">
+
+        <div class="vertical_spacer">      
+          <p></p>
+        </div>
+    
+        <div class="vertical_content">
+          <!-- start of horizontal row of boxes -->
+          <div class="horizontal_box">
+            <div class="horizontal_spacer">
+                <mat-checkbox 
+                  [(ngModel)]="IsChecked"
+                  (change)="onEnableCheckboxChange($event)" > </mat-checkbox>
+                <p></p>
+                <mat-card-title>{{useCase.name}}</mat-card-title>
+            </div>
+            <div class="horizontal_spacer"></div>
+            <div class="horizontal_content">
+             
+              <mat-card-content>
+             
+            <section>
+                <mat-card style="margin-top: 1rem"><!-- added to get white bg when enabld w/ orange container bg. -->
+        
+                <label id="example-radio-group-label">Implementation</label>   
+                <p>
+                  <mat-radio-group
+                    aria-labelledby="example-radio-group-label"
+                    class="example-radio-group"
+                    (change)="onRadioChange($event)"
+                    [(ngModel)]="selectedIndex">
+
+                    <div *ngFor="let processingUnit of useCase.processingUnits; let i = index">
+
+                        <mat-radio-button 
+                        [value]="i">
+                        {{processingUnit.method.name}}
+                       
+                       </mat-radio-button>
+                    </div>          
+                  </mat-radio-group>
+                </mat-card>
+
+             
+            </section>
+             
+              </mat-card-content>
+            </div>
+            <div class="horizontal_spacer"></div>
+            <div class="horizontal_content">
+                <mat-card style="margin-top: 1rem"><!-- added to get white bg when enabld w/ orange container bg. -->
+
+                  <code>
+                    <pre>public class Hello</pre>
+                  </code>
+                </mat-card>
+            </div>
+            <div class="horizontal_spacer"></div>
+
+          </div>
+          <!-- end of horizontal row of boxes -->
+
+
+        </div>
+    
+        <div class="vertical_spacer">
+          <p> </p>
+        </div>
+        
+    
+    </div>
+    
    
   </mat-card>
   <p></p>

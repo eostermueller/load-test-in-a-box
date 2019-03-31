@@ -1,8 +1,8 @@
-  <H3>Choose the UseCases in the workload</H3>>
+  <H3>UseCases</H3>>
 
 
   <div height="400px" >
-      <ul class="list">
+      <ul class="list" style="list-style: none; ">
           <li *ngFor="let useCase of dataSource?.connect() |  async">
           <app-use-case-card [useCase]="useCase"></app-use-case-card>
           </li>
@@ -14,6 +14,7 @@
         [pageSize]="pageSize"
         [pageSizeOptions]="[5, 10, 25, 100]"
         (page)="pageEvent = $event; pageChange($event)"
-      ></mat-paginator>
+      >
+    </mat-paginator>
     
     
