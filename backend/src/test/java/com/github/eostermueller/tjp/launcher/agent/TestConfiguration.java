@@ -19,7 +19,7 @@ C:\Users\JaneDoe\Documents\tjp ( on mac /Users/JaneDoe/Documents/tjp )
  * @author erikostermueller
  *
  */
-public class DefaultConfiguration implements Configuration {
+public class TestConfiguration extends DefaultConfiguration implements Configuration {
 	 
 	Path tjpHome = null;
 	Path javaHome = null;
@@ -29,12 +29,12 @@ public class DefaultConfiguration implements Configuration {
 	/**
 	 * WOW this needs to go away, hard coding paths from my machine.
 	 */
-	public DefaultConfiguration() {
+	public TestConfiguration() {
 			this.setTjpHome(Paths.get(unix_ABS_PATH_TO_TJP) );
 			this.setJavaHome( Paths.get(unix_JAVA_HOME) );
 		
 	}
-	public DefaultConfiguration(Path tjpHome2, Path javaHome) {
+	public TestConfiguration(Path tjpHome2, Path javaHome) {
 		this.setTjpHome(tjpHome2);
 		this.setJavaHome(javaHome);
 	}

@@ -44,7 +44,7 @@ export class UseCaseCardComponent implements OnInit {
     console.log( 'UseCase: ' + this.useCase.name );
     console.log( 'UseCase dump: ' + JSON.stringify(this.useCase) );
     console.log( 'UseCase pi length: ' + this.useCase.processingUnits.length );
-    const processingUnit = 
+    const processingUnit = this.getCurrentProcessingUnit();
 
     console.log( 'Selected processing impl method name: ' 
     + processingUnit.method.name);
@@ -53,9 +53,9 @@ export class UseCaseCardComponent implements OnInit {
     + processingUnit.method.declaringClassName );
    }
   onEnableCheckboxChange(cbEvent: MatCheckboxChange) {
-    if (!this.IsChecked) {
-      if (this.previousIndex!=-1) 
-    }
+    // if (!this.IsChecked) {
+    //   if (this.previousIndex!=-1) 
+    //}
 //    this.currentState();
 
       console.log('cb checked ' + cbEvent.checked);
