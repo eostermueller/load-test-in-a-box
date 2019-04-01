@@ -18,6 +18,7 @@ bin/
 node_modules/
 node/
 target/
+*.zip
 
 # IDEs and editors
 /.idea

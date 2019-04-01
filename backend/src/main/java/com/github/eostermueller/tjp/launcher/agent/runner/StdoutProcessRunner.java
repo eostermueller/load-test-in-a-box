@@ -117,7 +117,7 @@ public class StdoutProcessRunner extends AbstractProcessRunner implements StateM
 		        */
 		        //debug();
 		        Process process = pb.start();
-		        getProcessKey().setPid( process.pid());
+		        getProcessKey().setPid( process.pid() );
 		        
 		        InputStreamWatcher stdoutWatcher 
 		        	= new InputStreamWatcher( 

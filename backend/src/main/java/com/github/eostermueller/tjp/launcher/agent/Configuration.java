@@ -17,4 +17,18 @@ public interface Configuration {
 	public Path getJavaHome();
 	public void setJavaHome(Path p);
 	public int getMaxExceptionCountPerEvent();
+	Path getUserHomeDir();
+	String getUserHomeDirString();
+	
+	/*
+	 * Examples:  /home/betty/.havoc or C:\Users\betty\.havoc
+	 */
+	Path getHavocHomeDir();
+	
+	/**
+	 * Name of the file zipped up with Launcher
+	 * @return
+	 */
+	String getMavenZipFileName();
+	String getMavenZipFileNameWithoutExtension();
 }
