@@ -31,7 +31,7 @@ public class DefaultConfiguration implements Configuration {
 	 */
 	public DefaultConfiguration() {
 			this.setTjpHome(Paths.get(unix_ABS_PATH_TO_TJP) );
-			this.setJavaHome( Paths.get(unix_JAVA_HOME) );
+			this.setJavaHome( Paths.get( System.getProperty("java.home")  ) );
 		
 	}
 	public DefaultConfiguration(Path tjpHome2, Path javaHome) {
@@ -56,9 +56,31 @@ public class DefaultConfiguration implements Configuration {
 
 	@Override
 	public Path getMavenHome() {
-		return this.getTjpHome().resolve( Paths.get( "maven/apache-maven-3.5.4" ) );
+		return Paths.get( this.getHavocHomeDir().toString() , this.getMavenZipFileNameWithoutExtension() );
 	}
 
+	@Override
+	public Path getUserHomeDir() {
+		return Paths.get( System.getProperty("user.home") );
+	}
+	@Override
+	public String getUserHomeDirString() {
+		return System.getProperty("user.home");
+	}
+	@Override
+	public String getMavenZipFileNameWithoutExtension() {
+		return "apache-maven-3.6.0";
+	}
+	@Override
+	public String getMavenZipFileName() {
+		return this.getMavenZipFileNameWithoutExtension() + "-bin.zip";
+	}
+	@Override
+	public Path getHavocHomeDir() {
+		return Paths.get( this.getUserHomeDirString(), ".havoc" );
+	}
+	
+	
 	@Override
 	public Path getJavaHome() {
 		return this.javaHome;
