@@ -118,7 +118,7 @@ public class PathUtil {
 		                	if (size<0)
 		                		size = 0x4000;
 		                	
-		                    byte[] buffer = new byte[Math.toIntExact(entry.getSize())];
+		                    byte[] buffer = new byte[Math.toIntExact(size)];
 
 		                    int location;
 

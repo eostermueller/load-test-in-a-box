@@ -14,7 +14,9 @@ export class UseCaseService {
   constructor(private http: HttpClient) {}
 
       getUseCases() :Observable<any> {
-        return this.http.get('havocAgent/useCases');
+        //havocAgent/useCases
+        return this.http.get('/havocAgent/useCases');
+        //return this.http.get('http://localhost:8080/workload/useCases');
           // }));
       }
 
