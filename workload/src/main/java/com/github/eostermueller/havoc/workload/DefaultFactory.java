@@ -3,7 +3,14 @@ package com.github.eostermueller.havoc.workload;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import com.github.eostermueller.havoc.workload.engine.MethodExecutor;
+import com.github.eostermueller.havoc.workload.engine.MethodExecutorImpl;
+import com.github.eostermueller.havoc.workload.engine.Workload;
+import com.github.eostermueller.havoc.workload.engine.WorkloadImpl;
+import com.github.eostermueller.havoc.workload.model.MethodWrapper;
 import com.github.eostermueller.havoc.workload.model.json.DefaultSerializationUtil;
 import com.github.eostermueller.havoc.workload.model.json.SerializaionUtil;
 
@@ -29,7 +36,10 @@ public class DefaultFactory implements Factory {
                     }   
             }   
             return factory;
-    }   
+    }
+
+	private static Workload WORKLOAD_INSTANCE = new WorkloadImpl();
+	private java.util.concurrent.locks.ReadWriteLock workloadReadWriteLock = new ReentrantReadWriteLock();  
 
 	@Override
 	public SerializaionUtil createSerializationUtil() {
@@ -39,6 +49,43 @@ public class DefaultFactory implements Factory {
 	@Override
 	public Locale getDefaultLocale() {
 		return Locale.getDefault();
+	}
+
+	@Override
+	/**
+	 * @stolenFrom https://stackoverflow.com/a/8195633/2377579
+	 */
+	public void setWorkloadSingleton(Workload val) {
+		
+		   Lock writeLock = workloadReadWriteLock.writeLock();
+		    writeLock.lock();
+		    try {
+		        WORKLOAD_INSTANCE = val;
+		    } finally {
+		        writeLock.unlock();
+		    }	
+		
+	}
+	
+	@Override
+	/**
+	 * @stolenFrom https://stackoverflow.com/a/8195633/2377579
+	 */
+	public Workload getWorkloadSingleton() {
+		
+		   Lock readLock = workloadReadWriteLock.readLock();
+		    readLock.lock();
+		    try {
+		        return WORKLOAD_INSTANCE;
+		    } finally {
+		        readLock.unlock();
+		    }	
+	 }
+
+	@Override
+	public MethodExecutor createMethodExecutor(MethodWrapper methodWrapper) {
+		MethodExecutor methodExecutor = new MethodExecutorImpl(methodWrapper);
+		return methodExecutor;
 	}
 
 }

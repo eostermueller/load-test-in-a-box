@@ -66,5 +66,11 @@ public class MethodWrapper  {
 	public String getMethodName() {
 		return this.name;
 	}
+	public String humanReadable() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" getDeclaringClassName: " + this.getDeclaringClassName() );
+		sb.append("getMethodName: " + this.getMethodName()  );
+		return sb.toString();
+	}
 
 }
