@@ -5,6 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.eostermueller.havoc.workload.HavocException;
 import com.github.eostermueller.havoc.workload.OnlyStringAndLongAndIntAreAllowedParameterTypes;
 import com.github.eostermueller.havoc.workload.annotations.Param;
@@ -24,6 +27,8 @@ public class DefaultBuilder implements Builder {
 	public static final String BUILDER_SYSTEM_PROPTERY = "com.github.eostermueller.havoc.workload.builder.classname";
 	public static final String DEFAULT_BUILDER = "com.github.eostermueller.havoc.workload.model.DefaultBuilder";
 	public static Builder factory = null; 
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	
 	public DefaultBuilder() {}
 
 	
@@ -76,6 +81,9 @@ public class DefaultBuilder implements Builder {
 			}
 			
 			processingUnit.setUseCaseName( useCase );
+			
+			boolean selected = (boolean)parms.get(ProcessingUnit.SELECTED);
+			processingUnit.setSelected(selected);
 			
 			processingUnit.setMethodWrapper(methodWrapper);
 			
