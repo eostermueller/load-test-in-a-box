@@ -98,7 +98,7 @@ class JsonSerializationTest {
 	@Test
 	void canUnmarshallWorkloadRequestToJson() throws HavocException {
 		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
-		String js0n = "{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"binarySort\"}},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"selectionSort\"}}]}";
+		String js0n = "{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"binarySort\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"selectionSort\"},\"selected\":false}]}";
 		WorkloadSpecRq rq = util.unmmarshalWorkloadSpecRq(js0n);
 		ProcessingUnitImpl processingUnit = rq.getProcessingUnits().get(0);
 		
@@ -127,7 +127,7 @@ class JsonSerializationTest {
 		
 		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
 		String actualJson = util.marshalWorkloadSpecRq(rq);
-		String expectedJson = "{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"binarySort\"}},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"selectionSort\"}}]}";
+		String expectedJson = "{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"binarySort\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"selectionSort\"},\"selected\":false}]}";
 		
 		assertEquals(expectedJson, actualJson);
 		
@@ -141,7 +141,7 @@ class JsonSerializationTest {
 		
 		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
 		String actualJson = util.marshalUseCases(useCases);
-		String expectedJson = "{\"useCases\":[{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"binarySort\"}},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"selectionSort\"}}],\"name\":\"Sorting\"}]}";
+		String expectedJson = "{\"useCases\":[{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"binarySort\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"selectionSort\"},\"selected\":false}],\"name\":\"Sorting\"}]}";
 		
 		assertEquals(expectedJson, actualJson);
 		
