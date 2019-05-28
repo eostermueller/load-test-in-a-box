@@ -8,6 +8,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/merge';
 import { map } from 'rxjs/operators';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { stringify } from '@angular/compiler/src/util';
 
 export class Database { // {{{
   /** Stream that emits whenever the data has been modified. If filter is applied on the data*/
@@ -31,14 +32,43 @@ export class Database { // {{{
 export class UseCasesComponent implements OnInit {
   useCases : any[];
   length = 0;
-    pageIndex = 0;
-    pageSize = 5;
+  pageIndex = 0;
+  pageSize = 5;
   database: Database;
-    pageEvent: PageEvent;
+  pageEvent: PageEvent;
   dataSource : MyDataSource;
+  useCaseSelection: Map<string, any>; //one day, I'll add value objects and replace any with UseCase
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private useCaseService : UseCaseService, private cdRef:ChangeDetectorRef) {  }
+constructor(private useCaseService : UseCaseService, private cdRef:ChangeDetectorRef) {  }
+
+public getKey(useCase: any): string {
+  return useCase.name;
+}
+
+/**
+ * 
+ * @param $event The type here shows string, but I've confirmed its an object.
+ * this was req'd: //console.log( 'useCase changed [' + JSON.stringify($event) + ']');
+ */
+public useCaseSelectionListener($event:string) {
+    const myKey:string = this.getKey($event);
+    this.useCaseSelection.set( myKey, $event);
+    this.dispUseCases('upsert');
+}
+public useCaseDeSelectionListener($event:string) {
+  const myKey:string = this.getKey($event);
+  this.useCaseSelection.delete( myKey );
+  this.dispUseCases('delete');
+}
+
+dispUseCases(ctx:string) {
+  console.log('My ctx:' + ctx);
+  for (let [key, value] of this.useCaseSelection) {
+    console.log(key, value);
+  }
+}
+
 
     ngOnInit() {
         this.useCaseService.getUseCases().subscribe(data=>{
@@ -47,6 +77,7 @@ export class UseCasesComponent implements OnInit {
           this.length = this.useCases.length;
           this.database=new Database(this.useCases);
           this.dataSource = new MyDataSource(this.database, this.paginator);
+          this.useCaseSelection = new Map<string,any>();
         });
 
     this.useCaseService.getUseCases().subscribe(data=>{
@@ -82,14 +113,14 @@ export class MyDataSource extends DataSource<any> {
       let data;
       this.dataBase.dataChange.subscribe(xdata=>{
         // console.log(data.data);
-        console.log(Object.values(xdata));
+        //2019-05-28 console.log(Object.values(xdata));
         data=Object.values(xdata);
         }
       );
 
       // const data = this.dataBase.data;//.slice();
-      console.log('In merge');
-      console.log(data);
+      //2019-05-28 console.log('In merge');
+      //2019-05-28 console.log(data);
       // // Grab the page's slice of data.
       const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
       const finalData = data.splice(startIndex, this.paginator.pageSize);

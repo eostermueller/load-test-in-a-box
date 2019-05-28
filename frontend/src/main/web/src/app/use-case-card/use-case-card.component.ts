@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatCheckboxChange, MatRadioButton, MatRadioChange } from '@angular/material';
-
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-use-case-card',
@@ -12,7 +12,8 @@ export class UseCaseCardComponent implements OnInit {
   IsIndeterminate:boolean;
   LabelAlign:string;
   IsDisabled:boolean;
-
+  @Output() useCaseSelect = new EventEmitter<string>();
+  @Output() useCaseDeSelect = new EventEmitter<string>();
   public selectedIndex:number = 0;
   public previousIndex:number = -1;
   @Input() useCase: any;
@@ -22,19 +23,25 @@ export class UseCaseCardComponent implements OnInit {
     this.IsIndeterminate = false;
     this.LabelAlign = 'after';
     this.IsDisabled = false;
+    console.log('selectedIndex a: ' + this.selectedIndex );
   }
   typeOf(obj:any) {
     return {}.toString.call(obj).split(' ')[1].slice(0, -1).toLowerCase();
   }
 
   ngOnInit() {
+    console.log('selectedIndex b: ' + this.selectedIndex );
   }
 
   getCurrentProcessingUnit() {
+    console.log('selectedIndex c: ' + this.selectedIndex );
+
     return this.useCase.processingUnits[this.selectedIndex];
   }
 
   currentState() {
+    console.log('selectedIndex d: ' + this.selectedIndex );
+
     console.log('useCase pr0ps: ' + Object.getOwnPropertyNames(this.useCase));
     console.log('useCase type a: ' + this.typeOf(this.useCase) );
     console.log('useCase type b: ' + this.typeOf(this.useCase.name) );
@@ -53,20 +60,41 @@ export class UseCaseCardComponent implements OnInit {
     + processingUnit.method.declaringClassName );
    }
   onEnableCheckboxChange(cbEvent: MatCheckboxChange) {
+    this.updateSelectedFlags();
     // if (!this.IsChecked) {
     //   if (this.previousIndex!=-1) 
     //}
 //    this.currentState();
-
+    console.log('selectedIndex e: ' + this.selectedIndex );
+      this.IsChecked = cbEvent.checked;
       console.log('cb checked ' + cbEvent.checked);
       console.log('cb name ' + cbEvent.source.name);
       console.log('cb value ' + cbEvent.source.value);
       console.log('cb id ' + cbEvent.source.id);
       console.log('cb inputId ' + cbEvent.source.inputId);
+      if (cbEvent.checked) {
+        this.useCaseSelect.emit(this.useCase);
+      } else {
+        this.useCaseDeSelect.emit(this.useCase);
+      }
+
+      //this.useCaseChange.emit('uc change 1');
   }
+  updateSelectedFlags() {
+    for(let i = 0; i < this.useCase.processingUnits.length; i++) {
+      const pu = this.useCase.processingUnits[i];
+      if (this.selectedIndex === i) {
+        pu.selected = true;
+      } else {
+        pu.selected = false;
+      }
+    }
+  }
+  
   onRadioChange(mrChange: MatRadioChange) {
     //this.currentState();
-
+    console.log('selectedIndex f: ' + this.selectedIndex );
+    this.updateSelectedFlags();
     if (this.IsChecked) {
 
       this.previousIndex = this.selectedIndex;
@@ -77,6 +105,11 @@ export class UseCaseCardComponent implements OnInit {
     console.log('r checked ' + mrButton.checked);
     console.log('r id ' + mrButton.id);
     console.log('r inputId ' + mrButton.inputId);
+    if (this.IsChecked) {
+      this.useCaseSelect.emit(this.useCase);
+    }
+    
+    
 
  } 
  

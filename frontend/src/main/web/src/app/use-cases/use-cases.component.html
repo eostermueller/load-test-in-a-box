@@ -4,7 +4,11 @@
   <div height="400px" >
       <ul class="list" style="list-style: none; ">
           <li *ngFor="let useCase of dataSource?.connect() |  async">
-          <app-use-case-card [useCase]="useCase"></app-use-case-card>
+          <app-use-case-card 
+            [useCase]="useCase" 
+            (useCaseSelect)="useCaseSelectionListener($event)"
+            (useCaseDeSelect)="useCaseDeSelectionListener($event)"
+            ></app-use-case-card>
           </li>
       </ul>
     </div>  
