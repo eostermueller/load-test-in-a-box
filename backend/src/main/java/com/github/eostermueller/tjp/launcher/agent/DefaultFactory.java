@@ -92,6 +92,21 @@ public class DefaultFactory implements Factory {
 		}
 		return messages;
 	}
+	
+	/**
+	 *   todo:  figure out why I got this intermittent failure one time:
+	 * 
+	 * 
+[INFO] Results:
+[INFO]
+[ERROR] Failures:
+[ERROR]   UniqueIdTest.test08:60->test:100 expected:<[4, 5, 6, 7, 8, 9, 10, 11]> but was:<[3, 4, 5, 6, 7, 8, 9, 10]>                                 
+[INFO]
+[ERROR] Tests run: 24, Failures: 1, Errors: 0, Skipped: 1
+[INFO]
+	 *
+	 *
+	 */
 	@Override
 	public long getJvmLifetimeUniqueId() {
 		return jvmLifetimeUniqueId.incrementAndGet();

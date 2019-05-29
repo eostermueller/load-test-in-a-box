@@ -64,6 +64,20 @@ public class UniqueIdTest {
         test(32);
     }
 	/**
+	 * 
+	 *   todo:  figure out why I got this intermittent failure one time:
+	 * 
+	 * 
+[INFO] Results:
+[INFO]
+[ERROR] Failures:
+[ERROR]   UniqueIdTest.test08:60->test:100 expected:<[4, 5, 6, 7, 8, 9, 10, 11]> but was:<[3, 4, 5, 6, 7, 8, 9, 10]>                                 
+[INFO]
+[ERROR] Tests run: 24, Failures: 1, Errors: 0, Skipped: 1
+[INFO]
+	 *
+	 *
+	 * 
 	 * @stolenFrom:
 	 * https://garygregory.wordpress.com/2011/09/09/multi-threaded-unit-testing/
 	 * 
@@ -91,6 +105,8 @@ public class UniqueIdTest {
 	        }
 	        // Validate the IDs
 	        assertEquals(threadCount, futures.size());
+	        
+	        Collections.sort(resultList); //in case the smallest atomic long does not get added first.
 	        long start = resultList.get(0);
 	        List<Long> expectedList = new ArrayList<Long>(threadCount);
 	        for (long i = start; i <= threadCount+start-1; i++) {
