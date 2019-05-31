@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import {ApiResponse} from './model/api.response';
+import {Workload} from './model/workload';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,11 @@ export class UseCaseService {
         //return this.http.get('/havocAgent/useCases');
         return this.http.get('http://localhost:8080/workload/useCases');
           // }));
+      }
+
+      updateWorkload(workload:Workload): Observable<ApiResponse> {
+        console.log( 'updateWorkload request: ' + JSON.stringify(workload.useCases));
+        return this.http.put<ApiResponse>('http://localhost:8080/workload/', workload.useCases);
       }
 
 
