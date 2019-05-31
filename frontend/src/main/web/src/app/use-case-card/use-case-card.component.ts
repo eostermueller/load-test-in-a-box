@@ -23,18 +23,18 @@ export class UseCaseCardComponent implements OnInit {
     this.IsIndeterminate = false;
     this.LabelAlign = 'after';
     this.IsDisabled = false;
-    console.log('selectedIndex a: ' + this.selectedIndex );
+//    console.log('selectedIndex a: ' + this.selectedIndex );
   }
   typeOf(obj:any) {
     return {}.toString.call(obj).split(' ')[1].slice(0, -1).toLowerCase();
   }
 
   ngOnInit() {
-    console.log('selectedIndex b: ' + this.selectedIndex );
+  //  console.log('selectedIndex b: ' + this.selectedIndex );
   }
 
   getCurrentProcessingUnit() {
-    console.log('selectedIndex c: ' + this.selectedIndex );
+  //  console.log('selectedIndex c: ' + this.selectedIndex );
 
     return this.useCase.processingUnits[this.selectedIndex];
   }

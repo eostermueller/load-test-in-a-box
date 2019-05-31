@@ -6,9 +6,11 @@ import java.util.Locale;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import com.github.eostermueller.havoc.havoc.workload.engine.WorkloadBuilder;
 import com.github.eostermueller.havoc.workload.engine.MethodExecutor;
 import com.github.eostermueller.havoc.workload.engine.MethodExecutorImpl;
 import com.github.eostermueller.havoc.workload.engine.Workload;
+import com.github.eostermueller.havoc.workload.engine.WorkloadBuilderImpl;
 import com.github.eostermueller.havoc.workload.engine.WorkloadImpl;
 import com.github.eostermueller.havoc.workload.model.MethodWrapper;
 import com.github.eostermueller.havoc.workload.model.json.DefaultSerializationUtil;
@@ -19,7 +21,7 @@ public class DefaultFactory implements Factory {
     public static final String DEFAULT_FACTORY = "com.github.eostermueller.havoc.workload.DefaultFactory";
 	private static Factory factory;
 
-        public static Factory getFactory() throws HavocException {
+    public static Factory getFactory() throws HavocException {
             if (factory==null) {
                     String factoryClassName = System.getProperty(FACTORY_SYSTEM_PROPTERY, DEFAULT_FACTORY);
                     Class<?> clazz;
@@ -38,7 +40,7 @@ public class DefaultFactory implements Factory {
             return factory;
     }
 
-	private static Workload WORKLOAD_INSTANCE = new WorkloadImpl();
+	private static Workload WORKLOAD_INSTANCE = null;
 	private java.util.concurrent.locks.ReadWriteLock workloadReadWriteLock = new ReentrantReadWriteLock();  
 
 	@Override
@@ -66,7 +68,10 @@ public class DefaultFactory implements Factory {
 		    }	
 		
 	}
-	
+	public WorkloadBuilder createWorkloadBuilder() {
+		return new WorkloadBuilderImpl();
+	}
+
 	@Override
 	/**
 	 * @stolenFrom https://stackoverflow.com/a/8195633/2377579
@@ -86,6 +91,11 @@ public class DefaultFactory implements Factory {
 	public MethodExecutor createMethodExecutor(MethodWrapper methodWrapper) {
 		MethodExecutor methodExecutor = new MethodExecutorImpl(methodWrapper);
 		return methodExecutor;
+	}
+
+	@Override
+	public Workload createEmptyWorkload() {
+		return new WorkloadImpl();
 	}
 
 }

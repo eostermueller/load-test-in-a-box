@@ -96,10 +96,55 @@ class JsonSerializationTest {
 		assertEquals( DECLARING_CLASS, m.getDeclaringClassName() );
 	}
 	@Test
+	void canUnmarshallEmptyWorkloadRequestToJson() throws HavocException {
+		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
+		String js0n = "{\"useCases\":[]}";
+		WorkloadSpecRq rq = util.unmmarshalWorkloadUpdateRq(js0n);
+		assertEquals(0,rq.getProcessingUnits().size() );
+	}
+	
+	/**
+	 This json test case came from my very first updateWorkload request generated/created by 
+	 my angular app. Party down!! Paris, France.  13 Rue Rambuteau.  May 31, 2019.
+	 * 
+	 * @throws HavocException
+	 */
+	@Test
+	void canUnmarshallWorkloadRequestToJson_real() throws HavocException {
+		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
+		String js0n = "[{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"Reuse same Transformers from pool\"}]},\"useCaseName\":\"xsltTransform\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.xslt.XsltProcessor\",\"name\":\"pooledTransformerXslt\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"Reinstantiate Transformer every time\"}]},\"useCaseName\":\"xsltTransform\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.xslt.XsltProcessor\",\"name\":\"unPooledTransformerXslt\"},\"selected\":true}],\"name\":\"xsltTransform\"}]";
+
+		WorkloadSpecRq rq = util.unmmarshalWorkloadUpdateRq(js0n);
+		assertEquals(2,rq.getProcessingUnits().size() );
+		ProcessingUnitImpl processingUnit = rq.getProcessingUnits().get(0);
+		
+		assertEquals( "xsltTransform", processingUnit.getUseCaseName() );
+		
+		MethodWrapper m = processingUnit.getMethodWrapper();
+		
+		assertEquals( "pooledTransformerXslt", m.getMethodName() );
+		assertFalse( processingUnit.isSelected() );
+		
+		/**
+		 * 
+		 */
+		processingUnit = rq.getProcessingUnits().get(1);
+		
+		assertEquals( "xsltTransform", processingUnit.getUseCaseName() );
+		
+		m = processingUnit.getMethodWrapper();
+		
+		assertEquals( "unPooledTransformerXslt", m.getMethodName() );
+		assertTrue( processingUnit.isSelected() );
+		
+
+		
+	}	
+	@Test
 	void canUnmarshallWorkloadRequestToJson() throws HavocException {
 		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
 		String js0n = "{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"binarySort\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.model.json.Sorting\",\"name\":\"selectionSort\"},\"selected\":false}]}";
-		WorkloadSpecRq rq = util.unmmarshalWorkloadSpecRq(js0n);
+		WorkloadSpecRq rq = util.unmmarshalWorkloadUpdateRq(js0n);
 		ProcessingUnitImpl processingUnit = rq.getProcessingUnits().get(0);
 		
 		assertEquals( USE_CASE_NAME, processingUnit.getUseCaseName() );
@@ -132,6 +177,8 @@ class JsonSerializationTest {
 		assertEquals(expectedJson, actualJson);
 		
 	}
+	
+	
 	@Test
 	void canSerializeUseCasesToJson() throws HavocException {
 		UseCases useCases = new UseCases();

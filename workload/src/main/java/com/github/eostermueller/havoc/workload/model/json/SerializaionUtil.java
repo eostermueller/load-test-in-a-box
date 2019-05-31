@@ -10,6 +10,6 @@ import com.google.gson.JsonSyntaxException;
 public interface SerializaionUtil {
 	UseCases unmmarshalUseCases(String json) throws JsonSyntaxException, HavocException;
 	String marshalUseCases(UseCases useCases);
-	WorkloadSpecRq unmmarshalWorkloadSpecRq(String json) throws JsonSyntaxException, HavocException;
+	WorkloadSpecRq unmmarshalWorkloadUpdateRq(String json) throws JsonSyntaxException, HavocException;
 	String marshalWorkloadSpecRq(WorkloadSpecRq rq)  throws JsonSyntaxException, HavocException;
 }

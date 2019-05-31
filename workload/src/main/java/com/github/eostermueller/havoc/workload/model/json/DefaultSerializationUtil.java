@@ -46,10 +46,18 @@ public class DefaultSerializationUtil implements SerializaionUtil {
 
 
 	@Override
-	public WorkloadSpecRq unmmarshalWorkloadSpecRq(String json) throws JsonSyntaxException, HavocException {
+	public WorkloadSpecRq unmmarshalWorkloadUpdateRq(String json) throws JsonSyntaxException, HavocException {
+		
+		String myJs0n = json.trim();
+		
+		
+		if (myJs0n.startsWith("[") && myJs0n.endsWith("]") ) { //String off wrapping square braces
+			myJs0n = myJs0n.substring(1, myJs0n.length()-1 );
+		}
+				
 		WorkloadSpecRq rq 
 		= this.getGson().fromJson(
-			json,
+			myJs0n,
 			WorkloadSpecRq.class
 				); 
 		return rq;

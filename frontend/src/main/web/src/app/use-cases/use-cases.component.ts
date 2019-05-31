@@ -9,6 +9,7 @@ import 'rxjs/add/observable/merge';
 import { map } from 'rxjs/operators';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { stringify } from '@angular/compiler/src/util';
+import {Workload} from '../model/workload';
 
 export class Database { // {{{
   /** Stream that emits whenever the data has been modified. If filter is applied on the data*/
@@ -55,11 +56,25 @@ public useCaseSelectionListener($event:string) {
     const myKey:string = this.getKey($event);
     this.useCaseSelection.set( myKey, $event);
     this.dispUseCases('upsert');
+    this.updateWorkload();
+}
+public updateWorkload() {
+    let myArray = Array.from( this.useCaseSelection );
+
+    const workload = new Workload();
+    
+    //each entry is an array of 2 values:  0=key, 1=value
+     for (let entry of myArray) {
+        workload.useCases.push( entry[1] )
+     }
+     this.useCaseService.updateWorkload(workload);
+   
 }
 public useCaseDeSelectionListener($event:string) {
   const myKey:string = this.getKey($event);
   this.useCaseSelection.delete( myKey );
   this.dispUseCases('delete');
+  this.updateWorkload();
 }
 
 dispUseCases(ctx:string) {
@@ -78,16 +93,16 @@ dispUseCases(ctx:string) {
           this.database=new Database(this.useCases);
           this.dataSource = new MyDataSource(this.database, this.paginator);
           this.useCaseSelection = new Map<string,any>();
+          this.cdRef.detectChanges();
         });
 
-    this.useCaseService.getUseCases().subscribe(data=>{
-      console.log(data);
-      this.useCases= data.useCases;
-      this.length = this.useCases.length;
-      this.database=new Database(this.useCases);
-      this.dataSource = new MyDataSource(this.database, this.paginator);
-      this.cdRef.detectChanges();
-    });
+    // this.useCaseService.getUseCases().subscribe(data=>{
+    //   console.log(data);
+    //   this.useCases= data.useCases;
+    //   this.length = this.useCases.length;
+    //   this.database=new Database(this.useCases);
+    //   this.dataSource = new MyDataSource(this.database, this.paginator);
+    // });
   }
 
 }
