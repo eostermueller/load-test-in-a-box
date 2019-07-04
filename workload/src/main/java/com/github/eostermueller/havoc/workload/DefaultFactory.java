@@ -6,10 +6,10 @@ import java.util.Locale;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import com.github.eostermueller.havoc.havoc.workload.engine.WorkloadBuilder;
 import com.github.eostermueller.havoc.workload.engine.MethodExecutor;
 import com.github.eostermueller.havoc.workload.engine.MethodExecutorImpl;
 import com.github.eostermueller.havoc.workload.engine.Workload;
+import com.github.eostermueller.havoc.workload.engine.WorkloadBuilder;
 import com.github.eostermueller.havoc.workload.engine.WorkloadBuilderImpl;
 import com.github.eostermueller.havoc.workload.engine.WorkloadImpl;
 import com.github.eostermueller.havoc.workload.model.MethodWrapper;

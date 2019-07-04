@@ -3,7 +3,7 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="!(isHandset$ | async)">
-    <mat-toolbar>Menu</mat-toolbar>
+    <mat-toolbar class="app-toolbar">Menu</mat-toolbar>
     <mat-nav-list>
         <a mat-list-item routerLink="/workload">Workload_T</a>
         <a mat-list-item routerLink="/metrics">Metrics</a>

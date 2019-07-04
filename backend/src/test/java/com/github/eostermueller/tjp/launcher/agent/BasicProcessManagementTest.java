@@ -14,7 +14,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.github.eostermueller.tjp.launcher.agent.runner.StdoutProcessRunner;
+import com.github.eostermueller.tjp.launcher.agent.runner.StdoutProcessRunnerJdk9;
 
 
 /**
@@ -44,7 +44,7 @@ public class BasicProcessManagementTest {
 		testOne.setSleepMsBeforeStartup(0);
 		testOne.compile();
 		
-		StdoutProcessRunner p = new StdoutProcessRunner(key);
+		StdoutProcessRunnerJdk9 p = new StdoutProcessRunnerJdk9(key);
 		p.setProcessBuilder( testOne.getProcessBuilder() );
 		
 		StateChangeListener sscl = new StateChangeListener() {

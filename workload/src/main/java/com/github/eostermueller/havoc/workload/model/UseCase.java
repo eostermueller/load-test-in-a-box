@@ -3,6 +3,8 @@ package com.github.eostermueller.havoc.workload.model;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.github.eostermueller.havoc.workload.annotations.ProcessingUnit;
+
 public class UseCase  {
 	List<ProcessingUnitImpl> processingUnits = new CopyOnWriteArrayList<ProcessingUnitImpl>();
 	private String name;
@@ -23,6 +25,15 @@ public class UseCase  {
 	}
 	public String getName() {
 		return this.name;
+	}
+	
+	public ProcessingUnitImpl getSelectedProcessingUnit() {
+		ProcessingUnitImpl rc = null;
+		for (ProcessingUnitImpl processingUnit : this.getProcessingUnits() ) {
+			if (processingUnit.isSelected() ) 
+				rc = processingUnit;
+		}
+		return rc;
 	}
 
 }

@@ -1,5 +1,6 @@
 .sidenav-container {
-  height: 100%;
+  height: 100%; 
+/*  height: calc(100% - 120px); */
 }
 
 .sidenav {
@@ -14,4 +15,11 @@
   position: sticky;
   top: 0;
   z-index: 1;
+}
+.app-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
 }

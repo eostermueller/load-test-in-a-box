@@ -1,6 +1,8 @@
 package com.github.eostermueller.tjp.launcher.agent.runner;
 
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -20,7 +22,7 @@ import com.github.eostermueller.tjp.launcher.agent.TjpIllegalStateException;
  * @author erikostermueller
  *
  */
-public class StdoutProcessRunner extends AbstractProcessRunner implements StateMachine {
+public class StdoutProcessRunnerJdk9 extends AbstractProcessRunner implements StateMachine {
 
 	String processType = null;
 
@@ -53,7 +55,7 @@ public class StdoutProcessRunner extends AbstractProcessRunner implements StateM
 		
 		return sb.toString();
 	}
-	public StdoutProcessRunner(ProcessKey processKey) throws TjpException {
+	public StdoutProcessRunnerJdk9(ProcessKey processKey) throws TjpException {
 		super(processKey);
 		setState(State.STOPPED);
 
@@ -65,14 +67,14 @@ public class StdoutProcessRunner extends AbstractProcessRunner implements StateM
 			@Override
 			public void evaluateStdoutLine(String s) throws TjpException {
 				if (s!=null) {
-					if (s.indexOf(StdoutProcessRunner.this.getStartupCompleteMessage() ) >=0 ) {
-						this.fireStateChange(StdoutProcessRunner.this.getProcessKey(), State.STARTED);
+					if (s.indexOf(StdoutProcessRunnerJdk9.this.getStartupCompleteMessage() ) >=0 ) {
+						this.fireStateChange(StdoutProcessRunnerJdk9.this.getProcessKey(), State.STARTED);
 					} else if (s.toLowerCase().indexOf("error" ) >=0 ) {
 						System.out.println("found exception: " + s);
 						TjpException te = new TjpException(s);
-						DefaultFactory.getFactory().getEventHistory().addException("trying to launch [" + StdoutProcessRunner.this.getDebugInfo() + "]", te);
+						DefaultFactory.getFactory().getEventHistory().addException("trying to launch [" + StdoutProcessRunnerJdk9.this.getDebugInfo() + "]", te);
 						
-						this.fireStateChange(StdoutProcessRunner.this.getProcessKey(), State.ABEND);
+						this.fireStateChange(StdoutProcessRunnerJdk9.this.getProcessKey(), State.ABEND);
 					} 
 				}
 			}
@@ -134,6 +136,23 @@ public class StdoutProcessRunner extends AbstractProcessRunner implements StateM
 			DefaultFactory.getFactory().getEventHistory().addException("trying to launch [" + this.getDebugInfo() + "]", e);
 		}
 		
+	}
+	/**
+	 * @stolenFrom:  https://kodejava.org/how-do-i-get-process-id-of-a-java-application/ 
+	 * 
+	 */
+	private long getPid() {
+		 RuntimeMXBean bean = ManagementFactory.getRuntimeMXBean();
+
+	        // Get name representing the running Java virtual machine.
+	        // It returns something like 6460@AURORA. Where the value
+	        // before the @ symbol is the PID.
+	        String jvmName = bean.getName();
+
+	        // Extract the PID by splitting the string returned by the
+	        // bean.getName() method.
+	        long pid = Long.valueOf(jvmName.split("@")[0]);
+	        return pid;
 	}
 	private void debug() {
 		System.out.println("Start of debug");

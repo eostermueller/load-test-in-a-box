@@ -25,7 +25,7 @@ import com.github.eostermueller.tjp.launcher.agent.MockServerProcess;
 import com.github.eostermueller.tjp.launcher.agent.TestConfiguration;
 import com.github.eostermueller.tjp.launcher.agent.TjpException;
 import com.github.eostermueller.tjp.launcher.agent.history.Event;
-import com.github.eostermueller.tjp.launcher.agent.runner.StdoutProcessRunner;
+import com.github.eostermueller.tjp.launcher.agent.runner.StdoutProcessRunnerJdk9;
 
 public class SimpleProcessSuiteTest {
 	 @Rule
@@ -61,9 +61,9 @@ public class SimpleProcessSuiteTest {
 		ProcessKey keyTwo = ProcessKey.create("mySuite", Level.CHILD, "two", ProcessKey.getLocalHost().toString() );
 		ProcessKey keyThree = ProcessKey.create("mySuite", Level.CHILD, "three", ProcessKey.getLocalHost().toString() );
 
-		StdoutProcessRunner one = new StdoutProcessRunner(keyOne);
-		StdoutProcessRunner two = new StdoutProcessRunner(keyTwo);
-		StdoutProcessRunner three = new StdoutProcessRunner(keyThree);
+		StdoutProcessRunnerJdk9 one = new StdoutProcessRunnerJdk9(keyOne);
+		StdoutProcessRunnerJdk9 two = new StdoutProcessRunnerJdk9(keyTwo);
+		StdoutProcessRunnerJdk9 three = new StdoutProcessRunnerJdk9(keyThree);
 		
 		TestConfiguration t = new TestConfiguration();
 		
@@ -130,13 +130,13 @@ public class SimpleProcessSuiteTest {
 		MockServerProcess testThree = new MockServerProcess(this.tmpFolder,t.getJavaHome(),keyThree.getTinyId());
 		testThree.compile();
 		
-		StdoutProcessRunner one = new StdoutProcessRunner(keyOne);  
+		StdoutProcessRunnerJdk9 one = new StdoutProcessRunnerJdk9(keyOne);  
 		one.setStartupCompleteMessage(testOne.getStartupCompleteMessage());
 		
-		StdoutProcessRunner two = new StdoutProcessRunner(keyTwo);
+		StdoutProcessRunnerJdk9 two = new StdoutProcessRunnerJdk9(keyTwo);
 		two.setStartupCompleteMessage(testTwo.getStartupCompleteMessage());
 		
-		StdoutProcessRunner three = new StdoutProcessRunner(keyThree);
+		StdoutProcessRunnerJdk9 three = new StdoutProcessRunnerJdk9(keyThree);
 		three.setStartupCompleteMessage(testThree.getStartupCompleteMessage());
 		
 		one.setProcessBuilder(testOne.getProcessBuilder());
@@ -175,13 +175,13 @@ public class SimpleProcessSuiteTest {
 		MockServerProcess testThree = new MockServerProcess(this.tmpFolder,t.getJavaHome(),keyThree.getTinyId());
 		testThree.compile();
 		
-		StdoutProcessRunner one = new StdoutProcessRunner(keyOne);  
+		StdoutProcessRunnerJdk9 one = new StdoutProcessRunnerJdk9(keyOne);  
 		one.setStartupCompleteMessage(testOne.getStartupCompleteMessage());
 		
-		StdoutProcessRunner two = new StdoutProcessRunner(keyTwo);
+		StdoutProcessRunnerJdk9 two = new StdoutProcessRunnerJdk9(keyTwo);
 		two.setStartupCompleteMessage(testTwo.getStartupCompleteMessage());
 		
-		StdoutProcessRunner three = new StdoutProcessRunner(keyThree);
+		StdoutProcessRunnerJdk9 three = new StdoutProcessRunnerJdk9(keyThree);
 		three.setStartupCompleteMessage(testThree.getStartupCompleteMessage());
 		
 		one.setProcessBuilder(testOne.getProcessBuilder());
