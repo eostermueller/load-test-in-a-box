@@ -15,6 +15,13 @@
 .content {
   flex: 1; // child will set to an equal size inside the container
 }
+.app-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+}
 
 
 /*

@@ -15,7 +15,7 @@ class EngineTest {
 	@Test
 	void test() throws HavocException, WorkloadInvocationException {
 		
-		Workload workload = DefaultFactory.getFactory().getWorkloadSingleton();
+		Workload workload = DefaultFactory.getFactory().createEmptyWorkload();
 		
 		MethodWrapper methodWrapper = new MethodWrapper();
 		methodWrapper.setDeclaringClassName(TestRunnerImpl.class.getName());

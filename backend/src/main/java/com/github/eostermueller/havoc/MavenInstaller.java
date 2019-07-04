@@ -60,10 +60,6 @@ implements ApplicationListener<ApplicationReadyEvent> {
         		mvnZip.delete();
         	}
     	}
-    	
-    	
-    	
-		
 	} catch (UnsupportedEncodingException | URISyntaxException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

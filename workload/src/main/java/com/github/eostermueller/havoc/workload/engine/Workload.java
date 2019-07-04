@@ -7,5 +7,8 @@ public interface Workload {
 	void add(MethodExecutor methodExecutor);
 
 	int size();
+	
+	void setVerboseState(Object json);
+	Object getVerboseState();
 
 }

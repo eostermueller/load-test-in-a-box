@@ -28,22 +28,22 @@ public class HavocAgentApiController {
 
 //	@Autowired
 //	private ApplicationContext context;	
-	@RequestMapping(
-		    value = "/test", 
-		    method = RequestMethod.POST)	
-	public String havocAgent() {
-		return "hell0";
-	}
-	@GetMapping("/useCases")
-	public String useCases() {
-		//return this.getUseCasesJson();
-		final String uri = "http://localhost:8080/workload/useCases";
-	     
-	    RestTemplate restTemplate = new RestTemplate();
-	    String result = restTemplate.getForObject(uri, String.class);
-	     
-	    return result;		
-	}
+//	@RequestMapping(
+//		    value = "/test", 
+//		    method = RequestMethod.POST)	
+//	public String havocAgent() {
+//		return "hell0";
+//	}
+//	@GetMapping("/useCases")
+//	public String useCases() {
+//		//return this.getUseCasesJson();
+//		final String uri = "http://localhost:8080/workload/useCases";
+//	     
+//	    RestTemplate restTemplate = new RestTemplate();
+//	    String result = restTemplate.getForObject(uri, String.class);
+//	     
+//	    return result;		
+//	}
 	
 	public String useCases_RIG() {
 		String rc = "nuttin!";

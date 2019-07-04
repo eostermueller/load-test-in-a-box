@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class WorkloadImpl implements Workload {
-	List<MethodExecutor> methodExecutors = new CopyOnWriteArrayList<MethodExecutor>();  
+	List<MethodExecutor> methodExecutors = new CopyOnWriteArrayList<MethodExecutor>();
+	Object verboseState;
 
 	@Override
 	public void execute() throws WorkloadInvocationException {
@@ -20,6 +21,15 @@ public class WorkloadImpl implements Workload {
 	@Override
 	public void add(MethodExecutor methodExecutor) {
 		this.methodExecutors.add(methodExecutor);
+	}
+	@Override
+	public void setVerboseState(Object pu) {
+		this.verboseState = pu;
+		
+	}
+	@Override
+	public Object getVerboseState() {
+		return this.verboseState;
 	}
 
 }

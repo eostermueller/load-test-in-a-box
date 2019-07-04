@@ -30,13 +30,13 @@ export class UseCaseService {
       getUseCases() :Observable<any> {
         //havocAgent/useCases
         //return this.http.get('/havocAgent/useCases');
-        return this.http.get('http://localhost:8080/workload/useCases');
+        return this.http.get('http://localhost:8080/traffic/useCases');
           // }));
       }
 
       updateWorkload(workload:Workload): Observable<ApiResponse> {
-        console.log( 'updateWorkload request: ' + JSON.stringify(workload.useCases));
-        return this.http.put<ApiResponse>('http://localhost:8080/workload/', workload.useCases);
+        console.log( '... updateWorkload request: ' + JSON.stringify(workload));
+        return this.http.put<ApiResponse>('http://localhost:8080/traffic/workload/', workload.useCases);
       }
 
 
