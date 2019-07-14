@@ -14,14 +14,10 @@
     </div>  
     <div class="footer"></div>
       <mat-paginator   #paginator class="mat-elevation-z8"
-        bottom: 0px;  
-        position: sticky;
-        z-index: 10;        
         [length]="length"
         [pageIndex]="pageIndex"
         [pageSize]="pageSize"
         [pageSizeOptions]="[5, 10, 25, 100]"
-        (page)="pageEvent = $event; pageChange($event)"
-      >
-    </mat-paginator>
+        (page)="pageEvent = $event; pageChange($event)"        
+      ></mat-paginator>
     

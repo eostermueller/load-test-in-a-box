@@ -35,7 +35,7 @@ export class MatPaginationDemoComponent implements OnInit {
   database: Database;
     pageEvent: PageEvent;
   dataSource : MyDataSource;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
   constructor(private demoService : MatDemoService, private cdRef:ChangeDetectorRef) {  }
 
