@@ -39,7 +39,7 @@ export class UseCasesComponent implements OnInit {
   pageEvent: PageEvent;
   dataSource : MyDataSource;
   useCaseSelection: Map<string, any>; //one day, I'll add value objects and replace any with UseCase
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: true} ) paginator: MatPaginator;
 
 constructor(private useCaseService : UseCaseService, private cdRef:ChangeDetectorRef) {  }
 
