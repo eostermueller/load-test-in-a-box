@@ -71,6 +71,10 @@ footer {
   margin: 1vh 1.7vw;
   color: #7b2f94;
 }
+mat-form-field {
+  margin-left: 2.5rem;
+  width: calc(100% - 2.5rem);
+}
 
 /*
 .img-bg {
