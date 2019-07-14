@@ -7,6 +7,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
 import { NavComponent } from './nav/nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
+
+import { MatExpansionModule} from '@angular/material/expansion';
+
+import {MatFormFieldModule, MatFormFieldControl} from '@angular/material/form-field';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
 import { MatToolbarModule,
           MatButtonModule,
           MatIconModule,
@@ -14,7 +20,8 @@ import { MatToolbarModule,
           MatSidenavModule,
           MatListModule,
           MatPaginatorModule,
-          MatTabsModule
+          MatTabsModule,
+          MatInputModule,
            } from '@angular/material';
 import { WorkloadComponent } from './workload/workload.component';
 
@@ -34,10 +41,11 @@ import { DemoCardComponent } from './demo-card/demo-card.component';
 
 import { UseCasesComponent } from './use-cases/use-cases.component';
 import { UseCaseCardComponent } from './use-case-card/use-case-card.component';
-
+import { StartStopComponent } from './start-stop/start-stop.component';
 
   const appRoutes: Routes = [
     { path: 'workload', component: WorkloadComponent },
+    { path: 'start-stop', component: StartStopComponent },
     { path: 'metrics', component: LoadGenMetricsComponent },
     { path: 'jvm-parameters', component: TrafficJvmParametersComponent },
     { path: 'deployment', component: DeploymentComponent },
@@ -56,7 +64,8 @@ import { UseCaseCardComponent } from './use-case-card/use-case-card.component';
     UseCaseCardComponent,
     DeploymentComponent,
     MatPaginationDemoComponent,
-    DemoCardComponent
+    DemoCardComponent,
+    StartStopComponent,
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -76,6 +85,10 @@ import { UseCaseCardComponent } from './use-case-card/use-case-card.component';
     MatRadioModule,
     FormsModule,
     ReactiveFormsModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSlideToggleModule,    
   ],
   exports: [
   ],

@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="flex-container" fxLayout="column">
+    <mat-card class="child-1"></mat-card> <!-- fills space under header -->
+    <mat-card class="child-2"></mat-card> <!-- 1cm top margin -->
+    <mat-card class="child-3">JVM Process Management
+
+      <mat-accordion multi=true>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Load Generator
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-card class="result">
+            <mat-card-content>
+              <h3 class="example-h3">Startup</h3>
+          
+              <section class="example-section">
+                <mat-slide-toggle
+                    class="example-margin"
+                    [color]="color"
+                    [checked]="checked"
+                    [disabled]="disabled">
+                  Slide me!
+                </mat-slide-toggle>
+              </section>
+            </mat-card-content>
+          </mat-card>          
+          <mat-form-field>
+            <textarea matInput placeholder="LoadGen JVM Startup Command"></textarea>
+          </mat-form-field>
+
+          
+        </mat-expansion-panel>
+        <mat-expansion-panel (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              TheApp and TheDB
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-card class="result">
+            <mat-card-content>
+              <h3 class="example-h3">Startup</h3>
+          
+              <section class="example-section">
+                <mat-slide-toggle
+                    class="example-margin"
+                    [color]="color"
+                    [checked]="checked"
+                    [disabled]="disabled">
+                  Slide me!
+                </mat-slide-toggle>
+              </section>
+            </mat-card-content>
+          </mat-card>          
+
+          <mat-form-field   >
+            <textarea matInput placeholder="TheApp Startup Command Line"></textarea>
+          </mat-form-field>
+          <div fxLayoutGap="5px"></div>
+          <mat-form-field>
+            <textarea matInput placeholder="TheDB Startup Command Line"></textarea>
+          </mat-form-field>
+        </mat-expansion-panel>
+      </mat-accordion>      
+
+    </mat-card>
+  </div>
+</div>
+
