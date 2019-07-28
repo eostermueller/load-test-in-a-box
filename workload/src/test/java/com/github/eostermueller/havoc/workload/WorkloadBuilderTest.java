@@ -52,15 +52,15 @@ class WorkloadBuilderTest {
 		//only one of the above two is selected.
 	}
 
-	@Test
-	void canCreateWorkloadFromRq() throws HavocException {
-		
-		WorkloadBuilder workloadBuilder = DefaultFactory.getFactory().createWorkloadBuilder();
-		
-		Workload w = workloadBuilder.createWorkload(rq);
-		
-		assertEquals(1,w.size() );
-		
-	}
+//	@Test
+//	void canCreateWorkloadFromRq() throws HavocException {
+//		
+//		WorkloadBuilder workloadBuilder = DefaultFactory.getFactory().createWorkloadBuilder();
+//		
+//		Workload w = workloadBuilder.createWorkload(rq);
+//		
+//		assertEquals(1,w.size() );
+//		
+//	}
 
 }

@@ -1,12 +1,13 @@
 package com.github.eostermueller.havoc.workload.model.json;
 
 
+import java.io.IOException;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.eostermueller.havoc.workload.HavocException;
 import com.github.eostermueller.havoc.workload.model.UseCases;
 import com.github.eostermueller.havoc.workload.model.WorkloadSpecRq;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
 
 /**
  * Why I chose gson:
@@ -21,32 +22,42 @@ import com.google.gson.JsonSyntaxException;
  */
 public class DefaultSerializationUtil implements SerializaionUtil {
 
-	private Gson getGson() {
-		GsonBuilder builder = new GsonBuilder();
-		Gson gson = builder.create();
-		
-		return gson;
+	private ObjectMapper  getMapper() {
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper;
 	}
 	
 
 	@Override
-	public String marshalUseCases(UseCases useCases) {
-		return getGson().toJson(useCases);
+	public String marshalUseCases(UseCases useCases) throws HavocException {
+		String rc = null;
+		try {
+			rc = this.getMapper().writeValueAsString(useCases);
+		} catch (JsonProcessingException e) {
+			HavocException he = new HavocException(e,"Unable to serialize UseCases");
+			throw he;
+		}
+		return rc;
 	}
 
 	@Override
 	public UseCases unmmarshalUseCases(String json) throws HavocException {
-		UseCases useCases 
-		= this.getGson().fromJson(
-			json,
-			UseCases.class
-				); 
+		UseCases useCases = null;
+		try {
+			useCases = this.getMapper()			      
+				.readerFor(UseCases.class)
+				.readValue(json);
+		} catch (IOException e) {
+			HavocException he = new HavocException(e,"Unable to unmarshal UseCases");
+			throw he;
+		}
+
 		return useCases;
 	}
 
 
 	@Override
-	public WorkloadSpecRq unmmarshalWorkloadUpdateRq(String json) throws JsonSyntaxException, HavocException {
+	public WorkloadSpecRq unmmarshalWorkloadUpdateRq(String json) throws HavocException {
 		
 		String myJs0n = json.trim();
 		
@@ -55,17 +66,28 @@ public class DefaultSerializationUtil implements SerializaionUtil {
 			myJs0n = myJs0n.substring(1, myJs0n.length()-1 );
 		}
 				
-		WorkloadSpecRq rq 
-		= this.getGson().fromJson(
-			myJs0n,
-			WorkloadSpecRq.class
-				); 
+		WorkloadSpecRq rq = null;
+		try {
+			rq = this
+				.getMapper()
+				.readerFor(WorkloadSpecRq.class)
+				.readValue(json);
+		} catch (IOException e) {
+			HavocException he = new HavocException(e,"Unable to unmarshal WorkloadSpecRq");
+			throw he;
+		}
+			 
 		return rq;
 	}
 	
 	@Override
-	public String marshalWorkloadSpecRq(WorkloadSpecRq rq) throws JsonSyntaxException, HavocException {
-		return getGson().toJson(rq);
+	public String marshalWorkloadSpecRq(WorkloadSpecRq rq) throws HavocException {
+		try {
+			return this.getMapper().writeValueAsString(rq);
+		} catch (JsonProcessingException e) {
+			HavocException he = new HavocException(e,"Unable to unmarshal WorkloadSpecRq");
+			throw he;
+		}
 	}
 
 }

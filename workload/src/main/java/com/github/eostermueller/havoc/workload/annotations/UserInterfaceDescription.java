@@ -27,5 +27,5 @@ public @interface UserInterfaceDescription {
 	 * that it supports it.
 	 * @return
 	 */
-	public String locale() default "en-US";
+	public String locale() default "en_US";
 }

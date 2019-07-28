@@ -3,15 +3,12 @@ package com.github.eostermueller.havoc.workload.annotation.json.parameters;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Locale;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import com.github.eostermueller.havoc.workload.DefaultFactory;
 import com.github.eostermueller.havoc.workload.HavocException;
-import com.github.eostermueller.havoc.workload.model.Descriptor;
 import com.github.eostermueller.havoc.workload.model.MethodParameter;
 import com.github.eostermueller.havoc.workload.model.MethodWrapper;
 import com.github.eostermueller.havoc.workload.model.ParameterType;
@@ -38,10 +35,8 @@ class JsonParameterSerializationTest {
 	
 	static Method selectionSort = null;
 	static Method binarySort = null;
-	final String languageTag = "en-US";
-	final Locale testLocale = Locale.forLanguageTag(languageTag);
-	final String frLanguageTag = "fr-FR";
-	final Locale frLocale = Locale.forLanguageTag(frLanguageTag);
+	final String languageTag = "en_US";
+	final String frLanguageTag = "fr_FR";
 
 	@BeforeAll
 	public static void setup() {
@@ -95,11 +90,10 @@ class JsonParameterSerializationTest {
 		
 		assertEquals( "selectionSort", m.getMethodName() );
 		
-		Locale locale = Locale.forLanguageTag("en-US");
-		assertEquals( "MyMessage", processingUnit
-									.getDescriptor()
-									.getMessage(locale)
-									.getMessage() );
+		
+		assertEquals( "MyMessage", 
+						processingUnit
+							.getDescription("en_US") );
 		
 		assertEquals( "com.github.eostermueller.havoc.workload.annotation.json.parameters.SortingWithParameter", m.getDeclaringClassName() );
 		
@@ -109,22 +103,22 @@ class JsonParameterSerializationTest {
 		assertEquals("hostname",parm0.getName() );
 		assertEquals(ParameterType.STRING,parm0.getParameterType());
 		assertEquals("mystubserver.com",parm0.getDefaultStringValue() );
-		assertEquals("the ProcessingUnit will send HTTP data to this hostname",parm0.getMessage(testLocale));
-		assertEquals("FR the ProcessingUnit will send HTTP data to this hostname",parm0.getMessage(frLocale));
+		assertEquals("the ProcessingUnit will send HTTP data to this hostname",parm0.getDescription(languageTag));
+		assertEquals("FR the ProcessingUnit will send HTTP data to this hostname",parm0.getDescription(frLanguageTag));
 
 		MethodParameter parm1 = m.getParameters().get(1);
 		assertEquals("numBytes",parm1.getName() );
 		assertEquals(ParameterType.INTEGER,parm1.getParameterType());
 		assertEquals(1000,parm1.getDefaultIntValue() );
-		assertEquals("The number of bytes that will be added to the heap ever iteration.",parm1.getMessage(testLocale));
-		assertEquals("FR The number of bytes that will be added to the heap ever iteration.",parm1.getMessage(frLocale));
+		assertEquals("The number of bytes that will be added to the heap ever iteration.",parm1.getDescription(languageTag));
+		assertEquals("FR The number of bytes that will be added to the heap ever iteration.",parm1.getDescription(frLanguageTag));
 		
 		MethodParameter parm2 = m.getParameters().get(2);
 		assertEquals("duration",parm2.getName() );
 		assertEquals(ParameterType.LONG,parm2.getParameterType());
 		assertEquals(5500000L,parm2.getDefaultLongValue() );
-		assertEquals("the number of milliseconds that each byte will (roughly) spend of the heap",parm2.getMessage(testLocale));
-		assertEquals("FR the number of milliseconds that each byte will (roughly) spend of the heap",parm2.getMessage(frLocale));
+		assertEquals("the number of milliseconds that each byte will (roughly) spend of the heap",parm2.getDescription(languageTag));
+		assertEquals("FR the number of milliseconds that each byte will (roughly) spend of the heap",parm2.getDescription(frLanguageTag));
 		
 	}
 	@Test
@@ -137,8 +131,7 @@ class JsonParameterSerializationTest {
 		String actualJson = util.marshalUseCases(useCases);
 		
 		System.out.println(actualJson);
-		String expectedJson = "{\"useCases\":[{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"MyMessage\"}]},\"useCaseName\":\"Sorting\",\"method\":{\"parameters\":[{\"parameterType\":\"STRING\",\"name\":\"hostname\",\"defaultLongValue\":0,\"defaultIntValue\":0,\"defaultStringValue\":\"mystubserver.com\",\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"the ProcessingUnit will send HTTP data to this hostname\"},{\"locale\":\"fr_FR\",\"message\":\"FR the ProcessingUnit will send HTTP data to this hostname\"}]}},{\"parameterType\":\"INTEGER\",\"name\":\"numBytes\",\"defaultLongValue\":0,\"defaultIntValue\":1000,\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"The number of bytes that will be added to the heap ever iteration.\"},{\"locale\":\"fr_FR\",\"message\":\"FR The number of bytes that will be added to the heap ever iteration.\"}]}},{\"parameterType\":\"LONG\",\"name\":\"duration\",\"defaultLongValue\":5500000,\"defaultIntValue\":0,\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"the number of milliseconds that each byte will (roughly) spend of the heap\"},{\"locale\":\"fr_FR\",\"message\":\"FR the number of milliseconds that each byte will (roughly) spend of the heap\"}]}}],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.annotation.json.parameters.SortingWithParameter\",\"name\":\"selectionSort\"},\"selected\":false}],\"name\":\"Sorting\"}]}";
-		
+		String expectedJson = "{\"useCases\":[{\"processingUnits\":[{\"description\":{\"en_US\":\"MyMessage\"},\"useCaseName\":\"Sorting\",\"selected\":false,\"methodWrapper\":{\"parameters\":[{\"description\":{\"en_US\":\"the ProcessingUnit will send HTTP data to this hostname\",\"fr_FR\":\"FR the ProcessingUnit will send HTTP data to this hostname\"},\"parameterType\":\"STRING\",\"name\":\"hostname\",\"defaultLongValue\":0,\"defaultIntValue\":0,\"defaultStringValue\":\"mystubserver.com\"},{\"description\":{\"en_US\":\"The number of bytes that will be added to the heap ever iteration.\",\"fr_FR\":\"FR The number of bytes that will be added to the heap ever iteration.\"},\"parameterType\":\"INTEGER\",\"name\":\"numBytes\",\"defaultLongValue\":0,\"defaultIntValue\":1000,\"defaultStringValue\":null},{\"description\":{\"en_US\":\"the number of milliseconds that each byte will (roughly) spend of the heap\",\"fr_FR\":\"FR the number of milliseconds that each byte will (roughly) spend of the heap\"},\"parameterType\":\"LONG\",\"name\":\"duration\",\"defaultLongValue\":5500000,\"defaultIntValue\":0,\"defaultStringValue\":null}],\"declaringClassName\":\"com.github.eostermueller.havoc.workload.annotation.json.parameters.SortingWithParameter\",\"methodName\":\"selectionSort\"}}],\"name\":\"Sorting\"}]}";		
 		assertEquals(expectedJson, actualJson);
 		
 	}
@@ -149,10 +142,8 @@ class JsonParameterSerializationTest {
 		processingUnit.setUseCaseName(USE_CASE_NAME);
 		
 		
-		Descriptor d = new Descriptor();
 		
-		d.addMessage( testLocale, "MyMessage");
-		processingUnit.setDescriptor(d);
+		processingUnit.addDescription(languageTag,"MyMessage");
 		
 		MethodWrapper testMethod = new MethodWrapper();
 		testMethod.setMethodName("selectionSort");
@@ -162,8 +153,10 @@ class JsonParameterSerializationTest {
 		parm0.setName("hostname");
 		parm0.setParameterType(ParameterType.STRING);
 		parm0.setDefaultStringValue("mystubserver.com");
-		parm0.addMessage(testLocale, "the ProcessingUnit will send HTTP data to this hostname");
-		parm0.addMessage(frLocale, "FR the ProcessingUnit will send HTTP data to this hostname");
+		
+		
+		parm0.addDescription(languageTag, "the ProcessingUnit will send HTTP data to this hostname");
+		parm0.addDescription(frLanguageTag, "FR the ProcessingUnit will send HTTP data to this hostname");
 		
 		
 		testMethod.getParameters().add( parm0 );
@@ -172,16 +165,16 @@ class JsonParameterSerializationTest {
 		parm1.setName("numBytes");
 		parm1.setParameterType(ParameterType.INTEGER);
 		parm1.setDefaultIntValue(1000);
-		parm1.addMessage(testLocale, "The number of bytes that will be added to the heap ever iteration.");
-		parm1.addMessage(frLocale, "FR The number of bytes that will be added to the heap ever iteration.");
+		parm1.addDescription(languageTag, "The number of bytes that will be added to the heap ever iteration.");
+		parm1.addDescription(frLanguageTag, "FR The number of bytes that will be added to the heap ever iteration.");
 		testMethod.getParameters().add( parm1 );
 
 		MethodParameter parm2 = new MethodParameter();
 		parm2.setName("duration");
 		parm2.setParameterType(ParameterType.LONG);
 		parm2.setDefaultLongValue(5500000L);
-		parm2.addMessage(testLocale, "the number of milliseconds that each byte will (roughly) spend of the heap");
-		parm2.addMessage(frLocale, "FR the number of milliseconds that each byte will (roughly) spend of the heap");
+		parm2.addDescription(languageTag, "the number of milliseconds that each byte will (roughly) spend of the heap");
+		parm2.addDescription(frLanguageTag, "FR the number of milliseconds that each byte will (roughly) spend of the heap");
 
 		testMethod.getParameters().add( parm2 );
 		

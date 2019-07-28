@@ -22,7 +22,7 @@ class ProcessingUnitDetectionTest {
 	 * ProcessingUnit descriptions in the unit tests, ones that would ultimately end up in the GUI,
 	 * are specified in these tests as en_US, so that's the locale we'll ask for using this constant.
 	 */
-	private static final Locale DEFAULT_LOCALE = Locale.US;
+//	private static final Locale DEFAULT_LOCALE = Locale.US;
 	@Test
 	public void canIdentifyProcessingUnits_zeroParameters() throws HavocException, OnlyStringAndLongAndIntAreAllowedParameterTypes {
 		
@@ -40,17 +40,15 @@ class ProcessingUnitDetectionTest {
 		ProcessingUnitImpl binarySortProcessingUnit = processingUnits.get(0);
 		assertEquals("binarySort",binarySortProcessingUnit.getMethodWrapper().getMethodName() );
 		
-		Message message = binarySortProcessingUnit.getDescriptor().getMessage(DEFAULT_LOCALE);
-		assertEquals("Binary Sort in American English",message.getMessage());
 		
-		Locale aFrenchLocale = Locale.forLanguageTag("fr-FR");
-		Message frDescr = binarySortProcessingUnit.getDescriptor().getMessage(aFrenchLocale);
-		assertEquals("Binary Sort in French",frDescr.getMessage());
+		assertEquals("Binary Sort in American English",binarySortProcessingUnit.getDescription("en_US") );
+		
+		assertEquals("Binary Sort in French",binarySortProcessingUnit.getDescription("fr_FR"));
 		
 		ProcessingUnitImpl selectionSortProcessingUnit = processingUnits.get(1);
 		assertEquals("selectionSort",selectionSortProcessingUnit.getMethodWrapper().getMethodName() );
-		message = selectionSortProcessingUnit.getDescriptor().getMessage(DEFAULT_LOCALE);
-		assertEquals("Selection Sort", message.getMessage());
+		
+		assertEquals("Selection Sort", selectionSortProcessingUnit.getDescription("en_US") );
 	}
 
 }

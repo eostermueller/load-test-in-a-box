@@ -6,29 +6,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 public class MethodWrapper  {
 	List<MethodParameter> parameters = new CopyOnWriteArrayList<MethodParameter>(); 
-	//Map<String, String> descriptions  = new ConcurrentHashMap<String,String>();
-	//Descriptor descriptor = new Descriptor(); 
-	
-//	Method method = null;
-//	public Method getMethod() {
-//		return method;
-//	}
-//	public void setMethod(Method method) {
-//		this.method = method;
-//	}
-
-//	public Descriptor getDescriptor() {
-//		return descriptor;
-//	}
 
 
 
-//	public void setDescriptor(Descriptor descriptor) {
-//		this.descriptor = descriptor;
-//	}
 	private String declaringClassName;
 	private String name;
 	
@@ -44,7 +29,7 @@ public class MethodWrapper  {
 		
 	}
 
-	
+	@JsonIgnore
 	public int getParameterCount() {
 		return this.getParameters().size();
 		//return this.getMethod().getParameterCount();
