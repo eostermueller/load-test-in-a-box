@@ -33,8 +33,7 @@ public class DefaultBuilder implements Builder {
 
 	
 	@Override 
-	public Descriptor createDescriptor(AnnotationInfo annotationInfo) throws HavocException {
-		Descriptor descriptor = new Descriptor();
+	public void addDescriptions(ProcessingUnitImpl processingUnit, AnnotationInfo annotationInfo) throws HavocException {
 		AnnotationParameterValueList parms = annotationInfo.getParameterValues();
 		Object[] uiDescriptionAnnArray = (Object[]) parms.get(ProcessingUnit.VALUE);
 		for( Object ann : uiDescriptionAnnArray ) {
@@ -49,15 +48,14 @@ public class DefaultBuilder implements Builder {
 				//the following returns an NPE, was expecting to see my default locale of en_US.
 				//AnnotationParameterValueList defaultValues = annInfo.getDefaultParameterValues();
 				
-				localeString = "en-US"; //as a workaround, this value must stay in sync with the default specified in UserInterfaceDescription:
-								  //	public String locale() default "en-US";
-
+				localeString = "en_US"; //as a workaround, this value must stay in sync with the default specified in UserInterfaceDescription:
+								  //	public String locale() default "en_US";
 			}
 			String description = (String) values.get(UserInterfaceDescription.VALUE);
-			Locale aLocale = Locale.forLanguageTag(localeString);
-			descriptor.addMessage(aLocale, description);
+			//Locale aLocale = Locale.forLanguageTag(localeString);
+			processingUnit.addDescription(localeString, description);
+//			descriptor.addMessage(aLocale, description);
 		}
-		return descriptor;
 	}
 	
 	@Override
@@ -87,7 +85,7 @@ public class DefaultBuilder implements Builder {
 			
 			processingUnit.setMethodWrapper(methodWrapper);
 			
-			processingUnit.setDescriptor(createDescriptor(annotationInfo));
+			addDescriptions(processingUnit,annotationInfo);
 			
             if (methodInfo.getParameterInfo().length < method.getParameterCount() ) {
             	int missingCnt =  method.getParameterCount() - methodInfo.getParameterInfo().length;
@@ -182,10 +180,36 @@ public class DefaultBuilder implements Builder {
 		String name = (String) annotationInfo.getParameterValues().get("name");
 		newParam.setName(name);
 
-		newParam.setDescriptor( this.createDescriptor( annotationInfo ) );
+		//newParam.setDescriptor( this.createDescriptor( annotationInfo ) );
+		addDescriptions(newParam, annotationInfo);
 		
 		return newParam;
 	}
+	@Override 
+	public void addDescriptions(MethodParameter methodParameter, AnnotationInfo annotationInfo) throws HavocException {
+		AnnotationParameterValueList parms = annotationInfo.getParameterValues();
+		Object[] uiDescriptionAnnArray = (Object[]) parms.get(ProcessingUnit.VALUE);
+		for( Object ann : uiDescriptionAnnArray ) {
+			AnnotationInfo annInfo = (AnnotationInfo) ann;
+			//String descr = (String) annInfo.getParameterValues().get(UserInterfaceDescription.VALUE);
+			
+			AnnotationParameterValueList values = annInfo.getParameterValues();
+			String localeString = (String) values.get(UserInterfaceDescription.LOCALE);
+			if (localeString==null) {
+
+				//seems like I need to open a classgraph 'issue' for this.
+				//the following returns an NPE, was expecting to see my default locale of en_US.
+				//AnnotationParameterValueList defaultValues = annInfo.getDefaultParameterValues();
+				
+				localeString = "en_US"; //as a workaround, this value must stay in sync with the default specified in UserInterfaceDescription:
+								  //	public String locale() default "en_US";
+			}
+			String description = (String) values.get(UserInterfaceDescription.VALUE);
+			//Locale aLocale = Locale.forLanguageTag(localeString);
+			methodParameter.addDescription(localeString, description);
+		}
+	}
+	
 
 
 	@Override

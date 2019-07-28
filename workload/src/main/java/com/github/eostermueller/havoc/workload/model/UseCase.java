@@ -3,6 +3,7 @@ package com.github.eostermueller.havoc.workload.model;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.eostermueller.havoc.workload.annotations.ProcessingUnit;
 
 public class UseCase  {
@@ -27,6 +28,7 @@ public class UseCase  {
 		return this.name;
 	}
 	
+	@JsonIgnore
 	public ProcessingUnitImpl getSelectedProcessingUnit() {
 		ProcessingUnitImpl rc = null;
 		for (ProcessingUnitImpl processingUnit : this.getProcessingUnits() ) {

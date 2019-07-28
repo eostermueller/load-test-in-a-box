@@ -1,23 +1,40 @@
 package com.github.eostermueller.havoc.workload.model;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.eostermueller.havoc.workload.HavocException;
 
 public class MethodParameter  {
+	private Description description = new Description();
+	public Description getDescription() {
+		return description;
+	}
+	public void setDescription(Description description) {
+		this.description = description;
+	}
+	public String getDescription(String locale_with_underscore) {
+		return this.getDescription().getDescription(locale_with_underscore);
+	}
+	public String addDescription(String locale_with_underscore, String value) {
+		return this.getDescription().getDescriptions().put(locale_with_underscore, value);
+	}
 
-	
 	ParameterType parameterType = null;
 
 	public ParameterType getParameterType() {
 		return parameterType;
 	}
-	public String getMessage(Locale locale) {
-		return this.getDescriptor().getMessage(locale).getMessage();
-	}
-	public void addMessage(Locale locale, String desc) throws HavocException {
-		this.getDescriptor().addMessage(locale, desc);
-	}
+//	public String getMessage(Locale locale) {
+//		return this.getDescriptor().getMessage(locale).getMessage();
+//	}
+//	public void addMessage(Locale locale, String desc) throws HavocException {
+//		this.getDescriptor().addMessage(locale, desc);
+//	}
 	
 
 	public void setParameterType(ParameterType parameterType) {
@@ -47,13 +64,14 @@ public class MethodParameter  {
 
 	private int defaultIntValue;
 	private String defaultStringValue;
-	private Descriptor descriptor = new Descriptor();
+	//private Descriptor descriptor = new Descriptor();
 	
 	
 	public String getName() {
 		return this.name;
 	}
 	
+	@JsonIgnore
 	public String getDefaultValue() {
 		String rc = null;
 		switch( this.getParameterType()) {
@@ -82,10 +100,10 @@ public class MethodParameter  {
 		this.defaultLongValue = longValue;
 	}
 	
-	public Descriptor getDescriptor() {
-		return this.descriptor;
-	}
-	public void setDescriptor(Descriptor d) {
-		this.descriptor = d;
-	}
+//	public Descriptor getDescriptor() {
+//		return this.descriptor;
+//	}
+//	public void setDescriptor(Descriptor d) {
+//		this.descriptor = d;
+//	}
 }

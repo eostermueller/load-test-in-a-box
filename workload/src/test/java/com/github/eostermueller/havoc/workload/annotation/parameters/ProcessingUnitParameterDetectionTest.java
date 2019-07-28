@@ -40,24 +40,25 @@ class ProcessingUnitParameterDetectionTest {
 				
 		ProcessingUnitImpl selectionSortProcessingUnit = processingUnits.get(0);
 		assertEquals(selectionSortProcessingUnit.getMethodWrapper().getMethodName(),"selectionSort");
-		Message message = selectionSortProcessingUnit.getDescriptor().getMessage(DEFAULT_LOCALE);
-		assertEquals("Selection Sort", message.getMessage());
+		
+		assertEquals("Selection Sort", selectionSortProcessingUnit.getDescription("en_US") );
 		
 		
 		MethodParameter parm0 = selectionSortProcessingUnit.getMethodWrapper().getParameter(0);
 		assertEquals( "arraySize", parm0.getName());
 		assertEquals( "10", parm0.getDefaultValue() );
-		assertEquals( "number of intergers to be created (ThreadLocalRandom) and sorted for each execution", parm0.getDescriptor().getMessage(DEFAULT_LOCALE).getMessage() );
+		assertEquals( "number of intergers to be created (ThreadLocalRandom) and sorted for each execution", 
+				parm0.getDescription("en_US") );
 
 		MethodParameter parm1 = selectionSortProcessingUnit.getMethodWrapper().getParameter(1);
 		assertEquals( "unknown", parm1.getName());
 		assertEquals( "1000", parm1.getDefaultValue() );
-		assertEquals( "Used for testing only!", parm1.getDescriptor().getMessage(DEFAULT_LOCALE).getMessage() );
+		assertEquals( "Used for testing only!", parm1.getDescription("en_US") );
 
 		MethodParameter parm2 = selectionSortProcessingUnit.getMethodWrapper().getParameter(2);
 		assertEquals( "hostname", parm2.getName());
 		assertEquals( "stubserver.com", parm2.getDefaultValue() );
-		assertEquals( "User for testing network speed.", parm2.getDescriptor().getMessage(DEFAULT_LOCALE).getMessage() );
+		assertEquals( "User for testing network speed.", parm2.getDescription("en_US") );
 	}
 
 }

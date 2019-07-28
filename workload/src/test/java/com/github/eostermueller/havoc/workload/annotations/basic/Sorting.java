@@ -34,8 +34,8 @@ public class Sorting {
 	}
 	@ProcessingUnit(
 			useCase = "numericSorting", 
-			value = {@UserInterfaceDescription(locale="en-us", value = "Binary Sort in American English"),
-					@UserInterfaceDescription( locale="fr-fr", value = "Binary Sort in French")}			
+			value = {@UserInterfaceDescription(locale="en_US", value = "Binary Sort in American English"),
+					@UserInterfaceDescription( locale="fr_FR", value = "Binary Sort in French")}			
 )
 	
 	public  void binarySort()
