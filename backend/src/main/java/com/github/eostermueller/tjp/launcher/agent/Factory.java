@@ -1,5 +1,7 @@
 package com.github.eostermueller.tjp.launcher.agent;
 
+import java.io.File;
+
 import com.github.eostermueller.tjp.launcher.agent.history.EventHistory;
 
 public interface Factory {
@@ -21,6 +23,10 @@ public interface Factory {
 	Configuration getConfiguration();
 	
 	EventHistory getEventHistory();
+
+	Configuration getConfiguration(File folder);
+
+	ConfigReaderWriter getConfigReaderWriter(Configuration cfg, File tmpFolder);
 	
 
 }

@@ -21,7 +21,7 @@ public class TestTheTestConfiguration {
 	private static final String JAVA_PERF_TROUBLESHOOTING_MASTER = "javaPerformanceTroubleshooting-master";
 	private static final String MAVEN_HOME_SUFFIX = "maven/apache-maven-3.5.4";
 	
-	private static final String win_ABS_PATH_TO_TJP = "C:/UseXrs/erikXostermueller/Documents/src/jdist/tjpUnzipped/tjp";
+	private static final String win_ABS_PATH_TO_PG = "C:/UseXrs/erikXostermueller/Documents/src/jdist/tjpUnzipped/tjp";
 	private static final String win_JAVA_HOME = "C:/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home";
 	
 	@Test
@@ -32,10 +32,7 @@ public class TestTheTestConfiguration {
 				
 		TestConfiguration testConfiguration = new TestConfiguration(tjpHome, javaHome);
 		
-		Path littleMockHome = testConfiguration.getLittleMockHome();
-		Assert.assertEquals(unix_ABS_PATH_TO_TJP + myPlatformSeparater + LITTLE_MOCK_MASTER, littleMockHome.toAbsolutePath().toString() );
-
-		Path jptHome = testConfiguration.getJavaPerformanceTroubleshootingHome();
+		Path jptHome = testConfiguration.getSutHome();
 		Assert.assertEquals(unix_ABS_PATH_TO_TJP + myPlatformSeparater + JAVA_PERF_TROUBLESHOOTING_MASTER, jptHome.toAbsolutePath().toString() );
 		
 		Path mavenHome = testConfiguration.getMavenHome();
@@ -47,23 +44,18 @@ public class TestTheTestConfiguration {
 	 */
 	@Test
 	public void canCreatePathsBasedOnInstallationHome_winStyle() {
-		Path tjpHome = Paths.get(win_ABS_PATH_TO_TJP);
+		Path pgHome = Paths.get(win_ABS_PATH_TO_PG);
 		Path javaHome = Paths.get(win_JAVA_HOME);
 		char myPlatformSeparater = '/';
 				
-		TestConfiguration testConfiguration = new TestConfiguration(tjpHome, javaHome);
+		TestConfiguration testConfiguration = new TestConfiguration(pgHome, javaHome);
 		
-		Path littleMockHome = testConfiguration.getLittleMockHome();
-		String littleMockHomeExpected = win_ABS_PATH_TO_TJP + myPlatformSeparater + LITTLE_MOCK_MASTER;
-		String littleMockHomeActual = littleMockHome.toString();
-		//Assert.assertEquals(win_ABS_PATH_TO_TJP + myPlatformSeparater + LITTLE_MOCK_MASTER, littleMockHome.toAbsolutePath().toString() );
-		Assert.assertEquals(littleMockHomeExpected, littleMockHomeActual );
 
-		Path jptHome = testConfiguration.getJavaPerformanceTroubleshootingHome();
-		Assert.assertEquals(win_ABS_PATH_TO_TJP + myPlatformSeparater + JAVA_PERF_TROUBLESHOOTING_MASTER, jptHome.toString() );
+		Path sutHome = testConfiguration.getSutHome();
+		Assert.assertEquals(win_ABS_PATH_TO_PG + myPlatformSeparater + JAVA_PERF_TROUBLESHOOTING_MASTER, sutHome.toString() );
 		
 		Path mavenHome = testConfiguration.getMavenHome();
-		Assert.assertEquals(win_ABS_PATH_TO_TJP + myPlatformSeparater + MAVEN_HOME_SUFFIX, mavenHome.toString() );
+		Assert.assertEquals(win_ABS_PATH_TO_PG + myPlatformSeparater + MAVEN_HOME_SUFFIX, mavenHome.toString() );
 		
 
 	}

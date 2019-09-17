@@ -1,5 +1,7 @@
 package com.github.eostermueller.tjp.launcher.agent;
 
+import com.github.eostermueller.havoc.PerfGoatException;
+
 /**
  * A voyer of stdout from a headless process,
  * determines whether the process starts successfully or not.
@@ -17,9 +19,9 @@ public interface StdoutStateChanger {
 	 * 
 	 * @param s
 	 * @return
-	 * @throws TjpException 
+	 * @throws PerfGoatException 
 	 */
-	void evaluateStdoutLine(String s) throws TjpException;
+	void evaluateStdoutLine(String s) throws PerfGoatException;
 	
 	/**
 	 * Implement this to register/store a list of objects that should be

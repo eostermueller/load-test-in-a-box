@@ -1,6 +1,7 @@
 package com.github.eostermueller.tjp.launcher.agent.suite;
 
 
+import com.github.eostermueller.havoc.PerfGoatException;
 import com.github.eostermueller.tjp.launcher.agent.DefaultFactory;
 import com.github.eostermueller.tjp.launcher.agent.Level;
 import com.github.eostermueller.tjp.launcher.agent.Messages;
@@ -9,7 +10,6 @@ import com.github.eostermueller.tjp.launcher.agent.State;
 import com.github.eostermueller.tjp.launcher.agent.StateMachine;
 import com.github.eostermueller.tjp.launcher.agent.StateChangeListener;
 import com.github.eostermueller.tjp.launcher.agent.StdoutStateChanger;
-import com.github.eostermueller.tjp.launcher.agent.TjpException;
 import com.github.eostermueller.tjp.launcher.agent.TjpIllegalStateException;
 
 public class SequentialProcessSuite extends AbstractSequentialProcessSuite implements Suite {
@@ -25,7 +25,7 @@ public class SequentialProcessSuite extends AbstractSequentialProcessSuite imple
 
 	StateChangeListener childStateChangeListener = new StateChangeListener() {
 
-		private void childStateHasChanged(ProcessKey thisKey, State newState) throws TjpException {
+		private void childStateHasChanged(ProcessKey thisKey, State newState) throws PerfGoatException {
 			switch(newState) {
 			case START_IN_PROGRESS:
 				if (SequentialProcessSuite.this.isFirstRunner(thisKey)) {
@@ -54,7 +54,7 @@ public class SequentialProcessSuite extends AbstractSequentialProcessSuite imple
 		 * Start the "next" state, once previous has started.
 		 */
 		@Override
-		public void stateHasChanged(ProcessKey thisKey, State newState) throws TjpException {
+		public void stateHasChanged(ProcessKey thisKey, State newState) throws PerfGoatException {
 
 //			if (thisKey==null)
 //				return;
@@ -94,7 +94,7 @@ public class SequentialProcessSuite extends AbstractSequentialProcessSuite imple
 	}
 
 	@Override
-	public void start() throws TjpException {
+	public void start() throws PerfGoatException {
 		
 		StateMachine firstRunner = this.getRunners().get(0);
 		firstRunner.start();

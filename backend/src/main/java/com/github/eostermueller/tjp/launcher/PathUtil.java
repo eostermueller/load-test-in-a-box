@@ -36,9 +36,9 @@ public class PathUtil {
 		  return Application.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 	  }
 	  
-	  public void createHavocHomeIfNotExist() throws CannotFindTjpFactoryClass {
+	  public void createPerfGoatHomeIfNotExist() throws CannotFindTjpFactoryClass {
 		  Configuration cfg = DefaultFactory.getFactory().getConfiguration();
-		  File havocHomeDir = cfg.getHavocHomeDir().toFile();
+		  File havocHomeDir = cfg.getPerfGoatHome().toFile();
 		  if (!havocHomeDir.exists())
 			  havocHomeDir.mkdirs();
 	  }
@@ -52,10 +52,13 @@ public class PathUtil {
 	   * @throws IOException
 	   */
 	public void extractZipFromZip(final String zipPath, final String critereia, final String targetPath) throws IOException {
+        LOGGER.info("Does criteria [" + critereia + "] match any of these entries in zip file [" + zipPath + "]?");
+
 	    try (ZipFile zipFile = new ZipFile(zipPath)) {
 	        for (final Enumeration<? extends ZipEntry> e = zipFile.entries(); e.hasMoreElements();) {
 	            ZipEntry zipEntry = e.nextElement();
-	            if (zipEntry.getName().endsWith(".zip")) {
+	            LOGGER.debug("Does criteria match entry [" + zipEntry.getName() + "]");
+	            if (zipEntry.getName().endsWith(critereia)) {
 	                Files.copy(zipFile.getInputStream(zipEntry), Paths.get(targetPath),
 	                           StandardCopyOption.REPLACE_EXISTING);
 	            }

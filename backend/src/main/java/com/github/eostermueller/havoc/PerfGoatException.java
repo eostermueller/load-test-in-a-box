@@ -1,15 +1,15 @@
-package com.github.eostermueller.tjp.launcher.agent;
+package com.github.eostermueller.havoc;
 
 import com.github.eostermueller.tjp.launcher.agent.history.Event;
 import com.github.eostermueller.tjp.launcher.agent.history.EventHistory;
 
-public class TjpException extends Exception {
+public class PerfGoatException extends Exception {
 
 	Exception cause = null;
-	public TjpException(String s) {
+	public PerfGoatException(String s) {
 		super(s);
 	}
-	public TjpException(Exception c) {
+	public PerfGoatException(Exception c) {
 		cause = c;
 	}
 	@Override

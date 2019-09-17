@@ -3,6 +3,7 @@ package com.github.eostermueller.tjp.launcher.agent.suite;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.github.eostermueller.havoc.PerfGoatException;
 import com.github.eostermueller.tjp.launcher.agent.AbstractStateMachine;
 import com.github.eostermueller.tjp.launcher.agent.CannotFindTjpFactoryClass;
 import com.github.eostermueller.tjp.launcher.agent.DefaultFactory;
@@ -10,7 +11,6 @@ import com.github.eostermueller.tjp.launcher.agent.Messages;
 import com.github.eostermueller.tjp.launcher.agent.ProcessKey;
 import com.github.eostermueller.tjp.launcher.agent.State;
 import com.github.eostermueller.tjp.launcher.agent.StateMachine;
-import com.github.eostermueller.tjp.launcher.agent.TjpException;
 
 public abstract class AbstractSequentialProcessSuite extends AbstractStateMachine implements Suite {
 	List<StateMachine> runners = new CopyOnWriteArrayList<StateMachine>();
@@ -24,7 +24,7 @@ public abstract class AbstractSequentialProcessSuite extends AbstractStateMachin
 	public void addRunnerInOrder(StateMachine r) {
 		this.getRunners().add(r);
 	}
-	public abstract void start() throws TjpException;
+	public abstract void start() throws PerfGoatException;
 
 	public abstract void stop();
 

@@ -13,6 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import com.github.eostermueller.havoc.PerfGoatException;
 import com.github.eostermueller.tjp.launcher.agent.CannotFindTjpFactoryClass;
 import com.github.eostermueller.tjp.launcher.agent.DefaultFactory;
 import com.github.eostermueller.tjp.launcher.agent.DoNothingProcessRunner;
@@ -23,7 +24,6 @@ import com.github.eostermueller.tjp.launcher.agent.StateChangeListener;
 import com.github.eostermueller.tjp.launcher.agent.StateMachine;
 import com.github.eostermueller.tjp.launcher.agent.MockServerProcess;
 import com.github.eostermueller.tjp.launcher.agent.TestConfiguration;
-import com.github.eostermueller.tjp.launcher.agent.TjpException;
 import com.github.eostermueller.tjp.launcher.agent.history.Event;
 import com.github.eostermueller.tjp.launcher.agent.runner.StdoutProcessRunnerJdk9;
 
@@ -53,7 +53,7 @@ public class SimpleProcessSuiteTest {
 	}
 
 	@Test
-	public void canFindRunner() throws TjpException {
+	public void canFindRunner() throws PerfGoatException {
 
 		List<StateChange> stateChanges = new ArrayList<StateChange>();
 		
@@ -88,7 +88,7 @@ public class SimpleProcessSuiteTest {
 	}
 	
 	@Test
-	public void canFindNextRunner() throws TjpException {
+	public void canFindNextRunner() throws PerfGoatException {
 
 		List<StateChange> stateChanges = new ArrayList<StateChange>();
 		

@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 
 import org.junit.Assert;
 
+import com.github.eostermueller.havoc.PerfGoatException;
+
 
 public class MockServerProcess {
 	private File currentWorkingDir = null;
@@ -20,7 +22,7 @@ public class MockServerProcess {
 	public void setJavaHome(Path javaHome) {
 		this.javaHome = javaHome;
 	}
-	public ProcessBuilder getProcessBuilder() throws TjpException {
+	public ProcessBuilder getProcessBuilder() throws PerfGoatException {
 		
 		Path java_Executable = this.getJavaHome().resolve( Paths.get("bin/java") );
  
@@ -40,10 +42,10 @@ public class MockServerProcess {
 	public void setTinyId(long tinyId) {
 		this.tinyId = tinyId;
 	}
-	public File getCurrentWorkingDir() throws TjpException {
+	public File getCurrentWorkingDir() throws PerfGoatException {
 		if (currentWorkingDir == null) {
 			String error = "current working dir cannot be null";
-			DefaultFactory.getFactory().getEventHistory().addException(error, new TjpException(error) );
+			DefaultFactory.getFactory().getEventHistory().addException(error, new PerfGoatException(error) );
 		}
 			
 		//System.out.println("My cwd [" + this.currentWorkingDir.getAbsolutePath() + "]");
@@ -74,7 +76,7 @@ public class MockServerProcess {
 	public String getClassFileName() {
 		return this.getClassName() + ".class";
 	}
-	public File getAbsoluteClassFileName() throws TjpException {
+	public File getAbsoluteClassFileName() throws PerfGoatException {
 		File myClassFile 
 		= new File(
 				this.getCurrentWorkingDir(),

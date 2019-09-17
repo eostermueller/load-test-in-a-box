@@ -1,5 +1,6 @@
 package com.github.eostermueller.tjp.launcher.agent;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
@@ -84,9 +85,9 @@ public class DefaultFactory implements Factory {
 		Messages messages;
 		try {
 			Class messagesClass = Class.forName(packageAndClassName);
-			messages = (Messages) messagesClass.newInstance();
+			messages = (Messages) messagesClass.getDeclaredConstructor(null).newInstance(null);
 			
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			LOG.atWarning().withCause(e).log("Could not find class [%s] in the classpath, will use %s instead", packageAndClassName, Messages_en_US.class.getName() );
 			messages = new Messages_en_US();
 		}
@@ -147,6 +148,16 @@ public class DefaultFactory implements Factory {
 	@Override
 	public EventHistory getEventHistory() {
 		return eventHistory;
+	}
+	@Override
+	public Configuration getConfiguration(File folder) {
+		throw new UnsupportedOperationException();
+		//return null;
+	}
+	@Override
+	public ConfigReaderWriter getConfigReaderWriter(Configuration cfg, File tmpFolder) {
+		ConfigReaderWriter configReaderWriter = new DefaultConfigReaderWriter(cfg,tmpFolder);
+		return configReaderWriter;
 	}
 	
 

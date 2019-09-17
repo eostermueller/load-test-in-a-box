@@ -10,6 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import com.github.eostermueller.havoc.PerfGoatException;
 import com.github.eostermueller.tjp.launcher.agent.runner.StdoutProcessRunnerJdk9;
 
 
@@ -61,7 +62,7 @@ public class BasicProcessManagementTest_twice {
 		
 		StdoutStateChanger ssc = new AbstractStdoutStateChanger() {
 			@Override
-			public void evaluateStdoutLine(String s) throws TjpException {
+			public void evaluateStdoutLine(String s) throws PerfGoatException {
 				if (s.indexOf("Startup Complete") >=0 ) {
 					this.fireStateChange(key, State.STARTED);
 				}

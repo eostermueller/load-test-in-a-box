@@ -3,11 +3,13 @@ package com.github.eostermueller.tjp.launcher.agent;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *  Defines structure of some dependent folders, as detailed here:
  *   http://erikostermueller.com/index.php/tjp-sandbox/
 
-C:\Users\JaneDoe\Documents\tjp ( on mac /Users/JaneDoe/Documents/tjp )
+C:\Users\JaneDoe\Documents\tjp ( on mac /Users/JaneDoe/.perfGoat )
  ├── bin
  ├── littleMock-master
  ├── javaPerformanceTroubleshooting-master
@@ -20,9 +22,50 @@ C:\Users\JaneDoe\Documents\tjp ( on mac /Users/JaneDoe/Documents/tjp )
  *
  */
 public class DefaultConfiguration implements Configuration {
-	 
-	Path tjpHome = null;
-	Path javaHome = null;
+	 	
+	private Path javaHome = null;
+	private Path sutHomePath;
+	private Path mavenHome;
+	private Path userHomeDir;
+	private Path perfGoatHomeDir;
+	private int maxExceptionCountPerEvent = 100;
+	private String mavenZipFileNameWithoutExtension = "apache-maven-3.6.0";
+	private Path mavenRepositoryHome;
+	private String wiremockZipFileName;
+	private Path wiremockHome;
+	
+
+	@Override
+	public Path getWiremockHome() {
+		return wiremockHome;
+	}
+
+	@Override
+	public void setWiremockHome(Path wiremockHome) {
+		this.wiremockHome = wiremockHome;
+	}
+
+	private String h2DataFileName;
+	private Path h2DataFileHome;
+	@Override
+	public Path getH2DataFileHome() {
+		return h2DataFileHome;
+	}
+
+	@Override
+	public void setH2DataFileHome(Path h2DataFileHome) {
+		this.h2DataFileHome = h2DataFileHome;
+	}
+
+	@Override
+	public String getH2DataFileName() {
+		return h2DataFileName;
+	}
+
+	@Override
+	public void setH2DataFileName(String h2DataFileName) {
+		this.h2DataFileName = h2DataFileName;
+	}
 	public static final String unix_ABS_PATH_TO_TJP = "/Users/erikostermueller/Documents/src/jdist/tjpUnzipped/tjp";
 	public static final String unix_JAVA_HOME = "/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home";
 	
@@ -30,65 +73,85 @@ public class DefaultConfiguration implements Configuration {
 	 * WOW this needs to go away, hard coding paths from my machine.
 	 */
 	public DefaultConfiguration() {
-			this.setTjpHome(Paths.get(unix_ABS_PATH_TO_TJP) );
-			this.setJavaHome( Paths.get( System.getProperty("java.home")  ) );
+    		this.setUserHomeDir(		Paths.get( getUserHomeDirString() )	);
 		
+			this.setJavaHome( 			Paths.get( System.getProperty("java.home")  ) );
+			this.setPerfGoatHome(		Paths.get( this.getUserHomeDirString(), ".perfGoat" )			);
+			this.setMavenHome(			Paths.get( this.getPerfGoatHome().toString() , this.getMavenZipFileNameWithoutExtension() )		);
+			this.setMavenRepositoryHome(Paths.get( this.getPerfGoatHome().toString() , "repository" )		);
+			this.setSutHome(			Paths.get( this.getPerfGoatHome().toString() , "tjp2") );
+			this.setWiremockHome(		Paths.get( this.getPerfGoatHome().toString() , "wiremock") );
+			this.setWiremockZipFileName ("wiremock-2.24.1.jar");
+
+			this.setH2DataFileHome(		Paths.get( this.getPerfGoatHome().toString() , "data") );
+			this.setH2DataFileName		("perfSandboxDb.mv.db");
 	}
-	public DefaultConfiguration(Path tjpHome2, Path javaHome) {
-		this.setTjpHome(tjpHome2);
+	
+	public DefaultConfiguration(Path pgHome, Path javaHome) {
+		this.setPerfGoatHome(pgHome);
 		this.setJavaHome(javaHome);
 	}
 
 	@Override
-	public Path getTjpHome() {
-		return this.tjpHome;
+	public Path getSutHome() {
+		return this.sutHomePath;
 	}
 
 	@Override
-	public Path getLittleMockHome() {
-		return this.getTjpHome().resolve( Paths.get("littleMock-master") );
+	public Path getMavenRepositoryHome() {
+		return this.mavenRepositoryHome;
 	}
-
 	@Override
-	public Path getJavaPerformanceTroubleshootingHome() {
-		return this.getTjpHome().resolve( Paths.get("javaPerformanceTroubleshooting-master") );
+	public void setMavenRepositoryHome(Path val) {
+		this.mavenRepositoryHome = val;
 	}
-
 	@Override
 	public Path getMavenHome() {
-		return Paths.get( this.getHavocHomeDir().toString() , this.getMavenZipFileNameWithoutExtension() );
+		return this.mavenHome;
+	}
+	@Override
+	public void setMavenHome(Path val) {
+		this.mavenHome = val;
 	}
 
 	@Override
 	public Path getUserHomeDir() {
-		return Paths.get( System.getProperty("user.home") );
+		return this.userHomeDir;
 	}
 	@Override
+	public void setUserHomeDir(Path val) {
+		this.userHomeDir = val;
+	}
+	
+	@JsonIgnore
 	public String getUserHomeDirString() {
 		return System.getProperty("user.home");
 	}
 	@Override
 	public String getMavenZipFileNameWithoutExtension() {
-		return "apache-maven-3.6.0";
+		return mavenZipFileNameWithoutExtension;
 	}
+	@Override
+	public void setMavenZipFileNameWithoutExtension(String val) {
+		this.mavenZipFileNameWithoutExtension = val;
+	}
+	@JsonIgnore
 	@Override
 	public String getMavenZipFileName() {
 		return this.getMavenZipFileNameWithoutExtension() + "-bin.zip";
 	}
 	@Override
-	public Path getHavocHomeDir() {
-		return Paths.get( this.getUserHomeDirString(), ".havoc" );
+	public Path getPerfGoatHome() {
+		return this.perfGoatHomeDir;
 	}
-	
+	@Override
+	public void setPerfGoatHome(Path  val) {
+		this.perfGoatHomeDir = val;
+	}
 	
 	@Override
 	public Path getJavaHome() {
 		return this.javaHome;
-	}
-
-	@Override
-	public void setTjpHome(Path p) {
-		this.tjpHome = p;
 	}
 
 	@Override
@@ -98,7 +161,26 @@ public class DefaultConfiguration implements Configuration {
 
 	@Override
 	public int getMaxExceptionCountPerEvent() {
-		return 10;
+		return this.maxExceptionCountPerEvent;
 	}
+	@Override
+	public void setMaxExceptionCountPerEvent(int val) {
+		this.maxExceptionCountPerEvent = val;
+	}
+	@Override
+	public void setSutHome(Path val) {
+		this.sutHomePath = val;
+		
+	}
+
+	@Override
+	public String getWiremockZipFileName() {
+		return this.wiremockZipFileName;
+	}
+	@Override
+	public void setWiremockZipFileName(String val) {
+		this.wiremockZipFileName = val;
+	}
+	
 
 }

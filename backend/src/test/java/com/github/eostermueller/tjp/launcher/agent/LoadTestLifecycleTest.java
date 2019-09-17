@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.github.eostermueller.havoc.PerfGoatException;
+
 
 /**
  * Can we start and stop a load test?
@@ -15,7 +17,7 @@ import org.junit.Test;
 public class LoadTestLifecycleTest {
 
 	@Test
-	public void canStartLoadTest() throws TjpException {
+	public void canStartLoadTest() throws PerfGoatException {
 		ProcessKey key = ProcessKey.create(this.getClass().getCanonicalName(),Level.CHILD,"testingStateChanges");
 		StateMachine loadTest =  new DoNothingProcessRunner(key); //Factory.createLittleMockLoadTest(true,true);
 		
@@ -32,7 +34,7 @@ public class LoadTestLifecycleTest {
 		}
 	}
 	@Test
-	public void canStopLoadTest() throws TjpException {
+	public void canStopLoadTest() throws PerfGoatException {
 		ProcessKey key = ProcessKey.create(
 				this.getClass().getCanonicalName(),
 				Level.CHILD,
@@ -55,7 +57,7 @@ public class LoadTestLifecycleTest {
 	}
 	
 	@Test
-	public void canDisplayErrorWhenReStartingLoadTest() throws TjpException {
+	public void canDisplayErrorWhenReStartingLoadTest() throws PerfGoatException {
 		ProcessKey key = ProcessKey.create(
 				this.getClass().getCanonicalName(),
 				Level.CHILD,
@@ -72,10 +74,10 @@ public class LoadTestLifecycleTest {
 	}
 	/**
 	 * To "re-stop" means to attempt to stop a test that is already in State.STOPPED
-	 * @throws TjpException 
+	 * @throws PerfGoatException 
 	 */
 	@Test
-	public void canDisplayErrorWhenReStoppingLoadTest() throws TjpException {
+	public void canDisplayErrorWhenReStoppingLoadTest() throws PerfGoatException {
 		ProcessKey key = ProcessKey.create(
 				this.getClass().getCanonicalName(),
 				Level.CHILD,

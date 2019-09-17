@@ -2,6 +2,8 @@ package com.github.eostermueller.tjp.launcher.agent;
 
 import java.util.EventListener;//nice to have, not a 'must have'
 
+import com.github.eostermueller.havoc.PerfGoatException;
+
 /**
  * Notifies when key state changes happen in the life (like 'started', 'stopped', etc...)
  * of a stdout-based process.  For an example of how to use this, see
@@ -17,5 +19,5 @@ import java.util.EventListener;//nice to have, not a 'must have'
  *
  */
 public interface StateChangeListener extends EventListener {
-	void stateHasChanged(ProcessKey processKey,State newState) throws TjpException;	
+	void stateHasChanged(ProcessKey processKey,State newState) throws PerfGoatException;	
 }
