@@ -6,24 +6,21 @@ public interface Configuration {
 	/**
 	 * Path with 
 	 * -- the runnable-jar file for the agent resides.
-	 * -- the zip file with littleMock, jpt and maven and maven local repo.
+	 * -- the zip file maven local repo and the SUT
 	 * @return
 	 */
-	public Path getTjpHome();
-	public void setTjpHome(Path p);
-	public Path getLittleMockHome();
-	public Path getJavaPerformanceTroubleshootingHome();
+	public Path getSutHome();
+	public void setSutHome(Path val);
 	public Path getMavenHome();
 	public Path getJavaHome();
 	public void setJavaHome(Path p);
-	public int getMaxExceptionCountPerEvent();
 	Path getUserHomeDir();
 	String getUserHomeDirString();
 	
 	/*
 	 * Examples:  /home/betty/.havoc or C:\Users\betty\.havoc
 	 */
-	Path getHavocHomeDir();
+	Path getPerfGoatHome();
 	
 	/**
 	 * Name of the file zipped up with Launcher
@@ -31,4 +28,20 @@ public interface Configuration {
 	 */
 	String getMavenZipFileName();
 	String getMavenZipFileNameWithoutExtension();
+	void setMavenHome(Path val);
+	int getMaxExceptionCountPerEvent();
+	void setMaxExceptionCountPerEvent(int val);
+	void setUserHomeDir(Path val);
+	void setPerfGoatHome(Path val);
+	void setMavenZipFileNameWithoutExtension(String val);
+	Path getMavenRepositoryHome();
+	void setMavenRepositoryHome(Path val);
+	public String getWiremockZipFileName();
+	void setWiremockZipFileName(String val);
+	void setH2DataFileName(String h2DataFileName);
+	String getH2DataFileName();
+	void setH2DataFileHome(Path h2DataFileHome);
+	Path getH2DataFileHome();
+	void setWiremockHome(Path wiremockHome);
+	Path getWiremockHome();
 }

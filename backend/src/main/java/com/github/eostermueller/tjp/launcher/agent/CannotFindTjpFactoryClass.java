@@ -1,6 +1,8 @@
 package com.github.eostermueller.tjp.launcher.agent;
 
-public class CannotFindTjpFactoryClass extends TjpException {
+import com.github.eostermueller.havoc.PerfGoatException;
+
+public class CannotFindTjpFactoryClass extends PerfGoatException {
 
 	String className = null;
 	Exception cause = null;

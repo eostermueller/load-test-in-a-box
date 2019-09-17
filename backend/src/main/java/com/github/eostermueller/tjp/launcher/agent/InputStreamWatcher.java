@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
+import com.github.eostermueller.havoc.PerfGoatException;
+
 /**
  * @stolenFrom https://examples.javacodegeeks.com/core-java/lang/processbuilder/java-lang-processbuilder-example/
  * @author erikostermueller
@@ -34,7 +36,7 @@ public class InputStreamWatcher extends Thread {
                 		this.stdoutStateChanger.evaluateStdoutLine(line);
                 }
             }
-        } catch (TjpException e) {
+        } catch (PerfGoatException e) {
 
 			e.printStackTrace();
 		} finally {

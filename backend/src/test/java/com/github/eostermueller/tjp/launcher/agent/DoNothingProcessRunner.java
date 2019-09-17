@@ -3,6 +3,7 @@ package com.github.eostermueller.tjp.launcher.agent;
 
 import java.util.List;
 
+import com.github.eostermueller.havoc.PerfGoatException;
 import com.github.eostermueller.tjp.launcher.agent.runner.AbstractProcessRunner;
 
 /**
@@ -14,17 +15,17 @@ import com.github.eostermueller.tjp.launcher.agent.runner.AbstractProcessRunner;
  *
  */
 public class DoNothingProcessRunner extends AbstractProcessRunner implements StateMachine {
-	public DoNothingProcessRunner(ProcessKey key) throws TjpException {
+	public DoNothingProcessRunner(ProcessKey key) throws PerfGoatException {
 		super(key);
 	}
 
-	public DoNothingProcessRunner(ProcessKey key, State myState) throws TjpException {
+	public DoNothingProcessRunner(ProcessKey key, State myState) throws PerfGoatException {
 		super(key);
 		setState(myState);
 	}
 	
 	@Override
-	public void start() throws TjpException {
+	public void start() throws PerfGoatException {
 		
 		if (!getState().equals(State.STOPPED)) {
 			throw new TjpIllegalStateException( DefaultFactory.getFactory().getMessages().testMustBeStoppedBeforeAttemptingToStart( this.getProcessKey().getKey() ) );
@@ -33,7 +34,7 @@ public class DoNothingProcessRunner extends AbstractProcessRunner implements Sta
 		
 	}
 	@Override
-	public void stop() throws TjpException {
+	public void stop() throws PerfGoatException {
 		if (!getState().equals(State.STARTED)) {
 			String pk = "not-yet-created";
 			if (this.getProcessKey()!=null)

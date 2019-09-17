@@ -3,6 +3,8 @@ package com.github.eostermueller.tjp.launcher.agent;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.github.eostermueller.havoc.PerfGoatException;
+
 
 public abstract class AbstractStateMachine implements StateMachine {
 	List<StateChangeListener> listeners = new CopyOnWriteArrayList<StateChangeListener>();
@@ -33,12 +35,12 @@ public abstract class AbstractStateMachine implements StateMachine {
 
 	private State state;
 	
-	public void setState(State newState) throws TjpException {
+	public void setState(State newState) throws PerfGoatException {
 		this.state = newState;
 		this.fireStateChange(this.getProcessKey(), newState);
 	}
 	@Override
-	public 	void fireStateChange(ProcessKey key, State newState) throws TjpException {
+	public 	void fireStateChange(ProcessKey key, State newState) throws PerfGoatException {
 		for(StateChangeListener listener : this.getListeners() ) {
 			listener.stateHasChanged(key, newState);
 		}

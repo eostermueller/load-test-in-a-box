@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
+import com.github.eostermueller.havoc.PerfGoatException;
 import com.github.eostermueller.tjp.launcher.agent.AbstractStdoutStateChanger;
 import com.github.eostermueller.tjp.launcher.agent.DefaultFactory;
 import com.github.eostermueller.tjp.launcher.agent.InputStreamWatcher;
@@ -15,7 +16,6 @@ import com.github.eostermueller.tjp.launcher.agent.State;
 import com.github.eostermueller.tjp.launcher.agent.StateChangeListener;
 import com.github.eostermueller.tjp.launcher.agent.StateMachine;
 import com.github.eostermueller.tjp.launcher.agent.StdoutStateChanger;
-import com.github.eostermueller.tjp.launcher.agent.TjpException;
 import com.github.eostermueller.tjp.launcher.agent.TjpIllegalStateException;
 
 /**
@@ -55,7 +55,7 @@ public class StdoutProcessRunnerJdk9 extends AbstractProcessRunner implements St
 		
 		return sb.toString();
 	}
-	public StdoutProcessRunnerJdk9(ProcessKey processKey) throws TjpException {
+	public StdoutProcessRunnerJdk9(ProcessKey processKey) throws PerfGoatException {
 		super(processKey);
 		setState(State.STOPPED);
 
@@ -65,13 +65,13 @@ public class StdoutProcessRunnerJdk9 extends AbstractProcessRunner implements St
 			 * "Could not find or load main class"
 			 */
 			@Override
-			public void evaluateStdoutLine(String s) throws TjpException {
+			public void evaluateStdoutLine(String s) throws PerfGoatException {
 				if (s!=null) {
 					if (s.indexOf(StdoutProcessRunnerJdk9.this.getStartupCompleteMessage() ) >=0 ) {
 						this.fireStateChange(StdoutProcessRunnerJdk9.this.getProcessKey(), State.STARTED);
 					} else if (s.toLowerCase().indexOf("error" ) >=0 ) {
 						System.out.println("found exception: " + s);
-						TjpException te = new TjpException(s);
+						PerfGoatException te = new PerfGoatException(s);
 						DefaultFactory.getFactory().getEventHistory().addException("trying to launch [" + StdoutProcessRunnerJdk9.this.getDebugInfo() + "]", te);
 						
 						this.fireStateChange(StdoutProcessRunnerJdk9.this.getProcessKey(), State.ABEND);
@@ -95,7 +95,7 @@ public class StdoutProcessRunnerJdk9 extends AbstractProcessRunner implements St
 	}
 	
 	@Override
-	public void start() throws TjpException {
+	public void start() throws PerfGoatException {
 		
 		if (!getState().equals(State.STOPPED)) {
 			throw new TjpIllegalStateException( DefaultFactory.getFactory().getMessages().testMustBeStoppedBeforeAttemptingToStart(this.getProcessKey().getKey() ) );
@@ -175,7 +175,7 @@ public class StdoutProcessRunnerJdk9 extends AbstractProcessRunner implements St
 		this.processBuilder = processBuilder;
 	}
 	@Override
-	public void stop() throws TjpException {
+	public void stop() throws PerfGoatException {
 		if (!getState().equals(State.STARTED)) {
 			throw new TjpIllegalStateException( DefaultFactory.getFactory().getMessages().testMustBeStartedBeforeAttemptingToStop(this.getProcessKey().getKey(), getState(), State.STOPPED ) );
 		}

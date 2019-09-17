@@ -2,6 +2,8 @@ package com.github.eostermueller.tjp.launcher.agent;
 
 import java.util.List;
 
+import com.github.eostermueller.havoc.PerfGoatException;
+
 
 /**
  * Used to start/stop an entire suite, as well as starting/stopping a single process.
@@ -12,11 +14,11 @@ import java.util.List;
 public interface StateMachine {
 
 	ProcessKey getProcessKey();
-	void start() throws TjpException;
-	void stop() throws TjpException;
+	void start() throws PerfGoatException;
+	void stop() throws PerfGoatException;
 
 	State getState();
-	void setState(State state) throws TjpException;
+	void setState(State state) throws PerfGoatException;
 	
 	void setStdoutStateChanger(StdoutStateChanger stateChanger);	
 	StdoutStateChanger getStdoutStateChanger();
@@ -24,7 +26,7 @@ public interface StateMachine {
 	List<StateChangeListener> getListeners();
 	void setListeners(List<StateChangeListener> listeners);
 	void registerStateChangeListener(StateChangeListener scl);
-	void fireStateChange(ProcessKey key, State newState) throws TjpException;
+	void fireStateChange(ProcessKey key, State newState) throws PerfGoatException;
 
 	
 }

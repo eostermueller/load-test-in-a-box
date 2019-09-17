@@ -23,40 +23,30 @@ public class TestConfiguration extends DefaultConfiguration implements Configura
 	 
 	Path tjpHome = null;
 	Path javaHome = null;
-	public static final String unix_ABS_PATH_TO_TJP = "/Users/erikostermueller/Documents/src/jdist/tjpUnzipped/tjp";
 	public static final String unix_JAVA_HOME = "/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home";
 	
 	/**
 	 * WOW this needs to go away, hard coding paths from my machine.
 	 */
 	public TestConfiguration() {
-			this.setTjpHome(Paths.get(unix_ABS_PATH_TO_TJP) );
 			this.setJavaHome( Paths.get(unix_JAVA_HOME) );
 		
 	}
-	public TestConfiguration(Path tjpHome2, Path javaHome) {
-		this.setTjpHome(tjpHome2);
+	public TestConfiguration(Path pgHome, Path javaHome) {
+		this.setPerfGoatHome(pgHome);
 		this.setJavaHome(javaHome);
 	}
 
-	@Override
-	public Path getTjpHome() {
-		return this.tjpHome;
-	}
+
 
 	@Override
-	public Path getLittleMockHome() {
-		return this.getTjpHome().resolve( Paths.get("littleMock-master") );
-	}
-
-	@Override
-	public Path getJavaPerformanceTroubleshootingHome() {
-		return this.getTjpHome().resolve( Paths.get("javaPerformanceTroubleshooting-master") );
+	public Path getSutHome() {
+		return this.getPerfGoatHome().resolve( Paths.get("javaPerformanceTroubleshooting-master") );
 	}
 
 	@Override
 	public Path getMavenHome() {
-		return this.getTjpHome().resolve( Paths.get( "maven/apache-maven-3.5.4" ) );
+		return this.getPerfGoatHome().resolve( Paths.get( "maven/apache-maven-3.5.4" ) );
 	}
 
 	@Override
@@ -64,10 +54,6 @@ public class TestConfiguration extends DefaultConfiguration implements Configura
 		return this.javaHome;
 	}
 
-	@Override
-	public void setTjpHome(Path p) {
-		this.tjpHome = p;
-	}
 
 	@Override
 	public void setJavaHome(Path p) {

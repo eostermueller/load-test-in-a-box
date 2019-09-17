@@ -4,10 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.github.eostermueller.havoc.PerfGoatException;
+
 public class ProcessKeyTest {
 
 	@Test
-	public void canUnmarshalProcessKey() throws TjpException {
+	public void canUnmarshalProcessKey() throws PerfGoatException {
 		String suite = "MySystem";
 		
 		String processType = "LoadGenerator";
@@ -20,7 +22,7 @@ public class ProcessKeyTest {
 		
 	}
 	@Test
-	public void canCloneProcessKey() throws TjpException {
+	public void canCloneProcessKey() throws PerfGoatException {
 		String suite = "MySystem";
 		String processType = "LoadGenerator";
 		String myHostName = "foo.com";

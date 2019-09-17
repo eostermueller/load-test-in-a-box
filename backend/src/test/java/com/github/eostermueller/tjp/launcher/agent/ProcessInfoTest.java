@@ -5,12 +5,14 @@ import static org.junit.Assert.*;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.github.eostermueller.havoc.PerfGoatException;
+
 public class ProcessInfoTest {
 
 	private static final String DELIMITER = "!";
 
 	@Test
-	public void canParseProcessKey() throws TjpException {
+	public void canParseProcessKey() throws PerfGoatException {
 		String myHostName = "myhostname.com";
 		long processIdentifier = 2356;
 		String processType = "MyLittleTest";
