@@ -14,18 +14,20 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import com.github.eostermueller.havoc.PerfGoatException;
-import com.github.eostermueller.tjp.launcher.agent.CannotFindTjpFactoryClass;
-import com.github.eostermueller.tjp.launcher.agent.DefaultFactory;
+import com.github.eostermueller.tjp.launcher.CannotFindTjpFactoryClass;
+import com.github.eostermueller.tjp.launcher.DefaultFactory;
+import com.github.eostermueller.tjp.launcher.Event;
+import com.github.eostermueller.tjp.launcher.Level;
+import com.github.eostermueller.tjp.launcher.ProcessKey;
+import com.github.eostermueller.tjp.launcher.SequentialProcessSuite;
+import com.github.eostermueller.tjp.launcher.State;
+import com.github.eostermueller.tjp.launcher.StateChangeListener;
+import com.github.eostermueller.tjp.launcher.StateMachine;
+import com.github.eostermueller.tjp.launcher.StdoutProcessRunnerJdk9;
+import com.github.eostermueller.tjp.launcher.Suite;
 import com.github.eostermueller.tjp.launcher.agent.DoNothingProcessRunner;
-import com.github.eostermueller.tjp.launcher.agent.Level;
-import com.github.eostermueller.tjp.launcher.agent.ProcessKey;
-import com.github.eostermueller.tjp.launcher.agent.State;
-import com.github.eostermueller.tjp.launcher.agent.StateChangeListener;
-import com.github.eostermueller.tjp.launcher.agent.StateMachine;
 import com.github.eostermueller.tjp.launcher.agent.MockServerProcess;
 import com.github.eostermueller.tjp.launcher.agent.TestConfiguration;
-import com.github.eostermueller.tjp.launcher.agent.history.Event;
-import com.github.eostermueller.tjp.launcher.agent.runner.StdoutProcessRunnerJdk9;
 
 public class SimpleProcessSuiteTest {
 	 @Rule

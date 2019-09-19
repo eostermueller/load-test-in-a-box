@@ -1,4 +1,4 @@
-package com.github.eostermueller.tjp.launcher.agent;
+package com.github.eostermueller.tjp.launcher;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.github.eostermueller.tjp.launcher.agent.history.EventHistory;
 import com.google.common.flogger.FluentLogger;
 
 public class DefaultFactory implements Factory {

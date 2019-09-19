@@ -9,11 +9,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.eostermueller.tjp.launcher.agent.Configuration;
+import com.github.eostermueller.tjp.launcher.Configuration;
+import com.github.eostermueller.tjp.launcher.Suite;
 import com.github.eostermueller.tjp.launcher.agent.TestConfiguration;
 import com.github.eostermueller.tjp.launcher.agent.TestTheTestConfiguration;
 import com.github.eostermueller.tjp.launcher.agent.runner.MavenSpringBootRunner;
-import com.github.eostermueller.tjp.launcher.agent.suite.Suite;
 
 
 public class LittleMockTest {

@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.github.eostermueller.tjp.launcher.PathUtil;
+import com.github.eostermueller.havoc.PathUtil;
 
 public class PathUtilsTest {
 	

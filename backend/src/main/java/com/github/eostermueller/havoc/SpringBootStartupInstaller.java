@@ -3,8 +3,9 @@ package com.github.eostermueller.havoc;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
-import com.github.eostermueller.tjp.launcher.agent.DefaultFactory;
-import com.github.eostermueller.tjp.launcher.agent.Configuration;
+
+import com.github.eostermueller.tjp.launcher.Configuration;
+import com.github.eostermueller.tjp.launcher.DefaultFactory;
 
 /**
  * Placeholder class to handle progress meter for browser UI, because this could take a few minutes.

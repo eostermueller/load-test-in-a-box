@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import org.junit.Assert;
 
 import com.github.eostermueller.havoc.PerfGoatException;
+import com.github.eostermueller.tjp.launcher.DefaultFactory;
 
 
 public class MockServerProcess {

@@ -1,4 +1,4 @@
-package com.github.eostermueller.tjp.launcher.agent.history;
+package com.github.eostermueller.tjp.launcher;
 
 import java.util.LinkedList;
 

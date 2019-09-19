@@ -1,4 +1,4 @@
-package com.github.eostermueller.tjp.launcher.agent;
+package com.github.eostermueller.tjp.launcher;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

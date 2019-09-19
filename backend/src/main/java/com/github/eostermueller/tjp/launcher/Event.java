@@ -1,9 +1,7 @@
-package com.github.eostermueller.tjp.launcher.agent.history;
+package com.github.eostermueller.tjp.launcher;
 
 
 import com.github.eostermueller.havoc.PerfGoatException;
-import com.github.eostermueller.tjp.launcher.agent.CannotFindTjpFactoryClass;
-import com.github.eostermueller.tjp.launcher.agent.DefaultFactory;
 
 public class Event {
 	private static int maxExceptionsPerEvent;

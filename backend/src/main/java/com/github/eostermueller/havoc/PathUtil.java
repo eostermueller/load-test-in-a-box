@@ -1,4 +1,4 @@
-package com.github.eostermueller.tjp.launcher;
+package com.github.eostermueller.havoc;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -16,10 +16,9 @@ import java.util.zip.ZipInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.eostermueller.havoc.Application;
-import com.github.eostermueller.tjp.launcher.agent.CannotFindTjpFactoryClass;
-import com.github.eostermueller.tjp.launcher.agent.Configuration;
-import com.github.eostermueller.tjp.launcher.agent.DefaultFactory;
+import com.github.eostermueller.tjp.launcher.CannotFindTjpFactoryClass;
+import com.github.eostermueller.tjp.launcher.Configuration;
+import com.github.eostermueller.tjp.launcher.DefaultFactory;
 
 public class PathUtil {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());

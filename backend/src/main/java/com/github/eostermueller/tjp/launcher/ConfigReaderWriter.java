@@ -1,4 +1,4 @@
-package com.github.eostermueller.tjp.launcher.agent;
+package com.github.eostermueller.tjp.launcher;
 
 import com.github.eostermueller.havoc.PerfGoatException;
 

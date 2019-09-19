@@ -1,4 +1,4 @@
-package com.github.eostermueller.tjp.launcher.agent.runner;
+package com.github.eostermueller.tjp.launcher;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -8,15 +8,6 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 import com.github.eostermueller.havoc.PerfGoatException;
-import com.github.eostermueller.tjp.launcher.agent.AbstractStdoutStateChanger;
-import com.github.eostermueller.tjp.launcher.agent.DefaultFactory;
-import com.github.eostermueller.tjp.launcher.agent.InputStreamWatcher;
-import com.github.eostermueller.tjp.launcher.agent.ProcessKey;
-import com.github.eostermueller.tjp.launcher.agent.State;
-import com.github.eostermueller.tjp.launcher.agent.StateChangeListener;
-import com.github.eostermueller.tjp.launcher.agent.StateMachine;
-import com.github.eostermueller.tjp.launcher.agent.StdoutStateChanger;
-import com.github.eostermueller.tjp.launcher.agent.TjpIllegalStateException;
 
 /**
  * @author erikostermueller

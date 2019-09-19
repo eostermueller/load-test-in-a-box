@@ -1,4 +1,4 @@
-package com.github.eostermueller.tjp.launcher.agent;
+package com.github.eostermueller.tjp.launcher;
 
 public class Messages_en_US implements Messages {
 

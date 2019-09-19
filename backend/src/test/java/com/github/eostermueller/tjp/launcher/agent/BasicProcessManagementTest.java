@@ -15,7 +15,13 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import com.github.eostermueller.havoc.PerfGoatException;
-import com.github.eostermueller.tjp.launcher.agent.runner.StdoutProcessRunnerJdk9;
+import com.github.eostermueller.tjp.launcher.AbstractStdoutStateChanger;
+import com.github.eostermueller.tjp.launcher.Level;
+import com.github.eostermueller.tjp.launcher.ProcessKey;
+import com.github.eostermueller.tjp.launcher.State;
+import com.github.eostermueller.tjp.launcher.StateChangeListener;
+import com.github.eostermueller.tjp.launcher.StdoutProcessRunnerJdk9;
+import com.github.eostermueller.tjp.launcher.StdoutStateChanger;
 
 
 /**

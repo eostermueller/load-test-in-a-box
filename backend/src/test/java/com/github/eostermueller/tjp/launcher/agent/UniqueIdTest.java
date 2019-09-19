@@ -15,6 +15,10 @@ import java.util.concurrent.Future;
 
 import org.junit.Test;
 
+import com.github.eostermueller.tjp.launcher.CannotFindTjpFactoryClass;
+import com.github.eostermueller.tjp.launcher.DefaultFactory;
+import com.github.eostermueller.tjp.launcher.Factory;
+
 
 public class UniqueIdTest {
 
