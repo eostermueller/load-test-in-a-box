@@ -1,8 +1,6 @@
-package com.github.eostermueller.tjp.launcher.agent;
+package com.github.eostermueller.tjp.launcher;
 
 import java.io.File;
-
-import com.github.eostermueller.tjp.launcher.agent.history.EventHistory;
 
 public interface Factory {
 

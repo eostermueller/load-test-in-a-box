@@ -1,16 +1,7 @@
-package com.github.eostermueller.tjp.launcher.agent.suite;
+package com.github.eostermueller.tjp.launcher;
 
 
 import com.github.eostermueller.havoc.PerfGoatException;
-import com.github.eostermueller.tjp.launcher.agent.DefaultFactory;
-import com.github.eostermueller.tjp.launcher.agent.Level;
-import com.github.eostermueller.tjp.launcher.agent.Messages;
-import com.github.eostermueller.tjp.launcher.agent.ProcessKey;
-import com.github.eostermueller.tjp.launcher.agent.State;
-import com.github.eostermueller.tjp.launcher.agent.StateMachine;
-import com.github.eostermueller.tjp.launcher.agent.StateChangeListener;
-import com.github.eostermueller.tjp.launcher.agent.StdoutStateChanger;
-import com.github.eostermueller.tjp.launcher.agent.TjpIllegalStateException;
 
 public class SequentialProcessSuite extends AbstractSequentialProcessSuite implements Suite {
 	

@@ -1,16 +1,9 @@
-package com.github.eostermueller.tjp.launcher.agent.suite;
+package com.github.eostermueller.tjp.launcher;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.github.eostermueller.havoc.PerfGoatException;
-import com.github.eostermueller.tjp.launcher.agent.AbstractStateMachine;
-import com.github.eostermueller.tjp.launcher.agent.CannotFindTjpFactoryClass;
-import com.github.eostermueller.tjp.launcher.agent.DefaultFactory;
-import com.github.eostermueller.tjp.launcher.agent.Messages;
-import com.github.eostermueller.tjp.launcher.agent.ProcessKey;
-import com.github.eostermueller.tjp.launcher.agent.State;
-import com.github.eostermueller.tjp.launcher.agent.StateMachine;
 
 public abstract class AbstractSequentialProcessSuite extends AbstractStateMachine implements Suite {
 	List<StateMachine> runners = new CopyOnWriteArrayList<StateMachine>();

@@ -5,6 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.github.eostermueller.havoc.PerfGoatException;
+import com.github.eostermueller.tjp.launcher.CannotFindTjpFactoryClass;
+import com.github.eostermueller.tjp.launcher.Level;
+import com.github.eostermueller.tjp.launcher.ProcessKey;
 
 public class ProcessKeyTest {
 

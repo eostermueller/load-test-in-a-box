@@ -2,12 +2,12 @@ package com.github.eostermueller.tjp.launcher.agent.runner;
 
 import java.util.List;
 
-import com.github.eostermueller.tjp.launcher.agent.Messages;
-import com.github.eostermueller.tjp.launcher.agent.ProcessKey;
-import com.github.eostermueller.tjp.launcher.agent.State;
-import com.github.eostermueller.tjp.launcher.agent.StateChangeListener;
-import com.github.eostermueller.tjp.launcher.agent.StateMachine;
-import com.github.eostermueller.tjp.launcher.agent.StdoutStateChanger;
+import com.github.eostermueller.tjp.launcher.Messages;
+import com.github.eostermueller.tjp.launcher.ProcessKey;
+import com.github.eostermueller.tjp.launcher.State;
+import com.github.eostermueller.tjp.launcher.StateChangeListener;
+import com.github.eostermueller.tjp.launcher.StateMachine;
+import com.github.eostermueller.tjp.launcher.StdoutStateChanger;
 
 public class MavenSpringBootRunner implements StateMachine {
 

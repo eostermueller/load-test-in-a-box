@@ -8,6 +8,10 @@ import java.io.InputStream;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.github.eostermueller.tjp.launcher.AbstractStdoutStateChanger;
+import com.github.eostermueller.tjp.launcher.InputStreamWatcher;
+import com.github.eostermueller.tjp.launcher.StdoutStateChanger;
+
 public class InputStreamTest {
 
 	protected static final String MY_KEY = "myNameIsBetty";

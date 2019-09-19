@@ -1,9 +1,6 @@
-package com.github.eostermueller.tjp.launcher.agent.suite;
+package com.github.eostermueller.tjp.launcher;
 
 import java.util.List;
-
-import com.github.eostermueller.tjp.launcher.agent.ProcessKey;
-import com.github.eostermueller.tjp.launcher.agent.StateMachine;
 
 public interface Suite extends StateMachine {
 	void addRunnerInOrder(StateMachine r);

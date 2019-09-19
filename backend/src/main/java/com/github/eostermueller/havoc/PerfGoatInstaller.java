@@ -7,8 +7,7 @@ import java.nio.file.Paths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.eostermueller.tjp.launcher.PathUtil;
-import com.github.eostermueller.tjp.launcher.agent.Configuration;
+import com.github.eostermueller.tjp.launcher.Configuration;
 
 /**
  * The SpringBootStartupInstaller will handle progress meter
