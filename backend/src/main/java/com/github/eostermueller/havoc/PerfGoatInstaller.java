@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.eostermueller.tjp.launcher.Configuration;
+import com.github.eostermueller.havoc.launcher.Configuration;
 
 /**
  * The SpringBootStartupInstaller will handle progress meter
@@ -48,6 +48,7 @@ public class PerfGoatInstaller {
     	installSut(cfg);
     	installWiremock(cfg);
     	installH2DbData(cfg);
+    	installJMeterFiles(cfg);
     	
 	} catch (PerfGoatException e) {
 		// TODO Auto-generated catch block
@@ -56,13 +57,65 @@ public class PerfGoatInstaller {
 	}
 
   }
-  /**
+  protected void installJMeterFiles(Configuration cfg2) throws PerfGoatException {
+		PathUtil pathUtil = new PathUtil();
+		String path = pathUtil.getBaseClassspath();
+		String cleansedPath;
+		
+		
+		try {
+			Path targetJMeterFilesZipFile = Paths.get( cfg.getJMeterFilesHome().toString(), cfg.getJMeterFilesZipFileName() );
+			
+			if (cfg.getJMeterFilesHome().toFile().exists()) {
+				LOGGER.info("dir for jmeter files already exists.");
+			} else {
+				LOGGER.info("Creating dir for jmter .jmx plan files and the maven file to launch jmeter.");
+				cfg.getJMeterFilesHome().toFile().mkdirs();
+			}
+			
+			if (path.contains(PathUtil.JAR_SUFFIX)) {
+				
+				/**
+				 * jmeter files must be extracted from a zip.
+				 */
+				cleansedPath = pathUtil.cleanPath(path);
+				
+		    	if ( targetJMeterFilesZipFile.toFile().exists() ) {
+		    		LOGGER.info("jmeterFiles.zip exists. will not overwrite [" + targetJMeterFilesZipFile.toString() + "]");
+		    	} else {
+		    		LOGGER.info("About to unzip [" + targetJMeterFilesZipFile.toString() + "] from [" + cleansedPath + "] to [" + targetJMeterFilesZipFile.toString() + "]");
+		    		pathUtil.extractZipFromZip(cleansedPath, cfg.getJMeterFilesZipFileName(), targetJMeterFilesZipFile.toString() );
+		    	}
+		    	
+		    	String[] fileNames=cfg.getJMeterFilesHome().toFile().list();
+		    	
+	    		LOGGER.info("[" + fileNames.length  + "] file(s) exist(s) in [" + cfg.getJMeterFilesHome() + "]");
+	    		
+	    		if (fileNames.length<1) {
+	    			throw new PerfGoatException("Install failed.  Tried to uznip [" + cfg.getJMeterFilesZipFileName() + "] to [" + cfg.getJMeterFilesHome() + "] but [" + targetJMeterFilesZipFile.toString() + "] does not exist." );
+	    		} else if (fileNames.length==1 && fileNames[0].equals(cfg.getJMeterFilesZipFileName()) ) {
+	        		pathUtil.unzip(targetJMeterFilesZipFile.toFile(), cfg.getH2DataFileHome().toString() );
+	        		targetJMeterFilesZipFile.toFile().delete(); // don't need anymore because we just unzipped its contents.
+	    		} else {
+	        		LOGGER.info("Will not unzip [" + cfg.getJMeterFilesZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.perfGoat/jmeterFiles and restart havoc executable jar");
+	    		}
+		    	
+				
+			} else {
+				LOGGER.error("launch as 'java -jar <perfGoat.jar> to get maven to install");
+			}
+			
+		} catch (Exception e) {
+			throw new PerfGoatException(e);
+		}		
+	}
+/**
    * Unzip wiremock executable jar file to its own folder on the file system, but don't unzip it!
    * http://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.24.1/wiremock-standalone-2.24.1.jar
    * @param cfg
    * @throws Exception
    */
-	private void installWiremock(Configuration cfg) throws PerfGoatException {
+	protected void installWiremock(Configuration cfg) throws PerfGoatException {
 		PathUtil pathUtil = new PathUtil();
 		String path = pathUtil.getBaseClassspath();
 		String cleansedPath;
@@ -110,7 +163,7 @@ public class PerfGoatInstaller {
    * @param cfg
    * @throws Exception
    */
-	private void installMavenRepository(Configuration cfg) throws PerfGoatException {
+	protected void installMavenRepository(Configuration cfg) throws PerfGoatException {
 		  PathUtil pathUtil = new PathUtil();
 		String path = pathUtil.getBaseClassspath();
 		String cleansedPath;
@@ -144,7 +197,7 @@ public class PerfGoatInstaller {
 		}
 
 	}  
-	private void installH2DbData(Configuration cfg) throws PerfGoatException {
+	protected void installH2DbData(Configuration cfg) throws PerfGoatException {
 		PathUtil pathUtil = new PathUtil();
 		String path = pathUtil.getBaseClassspath();
 		String cleansedPath;
@@ -194,7 +247,7 @@ public class PerfGoatInstaller {
 		}
 	}  
   
-	private void installMaven(Configuration cfg) throws PerfGoatException {
+	protected void installMaven(Configuration cfg) throws PerfGoatException {
 		PathUtil pathUtil = new PathUtil();
 		String path = pathUtil.getBaseClassspath();
 		String cleansedPath;
@@ -225,7 +278,7 @@ public class PerfGoatInstaller {
 
 		
 	}  
-	private void installSut(Configuration cfg) throws PerfGoatException {
+	protected void installSut(Configuration cfg) throws PerfGoatException {
 		  PathUtil pathUtil = new PathUtil();
 		String path = pathUtil.getBaseClassspath();
 		String cleansedPath;

@@ -1,7 +1,7 @@
 package com.github.eostermueller.havoc;
 
-import com.github.eostermueller.tjp.launcher.Event;
-import com.github.eostermueller.tjp.launcher.EventHistory;
+import com.github.eostermueller.havoc.launcher.Event;
+import com.github.eostermueller.havoc.launcher.EventHistory;
 
 public class PerfGoatException extends Exception {
 
