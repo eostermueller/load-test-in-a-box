@@ -13,9 +13,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.github.eostermueller.tjp.launcher.ConfigReaderWriter;
-import com.github.eostermueller.tjp.launcher.Configuration;
-import com.github.eostermueller.tjp.launcher.DefaultFactory;
+import com.github.eostermueller.havoc.launcher.ConfigReaderWriter;
+import com.github.eostermueller.havoc.launcher.Configuration;
+import com.github.eostermueller.havoc.launcher.DefaultFactory;
 
 
 

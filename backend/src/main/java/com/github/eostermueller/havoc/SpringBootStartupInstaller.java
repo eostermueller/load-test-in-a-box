@@ -4,8 +4,8 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import com.github.eostermueller.tjp.launcher.Configuration;
-import com.github.eostermueller.tjp.launcher.DefaultFactory;
+import com.github.eostermueller.havoc.launcher.Configuration;
+import com.github.eostermueller.havoc.launcher.DefaultFactory;
 
 /**
  * Placeholder class to handle progress meter for browser UI, because this could take a few minutes.
@@ -23,7 +23,7 @@ public class SpringBootStartupInstaller implements ApplicationListener<Applicati
 		Configuration cfg;
 		try {
 			cfg = DefaultFactory.getFactory().getConfiguration();
-			PerfGoatInstaller perfGoatInstaller = new PerfGoatInstaller(cfg);
+			PerfGoatInstaller perfGoatInstaller = DefaultFactory.getFactory().createNewInstaller(cfg);
 			perfGoatInstaller.install();
 		} catch (PerfGoatException e) {
 			// TODO Auto-generated catch block

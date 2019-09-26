@@ -3,8 +3,8 @@ package com.github.eostermueller.tjp.launcher.agent;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.github.eostermueller.tjp.launcher.Configuration;
-import com.github.eostermueller.tjp.launcher.DefaultConfiguration;
+import com.github.eostermueller.havoc.launcher.Configuration;
+import com.github.eostermueller.havoc.launcher.DefaultConfiguration;
 
 /**
  *  Defines structure of some dependent folders, as detailed here:

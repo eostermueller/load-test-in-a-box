@@ -14,17 +14,17 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import com.github.eostermueller.havoc.PerfGoatException;
-import com.github.eostermueller.tjp.launcher.CannotFindTjpFactoryClass;
-import com.github.eostermueller.tjp.launcher.DefaultFactory;
-import com.github.eostermueller.tjp.launcher.Event;
-import com.github.eostermueller.tjp.launcher.Level;
-import com.github.eostermueller.tjp.launcher.ProcessKey;
-import com.github.eostermueller.tjp.launcher.SequentialProcessSuite;
-import com.github.eostermueller.tjp.launcher.State;
-import com.github.eostermueller.tjp.launcher.StateChangeListener;
-import com.github.eostermueller.tjp.launcher.StateMachine;
-import com.github.eostermueller.tjp.launcher.StdoutProcessRunnerJdk9;
-import com.github.eostermueller.tjp.launcher.Suite;
+import com.github.eostermueller.havoc.launcher.CannotFindTjpFactoryClass;
+import com.github.eostermueller.havoc.launcher.DefaultFactory;
+import com.github.eostermueller.havoc.launcher.Event;
+import com.github.eostermueller.havoc.launcher.Level;
+import com.github.eostermueller.havoc.launcher.ProcessKey;
+import com.github.eostermueller.havoc.launcher.SequentialProcessSuite;
+import com.github.eostermueller.havoc.launcher.State;
+import com.github.eostermueller.havoc.launcher.StateChangeListener;
+import com.github.eostermueller.havoc.launcher.StateMachine;
+import com.github.eostermueller.havoc.launcher.StdoutProcessRunnerJdk8;
+import com.github.eostermueller.havoc.launcher.Suite;
 import com.github.eostermueller.tjp.launcher.agent.DoNothingProcessRunner;
 import com.github.eostermueller.tjp.launcher.agent.MockServerProcess;
 import com.github.eostermueller.tjp.launcher.agent.TestConfiguration;
@@ -63,9 +63,9 @@ public class SimpleProcessSuiteTest {
 		ProcessKey keyTwo = ProcessKey.create("mySuite", Level.CHILD, "two", ProcessKey.getLocalHost().toString() );
 		ProcessKey keyThree = ProcessKey.create("mySuite", Level.CHILD, "three", ProcessKey.getLocalHost().toString() );
 
-		StdoutProcessRunnerJdk9 one = new StdoutProcessRunnerJdk9(keyOne);
-		StdoutProcessRunnerJdk9 two = new StdoutProcessRunnerJdk9(keyTwo);
-		StdoutProcessRunnerJdk9 three = new StdoutProcessRunnerJdk9(keyThree);
+		StdoutProcessRunnerJdk8 one = new StdoutProcessRunnerJdk8(keyOne);
+		StdoutProcessRunnerJdk8 two = new StdoutProcessRunnerJdk8(keyTwo);
+		StdoutProcessRunnerJdk8 three = new StdoutProcessRunnerJdk8(keyThree);
 		
 		TestConfiguration t = new TestConfiguration();
 		
@@ -132,13 +132,13 @@ public class SimpleProcessSuiteTest {
 		MockServerProcess testThree = new MockServerProcess(this.tmpFolder,t.getJavaHome(),keyThree.getTinyId());
 		testThree.compile();
 		
-		StdoutProcessRunnerJdk9 one = new StdoutProcessRunnerJdk9(keyOne);  
+		StdoutProcessRunnerJdk8 one = new StdoutProcessRunnerJdk8(keyOne);  
 		one.setStartupCompleteMessage(testOne.getStartupCompleteMessage());
 		
-		StdoutProcessRunnerJdk9 two = new StdoutProcessRunnerJdk9(keyTwo);
+		StdoutProcessRunnerJdk8 two = new StdoutProcessRunnerJdk8(keyTwo);
 		two.setStartupCompleteMessage(testTwo.getStartupCompleteMessage());
 		
-		StdoutProcessRunnerJdk9 three = new StdoutProcessRunnerJdk9(keyThree);
+		StdoutProcessRunnerJdk8 three = new StdoutProcessRunnerJdk8(keyThree);
 		three.setStartupCompleteMessage(testThree.getStartupCompleteMessage());
 		
 		one.setProcessBuilder(testOne.getProcessBuilder());
@@ -177,13 +177,13 @@ public class SimpleProcessSuiteTest {
 		MockServerProcess testThree = new MockServerProcess(this.tmpFolder,t.getJavaHome(),keyThree.getTinyId());
 		testThree.compile();
 		
-		StdoutProcessRunnerJdk9 one = new StdoutProcessRunnerJdk9(keyOne);  
+		StdoutProcessRunnerJdk8 one = new StdoutProcessRunnerJdk8(keyOne);  
 		one.setStartupCompleteMessage(testOne.getStartupCompleteMessage());
 		
-		StdoutProcessRunnerJdk9 two = new StdoutProcessRunnerJdk9(keyTwo);
+		StdoutProcessRunnerJdk8 two = new StdoutProcessRunnerJdk8(keyTwo);
 		two.setStartupCompleteMessage(testTwo.getStartupCompleteMessage());
 		
-		StdoutProcessRunnerJdk9 three = new StdoutProcessRunnerJdk9(keyThree);
+		StdoutProcessRunnerJdk8 three = new StdoutProcessRunnerJdk8(keyThree);
 		three.setStartupCompleteMessage(testThree.getStartupCompleteMessage());
 		
 		one.setProcessBuilder(testOne.getProcessBuilder());

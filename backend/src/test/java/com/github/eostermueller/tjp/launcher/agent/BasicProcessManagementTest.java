@@ -15,13 +15,14 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import com.github.eostermueller.havoc.PerfGoatException;
-import com.github.eostermueller.tjp.launcher.AbstractStdoutStateChanger;
-import com.github.eostermueller.tjp.launcher.Level;
-import com.github.eostermueller.tjp.launcher.ProcessKey;
-import com.github.eostermueller.tjp.launcher.State;
-import com.github.eostermueller.tjp.launcher.StateChangeListener;
-import com.github.eostermueller.tjp.launcher.StdoutProcessRunnerJdk9;
-import com.github.eostermueller.tjp.launcher.StdoutStateChanger;
+import com.github.eostermueller.havoc.launcher.AbstractStdoutStateChanger;
+import com.github.eostermueller.havoc.launcher.Level;
+import com.github.eostermueller.havoc.launcher.ProcessKey;
+import com.github.eostermueller.havoc.launcher.State;
+import com.github.eostermueller.havoc.launcher.StateChangeListener;
+import com.github.eostermueller.havoc.launcher.StdoutProcessRunner;
+import com.github.eostermueller.havoc.launcher.StdoutProcessRunnerJdk8;
+import com.github.eostermueller.havoc.launcher.StdoutStateChanger;
 
 
 /**
@@ -51,7 +52,7 @@ public class BasicProcessManagementTest {
 		testOne.setSleepMsBeforeStartup(0);
 		testOne.compile();
 		
-		StdoutProcessRunnerJdk9 p = new StdoutProcessRunnerJdk9(key);
+		StdoutProcessRunner p = new StdoutProcessRunnerJdk8(key);
 		p.setProcessBuilder( testOne.getProcessBuilder() );
 		
 		StateChangeListener sscl = new StateChangeListener() {

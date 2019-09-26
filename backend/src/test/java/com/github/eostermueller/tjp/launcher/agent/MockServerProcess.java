@@ -10,9 +10,15 @@ import java.nio.file.Paths;
 import org.junit.Assert;
 
 import com.github.eostermueller.havoc.PerfGoatException;
-import com.github.eostermueller.tjp.launcher.DefaultFactory;
+import com.github.eostermueller.havoc.launcher.DefaultFactory;
 
 
+/**
+ * Test process that creates a ProcessBuilder that invokes javac compiler.
+ * Used to validate/exercise this API, which launches/stops groups of dependent processes, manages stdout/err of those processes.
+ * @author erikostermueller
+ *
+ */
 public class MockServerProcess {
 	private File currentWorkingDir = null;
 	private long tinyId = -1;

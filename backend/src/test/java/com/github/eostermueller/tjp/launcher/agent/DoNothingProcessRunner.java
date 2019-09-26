@@ -4,13 +4,13 @@ package com.github.eostermueller.tjp.launcher.agent;
 import java.util.List;
 
 import com.github.eostermueller.havoc.PerfGoatException;
-import com.github.eostermueller.tjp.launcher.AbstractProcessRunner;
-import com.github.eostermueller.tjp.launcher.DefaultFactory;
-import com.github.eostermueller.tjp.launcher.ProcessKey;
-import com.github.eostermueller.tjp.launcher.State;
-import com.github.eostermueller.tjp.launcher.StateChangeListener;
-import com.github.eostermueller.tjp.launcher.StateMachine;
-import com.github.eostermueller.tjp.launcher.TjpIllegalStateException;
+import com.github.eostermueller.havoc.launcher.AbstractProcessRunner;
+import com.github.eostermueller.havoc.launcher.DefaultFactory;
+import com.github.eostermueller.havoc.launcher.ProcessKey;
+import com.github.eostermueller.havoc.launcher.State;
+import com.github.eostermueller.havoc.launcher.StateChangeListener;
+import com.github.eostermueller.havoc.launcher.StateMachine;
+import com.github.eostermueller.havoc.launcher.TjpIllegalStateException;
 
 /**
  * Consider using this approach for remote logging.
