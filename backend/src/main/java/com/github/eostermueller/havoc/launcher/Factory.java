@@ -2,9 +2,8 @@ package com.github.eostermueller.havoc.launcher;
 
 import java.io.File;
 
-import com.github.eostermueller.havoc.CommandLine;
 import com.github.eostermueller.havoc.PerfGoatInstaller;
-import com.github.eostermueller.havoc.ProcessModelBuilder;
+import com.github.eostermueller.havoc.processmodel.ProcessModelBuilder;
 
 public interface Factory {
 

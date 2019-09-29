@@ -3,8 +3,7 @@ package com.github.eostermueller.havoc.launcher;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.eostermueller.havoc.CommandLine;
-import com.github.eostermueller.havoc.VariableTokenizer;
+import com.github.eostermueller.havoc.PerfGoatException;
 
 public class DefaultCommandLine implements CommandLine {
 
@@ -49,10 +48,11 @@ public class DefaultCommandLine implements CommandLine {
 	 * 
 	 * 
 	 * </pre>
+	 * @throws PerfGoatException 
 	 * 
 	 *  
 	 */
-	public String[] getProcessedCommandLine() throws ConfigVariableNotFoundException {
+	public String[] getProcessedCommandLine() throws ConfigVariableNotFoundException, PerfGoatException {
 		List<String> rc = new ArrayList<String>(); 
 		List<String> parts = this.getVariableTokenizer().split();
 		

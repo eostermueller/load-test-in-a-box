@@ -7,8 +7,9 @@ import java.util.List;
 import org.assertj.core.util.Arrays;
 import org.junit.Test;
 
-import com.github.eostermueller.havoc.CommandLine;
+import com.github.eostermueller.havoc.PerfGoatException;
 import com.github.eostermueller.havoc.launcher.CannotFindTjpFactoryClass;
+import com.github.eostermueller.havoc.launcher.CommandLine;
 import com.github.eostermueller.havoc.launcher.ConfigLookup;
 import com.github.eostermueller.havoc.launcher.ConfigVariableNotFoundException;
 import com.github.eostermueller.havoc.launcher.Configuration;
@@ -29,7 +30,7 @@ import com.github.eostermueller.havoc.launcher.DefaultFactory;
 public class CommandLineTester {
 
 	@Test
-	public void canDoNoHarmToCmdLineWithoutVariables() throws CannotFindTjpFactoryClass, ConfigVariableNotFoundException {
+	public void canDoNoHarmToCmdLineWithoutVariables() throws ConfigVariableNotFoundException, PerfGoatException {
 		String str = "java -classpath . MyClass";
 		CommandLine cmdLine = DefaultFactory.getFactory().createNewCommandLine(str);
 		cmdLine.setCommandLine(str);
@@ -39,7 +40,7 @@ public class CommandLineTester {
 		assertArrayEquals(expected,cmdLine.getProcessedCommandLine()   );
 	}
 	@Test
-	public void canFindAndResolveVariable() throws CannotFindTjpFactoryClass, ConfigVariableNotFoundException {
+	public void canFindAndResolveVariable() throws ConfigVariableNotFoundException, PerfGoatException {
 		ConfigLookup lkup = new DefaultConfigLookup() {
 			
 			public String getValue(String variableName) {
@@ -65,7 +66,7 @@ public class CommandLineTester {
 
 	}
 	@Test
-	public void canFindAndResolveVariableWithSpaces() throws CannotFindTjpFactoryClass, ConfigVariableNotFoundException {
+	public void canFindAndResolveVariableWithSpaces() throws ConfigVariableNotFoundException, PerfGoatException {
 		ConfigLookup lkup = new DefaultConfigLookup() {
 			
 			public String getValue(String variableName) {

@@ -49,6 +49,10 @@ public class DefaultConfiguration implements Configuration {
 	private Path h2DataFileHome;
 	private Path jmeterFilesHomePath;
 	private String jmeterFilesZipFileName;
+	private String jmeterLaunchCmd;
+	private String dbLaunchCmd;
+	private String sutLaunchCmd;
+	private String wiremockLaunchCmd;
 	@Override
 	public Path getH2DataFileHome() {
 		return h2DataFileHome;
@@ -90,6 +94,11 @@ public class DefaultConfiguration implements Configuration {
 			
 			this.setJMeterFilesZipFileName("jmeterFiles.zip");
 			this.setJMeterFilesHome(Paths.get( this.getPerfGoatHome().toString() , "jmeterFiles") );
+			
+			this.setJMeterLaunchCmd("#{mavenHome}/bin/mvn -f #{jmeterFilesHome}/pom-load.xml -Djmeter.test=#{jmeterFilesHome}/traffic.jmx");
+			this.setSutLaunchCmd("#{mavenHome}/bin/mvn spring-boot:run");
+			this.setWiremockLaunchCmd("#{javaHome}/bin/java -jar #{wiremockZipFileName}");
+			this.setDbLaunchCmd("#{mavenHome}/bin/mvn -Dh2.baseDirectory=#{h2DataFileHome} com.edugility:h2-maven-plugin:1.0:launch");
 	}
 	
 	public DefaultConfiguration(Path pgHome, Path javaHome) {
@@ -201,6 +210,46 @@ public class DefaultConfiguration implements Configuration {
 	public void setJMeterFilesZipFileName(String val) {
 		this.jmeterFilesZipFileName = val;
 	}
-	
 
+	@Override
+	public String getJMeterLaunchCmd() {
+		return this.jmeterLaunchCmd;
+	}
+
+	@Override
+	public void setJMeterLaunchCmd(String val) {
+		this.jmeterLaunchCmd = val;
+	}
+
+	@Override
+	public String getDbLaunchCmd() {
+		return this.dbLaunchCmd;
+	}
+
+	@Override
+	public void setDbLaunchCmd(String val) {
+		this.dbLaunchCmd = val;
+		
+	}
+
+	@Override
+	public String getSutLaunchCmd() {
+		return this.sutLaunchCmd;
+	}
+
+	@Override
+	public void setSutLaunchCmd(String val) {
+		this.sutLaunchCmd = val;
+		
+	}
+
+	@Override
+	public String getWiremockLaunchCmd() {
+		return this.wiremockLaunchCmd;
+	}
+
+	@Override
+	public void setWiremockLaunchCmd(String val) {
+		this.wiremockLaunchCmd = val;
+	}
 }

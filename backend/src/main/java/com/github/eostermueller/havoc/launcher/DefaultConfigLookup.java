@@ -6,8 +6,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.eostermueller.havoc.PerfGoatException;
 
 /**
+ * Given a string variable name from configuration, return return the corresponding getter value from the Configuration class.
  * @st0lenFr0m: https://www.baeldung.com/jackson-json-node-tree-model
  */
 public class DefaultConfigLookup implements ConfigLookup {
@@ -26,7 +28,7 @@ public class DefaultConfigLookup implements ConfigLookup {
 	}
 
 	@Override
-	public String getValue(String variableName) throws ConfigVariableNotFoundException {
+	public String getValue(String variableName) throws ConfigVariableNotFoundException, PerfGoatException {
 		JsonNode myNode = rootNode.get(variableName);
 		String rc = null;
 		if (myNode==null) {
@@ -44,6 +46,7 @@ public class DefaultConfigLookup implements ConfigLookup {
 		
 		if (rc.endsWith("/"))
 			rc = rc.substring(0, rc.length()-1);
+		
 		return rc.trim();
 	}
 

@@ -6,10 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.github.eostermueller.havoc.CommandLine;
-import com.github.eostermueller.havoc.DefaultProcessModelBuilder;
 import com.github.eostermueller.havoc.PerfGoatInstaller;
-import com.github.eostermueller.havoc.ProcessModelBuilder;
+import com.github.eostermueller.havoc.processmodel.DefaultProcessModelBuilder;
+import com.github.eostermueller.havoc.processmodel.ProcessModelBuilder;
 import com.google.common.flogger.FluentLogger;
 
 public class DefaultFactory implements Factory {
