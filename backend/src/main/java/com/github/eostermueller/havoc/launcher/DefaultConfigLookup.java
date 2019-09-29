@@ -40,6 +40,10 @@ public class DefaultConfigLookup implements ConfigLookup {
 		
 		if (rc.startsWith(FILE_PROTOCOL))
 			rc = rc.substring(FILE_PROTOCOL.length());
+		
+		
+		if (rc.endsWith("/"))
+			rc = rc.substring(0, rc.length()-1);
 		return rc.trim();
 	}
 
