@@ -20,6 +20,7 @@ public class DefaultProcessModelBuilder implements ProcessModelBuilder {
 	private static final String ORCHESTRATOR = "Orchestrator";
 	private static final String PROC_TYPE_JMETER = "load-generator";
 	private static final String PROC_TYPE_SUT = "SystemUnderTest";
+	private static final String PROC_TYPE_WIREMOCK = "Wiremock";
 	private Path javaHome;
 	public Path getJavaHome() {
 		return javaHome;
@@ -81,8 +82,33 @@ public class DefaultProcessModelBuilder implements ProcessModelBuilder {
 	protected StdoutProcessRunner getDbProcess() {
 		return null;
 	}
-	protected StdoutProcessRunner getWiremockProcess() {
-		return null;
+	/**
+	 * Unfortunately, this remote shutdown doesn't work with my maven-wiremock startup.
+	 * Perhaps open a bug report?
+	 * https://github.com/tomakehurst/wiremock/pull/79
+	 * @return
+	 * @throws PerfGoatException 
+	 * @throws ConfigVariableNotFoundException 
+	 */
+	protected StdoutProcessRunner getWiremockProcess() throws ConfigVariableNotFoundException, PerfGoatException {
+		CommandLine cmdLine = DefaultFactory.getFactory().createNewCommandLine(
+				this.getConfiguration().getWiremockLaunchCmd()
+				);
+		
+		ProcessBuilder pb = new ProcessBuilder( cmdLine.getProcessedCommandLine() );
+		pb.directory( this.getConfiguration().getWiremockFilesHome().toFile() );
+		
+		ProcessKey keySut = ProcessKey.create(
+				SUT_UNDER_LOAD, 
+				Level.CHILD, 
+				PROC_TYPE_WIREMOCK, 
+				ProcessKey.getLocalHost().toString()
+				);
+		
+		StdoutProcessRunner sut = new StdoutProcessRunnerJdk8(keySut);
+		return sut;
+		
+		
 	}
 	protected StdoutProcessRunner getSut() throws ConfigVariableNotFoundException, PerfGoatException {
 		CommandLine cmdLine = DefaultFactory.getFactory().createNewCommandLine(
@@ -99,8 +125,8 @@ public class DefaultProcessModelBuilder implements ProcessModelBuilder {
 				ProcessKey.getLocalHost().toString()
 				);
 		
-		StdoutProcessRunner sut = new StdoutProcessRunnerJdk8(keySut);
+		StdoutProcessRunner wiremock = new StdoutProcessRunnerJdk8(keySut);
 		
-		return sut;
+		return wiremock;
 	}
 }

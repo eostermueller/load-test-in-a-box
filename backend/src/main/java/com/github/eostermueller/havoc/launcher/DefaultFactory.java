@@ -82,7 +82,7 @@ public class DefaultFactory implements Factory {
 		return languageTag.replace('-', '_');
 	}
 	private Messages createMessages() {
-		String packageAndClassName = "com.github.eostermueller.tjp.launcher.agent.Messages_" + getMangledLanguageTag();
+		String packageAndClassName = "com.github.eostermueller.havoc.launcher.Messages_" + getMangledLanguageTag();
 		
 		Messages messages;
 		try {
