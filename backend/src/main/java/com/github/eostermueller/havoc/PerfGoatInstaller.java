@@ -94,7 +94,7 @@ public class PerfGoatInstaller {
 	    		if (fileNames.length<1) {
 	    			throw new PerfGoatException("Install failed.  Tried to uznip [" + cfg.getJMeterFilesZipFileName() + "] to [" + cfg.getJMeterFilesHome() + "] but [" + targetJMeterFilesZipFile.toString() + "] does not exist." );
 	    		} else if (fileNames.length==1 && fileNames[0].equals(cfg.getJMeterFilesZipFileName()) ) {
-	        		pathUtil.unzip(targetJMeterFilesZipFile.toFile(), cfg.getH2DataFileHome().toString() );
+	        		pathUtil.unzip(targetJMeterFilesZipFile.toFile(), cfg.getJMeterFilesHome().toString() );
 	        		targetJMeterFilesZipFile.toFile().delete(); // don't need anymore because we just unzipped its contents.
 	    		} else {
 	        		LOGGER.info("Will not unzip [" + cfg.getJMeterFilesZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.perfGoat/jmeterFiles and restart havoc executable jar");
@@ -120,38 +120,52 @@ public class PerfGoatInstaller {
 		String path = pathUtil.getBaseClassspath();
 		String cleansedPath;
 		
+		
 		try {
-			File wiremockFolder = cfg.getWiremockHome().toFile();
-			if (wiremockFolder.exists()) {
-				LOGGER.info("dir for wiremock excutable jar exists.");
+			Path targetWiremockFilesZipFile = Paths.get( cfg.getWiremockFilesHome().toString(), cfg.getWiremockFilesZipFileName() );
+			
+			if (cfg.getWiremockFilesHome().toFile().exists()) {
+				LOGGER.info("dir for wiremock files already exists.");
 			} else {
-				LOGGER.info("Creating dir for wiremock excutable jar");
-				wiremockFolder.mkdirs();
+				LOGGER.info("Creating dir for jmter .jmx plan files and the maven file to launch wiremock.");
+				cfg.getWiremockFilesHome().toFile().mkdirs();
 			}
 			
-			Path targetWiremockZipFile = Paths.get( wiremockFolder.getAbsolutePath(), cfg.getWiremockZipFileName() );
-			if (targetWiremockZipFile.toFile().exists()) {
-				LOGGER.info("wiremock excutable jar exists. will not overwrite.");
+			if (path.contains(PathUtil.JAR_SUFFIX)) {
+				
+				/**
+				 * wiremock files must be extracted from a zip.
+				 */
+				cleansedPath = pathUtil.cleanPath(path);
+				
+		    	if ( targetWiremockFilesZipFile.toFile().exists() ) {
+		    		LOGGER.info("wiremockFiles.zip exists. will not overwrite [" + targetWiremockFilesZipFile.toString() + "]");
+		    	} else {
+		    		LOGGER.info("About to unzip [" + targetWiremockFilesZipFile.toString() + "] from [" + cleansedPath + "] to [" + targetWiremockFilesZipFile.toString() + "]");
+		    		pathUtil.extractZipFromZip(cleansedPath, cfg.getWiremockFilesZipFileName(), targetWiremockFilesZipFile.toString() );
+		    	}
+		    	
+		    	String[] fileNames=cfg.getWiremockFilesHome().toFile().list();
+		    	
+	    		LOGGER.info("[" + fileNames.length  + "] file(s) exist(s) in [" + cfg.getWiremockFilesHome() + "]");
+	    		
+	    		if (fileNames.length<1) {
+	    			throw new PerfGoatException("Install failed.  Tried to unzip [" + cfg.getWiremockFilesZipFileName() + "] to [" + cfg.getWiremockFilesHome() + "] but [" + targetWiremockFilesZipFile.toString() + "] does not exist." );
+	    		} else if (fileNames.length==1 && fileNames[0].equals(cfg.getWiremockFilesZipFileName()) ) {
+	        		pathUtil.unzip(targetWiremockFilesZipFile.toFile(), cfg.getWiremockFilesHome().toString() );
+	        		targetWiremockFilesZipFile.toFile().delete(); // don't need anymore because we just unzipped its contents.
+	    		} else {
+	        		LOGGER.info("Will not unzip [" + cfg.getWiremockFilesZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.perfGoat/wiremockFiles and restart havoc executable jar");
+	    		}
+		    	
 				
 			} else {
-				if (path.contains(PathUtil.JAR_SUFFIX)) {
-					/**
-					 * wiremock zip needs to be extracted from executable jar file to its own folder
-					 */
-					cleansedPath = pathUtil.cleanPath(path);
-		    		LOGGER.info("About to unzip [" + cfg.getWiremockZipFileName() + "] from [" + cleansedPath + "] to [" + targetWiremockZipFile + "]");
-		    		pathUtil.extractZipFromZip(cleansedPath, cfg.getMavenZipFileName(), targetWiremockZipFile.toString() );
-		    		
-		    		LOGGER.info("does [" + targetWiremockZipFile.toFile().getAbsolutePath().toString() + "] exist? [" + targetWiremockZipFile.toFile().exists() + "]" );
-					
-				} else {
-					LOGGER.error("launch as 'java -jar <perfGoat.jar> to get wiremock to install");
-				}
+				LOGGER.error("launch as 'java -jar <perfGoat.jar> to get maven to install");
 			}
+			
 		} catch (Exception e) {
 			throw new PerfGoatException(e);
-		}
-
+		}		
 	}
   /**
    * When the SUT launches from maven, use the following parameter to specify the 

@@ -36,14 +36,14 @@ public interface Configuration {
 	void setMavenZipFileNameWithoutExtension(String val);
 	Path getMavenRepositoryHome();
 	void setMavenRepositoryHome(Path val);
-	public String getWiremockZipFileName();
-	void setWiremockZipFileName(String val);
+	public String getWiremockFilesZipFileName();
+	void setWiremockFilesZipFileName(String val);
 	void setH2DataFileName(String h2DataFileName);
 	String getH2DataFileName();
 	void setH2DataFileHome(Path h2DataFileHome);
 	Path getH2DataFileHome();
-	void setWiremockHome(Path wiremockHome);
-	Path getWiremockHome();
+	void setWiremockFilesHome(Path wiremockHome);
+	Path getWiremockFilesHome();
 	void setJMeterFilesHome(Path val);
 	Path getJMeterFilesHome();
 	String getJMeterFilesZipFileName();

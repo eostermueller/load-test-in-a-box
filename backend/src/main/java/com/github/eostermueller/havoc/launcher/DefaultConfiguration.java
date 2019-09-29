@@ -36,12 +36,12 @@ public class DefaultConfiguration implements Configuration {
 	
 
 	@Override
-	public Path getWiremockHome() {
+	public Path getWiremockFilesHome() {
 		return wiremockHome;
 	}
 
 	@Override
-	public void setWiremockHome(Path wiremockHome) {
+	public void setWiremockFilesHome(Path wiremockHome) {
 		this.wiremockHome = wiremockHome;
 	}
 
@@ -86,8 +86,8 @@ public class DefaultConfiguration implements Configuration {
 			this.setMavenHome(			Paths.get( this.getPerfGoatHome().toString() , this.getMavenZipFileNameWithoutExtension() )		);
 			this.setMavenRepositoryHome(Paths.get( this.getPerfGoatHome().toString() , "repository" )		);
 			this.setSutHome(			Paths.get( this.getPerfGoatHome().toString() , "tjp2") );
-			this.setWiremockHome(		Paths.get( this.getPerfGoatHome().toString() , "wiremock") );
-			this.setWiremockZipFileName ("wiremock-2.24.1.jar");
+			this.setWiremockFilesHome(		Paths.get( this.getPerfGoatHome().toString() , "wiremock") );
+			this.setWiremockFilesZipFileName ("wiremockFiles.zip");
 
 			this.setH2DataFileHome(		Paths.get( this.getPerfGoatHome().toString() , "data") );
 			this.setH2DataFileName		("perfSandboxDb.mv.db");
@@ -97,7 +97,7 @@ public class DefaultConfiguration implements Configuration {
 			
 			this.setJMeterLaunchCmd("#{mavenHome}/bin/mvn -f #{jmeterFilesHome}/pom-load.xml -Djmeter.test=#{jmeterFilesHome}/traffic.jmx");
 			this.setSutLaunchCmd("#{mavenHome}/bin/mvn spring-boot:run");
-			this.setWiremockLaunchCmd("#{javaHome}/bin/java -jar #{wiremockZipFileName}");
+			this.setWiremockLaunchCmd("#{mavenHome}/bin/mvn clean compile wiremock:run");
 			this.setDbLaunchCmd("#{mavenHome}/bin/mvn -Dh2.baseDirectory=#{h2DataFileHome} com.edugility:h2-maven-plugin:1.0:launch");
 	}
 	
@@ -186,11 +186,11 @@ public class DefaultConfiguration implements Configuration {
 	}
 
 	@Override
-	public String getWiremockZipFileName() {
+	public String getWiremockFilesZipFileName() {
 		return this.wiremockZipFileName;
 	}
 	@Override
-	public void setWiremockZipFileName(String val) {
+	public void setWiremockFilesZipFileName(String val) {
 		this.wiremockZipFileName = val;
 	}
 	@Override
