@@ -48,4 +48,14 @@ public interface Configuration {
 	Path getJMeterFilesHome();
 	String getJMeterFilesZipFileName();
 	void setJMeterFilesZipFileName(String val);
+	
+	String getJMeterLaunchCmd();
+	void setJMeterLaunchCmd(String val);
+	String getDbLaunchCmd();
+	void setDbLaunchCmd(String val);
+	String getSutLaunchCmd();
+	void setSutLaunchCmd(String val);
+	String getWiremockLaunchCmd();
+	void setWiremockLaunchCmd(String val);
+	
 }

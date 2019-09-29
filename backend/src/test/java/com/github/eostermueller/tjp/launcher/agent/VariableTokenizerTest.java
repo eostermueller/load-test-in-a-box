@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.github.eostermueller.havoc.VariableTokenizer;
+import com.github.eostermueller.havoc.launcher.VariableTokenizer;
 
 /**
  * @author erikostermueller

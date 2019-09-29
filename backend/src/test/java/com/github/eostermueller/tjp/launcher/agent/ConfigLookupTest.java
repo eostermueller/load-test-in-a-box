@@ -12,7 +12,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.github.eostermueller.havoc.launcher.CannotFindTjpFactoryClass;
+import com.github.eostermueller.havoc.PerfGoatException;
 import com.github.eostermueller.havoc.launcher.ConfigLookup;
 import com.github.eostermueller.havoc.launcher.ConfigVariableNotFoundException;
 import com.github.eostermueller.havoc.launcher.DefaultFactory;
@@ -34,7 +34,7 @@ public class ConfigLookupTest {
 
 	}
 	@Test
-	public void canResolveIntVariable() throws CannotFindTjpFactoryClass, ConfigVariableNotFoundException {
+	public void canResolveIntVariable() throws ConfigVariableNotFoundException, PerfGoatException {
 		
 		ConfigLookup configLookup = DefaultFactory.getFactory().createConfigLookup();
 		configLookup.setConfiguration(cfg);
@@ -47,7 +47,7 @@ public class ConfigLookupTest {
 		assertEquals(strActualMax, resolvedText);
 	}
 	@Test
-	public void canResolveStringVariable() throws CannotFindTjpFactoryClass, ConfigVariableNotFoundException {
+	public void canResolveStringVariable() throws ConfigVariableNotFoundException, PerfGoatException {
 		
 		ConfigLookup configLookup = DefaultFactory.getFactory().createConfigLookup();
 		configLookup.setConfiguration(cfg);
@@ -58,7 +58,7 @@ public class ConfigLookupTest {
 		assertEquals(expectedZipFileName, actualZipFileName);
 	}
 	@Test
-	public void canResolvePathVariable() throws CannotFindTjpFactoryClass, ConfigVariableNotFoundException {
+	public void canResolvePathVariable() throws ConfigVariableNotFoundException, PerfGoatException {
 		ConfigLookup configLookup = DefaultFactory.getFactory().createConfigLookup();
 		configLookup.setConfiguration(cfg);
 		

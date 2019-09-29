@@ -1,4 +1,4 @@
-package com.github.eostermueller.havoc;
+package com.github.eostermueller.havoc.processmodel;
 
 import com.github.eostermueller.havoc.launcher.CannotFindTjpFactoryClass;
 import com.github.eostermueller.havoc.launcher.Suite;

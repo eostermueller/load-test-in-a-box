@@ -1,4 +1,4 @@
-package com.github.eostermueller.havoc;
+package com.github.eostermueller.havoc.launcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
  *
  */
 public class VariableTokenizer {
+	private static final String VAR_SUFFIX = "}";
 	public static final String VAR_MARKER = "#"; //   #{myVariable}
 	public static final String VAR_PREFIX = VAR_MARKER+"{"; //   #{myVariable}
 	
@@ -43,11 +44,10 @@ public class VariableTokenizer {
 		boolean rc = false;
 		if (
 				   val != null
-				&& val.startsWith(VAR_MARKER+"{")
-				&& val.endsWith("}") ) {
+				&& val.startsWith(VAR_PREFIX)
+				&& val.endsWith(VAR_SUFFIX) ) {
 			rc = true;
 		}
-				
 		return rc;
 	}
 	
@@ -90,9 +90,9 @@ public class VariableTokenizer {
 			if (
 				   (wordOrDelimeter[i+0].equals(VAR_MARKER) ) 
 				&& (wordOrDelimeter[i+1].equals("{") )
-				&& (wordOrDelimeter[i+3].equals("}") ) 
+				&& (wordOrDelimeter[i+3].equals(VAR_SUFFIX) ) 
 				) {
-				rc.add(VAR_MARKER + "{" + wordOrDelimeter[i+2] + "}" );
+				rc.add(VAR_MARKER + "{" + wordOrDelimeter[i+2] + VAR_SUFFIX );
 				
 				if (!validJavaName(wordOrDelimeter[i+2])) {
 					addWarning("The text [" + wordOrDelimeter[i+2] + "] looks like a variable ( #{myVar} ) but violate java's method name rules.");

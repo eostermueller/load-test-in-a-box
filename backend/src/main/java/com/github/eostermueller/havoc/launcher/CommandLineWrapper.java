@@ -1,7 +1,6 @@
 package com.github.eostermueller.havoc.launcher;
 
-import com.github.eostermueller.havoc.CommandLine;
-import com.github.eostermueller.havoc.VariableTokenizer;
+import com.github.eostermueller.havoc.PerfGoatException;
 
 /**
  * Currently Broken, but kept around for ideas to support nested references.
@@ -27,7 +26,7 @@ public class CommandLineWrapper implements CommandLine {
 	}
 
 	@Override
-	public String[] getProcessedCommandLine() throws ConfigVariableNotFoundException {
+	public String[] getProcessedCommandLine() throws ConfigVariableNotFoundException, PerfGoatException {
 		
 		String currentCmdLine = this.cmdLine;
 		for(int i = 0; i < DEREFERENCE_ITERATIONS; i++) {
