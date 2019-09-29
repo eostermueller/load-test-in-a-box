@@ -65,7 +65,7 @@ public class ConfigLookupTest {
 		String actualJavaHome = configLookup.getValue("javaHome");
 		
 		assertEquals(
-				this.expectedJavaHome + "/", 
+				this.expectedJavaHome, 
 				actualJavaHome);
 	}
 

@@ -40,8 +40,6 @@ public class TestConfiguration extends DefaultConfiguration implements Configura
 		this.setJavaHome(javaHome);
 	}
 
-
-
 	@Override
 	public Path getSutHome() {
 		return this.getPerfGoatHome().resolve( Paths.get("javaPerformanceTroubleshooting-master") );

@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.github.eostermueller.havoc.CommandLine;
 import com.github.eostermueller.havoc.DefaultProcessModelBuilder;
 import com.github.eostermueller.havoc.PerfGoatInstaller;
 import com.github.eostermueller.havoc.ProcessModelBuilder;
@@ -173,6 +174,11 @@ public class DefaultFactory implements Factory {
 	@Override
 	public ConfigLookup createConfigLookup() {
 		return new DefaultConfigLookup();
+	}
+	@Override
+	public CommandLine createNewCommandLine(String val) {
+		return new DefaultCommandLine(val);
+//broken		return new CommandLineWrapper(val);
 	}
 	
 	

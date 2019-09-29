@@ -2,6 +2,7 @@ package com.github.eostermueller.havoc.launcher;
 
 import java.io.File;
 
+import com.github.eostermueller.havoc.CommandLine;
 import com.github.eostermueller.havoc.PerfGoatInstaller;
 import com.github.eostermueller.havoc.ProcessModelBuilder;
 
@@ -34,6 +35,8 @@ public interface Factory {
 	PerfGoatInstaller createNewInstaller(Configuration cfg);
 
 	ConfigLookup createConfigLookup();
+
+	CommandLine createNewCommandLine(String val);
 	
 
 }
