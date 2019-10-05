@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.github.eostermueller.perfGoat</groupId>
+  <artifactId>loadTest</artifactId>
+  <version>0.0.1</version>
+  <properties>
+
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+	<maven.failsafe.version>2.22.2</maven.failsafe.version>
+
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <version>${maven.failsafe.version}</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>integration-test</goal>
+                        <goal>verify</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+<!--
+     <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.0</version>
+        <executions>
+          <execution>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+            <configuration>
+              <junitArtifactName>org.junit:com.springsource.org.junit</junitArtifactName>
+
+              <excludes>
+                <exclude>none</exclude>
+              </excludes>
+              <includes>
+                <include>
+                com/github/eostermueller/perfgoat/BlockOnSentinelFile.java</include>
+              </includes>
+
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+-->
+      <plugin>
+        <groupId>com.bazaarvoice.maven.plugins</groupId>
+        <artifactId>process-exec-maven-plugin</artifactId>
+        <!-- <version>0.9</version> -->
+        <version>0.10-SNAPSHOT</version>
+        <executions>
+          <!--Start process 1, eg., a dropwizard app dependency-->
+          <execution>
+            <id>wirmock</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+            <configuration>
+              <name>wiremock</name>
+              <workingDir>/Users/erikostermueller/.perfGoat/wiremock</workingDir>
+              <waitForInterrupt>false</waitForInterrupt>
+              <waitAfterLaunch>4</waitAfterLaunch>
+              <tcpHealthcheckHostname>localhost</tcpHealthcheckHostname>
+              <tcpHealthcheckPort>8081</tcpHealthcheckPort>
+              <arguments>
+                <argument>mvn</argument>
+                <argument>clean</argument>
+                <argument>compile</argument>
+                <argument>wiremock:run</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>h2</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+            <configuration>
+              <name>h2</name>
+              <workingDir>/Users/erikostermueller/.perfGoat/data</workingDir>
+              <waitForInterrupt>false</waitForInterrupt>
+              <waitAfterLaunch>4</waitAfterLaunch>
+              <tcpHealthcheckHostname>localhost</tcpHealthcheckHostname>
+              <tcpHealthcheckPort>9092</tcpHealthcheckPort>
+              <arguments>
+                <argument>mvn</argument>
+                <argument>-Dh2.baseDirectory=/Users/erikostermueller/.perfGoat/data</argument>
+                <argument>com.edugility:h2-maven-plugin:1.0:spawn</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>sut</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+            <configuration>
+              <name>sut</name>
+              <workingDir>/Users/erikostermueller/.perfGoat/tjp2</workingDir>
+              <waitForInterrupt>false</waitForInterrupt> 
+              <waitAfterLaunch>4</waitAfterLaunch>
+              <tcpHealthcheckHostname>localhost</tcpHealthcheckHostname>
+              <tcpHealthcheckPort>8080</tcpHealthcheckPort>
+              <arguments>
+                <argument>mvn</argument>
+                <argument>spring-boot:run</argument>
+              </arguments>
+            </configuration>
+          </execution>
+
+          <!--Stop all processes in reverse order-->
+          <execution>
+            <id>stop-all</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop-all</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

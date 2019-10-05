@@ -1,0 +1,82 @@
+package com.github.eostermueller.perfgoat;
+
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardWatchEventKinds;
+import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
+import java.util.List;
+
+/**
+ * @st0lenFr0m: https://codereview.stackexchange.com/questions/84799/java-function-that-blocks-until-a-specific-file-is-deleted
+ * @author erikostermueller
+ *
+ */
+public class BlockOnSentinelFile {
+    private final Path watchedFile;
+    public static void main(String args[]) throws IOException {
+    	BlockOnSentinelFile blocker = new BlockOnSentinelFile("/tmp/foo");
+    	blocker.block();
+    }
+
+    public BlockOnSentinelFile(String runFilePath) throws IOException {
+        watchedFile = Paths.get(runFilePath).toAbsolutePath();
+        Files.deleteIfExists(watchedFile);
+        // create entire directory tree, if possible, to create our watch file
+        // in.
+        try {
+        	Files.createDirectories(watchedFile.getParent());
+        } catch (FileAlreadyExistsException e) {
+        	//no skin off my back if this already exists.
+        }
+        Files.createFile(watchedFile);
+
+    }
+
+    public void end() throws IOException {
+        Files.deleteIfExists(watchedFile);
+    }
+
+    public void block() {
+        try (WatchService watcher = FileSystems.getDefault().newWatchService()) {
+            final WatchKey key = watchedFile.getParent().register(watcher,
+                    StandardWatchEventKinds.ENTRY_DELETE);
+
+            // stall until the game is supposed to end
+            // reset key to allow new events to be detected
+            while (key.reset()) {
+
+                // wait for a file to be deleted (or an overflow....)
+                if (key != watcher.take()) {
+                    throw new IllegalStateException(
+                            "Only our key is registered, only it should be taken");
+                }
+
+                // now, we know something has changed in the directory, all we
+                // care about though, is if our file exists.
+                if (!Files.exists(watchedFile)) {
+                    return;
+                }
+
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        } catch (InterruptedException e) {
+            // propogate an interrupt... we can't handle it here.....
+            // just let the file be removed, and we die....
+            Thread.currentThread().interrupt();
+            e.printStackTrace();
+        } finally {
+            try {
+                Files.deleteIfExists(watchedFile);
+            } catch (IOException e) {
+                // unable to delete the sentry file.....
+                System.out.println("Unable to print sentinel file.");
+            }
+        }
+    }}
