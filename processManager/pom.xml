@@ -8,61 +8,52 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
   <artifactId>loadTest</artifactId>
   <version>0.0.1</version>
   <properties>
-
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-	<maven.failsafe.version>2.22.2</maven.failsafe.version>
-
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.failsafe.version>2.22.2</maven.failsafe.version>
+    <slf4jVersion>1.6.1</slf4jVersion>
+    <h2.maven.plugin.version>1.0</h2.maven.plugin.version>
+    <h2.port>9093</h2.port>
   </properties>
   <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4jVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${slf4jVersion}</version>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+    
   </dependencies>
-
   <build>
     <plugins>
       <plugin>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <version>${maven.failsafe.version}</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>integration-test</goal>
-                        <goal>verify</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-<!--
-     <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.0</version>
+        <configuration>
+          <systemPropertyVariables>
+            <com.github.eostermueller.perfGoat.sentinel.file>
+            ${env.HOME}/.perfGoat/deleteMeToStopPerfGoatSut.txt</com.github.eostermueller.perfGoat.sentinel.file>
+          </systemPropertyVariables>
+        </configuration>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${maven.failsafe.version}</version>
         <executions>
           <execution>
-            <phase>integration-test</phase>
             <goals>
+              <goal>integration-test</goal>
               <goal>verify</goal>
             </goals>
-            <configuration>
-              <junitArtifactName>org.junit:com.springsource.org.junit</junitArtifactName>
-
-              <excludes>
-                <exclude>none</exclude>
-              </excludes>
-              <includes>
-                <include>
-                com/github/eostermueller/perfgoat/BlockOnSentinelFile.java</include>
-              </includes>
-
-            </configuration>
           </execution>
         </executions>
       </plugin>
--->
       <plugin>
         <groupId>com.bazaarvoice.maven.plugins</groupId>
         <artifactId>process-exec-maven-plugin</artifactId>
@@ -78,10 +69,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             </goals>
             <configuration>
               <name>wiremock</name>
-              <workingDir>/Users/erikostermueller/.perfGoat/wiremock</workingDir>
+              <workingDir>
+              /Users/erikostermueller/.perfGoat/wiremock</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
               <waitAfterLaunch>4</waitAfterLaunch>
-              <tcpHealthcheckHostname>localhost</tcpHealthcheckHostname>
+              <tcpHealthcheckHostname>
+              localhost</tcpHealthcheckHostname>
               <tcpHealthcheckPort>8081</tcpHealthcheckPort>
               <arguments>
                 <argument>mvn</argument>
@@ -92,22 +85,26 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             </configuration>
           </execution>
           <execution>
-            <id>h2</id>
+            <id>start-h2</id>
             <phase>pre-integration-test</phase>
             <goals>
               <goal>start</goal>
             </goals>
             <configuration>
               <name>h2</name>
-              <workingDir>/Users/erikostermueller/.perfGoat/data</workingDir>
+              <workingDir>
+              /Users/erikostermueller/.perfGoat/data</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
               <waitAfterLaunch>4</waitAfterLaunch>
-              <tcpHealthcheckHostname>localhost</tcpHealthcheckHostname>
-              <tcpHealthcheckPort>9092</tcpHealthcheckPort>
+              <tcpHealthcheckHostname>
+              localhost</tcpHealthcheckHostname>
+              <tcpHealthcheckPort>${h2.port}</tcpHealthcheckPort>
               <arguments>
                 <argument>mvn</argument>
-                <argument>-Dh2.baseDirectory=/Users/erikostermueller/.perfGoat/data</argument>
-                <argument>com.edugility:h2-maven-plugin:1.0:spawn</argument>
+                <argument>-Dh2.port=${h2.port}</argument>
+                <argument>
+                -Dh2.baseDirectory=/Users/erikostermueller/.perfGoat/data</argument>
+                <argument>com.edugility:h2-maven-plugin:${h2.maven.plugin.version}:spawn</argument>
               </arguments>
             </configuration>
           </execution>
@@ -119,10 +116,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             </goals>
             <configuration>
               <name>sut</name>
-              <workingDir>/Users/erikostermueller/.perfGoat/tjp2</workingDir>
-              <waitForInterrupt>false</waitForInterrupt> 
+              <workingDir>
+              /Users/erikostermueller/.perfGoat/tjp2</workingDir>
+              <waitForInterrupt>false</waitForInterrupt>
               <waitAfterLaunch>4</waitAfterLaunch>
-              <tcpHealthcheckHostname>localhost</tcpHealthcheckHostname>
+              <tcpHealthcheckHostname>
+              localhost</tcpHealthcheckHostname>
               <tcpHealthcheckPort>8080</tcpHealthcheckPort>
               <arguments>
                 <argument>mvn</argument>
@@ -130,7 +129,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               </arguments>
             </configuration>
           </execution>
-
           <!--Stop all processes in reverse order-->
           <execution>
             <id>stop-all</id>
@@ -141,6 +139,24 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+         <groupId>com.edugility</groupId>
+         <artifactId>h2-maven-plugin</artifactId>
+         <version>${h2.maven.plugin.version}</version>
+         <configuration>
+           <port>${h2.port}</port>
+         </configuration>
+         <executions>
+             <execution>
+               <id>Stop a spawned H2 TCP server</id>
+               <goals>
+                 <goal>stop</goal>
+               </goals>
+             </execution>
+           </executions>
+       </plugin>
+
     </plugins>
   </build>
 </project>
