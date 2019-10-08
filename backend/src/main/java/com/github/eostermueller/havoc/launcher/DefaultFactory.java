@@ -162,7 +162,7 @@ public class DefaultFactory implements Factory {
 		return configReaderWriter;
 	}
 	@Override
-	public ProcessModelBuilder getProcessModelBuilder() {
+	public ProcessModelBuilder createProcessModelBuilder() {
 		return new DefaultProcessModelBuilder( this.getConfiguration() );
 	}
 	@Override
@@ -172,11 +172,15 @@ public class DefaultFactory implements Factory {
 	}
 	@Override
 	public ConfigLookup createConfigLookup() {
-		return new DefaultConfigLookup();
+		ConfigLookup cfgLookup = new DefaultConfigLookup();
+		cfgLookup.setConfiguration(this.getConfiguration());
+		return cfgLookup;
 	}
 	@Override
-	public CommandLine createNewCommandLine(String val) {
-		return new DefaultCommandLine(val);
+	public CommandLine createNewCommandLine(String val)  {
+		CommandLine cmdLine = new DefaultCommandLine(val);
+		cmdLine.setConfigLookup( createConfigLookup() );
+		return cmdLine;
 //broken		return new CommandLineWrapper(val);
 	}
 	

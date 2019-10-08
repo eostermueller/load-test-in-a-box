@@ -2,7 +2,19 @@ package com.github.eostermueller.havoc.launcher;
 
 import java.util.List;
 
-public class ConfigVariableNotFoundException extends Exception {
+import com.github.eostermueller.havoc.PerfGoatException;
+
+public class ConfigVariableNotFoundException extends PerfGoatException {
+	public ConfigVariableNotFoundException(Exception c) {
+		super(c);
+	}
+	public ConfigVariableNotFoundException(String msg) {
+		super(msg);
+	}
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -169554873410779861L;
 	private String variableName = null;
 	private List<String> allVariableNames;
 	String getVariableName() {

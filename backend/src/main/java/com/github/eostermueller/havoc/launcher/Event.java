@@ -1,6 +1,7 @@
 package com.github.eostermueller.havoc.launcher;
 
 
+import com.github.eostermueller.havoc.FixedLengthQueue;
 import com.github.eostermueller.havoc.PerfGoatException;
 
 public class Event {
@@ -46,7 +47,7 @@ public class Event {
 		sb.append("Event [" + this.getDescription() + "]");
 		
 		for(PerfGoatException te : this.getExceptions().toArray( new PerfGoatException[] {} ) ) {
-			sb.append( te.debug() );
+			sb.append( te.toHumanReadableString() );
 		}
 		
 		return sb.toString();

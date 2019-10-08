@@ -4,21 +4,62 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.github.eostermueller.havoc.FixedLengthQueue;
+import com.github.eostermueller.havoc.PerfGoatException;
+import com.github.eostermueller.havoc.SpringBootWindTunnel;
+import com.github.eostermueller.havoc.launcher.ConfigVariableNotFoundException;
+import com.github.eostermueller.havoc.launcher.StateChange;
+import com.github.eostermueller.havoc.launcher.StateMachine;
+import com.github.eostermueller.havoc.launcher.Suite;
+import com.github.eostermueller.havoc.processmodel.ProcessModelSingleton;
 
 @RequestMapping("/havocAgent")
 @RestController
 @EnableAutoConfiguration
 public class HavocAgentApiController {
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());	
 	@Autowired
 	private ResourceLoader resourceLoader;
+	
+	@GetMapping("/start")
+	public String start() throws PerfGoatException, ConfigVariableNotFoundException {
+		LOGGER.info("About to start the wind tunnel!");
+		ProcessModelSingleton.getInstance().getProcessModel().start();
+		LOGGER.info("WindTunnel started!!");
+		return "started!!!!";
+	}
+	@GetMapping("/processModel")
+	public String getProcessModel() throws PerfGoatException, ConfigVariableNotFoundException {
+		LOGGER.info("Displaying process/state info");
+		StringBuilder sb = new StringBuilder();
+		sb.append("############  ProcessModel:\n");
+		sb.append(ProcessModelSingleton.getInstance().getProcessModel().toHumanReadableString() + "\n");
+		
+		sb.append("\n############  Process History:\n");
+		FixedLengthQueue<StateChange> q = ProcessModelSingleton.getInstance().getStateChangeHistory();
+		for(StateChange sc:q) {
+			sb.append(sc.toHumanReadableString());
+		}
+
+		sb.append("\n############  Exception History:\n");
+		for( PerfGoatException e : PerfGoatException.getExceptionHistory())
+			sb.append(  e.toHumanReadableString() );
+		
+		return sb.toString();
+	}
 
 //	@Autowired
 //	private ApplicationContext context;	

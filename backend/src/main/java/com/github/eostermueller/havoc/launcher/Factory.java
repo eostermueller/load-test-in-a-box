@@ -29,7 +29,7 @@ public interface Factory {
 
 	ConfigReaderWriter getConfigReaderWriter(Configuration cfg, File tmpFolder);
 
-	ProcessModelBuilder getProcessModelBuilder();
+	ProcessModelBuilder createProcessModelBuilder();
 
 	PerfGoatInstaller createNewInstaller(Configuration cfg);
 

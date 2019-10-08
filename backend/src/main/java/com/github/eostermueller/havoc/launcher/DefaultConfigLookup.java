@@ -32,7 +32,8 @@ public class DefaultConfigLookup implements ConfigLookup {
 		JsonNode myNode = rootNode.get(variableName);
 		String rc = null;
 		if (myNode==null) {
-			ConfigVariableNotFoundException e = new ConfigVariableNotFoundException();
+			String msg = DefaultFactory.getFactory().getMessages().noValueForVariable(variableName,this.getAllFieldNames());
+			ConfigVariableNotFoundException e = new ConfigVariableNotFoundException(msg);
 			e.setVariableName(variableName);
 			e.setAllVariableNames(this.getAllFieldNames());
 			throw e;

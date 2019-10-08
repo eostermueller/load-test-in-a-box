@@ -27,6 +27,7 @@ public interface StateMachine {
 	void setListeners(List<StateChangeListener> listeners);
 	void registerStateChangeListener(StateChangeListener scl);
 	void fireStateChange(ProcessKey key, State newState) throws PerfGoatException;
+	String toHumanReadableString();
 
 	
 }

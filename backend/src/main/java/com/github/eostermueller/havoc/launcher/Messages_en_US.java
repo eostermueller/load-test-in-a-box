@@ -1,5 +1,8 @@
 package com.github.eostermueller.havoc.launcher;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Messages_en_US implements Messages {
 
 	@Override
@@ -20,6 +23,13 @@ public class Messages_en_US implements Messages {
 	@Override
 	public String nextRunnerNotFound(ProcessKey thisRunner, State desiredState) {
 		return String.format("Current runner is [%s], unable to find next state when transitioning to state[%s].", thisRunner.getKey(), desiredState);
+	}
+	@Override
+	public String noValueForVariable(String variableName, List<String> allVarNames) {
+		return String.format("No value for variable [%s]. Please check spelling of [%s] against actual variables:\n %s", 
+				variableName, 
+				variableName, 
+				Arrays.asList(allVarNames).toString() );
 	}
 
 

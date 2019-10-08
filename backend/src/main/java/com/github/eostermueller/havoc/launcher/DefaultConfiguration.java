@@ -96,9 +96,16 @@ public class DefaultConfiguration implements Configuration {
 			this.setJMeterFilesHome(Paths.get( this.getPerfGoatHome().toString() , "jmeterFiles") );
 			
 			this.setJMeterLaunchCmd("#{mavenHome}/bin/mvn -f #{jmeterFilesHome}/pom-load.xml -Djmeter.test=#{jmeterFilesHome}/traffic.jmx");
-			this.setSutLaunchCmd("#{mavenHome}/bin/mvn spring-boot:run");
+			
+			//this.setSutLaunchCmd("#{mavenHome}/bin/mvn spring-boot:run");
+			///Users/erikostermueller/.perfGoat/tjp2/target/tjp2-0.0.2-spring-boot.jar
+			//this.setSutLaunchCmd("#{mavenHome}/bin/mvn clean package && #{javaHome}/bin/java -jar #{sutHome}/target/tjp2-0.0.2-spring-boot.jar");
+			//this.setSutLaunchCmd("#{javaHome}/bin/java -jar #{sutHome}/target/tjp2-0.0.2-spring-boot.jar");
+			this.setSutLaunchCmd("/Library/Java/JavaVirtualMachines/jdk-9.0.1.jdk/Contents/Home/bin/java -jar /Users/erikostermueller/.perfGoat/tjp2/target/tjp2-0.0.2-spring-boot.jar");
+			
+			
 			this.setWiremockLaunchCmd("#{mavenHome}/bin/mvn clean compile wiremock:run");
-			this.setDbLaunchCmd("#{mavenHome}/bin/mvn -Dh2.baseDirectory=#{h2DataFileHome} com.edugility:h2-maven-plugin:1.0:launch");
+			this.setDbLaunchCmd("#{mavenHome}/bin/mvn -Dh2.baseDirectory=#{h2DataFileHome} com.edugility:h2-maven-plugin:1.0:spawn");
 	}
 	
 	public DefaultConfiguration(Path pgHome, Path javaHome) {

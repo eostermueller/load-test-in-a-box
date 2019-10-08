@@ -78,4 +78,10 @@ public class DoNothingProcessRunner extends AbstractProcessRunner implements Sta
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public String toHumanReadableString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -6,8 +6,13 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import com.github.eostermueller.havoc.launcher.CannotFindTjpFactoryClass;
+import com.github.eostermueller.havoc.launcher.ConfigVariableNotFoundException;
 import com.github.eostermueller.havoc.launcher.Configuration;
 import com.github.eostermueller.havoc.launcher.DefaultFactory;
+import com.github.eostermueller.havoc.launcher.Suite;
+import com.github.eostermueller.havoc.processmodel.ProcessModelBuilder;
+import com.github.eostermueller.havoc.processmodel.ProcessModelSingleton;
 
 /**
  * Placeholder class to handle progress meter for browser UI, because this could take a few minutes.
@@ -18,12 +23,40 @@ import com.github.eostermueller.havoc.launcher.DefaultFactory;
  *
  */
 @Component
-public class SpringBootStartupInstaller implements ApplicationListener<ApplicationReadyEvent> {
+public class SpringBootWindTunnel implements ApplicationListener<ApplicationReadyEvent> {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	private static Object lock = new Object();
 
+	private static ProcessModelSingleton PROCESS_MODEL_SINGLETON = null;
+	
+	public static ProcessModelSingleton getProcessModelSingleton() throws ConfigVariableNotFoundException, PerfGoatException {
+		return PROCESS_MODEL_SINGLETON;
+	}
+	public static void setProcessModelSingleton(ProcessModelSingleton val){
+		PROCESS_MODEL_SINGLETON = val;
+	}
+	
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent event) {
 		
+		try {
+			install();
+			initProcessModel();
+		} catch (PerfGoatException e) {
+			try {
+				ProcessModelSingleton.getInstance().setCauseOfSystemFailure(e);
+			} catch (PerfGoatException e1) {
+			}
+		}
+		
+		
+	}
+
+	private void initProcessModel() throws ConfigVariableNotFoundException, PerfGoatException {
+		ProcessModelSingleton.getInstance();
+		
+	}
+	private void install() {
 		String path = new PathUtil().getBaseClassspath();
 		if (path.contains(PathUtil.JAR_SUFFIX)) { //only install if launched using "java -jar".  Elsewise, installs happen with every "backend" build, because Spring Boot is launched during integration testing. 
 			dispInstallBanner();
