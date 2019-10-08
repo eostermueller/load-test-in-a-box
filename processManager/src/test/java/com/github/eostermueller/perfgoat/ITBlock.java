@@ -11,7 +11,9 @@ public class ITBlock {
 	@Test
 	public void test() throws IOException {
 
-    	BlockOnSentinelFile blocker = new BlockOnSentinelFile("/tmp/foo");
+		String sentinelFileName = System.getProperty("com.github.eostermueller.perfGoat.sentinel.file");
+		
+    	BlockOnSentinelFile blocker = new BlockOnSentinelFile(sentinelFileName);
     	blocker.block();
 		
 	}

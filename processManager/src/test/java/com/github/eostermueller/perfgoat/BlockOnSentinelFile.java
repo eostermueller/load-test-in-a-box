@@ -12,19 +12,32 @@ import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @st0lenFr0m: https://codereview.stackexchange.com/questions/84799/java-function-that-blocks-until-a-specific-file-is-deleted
  * @author erikostermueller
  *
  */
 public class BlockOnSentinelFile {
-    private final Path watchedFile;
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	private final Path watchedFile;
     public static void main(String args[]) throws IOException {
-    	BlockOnSentinelFile blocker = new BlockOnSentinelFile("/tmp/foo");
-    	blocker.block();
+    	if (args.length != 1) 
+    		dispUsage();
+    	else {
+        	BlockOnSentinelFile blocker = new BlockOnSentinelFile("/tmp/foo");
+        	blocker.block();
+    	}
     }
 
-    public BlockOnSentinelFile(String runFilePath) throws IOException {
+    private static void dispUsage() {
+		System.out.println("java com.github.eostermueller.perfgoat.BlockOnSentinelFile <path.to.my.file>");
+		System.out.println("The console will block/hang until the specified file is deleted.");
+	}
+
+	public BlockOnSentinelFile(String runFilePath) throws IOException {
         watchedFile = Paths.get(runFilePath).toAbsolutePath();
         Files.deleteIfExists(watchedFile);
         // create entire directory tree, if possible, to create our watch file
@@ -32,10 +45,9 @@ public class BlockOnSentinelFile {
         try {
         	Files.createDirectories(watchedFile.getParent());
         } catch (FileAlreadyExistsException e) {
-        	//no skin off my back if this already exists.
+        	//no skin off my back if this already exists, so don't log/complain.
         }
         Files.createFile(watchedFile);
-
     }
 
     public void end() throws IOException {
