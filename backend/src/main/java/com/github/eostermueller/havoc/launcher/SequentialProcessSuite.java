@@ -1,7 +1,9 @@
 package com.github.eostermueller.havoc.launcher;
 
 
+import com.github.eostermueller.havoc.FixedLengthQueue;
 import com.github.eostermueller.havoc.PerfGoatException;
+import com.github.eostermueller.havoc.processmodel.ProcessModelSingleton;
 
 public class SequentialProcessSuite extends AbstractSequentialProcessSuite implements Suite {
 	
@@ -108,6 +110,19 @@ public class SequentialProcessSuite extends AbstractSequentialProcessSuite imple
 	public boolean isFirstRunner(ProcessKey pk) {
 		int indexOfRunner = this.indexOf( pk );
 		return (indexOfRunner == 0);
+	}
+
+	@Override
+	public String toHumanReadableString() {
+		StringBuilder sb = new StringBuilder();
+		
+		
+		for(StateMachine stateMachine : getRunners()) {
+			sb.append("\n###### State Machine:\n");
+			sb.append(stateMachine.toHumanReadableString());
+		}
+		
+		return sb.toString();
 	}
 
 

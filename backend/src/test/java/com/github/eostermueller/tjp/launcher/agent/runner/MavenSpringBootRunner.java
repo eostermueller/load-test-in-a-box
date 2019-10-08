@@ -80,4 +80,10 @@ public class MavenSpringBootRunner implements StateMachine {
 		
 	}
 
+	@Override
+	public String toHumanReadableString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

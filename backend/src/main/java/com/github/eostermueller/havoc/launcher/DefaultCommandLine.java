@@ -13,6 +13,7 @@ public class DefaultCommandLine implements CommandLine {
 	ConfigLookup lkup = null;
 	public DefaultCommandLine(String val) {
 		this.tokenizer = new VariableTokenizer(val);
+		this.setCommandLine(val);
 	}
 
 	@Override
@@ -53,8 +54,8 @@ public class DefaultCommandLine implements CommandLine {
 	 *  
 	 */
 	public String[] getProcessedCommandLine() throws ConfigVariableNotFoundException, PerfGoatException {
-		List<String> rc = new ArrayList<String>(); 
-		List<String> parts = this.getVariableTokenizer().split();
+		List<String> parts = this.getVariableTokenizer().split(); // input to this method
+		List<String> rc = new ArrayList<String>();  //output of this method. 
 		
 		for(int i = 0; i < parts.size(); i++) {
 			

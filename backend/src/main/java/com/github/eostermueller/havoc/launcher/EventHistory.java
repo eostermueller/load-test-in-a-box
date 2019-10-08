@@ -1,5 +1,6 @@
 package com.github.eostermueller.havoc.launcher;
 
+import com.github.eostermueller.havoc.FixedLengthQueue;
 import com.github.eostermueller.havoc.PerfGoatException;
 
 public class EventHistory {

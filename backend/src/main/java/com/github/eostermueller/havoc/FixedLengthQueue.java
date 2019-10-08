@@ -1,4 +1,4 @@
-package com.github.eostermueller.havoc.launcher;
+package com.github.eostermueller.havoc;
 
 import java.util.LinkedList;
 
@@ -13,8 +13,10 @@ import java.util.LinkedList;
  */
 
 public class FixedLengthQueue<E> extends LinkedList<E> {
-    private int limit;
+    private int limit = 8*1024;
 
+    public FixedLengthQueue() {
+    }
     public FixedLengthQueue(int limit) {
         this.limit = limit;
     }

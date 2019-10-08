@@ -7,6 +7,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.eostermueller.havoc.PerfGoatException;
 
 /**
@@ -18,10 +21,16 @@ import com.github.eostermueller.havoc.PerfGoatException;
  * from:
  * https://openjdk.java.net/jeps/102
  * Why?  So we can support java8 and prior!
+ * 
+ * Need to try these suggestions:
+ * https://stackoverflow.com/questions/7260066/output-of-forked-child-process-in-java
+ * https://www.javaworld.com/article/2071275/when-runtime-exec---won-t.html
  * @author erikostermueller
  *
  */
 public abstract class StdoutProcessRunner extends AbstractProcessRunner implements StateMachine {
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	private static boolean ynMessageDisplayed_MissingStartupText = false; 
 
 	String processType = null;
 
@@ -66,15 +75,24 @@ public abstract class StdoutProcessRunner extends AbstractProcessRunner implemen
 			@Override
 			public void evaluateStdoutLine(String s) throws PerfGoatException {
 				if (s!=null) {
-					if (s.indexOf(StdoutProcessRunner.this.getStartupCompleteMessage() ) >=0 ) {
-						this.fireStateChange(StdoutProcessRunner.this.getProcessKey(), State.STARTED);
-					} else if (s.toLowerCase().indexOf("error" ) >=0 ) {
-						System.out.println("found exception: " + s);
-						PerfGoatException te = new PerfGoatException(s);
-						DefaultFactory.getFactory().getEventHistory().addException("trying to launch [" + StdoutProcessRunner.this.getDebugInfo() + "]", te);
-						
-						this.fireStateChange(StdoutProcessRunner.this.getProcessKey(), State.ABEND);
-					} 
+					String startupMsg = StdoutProcessRunner.this.getStartupCompleteMessage();
+					if (startupMsg!=null) {
+						if (s.indexOf( startupMsg ) >=0 ) {
+							this.fireStateChange(StdoutProcessRunner.this.getProcessKey(), State.STARTED);
+						}
+//						} else if (s.toLowerCase().indexOf("error" ) >=0 ) {
+//							System.out.println("found exception: " + s);
+//							PerfGoatException te = new PerfGoatException(s);
+//							DefaultFactory.getFactory().getEventHistory().addException("trying to launch [" + StdoutProcessRunner.this.getDebugInfo() + "]", te);
+//							
+//							this.fireStateChange(StdoutProcessRunner.this.getProcessKey(), State.ABEND);
+//						} 
+					} else {
+						if (!ynMessageDisplayed_MissingStartupText) {
+							LOGGER.info("");
+							ynMessageDisplayed_MissingStartupText = true;
+						}
+					}
 				}
 			}
 		};
@@ -135,6 +153,15 @@ public abstract class StdoutProcessRunner extends AbstractProcessRunner implemen
 			DefaultFactory.getFactory().getEventHistory().addException("trying to launch [" + this.getDebugInfo() + "]", e);
 		}
 		
+	}
+	public String toHumanReadableString() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("key: " + this.processKey + "\n" );
+		sb.append("state: " + this.getState() + "\n");
+		sb.append("info: " + this.getDebugInfo() + "\n");
+		
+		return sb.toString();
 	}
 	/**
 	 * @stolenFrom:  https://kodejava.org/how-do-i-get-process-id-of-a-java-application/ 
