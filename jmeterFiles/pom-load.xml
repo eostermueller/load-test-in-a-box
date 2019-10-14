@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>soajmetertests</groupId>
+	<artifactId>mvn-jmeter</artifactId>
+	<packaging>pom</packaging>
+	<version>0.1-SNAPSHOT</version>
+	<name>maven-jmeter-demo</name>
+	<url>http://maven.apache.org</url>
+	<description>
+        SOA/Java Service JMeter Tests.
+
+        Invoke with: 
+		- mvn clean verify -Pgui -DtestEnvironment=stage
+		- mvn clean verify -Pno-gui -DtestEnvironment=stage	
+		...
+	</description>
+	<properties>
+		<default.encoding>UTF-8</default.encoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<jmeter.version>3.1</jmeter.version>
+		<jmeter.maven.plugin.version>2.1.0</jmeter.maven.plugin.version>
+		<jmeter.lib.plugins.version>1.4.0</jmeter.lib.plugins.version>
+		<jmeter.json.plugins.version>2.6</jmeter.json.plugins.version>
+	</properties>
+	<profiles>
+		<profile>
+			<id>gui</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.lazerycode.jmeter</groupId>
+						<artifactId>jmeter-maven-plugin</artifactId>
+						<version>${jmeter.maven.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>jmeter-tests-gui</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>gui</goal>
+								</goals>		
+							</execution>
+						</executions>
+						<configuration>
+							<jmeterExtensions>
+								<artifact>kg.apc:jmeter-plugins-json:${jmeter.json.plugins.version}</artifact>
+								<artifact>kg.apc:jmeter-plugins-common:${jmeter.lib.plugins.version}</artifact>
+								<artifact>kg.apc:jmeter-plugins-standard:${jmeter.lib.plugins.version}</artifact>
+								<artifact>kg.apc:jmeter-plugins-extras:${jmeter.lib.plugins.version}</artifact>
+								<artifact>kg.apc:jmeter-plugins-extras-libs:${jmeter.lib.plugins.version}</artifact>
+								<artifact>org.apache.maven.plugins:maven-compiler-plugin:3.6.0</artifact>
+								<artifact>org.apache.maven.plugins:maven-surefire-plugin:2.19.1</artifact>
+							</jmeterExtensions>
+							<downloadExtensionDependencies>false</downloadExtensionDependencies>
+							<propertiesJMeter>
+								<summariser.interval>5</summariser.interval>
+                                                                <!-- if end user is using JMeter for their own purpose and snail4j at the same time,
+								   use this non-default port so snail4j won't accidently shutdown their personal jmeter.  -->
+                                                                <jmeterengine.nongui.port>4455</jmeterengine.nongui.port>
+							</propertiesJMeter>
+						</configuration>
+					</plugin>					
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>no-gui</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.lazerycode.jmeter</groupId>
+						<artifactId>jmeter-maven-plugin</artifactId>
+						<version>${jmeter.maven.plugin.version}</version>
+						<executions>
+                            <execution>
+                                <id>jmeter-tests</id>
+                                <goals>
+                                    <goal>jmeter</goal>
+                                </goals>
+                            </execution>						
+                        </executions>
+						<configuration>
+							<jmeterExtensions>
+								<artifact>kg.apc:jmeter-plugins-json:${jmeter.json.plugins.version}</artifact>
+								<artifact>kg.apc:jmeter-plugins-common:${jmeter.lib.plugins.version}</artifact>
+								<artifact>kg.apc:jmeter-plugins-standard:${jmeter.lib.plugins.version}</artifact>
+								<artifact>kg.apc:jmeter-plugins-extras:${jmeter.lib.plugins.version}</artifact>
+								<artifact>kg.apc:jmeter-plugins-extras-libs:${jmeter.lib.plugins.version}</artifact>
+								<artifact>org.apache.maven.plugins:maven-compiler-plugin:3.6.0</artifact>
+								<artifact>org.apache.maven.plugins:maven-surefire-plugin:2.19.1</artifact>
+							</jmeterExtensions>
+							<downloadExtensionDependencies>false</downloadExtensionDependencies>
+                                                        <propertiesJMeter>
+                                                                 <summariser.interval>5</summariser.interval>
+                                                        </propertiesJMeter>
+
+						</configuration>
+					</plugin>					
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
+
