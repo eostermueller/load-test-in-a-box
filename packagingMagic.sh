@@ -34,7 +34,8 @@ echo sutApp.zip created.
 #  Geez this takes so long, so keep it commented out until absolutely necessary
 #
 echo Creating repository.zip
-jar cvfM $LANDING/repository.zip -C $MVN_REPO repository/.
+jar cvfM $LANDING/repository.zip -C $MVN_REPO repository
+echo repository.zip is created
 
 cp $LANDING/* $TARGET
 
