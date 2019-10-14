@@ -57,8 +57,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
       <plugin>
         <groupId>com.bazaarvoice.maven.plugins</groupId>
         <artifactId>process-exec-maven-plugin</artifactId>
-        <!-- <version>0.9</version> -->
-        <version>0.10-SNAPSHOT</version>
+        <version>0.9</version>
+        <!-- <version>0.10-SNAPSHOT</version> -->
         <executions>
           <!--Start process 1, eg., a dropwizard app dependency-->
           <execution>
@@ -73,9 +73,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               /Users/erikostermueller/.perfGoat/wiremock</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
               <waitAfterLaunch>4</waitAfterLaunch>
-              <tcpHealthcheckHostname>
+<!--              <tcpHealthcheckHostname>
               localhost</tcpHealthcheckHostname>
               <tcpHealthcheckPort>8081</tcpHealthcheckPort>
+ -->
               <arguments>
                 <argument>mvn</argument>
                 <argument>clean</argument>
@@ -96,9 +97,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               /Users/erikostermueller/.perfGoat/data</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
               <waitAfterLaunch>4</waitAfterLaunch>
-              <tcpHealthcheckHostname>
+<!--              <tcpHealthcheckHostname>
               localhost</tcpHealthcheckHostname>
               <tcpHealthcheckPort>${h2.port}</tcpHealthcheckPort>
+  -->
               <arguments>
                 <argument>mvn</argument>
                 <argument>-Dh2.port=${h2.port}</argument>
@@ -120,9 +122,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               /Users/erikostermueller/.perfGoat/tjp2</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
               <waitAfterLaunch>4</waitAfterLaunch>
-              <tcpHealthcheckHostname>
+<!--              <tcpHealthcheckHostname>
               localhost</tcpHealthcheckHostname>
               <tcpHealthcheckPort>8080</tcpHealthcheckPort>
+  -->
               <arguments>
                 <argument>mvn</argument>
                 <argument>spring-boot:run</argument>
