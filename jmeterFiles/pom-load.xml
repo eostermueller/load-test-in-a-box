@@ -59,9 +59,6 @@
 							<downloadExtensionDependencies>false</downloadExtensionDependencies>
 							<propertiesJMeter>
 								<summariser.interval>5</summariser.interval>
-                                                                <!-- if end user is using JMeter for their own purpose and snail4j at the same time,
-								   use this non-default port so snail4j won't accidently shutdown their personal jmeter.  -->
-                                                                <jmeterengine.nongui.port>4455</jmeterengine.nongui.port>
 							</propertiesJMeter>
 						</configuration>
 					</plugin>					
@@ -96,6 +93,9 @@
 							</jmeterExtensions>
 							<downloadExtensionDependencies>false</downloadExtensionDependencies>
                                                         <propertiesJMeter>
+                                                               <!-- if end user is using JMeter for their own purpose and snail4j at the same time,
+                                                                   use this non-default port so snail4j won't accidently shutdown their personal jmeter.  --> 
+                                                                <jmeterengine.nongui.port>${snail4j.jmeter.port}</jmeterengine.nongui.port>
                                                                  <summariser.interval>5</summariser.interval>
                                                         </propertiesJMeter>
 
