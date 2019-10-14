@@ -4,7 +4,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.github.eostermueller.perfGoat</groupId>
+  <groupId>com.github.eostermueller.snail4j</groupId>
   <artifactId>loadTest</artifactId>
   <version>0.0.1</version>
   <properties>
@@ -39,8 +39,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
       <plugin>
         <configuration>
           <systemPropertyVariables>
-            <com.github.eostermueller.perfGoat.sentinel.file>
-            ${env.HOME}/.perfGoat/deleteMeToStopPerfGoatSut.txt</com.github.eostermueller.perfGoat.sentinel.file>
+            <com.github.eostermueller.snail4j.sentinel.file>
+            ${env.HOME}/.snail4j/deleteMeToStopPerfGoatSut.txt</com.github.eostermueller.snail4j.sentinel.file>
           </systemPropertyVariables>
         </configuration>
         <artifactId>maven-failsafe-plugin</artifactId>
@@ -70,7 +70,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <configuration>
               <name>wiremock</name>
               <workingDir>
-              /Users/erikostermueller/.perfGoat/wiremock</workingDir>
+              ${env.HOME}/.snail4j/wiremock</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
               <waitAfterLaunch>4</waitAfterLaunch>
 <!--              <tcpHealthcheckHostname>
@@ -94,7 +94,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <configuration>
               <name>h2</name>
               <workingDir>
-              /Users/erikostermueller/.perfGoat/data</workingDir>
+              ${env.HOME}/.snail4j/data</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
               <waitAfterLaunch>4</waitAfterLaunch>
 <!--              <tcpHealthcheckHostname>
@@ -105,7 +105,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                 <argument>mvn</argument>
                 <argument>-Dh2.port=${h2.port}</argument>
                 <argument>
-                -Dh2.baseDirectory=/Users/erikostermueller/.perfGoat/data</argument>
+                -Dh2.baseDirectory=${env.HOME}/.snail4j/data</argument>
                 <argument>com.edugility:h2-maven-plugin:${h2.maven.plugin.version}:spawn</argument>
               </arguments>
             </configuration>
@@ -119,7 +119,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <configuration>
               <name>sut</name>
               <workingDir>
-              /Users/erikostermueller/.perfGoat/tjp2</workingDir>
+              ${env.HOME}/.snail4j/tjp2</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
               <waitAfterLaunch>4</waitAfterLaunch>
 <!--              <tcpHealthcheckHostname>
