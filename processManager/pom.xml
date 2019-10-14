@@ -73,6 +73,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               ${env.HOME}/.snail4j/wiremock</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
               <waitAfterLaunch>4</waitAfterLaunch>
+              <processLogFile>${env.HOME}/.snail4j/log/wiremock.log</processLogFile>
 <!--              <tcpHealthcheckHostname>
               localhost</tcpHealthcheckHostname>
               <tcpHealthcheckPort>8081</tcpHealthcheckPort>
@@ -96,6 +97,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               <workingDir>
               ${env.HOME}/.snail4j/data</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
+              <processLogFile>${env.HOME}/.snail4j/log/h2.log</processLogFile>
               <waitAfterLaunch>4</waitAfterLaunch>
 <!--              <tcpHealthcheckHostname>
               localhost</tcpHealthcheckHostname>
@@ -121,6 +123,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               <workingDir>
               ${env.HOME}/.snail4j/tjp2</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
+              <processLogFile>${env.HOME}/.snail4j/log/tjp.log</processLogFile>
               <waitAfterLaunch>4</waitAfterLaunch>
 <!--              <tcpHealthcheckHostname>
               localhost</tcpHealthcheckHostname>
