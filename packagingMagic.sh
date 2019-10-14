@@ -6,10 +6,12 @@ PM_HOME=/Users/erikostermueller/Documents/src/jssource/havoc2/havoc2/processMana
 JM_HOME=/Users/erikostermueller/Documents/src/jssource/havoc2/havoc2/jmeterFiles
 WM_HOME=/Users/erikostermueller/Documents/src/jssource/havoc2/havoc2/wiremock
 
+MVN_REPO=/Users/erikostermueller/.m2
+
 # local location of this repo: https://github.com/eostermueller/tjp2
 TJP_HOME=/Users/erikostermueller/Documents/src/jsource/tjp2
 
-
+#Snail4j starup looks for carefully named zip files in this folder, then unzips them.
 TARGET=/Users/erikostermueller/Documents/src/jssource/havoc2/havoc2/backend/src/main/resources
 
 echo Creating processManager.zip
@@ -28,7 +30,11 @@ echo Creating sutApp.zip
 jar cvfM $LANDING/sutApp.zip -C $TJP_HOME .
 echo sutApp.zip created.
 
-
+#
+#  Geez this takes so long, so keep it commented out until absolutely necessary
+#
+echo Creating repository.zip
+jar cvfM $LANDING/repository.zip -C $MVN_REPO repository/.
 
 cp $LANDING/* $TARGET
 
