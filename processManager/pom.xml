@@ -39,8 +39,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
       <plugin>
         <configuration>
           <systemPropertyVariables>
-            <com.github.eostermueller.snail4j.sentinel.file>
-            ${env.HOME}/.snail4j/deleteMeToStopPerfGoatSut.txt</com.github.eostermueller.snail4j.sentinel.file>
+            <com.github.eostermueller.snail4j.kill.file>
+            ${env.HOME}/.snail4j/deleteMeToStopSnail4jSut.txt</com.github.eostermueller.snail4j.kill.file>
           </systemPropertyVariables>
         </configuration>
         <artifactId>maven-failsafe-plugin</artifactId>
@@ -113,17 +113,17 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             </configuration>
           </execution>
           <execution>
-            <id>sut</id>
+            <id>sutApp</id>
             <phase>pre-integration-test</phase>
             <goals>
               <goal>start</goal>
             </goals>
             <configuration>
-              <name>sut</name>
+              <name>sutApp</name>
               <workingDir>
-              ${env.HOME}/.snail4j/tjp2</workingDir>
+              ${env.HOME}/.snail4j/sutApp</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
-              <processLogFile>${env.HOME}/.snail4j/log/tjp.log</processLogFile>
+              <processLogFile>${env.HOME}/.snail4j/log/sutApp.log</processLogFile>
               <waitAfterLaunch>4</waitAfterLaunch>
 <!--              <tcpHealthcheckHostname>
               localhost</tcpHealthcheckHostname>
