@@ -1,5 +1,10 @@
 LANDING=/Users/erikostermueller/Documents/src/jssource/havoc2/installer/installFiles
 
+#zips up and places zip files in backend/src/main/resources,
+#so that the backend maven build will include them in the spring boot uber jar.
+#When spring boot starts, Snail4jInstaller.java will unzip those files into the
+# .snail4j folder in the user's home folder.  Jenkins uses this approach.
+
 
 #These are part of snail4j distribution
 PM_HOME=/Users/erikostermueller/Documents/src/jssource/havoc2/havoc2/processManager
@@ -9,6 +14,9 @@ MVN_BIN=http://www-us.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-
 MVN_REPO=/Users/erikostermueller/.m2
 
 # local location of this repo: https://github.com/eostermueller/tjp2
+# b4 running this script, you must:
+# a) cd $TJP_HOME / git clone https://github.com/eostermueller/tjp2 
+# b) Must 'mvn clean install' to get glowroot downloaded
 TJP_HOME=/Users/erikostermueller/Documents/src/jsource/tjp2
 
 #Snail4j starup looks for carefully named zip files in this folder, then unzips them.
@@ -30,13 +38,14 @@ echo Creating sutApp.zip
 jar cvfM $TARGET/sutApp.zip -C $TJP_HOME .
 echo sutApp.zip created.
 
-#
-#  Geez this takes so long, so keep it commented out until absolutely necessary
-#
 echo Creating repository.zip
 jar cvfM $TARGET/repository.zip -C $MVN_REPO repository
 echo repository.zip is created
 
+#https://github.com/eostermueller/javaPerformanceTroubleshooting
+# The following file is an h2 database file zipped up into data.zip.  It takes 5-10 minutes to build.
+# To create it, download the above project and run the init.sh/init.cmd
+# That will create perfSandboxDb.mv.db, which must be zipped into data.zip
 cp $LANDING/data.zip $TARGET/
 
 
