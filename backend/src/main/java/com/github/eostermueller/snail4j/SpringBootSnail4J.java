@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import com.github.eostermueller.snail4j.launcher.CannotFindTjpFactoryClass;
 import com.github.eostermueller.snail4j.launcher.ConfigVariableNotFoundException;
 import com.github.eostermueller.snail4j.launcher.Configuration;
-import com.github.eostermueller.snail4j.launcher.DefaultFactory;
 import com.github.eostermueller.snail4j.launcher.Event;
 import com.github.eostermueller.snail4j.launcher.Suite;
 import com.github.eostermueller.snail4j.processmodel.ProcessModelBuilder;

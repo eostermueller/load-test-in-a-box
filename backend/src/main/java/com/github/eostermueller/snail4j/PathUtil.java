@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 
 import com.github.eostermueller.snail4j.launcher.CannotFindTjpFactoryClass;
 import com.github.eostermueller.snail4j.launcher.Configuration;
-import com.github.eostermueller.snail4j.launcher.DefaultFactory;
 
 public class PathUtil {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -37,9 +36,9 @@ public class PathUtil {
 	  
 	  public void createSnail4jHomeIfNotExist() throws CannotFindTjpFactoryClass {
 		  Configuration cfg = DefaultFactory.getFactory().getConfiguration();
-		  File havocHomeDir = cfg.getSnail4jHome().toFile();
-		  if (!havocHomeDir.exists())
-			  havocHomeDir.mkdirs();
+		  File snail4jHomeDir = cfg.getSnail4jHome().toFile();
+		  if (!snail4jHomeDir.exists())
+			  snail4jHomeDir.mkdirs();
 	  }
 	  
 	  /**

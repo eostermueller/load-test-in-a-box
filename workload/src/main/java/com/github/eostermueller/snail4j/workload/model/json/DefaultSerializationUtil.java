@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.eostermueller.snail4j.workload.HavocException;
+import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
 import com.github.eostermueller.snail4j.workload.model.UseCases;
 import com.github.eostermueller.snail4j.workload.model.WorkloadSpecRq;
 
@@ -29,26 +29,26 @@ public class DefaultSerializationUtil implements SerializaionUtil {
 	
 
 	@Override
-	public String marshalUseCases(UseCases useCases) throws HavocException {
+	public String marshalUseCases(UseCases useCases) throws Snail4jWorkloadException {
 		String rc = null;
 		try {
 			rc = this.getMapper().writeValueAsString(useCases);
 		} catch (JsonProcessingException e) {
-			HavocException he = new HavocException(e,"Unable to serialize UseCases");
+			Snail4jWorkloadException he = new Snail4jWorkloadException(e,"Unable to serialize UseCases");
 			throw he;
 		}
 		return rc;
 	}
 
 	@Override
-	public UseCases unmmarshalUseCases(String json) throws HavocException {
+	public UseCases unmmarshalUseCases(String json) throws Snail4jWorkloadException {
 		UseCases useCases = null;
 		try {
 			useCases = this.getMapper()			      
 				.readerFor(UseCases.class)
 				.readValue(json);
 		} catch (IOException e) {
-			HavocException he = new HavocException(e,"Unable to unmarshal UseCases");
+			Snail4jWorkloadException he = new Snail4jWorkloadException(e,"Unable to unmarshal UseCases");
 			throw he;
 		}
 
@@ -57,7 +57,7 @@ public class DefaultSerializationUtil implements SerializaionUtil {
 
 
 	@Override
-	public WorkloadSpecRq unmmarshalWorkloadUpdateRq(String json) throws HavocException {
+	public WorkloadSpecRq unmmarshalWorkloadUpdateRq(String json) throws Snail4jWorkloadException {
 		
 		String myJs0n = json.trim();
 		
@@ -73,7 +73,7 @@ public class DefaultSerializationUtil implements SerializaionUtil {
 				.readerFor(WorkloadSpecRq.class)
 				.readValue(json);
 		} catch (IOException e) {
-			HavocException he = new HavocException(e,"Unable to unmarshal WorkloadSpecRq");
+			Snail4jWorkloadException he = new Snail4jWorkloadException(e,"Unable to unmarshal WorkloadSpecRq");
 			throw he;
 		}
 			 
@@ -81,11 +81,11 @@ public class DefaultSerializationUtil implements SerializaionUtil {
 	}
 	
 	@Override
-	public String marshalWorkloadSpecRq(WorkloadSpecRq rq) throws HavocException {
+	public String marshalWorkloadSpecRq(WorkloadSpecRq rq) throws Snail4jWorkloadException {
 		try {
 			return this.getMapper().writeValueAsString(rq);
 		} catch (JsonProcessingException e) {
-			HavocException he = new HavocException(e,"Unable to unmarshal WorkloadSpecRq");
+			Snail4jWorkloadException he = new Snail4jWorkloadException(e,"Unable to unmarshal WorkloadSpecRq");
 			throw he;
 		}
 	}

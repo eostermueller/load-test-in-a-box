@@ -10,14 +10,14 @@ public class UseCase  {
 	List<ProcessingUnitImpl> processingUnits = new CopyOnWriteArrayList<ProcessingUnitImpl>();
 	private String name;
 	/* (non-Javadoc)
-	 * @see com.github.eostermueller.havoc.UseCase#getProcessingUnits()
+	 * @see com.github.eostermueller.snail4j.UseCase#getProcessingUnits()
 	 */
 	
 	public List<ProcessingUnitImpl> getProcessingUnits() {
 		return processingUnits;
 	}
 	/* (non-Javadoc)
-	 * @see com.github.eostermueller.havoc.UseCase#setName(java.lang.String)
+	 * @see com.github.eostermueller.snail4j.UseCase#setName(java.lang.String)
 	 */
 	
 	public void setName(String val) {

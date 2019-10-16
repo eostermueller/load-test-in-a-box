@@ -9,8 +9,8 @@ import java.nio.file.Paths;
 
 import org.junit.Assert;
 
+import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
-import com.github.eostermueller.snail4j.launcher.DefaultFactory;
 
 
 /**

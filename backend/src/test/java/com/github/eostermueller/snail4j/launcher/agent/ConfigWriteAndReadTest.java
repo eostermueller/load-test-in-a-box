@@ -13,9 +13,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.launcher.ConfigReaderWriter;
 import com.github.eostermueller.snail4j.launcher.Configuration;
-import com.github.eostermueller.snail4j.launcher.DefaultFactory;
 
 
 

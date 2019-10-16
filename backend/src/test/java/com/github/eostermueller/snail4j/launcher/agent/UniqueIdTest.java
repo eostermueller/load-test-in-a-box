@@ -15,8 +15,8 @@ import java.util.concurrent.Future;
 
 import org.junit.Test;
 
+import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.launcher.CannotFindTjpFactoryClass;
-import com.github.eostermueller.snail4j.launcher.DefaultFactory;
 import com.github.eostermueller.snail4j.launcher.Factory;
 
 

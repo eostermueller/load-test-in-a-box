@@ -18,7 +18,7 @@ public interface Configuration {
 	String getUserHomeDirString();
 	
 	/*
-	 * Examples:  /home/betty/.havoc or C:\Users\betty\.havoc
+	 * Examples:  /home/betty/.snail4j or C:\Users\betty\.snail4j
 	 */
 	Path getSnail4jHome();
 	

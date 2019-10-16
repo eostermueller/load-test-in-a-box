@@ -13,9 +13,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.CannotFindTjpFactoryClass;
-import com.github.eostermueller.snail4j.launcher.DefaultFactory;
 import com.github.eostermueller.snail4j.launcher.Event;
 import com.github.eostermueller.snail4j.launcher.Level;
 import com.github.eostermueller.snail4j.launcher.ProcessKey;

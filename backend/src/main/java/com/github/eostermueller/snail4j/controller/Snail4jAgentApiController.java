@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.FixedLengthQueue;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.CannotFindTjpFactoryClass;
 import com.github.eostermueller.snail4j.launcher.ConfigVariableNotFoundException;
-import com.github.eostermueller.snail4j.launcher.DefaultFactory;
 import com.github.eostermueller.snail4j.processmodel.ProcessModelSingleton;
 
 
@@ -65,24 +65,6 @@ public class Snail4jAgentApiController {
 		return "started!!!!";
 	}
 
-//	@Autowired
-//	private ApplicationContext context;	
-//	@RequestMapping(
-//		    value = "/test", 
-//		    method = RequestMethod.POST)	
-//	public String havocAgent() {
-//		return "hell0";
-//	}
-//	@GetMapping("/useCases")
-//	public String useCases() {
-//		//return this.getUseCasesJson();
-//		final String uri = "http://localhost:8080/workload/useCases";
-//	     
-//	    RestTemplate restTemplate = new RestTemplate();
-//	    String result = restTemplate.getForObject(uri, String.class);
-//	     
-//	    return result;		
-//	}
 	
 	public String useCases_RIG() {
 		String rc = "nuttin!";
@@ -90,18 +72,6 @@ public class Snail4jAgentApiController {
 			Resource resource = this.resourceLoader.getResource("classpath:/assets/UseCases.json");
             File file = resource.getFile();
             rc =  readFile(file);
-            
-			//InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("/assets/UseCases.json");
-			//File file = new File(getClass().getResource("assets/UseCases.json").getFile());
-			//rc =  readFile(file);
-//			Resource resource = (Resource) this.context.getResource("/assets/useCases.json");
-//			rc = resource.getFile().toString() + "@" + resource.getFilename() + "~" + resource.getURL().toString();
-			//rc = resource.toString() + "~" + resource.getDescription() + "@" + resource.getFilename();
-			//rc = readFile(resource.getFile());
-			
-//			ClassPathResource classPathResource = new ClassPathResource("/assets/useCases.json");
-//			InputStream inputStream = classPathResource.getInputStream();
-//			rc = convertStreamToString(inputStream);
 			
 		} catch (Throwable re) {
 			re.printStackTrace();
@@ -594,7 +564,7 @@ public class Snail4jAgentApiController {
 				 +"          \"useCaseName\": \"get hostname\","
 				 +"          \"method\": {"
 				 +"            \"parameters\": [],"
-				 +"            \"declaringClassName\": \"com.github.eostermueller.havoc.annotation.samples.collection0.HostnameTest\","
+				 +"            \"declaringClassName\": \"com.github.eostermueller.snail4j.annotation.samples.collection0.HostnameTest\","
 				 +"            \"name\": \"hostnameTest\""
 				 +"          }"
 				 +"        }"
@@ -644,7 +614,7 @@ public class Snail4jAgentApiController {
 				 +"                }"
 				 +"              }"
 				 +"            ],"
-				 +"            \"declaringClassName\": \"com.github.eostermueller.havoc.annotation.samples.collection0.RandomTest\","
+				 +"            \"declaringClassName\": \"com.github.eostermueller.snail4j.annotation.samples.collection0.RandomTest\","
 				 +"            \"name\": \"randomTest_01\""
 				 +"          }"
 				 +"        },"
@@ -689,7 +659,7 @@ public class Snail4jAgentApiController {
 				 +"                }"
 				 +"              }"
 				 +"            ],"
-				 +"            \"declaringClassName\": \"com.github.eostermueller.havoc.annotation.samples.collection0.RandomTest\","
+				 +"            \"declaringClassName\": \"com.github.eostermueller.snail4j.annotation.samples.collection0.RandomTest\","
 				 +"            \"name\": \"randomTest_02\""
 				 +"          }"
 				 +"        }"
@@ -726,7 +696,7 @@ public class Snail4jAgentApiController {
 				 +"                }"
 				 +"              }"
 				 +"            ],"
-				 +"            \"declaringClassName\": \"com.github.eostermueller.havoc.annotation.samples.collection0.RegexTest\","
+				 +"            \"declaringClassName\": \"com.github.eostermueller.snail4j.annotation.samples.collection0.RegexTest\","
 				 +"            \"name\": \"test03\""
 				 +"          }"
 				 +"        },"
@@ -758,7 +728,7 @@ public class Snail4jAgentApiController {
 				 +"                }"
 				 +"              }"
 				 +"            ],"
-				 +"            \"declaringClassName\": \"com.github.eostermueller.havoc.annotation.samples.collection0.RegexTest\","
+				 +"            \"declaringClassName\": \"com.github.eostermueller.snail4j.annotation.samples.collection0.RegexTest\","
 				 +"            \"name\": \"test02\""
 				 +"          }"
 				 +"        },"
@@ -790,7 +760,7 @@ public class Snail4jAgentApiController {
 				 +"                }"
 				 +"              }"
 				 +"            ],"
-				 +"            \"declaringClassName\": \"com.github.eostermueller.havoc.annotation.samples.collection0.RegexTest\","
+				 +"            \"declaringClassName\": \"com.github.eostermueller.snail4j.annotation.samples.collection0.RegexTest\","
 				 +"            \"name\": \"test01\""
 				 +"          }"
 				 +"        }"
@@ -826,7 +796,7 @@ public class Snail4jAgentApiController {
 				 +"                }"
 				 +"              }"
 				 +"            ],"
-				 +"            \"declaringClassName\": \"com.github.eostermueller.havoc.annotation.samples.collection1.NumericSortingUseCase\","
+				 +"            \"declaringClassName\": \"com.github.eostermueller.snail4j.annotation.samples.collection1.NumericSortingUseCase\","
 				 +"            \"name\": \"insertionSort\""
 				 +"          }"
 				 +"        },"
@@ -857,7 +827,7 @@ public class Snail4jAgentApiController {
 				 +"                }"
 				 +"              }"
 				 +"            ],"
-				 +"            \"declaringClassName\": \"com.github.eostermueller.havoc.annotation.samples.collection1.NumericSortingUseCase\","
+				 +"            \"declaringClassName\": \"com.github.eostermueller.snail4j.annotation.samples.collection1.NumericSortingUseCase\","
 				 +"            \"name\": \"binarySort\""
 				 +"          }"
 				 +"        },"
@@ -888,7 +858,7 @@ public class Snail4jAgentApiController {
 				 +"                }"
 				 +"              }"
 				 +"            ],"
-				 +"            \"declaringClassName\": \"com.github.eostermueller.havoc.annotation.samples.collection1.NumericSortingUseCase\","
+				 +"            \"declaringClassName\": \"com.github.eostermueller.snail4j.annotation.samples.collection1.NumericSortingUseCase\","
 				 +"            \"name\": \"mergeSort\""
 				 +"          }"
 				 +"        },"
@@ -919,7 +889,7 @@ public class Snail4jAgentApiController {
 				 +"                }"
 				 +"              }"
 				 +"            ],"
-				 +"            \"declaringClassName\": \"com.github.eostermueller.havoc.annotation.samples.collection1.NumericSortingUseCase\","
+				 +"            \"declaringClassName\": \"com.github.eostermueller.snail4j.annotation.samples.collection1.NumericSortingUseCase\","
 				 +"            \"name\": \"quickSort\""
 				 +"          }"
 				 +"        },"
@@ -950,7 +920,7 @@ public class Snail4jAgentApiController {
 				 +"                }"
 				 +"              }"
 				 +"            ],"
-				 +"            \"declaringClassName\": \"com.github.eostermueller.havoc.annotation.samples.collection1.NumericSortingUseCase\","
+				 +"            \"declaringClassName\": \"com.github.eostermueller.snail4j.annotation.samples.collection1.NumericSortingUseCase\","
 				 +"            \"name\": \"selectionSort\""
 				 +"          }"
 				 +"        }"
@@ -971,7 +941,7 @@ public class Snail4jAgentApiController {
 				 +"          \"useCaseName\": \"creating UUID\","
 				 +"          \"method\": {"
 				 +"            \"parameters\": [],"
-				 +"            \"declaringClassName\": \"com.github.eostermueller.havoc.annotation.samples.collection1.UUIDTest\","
+				 +"            \"declaringClassName\": \"com.github.eostermueller.snail4j.annotation.samples.collection1.UUIDTest\","
 				 +"            \"name\": \"uuid_02\""
 				 +"          }"
 				 +"        },"
@@ -987,7 +957,7 @@ public class Snail4jAgentApiController {
 				 +"          \"useCaseName\": \"creating UUID\","
 				 +"          \"method\": {"
 				 +"            \"parameters\": [],"
-				 +"            \"declaringClassName\": \"com.github.eostermueller.havoc.annotation.samples.collection1.UUIDTest\","
+				 +"            \"declaringClassName\": \"com.github.eostermueller.snail4j.annotation.samples.collection1.UUIDTest\","
 				 +"            \"name\": \"uuid_01\""
 				 +"          }"
 				 +"        }"

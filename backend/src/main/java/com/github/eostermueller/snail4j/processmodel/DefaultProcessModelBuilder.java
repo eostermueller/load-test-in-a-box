@@ -5,12 +5,12 @@ import java.nio.file.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.AbstractStdoutStateChanger;
 import com.github.eostermueller.snail4j.launcher.CommandLine;
 import com.github.eostermueller.snail4j.launcher.ConfigVariableNotFoundException;
 import com.github.eostermueller.snail4j.launcher.Configuration;
-import com.github.eostermueller.snail4j.launcher.DefaultFactory;
 import com.github.eostermueller.snail4j.launcher.Level;
 import com.github.eostermueller.snail4j.launcher.ProcessKey;
 import com.github.eostermueller.snail4j.launcher.SequentialProcessSuite;
@@ -54,7 +54,7 @@ public class DefaultProcessModelBuilder implements ProcessModelBuilder {
 		return this.cfg;
 	}
 	/* (non-Javadoc)
-	 * @see com.github.eostermueller.havoc.ProcessModelBuilder#build()
+	 * @see com.github.eostermueller.snail4j.ProcessModelBuilder#build()
 	 */
 	@Override
 	public Suite build() throws ConfigVariableNotFoundException, Snail4jException {
