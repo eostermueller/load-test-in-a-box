@@ -1,4 +1,4 @@
-SNAIL4J_SRC=/Users/erikostermueller/Documents/src/jssource/havoc2/havoc2
+SNAIL4J_SRC=/Users/erikostermueller/Documents/src/jssource/snail4j/snail4j
 LANDING=$SNAIL4J_SRC/../installer/installFiles
 
 #zips up and places zip files in backend/src/main/resources,
