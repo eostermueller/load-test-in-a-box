@@ -2,9 +2,9 @@ package com.github.eostermueller.havoc.workload.annotation.samples.collection0;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.github.eostermueller.havoc.workload.annotations.Param;
-import com.github.eostermueller.havoc.workload.annotations.ProcessingUnit;
-import com.github.eostermueller.havoc.workload.annotations.UserInterfaceDescription;
+import com.github.eostermueller.snail4j.workload.annotations.Param;
+import com.github.eostermueller.snail4j.workload.annotations.ProcessingUnit;
+import com.github.eostermueller.snail4j.workload.annotations.UserInterfaceDescription;
 
 public class NumericSortingUseCase {
 	private static final String DEFAULT_ARRAY_SIZE = "10000";

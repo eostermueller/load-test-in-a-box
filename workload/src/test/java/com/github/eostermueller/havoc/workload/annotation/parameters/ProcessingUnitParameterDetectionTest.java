@@ -7,14 +7,14 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
-import com.github.eostermueller.havoc.workload.HavocException;
-import com.github.eostermueller.havoc.workload.OnlyStringAndLongAndIntAreAllowedParameterTypes;
-import com.github.eostermueller.havoc.workload.model.HavocLibrary;
-import com.github.eostermueller.havoc.workload.model.Message;
-import com.github.eostermueller.havoc.workload.model.MethodParameter;
-import com.github.eostermueller.havoc.workload.model.ProcessingUnitImpl;
-import com.github.eostermueller.havoc.workload.model.UseCase;
-import com.github.eostermueller.havoc.workload.model.UseCases;
+import com.github.eostermueller.snail4j.workload.HavocException;
+import com.github.eostermueller.snail4j.workload.OnlyStringAndLongAndIntAreAllowedParameterTypes;
+import com.github.eostermueller.snail4j.workload.model.HavocLibrary;
+import com.github.eostermueller.snail4j.workload.model.Message;
+import com.github.eostermueller.snail4j.workload.model.MethodParameter;
+import com.github.eostermueller.snail4j.workload.model.ProcessingUnitImpl;
+import com.github.eostermueller.snail4j.workload.model.UseCase;
+import com.github.eostermueller.snail4j.workload.model.UseCases;
 
 
 class ProcessingUnitParameterDetectionTest {

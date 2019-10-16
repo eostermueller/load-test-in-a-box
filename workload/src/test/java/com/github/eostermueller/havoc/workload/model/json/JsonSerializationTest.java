@@ -8,13 +8,13 @@ import java.util.Locale;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import com.github.eostermueller.havoc.workload.DefaultFactory;
-import com.github.eostermueller.havoc.workload.HavocException;
-import com.github.eostermueller.havoc.workload.model.MethodWrapper;
-import com.github.eostermueller.havoc.workload.model.ProcessingUnitImpl;
-import com.github.eostermueller.havoc.workload.model.UseCases;
-import com.github.eostermueller.havoc.workload.model.WorkloadSpecRq;
-import com.github.eostermueller.havoc.workload.model.json.SerializaionUtil;
+import com.github.eostermueller.snail4j.workload.DefaultFactory;
+import com.github.eostermueller.snail4j.workload.HavocException;
+import com.github.eostermueller.snail4j.workload.model.MethodWrapper;
+import com.github.eostermueller.snail4j.workload.model.ProcessingUnitImpl;
+import com.github.eostermueller.snail4j.workload.model.UseCases;
+import com.github.eostermueller.snail4j.workload.model.WorkloadSpecRq;
+import com.github.eostermueller.snail4j.workload.model.json.SerializaionUtil;
 
 class JsonSerializationTest {
 
