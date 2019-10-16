@@ -1,4 +1,5 @@
-LANDING=/Users/erikostermueller/Documents/src/jssource/havoc2/installer/installFiles
+SNAIL4J_SRC=/Users/erikostermueller/Documents/src/jssource/havoc2/havoc2
+LANDING=$SNAIL4J_SRC/../installer/installFiles
 
 #zips up and places zip files in backend/src/main/resources,
 #so that the backend maven build will include them in the spring boot uber jar.
@@ -7,9 +8,9 @@ LANDING=/Users/erikostermueller/Documents/src/jssource/havoc2/installer/installF
 
 
 #These are part of snail4j distribution
-PM_HOME=/Users/erikostermueller/Documents/src/jssource/havoc2/havoc2/processManager
-JM_HOME=/Users/erikostermueller/Documents/src/jssource/havoc2/havoc2/jmeterFiles
-WM_HOME=/Users/erikostermueller/Documents/src/jssource/havoc2/havoc2/wiremock
+PM_HOME=$SNAIL4J_SRC/processManager
+JM_HOME=$SNAIL4J_SRC/jmeterFiles
+WM_HOME=$SNAIL4J_SRC/wiremock
 MVN_BIN=http://www-us.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.zip
 MVN_REPO=/Users/erikostermueller/.m2
 
@@ -20,7 +21,7 @@ MVN_REPO=/Users/erikostermueller/.m2
 TJP_HOME=/Users/erikostermueller/Documents/src/jsource/tjp2
 
 #Snail4j starup looks for carefully named zip files in this folder, then unzips them.
-TARGET=/Users/erikostermueller/Documents/src/jssource/havoc2/havoc2/backend/src/main/resources
+TARGET=$SNAIL4J_SRC/backend/src/main/resources
 
 echo Creating processManager.zip
 jar cvfM $TARGET/processManager.zip -C $PM_HOME .

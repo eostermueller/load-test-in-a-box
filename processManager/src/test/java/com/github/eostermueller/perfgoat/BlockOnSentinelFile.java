@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
  */
 public class BlockOnSentinelFile {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-	private final Path watchedFile;
+	private final Path killFile;
     public static void main(String args[]) throws IOException {
     	if (args.length != 1) 
     		dispUsage();
@@ -37,26 +37,26 @@ public class BlockOnSentinelFile {
 		System.out.println("The console will block/hang until the specified file is deleted.");
 	}
 
-	public BlockOnSentinelFile(String runFilePath) throws IOException {
-        watchedFile = Paths.get(runFilePath).toAbsolutePath();
-        Files.deleteIfExists(watchedFile);
+	public BlockOnSentinelFile(String killFilePath) throws IOException {
+        killFile = Paths.get(killFilePath).toAbsolutePath();
+        Files.deleteIfExists(killFile);
         // create entire directory tree, if possible, to create our watch file
         // in.
         try {
-        	Files.createDirectories(watchedFile.getParent());
+        	Files.createDirectories(killFile.getParent());
         } catch (FileAlreadyExistsException e) {
         	//no skin off my back if this already exists, so don't log/complain.
         }
-        Files.createFile(watchedFile);
+        Files.createFile(killFile);
     }
 
     public void end() throws IOException {
-        Files.deleteIfExists(watchedFile);
+        Files.deleteIfExists(killFile);
     }
 
     public void block() {
         try (WatchService watcher = FileSystems.getDefault().newWatchService()) {
-            final WatchKey key = watchedFile.getParent().register(watcher,
+            final WatchKey key = killFile.getParent().register(watcher,
                     StandardWatchEventKinds.ENTRY_DELETE);
 
             // stall until the game is supposed to end
@@ -71,7 +71,7 @@ public class BlockOnSentinelFile {
 
                 // now, we know something has changed in the directory, all we
                 // care about though, is if our file exists.
-                if (!Files.exists(watchedFile)) {
+                if (!Files.exists(killFile)) {
                     return;
                 }
 
@@ -85,10 +85,10 @@ public class BlockOnSentinelFile {
             e.printStackTrace();
         } finally {
             try {
-                Files.deleteIfExists(watchedFile);
+                Files.deleteIfExists(killFile);
             } catch (IOException e) {
                 // unable to delete the sentry file.....
-                System.out.println("Unable to print sentinel file.");
+                System.out.println("Unable to print kill file.");
             }
         }
     }}
