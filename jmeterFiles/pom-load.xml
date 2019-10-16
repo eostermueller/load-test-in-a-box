@@ -92,6 +92,7 @@
 								<artifact>org.apache.maven.plugins:maven-surefire-plugin:2.19.1</artifact>
 							</jmeterExtensions>
 							<downloadExtensionDependencies>false</downloadExtensionDependencies>
+                                                        <testFilesDirectory>${project.basedir}</testFilesDirectory>
                                                         <propertiesJMeter>
                                                                <!-- if end user is using JMeter for their own purpose and snail4j at the same time,
                                                                    use this non-default port so snail4j won't accidently shutdown their personal jmeter.  --> 

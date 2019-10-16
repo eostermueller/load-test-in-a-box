@@ -11,9 +11,9 @@ public class ITBlock {
 	@Test
 	public void test() throws IOException {
 
-		String sentinelFileName = System.getProperty("com.github.eostermueller.perfGoat.sentinel.file");
+		String killFileName = System.getProperty("com.github.eostermueller.snail4j.kill.file");
 		
-    	BlockOnSentinelFile blocker = new BlockOnSentinelFile(sentinelFileName);
+    	BlockOnSentinelFile blocker = new BlockOnSentinelFile(killFileName);
     	blocker.block();
 		
 	}
