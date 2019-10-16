@@ -8,7 +8,7 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.eostermueller.snail4j.workload.HavocException;
+import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
 import com.github.eostermueller.snail4j.workload.OnlyStringAndLongAndIntAreAllowedParameterTypes;
 import com.github.eostermueller.snail4j.workload.annotations.Param;
 import com.github.eostermueller.snail4j.workload.annotations.ProcessingUnit;
@@ -24,8 +24,8 @@ import io.github.classgraph.MethodParameterInfo;
 import io.github.classgraph.TypeSignature;
 
 public class DefaultBuilder implements Builder {
-	public static final String BUILDER_SYSTEM_PROPTERY = "com.github.eostermueller.havoc.workload.builder.classname";
-	public static final String DEFAULT_BUILDER = "com.github.eostermueller.havoc.workload.model.DefaultBuilder";
+	public static final String BUILDER_SYSTEM_PROPTERY = "com.github.eostermueller.snail4j.workload.builder.classname";
+	public static final String DEFAULT_BUILDER = "com.github.eostermueller.snail4j.workload.model.DefaultBuilder";
 	public static Builder factory = null; 
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	
@@ -33,7 +33,7 @@ public class DefaultBuilder implements Builder {
 
 	
 	@Override 
-	public void addDescriptions(ProcessingUnitImpl processingUnit, AnnotationInfo annotationInfo) throws HavocException {
+	public void addDescriptions(ProcessingUnitImpl processingUnit, AnnotationInfo annotationInfo) throws Snail4jWorkloadException {
 		AnnotationParameterValueList parms = annotationInfo.getParameterValues();
 		Object[] uiDescriptionAnnArray = (Object[]) parms.get(ProcessingUnit.VALUE);
 		for( Object ann : uiDescriptionAnnArray ) {
@@ -59,7 +59,7 @@ public class DefaultBuilder implements Builder {
 	}
 	
 	@Override
-	public ProcessingUnitImpl createProcessingUnit(AnnotationInfo annotationInfo, ClassInfo classInfo, MethodInfo methodInfo) throws HavocException, OnlyStringAndLongAndIntAreAllowedParameterTypes {
+	public ProcessingUnitImpl createProcessingUnit(AnnotationInfo annotationInfo, ClassInfo classInfo, MethodInfo methodInfo) throws Snail4jWorkloadException, OnlyStringAndLongAndIntAreAllowedParameterTypes {
 		MethodWrapper methodWrapper = null;
 		ProcessingUnitImpl processingUnit = null;
 		
@@ -75,7 +75,7 @@ public class DefaultBuilder implements Builder {
 			String useCase = (String)parms.get(ProcessingUnit.USE_CASE);
 			if (useCase==null || "".equals(useCase)) {
 				String error = "The [" + ProcessingUnit.class.getSimpleName() + "] annotation for class [" + methodWrapper.getDeclaringClassName()  + "] must have an attribute named [" + ProcessingUnit.USE_CASE + "]";
-				throw new HavocException(error);
+				throw new Snail4jWorkloadException(error);
 			}
 			
 			processingUnit.setUseCaseName( useCase );
@@ -90,12 +90,12 @@ public class DefaultBuilder implements Builder {
             if (methodInfo.getParameterInfo().length < method.getParameterCount() ) {
             	int missingCnt =  method.getParameterCount() - methodInfo.getParameterInfo().length;
             	String error = "@Param annotations must be specified for all paramters of the method. Seems like you have [" + missingCnt + "] parameters without the @Param annotation.  Debug [" + methodInfo.toString() + "]";
-            	throw new HavocException(error);
+            	throw new Snail4jWorkloadException(error);
             } else if (methodInfo.getParameterInfo().length > method.getParameterCount() ) {
             	 
             	             	
             	String error = "Hmmm how weird that you have more @Param annotations than you have parameters vn this method.  Every parameter on the method must have one and only on @Param annotation.  Debug.  method parms [" +  method.getParameterCount() + "] annotation parms [" + methodInfo.getParameterInfo().length + "] [" + methodInfo.toString() + "]"; 
-            	throw new HavocException(error);
+            	throw new Snail4jWorkloadException(error);
             } else {
                 for(MethodParameterInfo parm : methodInfo.getParameterInfo()) {
                 	if (parm.hasAnnotation(Param.class.getName())) {
@@ -113,7 +113,7 @@ public class DefaultBuilder implements Builder {
 		return processingUnit;
 	}
 
-	public static Builder getBuilder() throws HavocException {
+	public static Builder getBuilder() throws Snail4jWorkloadException {
 		if (factory==null) {
 			String factoryClassName = System.getProperty(BUILDER_SYSTEM_PROPTERY, DEFAULT_BUILDER);
 			Class<?> clazz;
@@ -123,17 +123,17 @@ public class DefaultBuilder implements Builder {
 				constructor = clazz.getConstructor();
 				factory = (Builder) constructor.newInstance();			
 			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException e) {
-				String error = "Unable to create factory class [" + factoryClassName + "].  Does the system property [" + BUILDER_SYSTEM_PROPTERY + "]point to the right class?  An impl of com.github.eostermueller.havoc.workload.Factory?";
+				String error = "Unable to create factory class [" + factoryClassName + "].  Does the system property [" + BUILDER_SYSTEM_PROPTERY + "]point to the right class?  An impl of com.github.eostermueller.snail4j.workload.Factory?";
 				System.err.println(error);
 				e.printStackTrace();
-				throw new HavocException(e,error);
+				throw new Snail4jWorkloadException(e,error);
 			}
 		}
 		return factory;
 	}
 
 	@Override
-	public MethodParameter createParameter(Method method, MethodParameterInfo parm) throws HavocException, OnlyStringAndLongAndIntAreAllowedParameterTypes {
+	public MethodParameter createParameter(Method method, MethodParameterInfo parm) throws Snail4jWorkloadException, OnlyStringAndLongAndIntAreAllowedParameterTypes {
 		MethodParameter newParam = new MethodParameter();
 		AnnotationInfo annotationInfo = parm.getAnnotationInfo().get(0); 
 		
@@ -186,7 +186,7 @@ public class DefaultBuilder implements Builder {
 		return newParam;
 	}
 	@Override 
-	public void addDescriptions(MethodParameter methodParameter, AnnotationInfo annotationInfo) throws HavocException {
+	public void addDescriptions(MethodParameter methodParameter, AnnotationInfo annotationInfo) throws Snail4jWorkloadException {
 		AnnotationParameterValueList parms = annotationInfo.getParameterValues();
 		Object[] uiDescriptionAnnArray = (Object[]) parms.get(ProcessingUnit.VALUE);
 		for( Object ann : uiDescriptionAnnArray ) {

@@ -9,14 +9,13 @@ import org.slf4j.LoggerFactory;
 
 import com.github.eostermueller.snail4j.launcher.CannotFindTjpFactoryClass;
 import com.github.eostermueller.snail4j.launcher.Configuration;
-import com.github.eostermueller.snail4j.launcher.DefaultFactory;
 
 /**
  * The SpringBootStartupInstaller will handle progress meter
  * for installation activity in this class.
  * Files to be unzipped:
  * <pre>
- * /Users/erikostermueller/Documents/src/jssource/havoc2/havoc2/backend/src/main/resources
+ * backend/src/main/resources
 drwxr-xr-x  4 erikostermueller  staff        128 Jul 13 13:26 ..
 -rw-r--r--  1 erikostermueller  staff        100 Sep  4 00:39 application.properties
 -rw-r--r--  1 erikostermueller  staff    9102386 Sep  4 02:13 apache-maven-3.6.2-bin.zip
@@ -109,7 +108,7 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
 	        		pathUtil.unzip(targetProcessManagerZipFile.toFile(), cfg.getProcessManagerHome().toString() );
 	        		targetProcessManagerZipFile.toFile().delete(); // don't need anymore because we just unzipped its contents.
 	    		} else {
-	        		LOGGER.info("Will not unzip [" + cfg.getProcessManagerZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.snail4j/processManager and restart havoc executable jar");
+	        		LOGGER.info("Will not unzip [" + cfg.getProcessManagerZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.snail4j/processManager and restart snail4j executable jar");
 	    		}
 		    	
 				
@@ -162,7 +161,7 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
 	        		pathUtil.unzip(targetJMeterFilesZipFile.toFile(), cfg.getJMeterFilesHome().toString() );
 	        		targetJMeterFilesZipFile.toFile().delete(); // don't need anymore because we just unzipped its contents.
 	    		} else {
-	        		LOGGER.info("Will not unzip [" + cfg.getJMeterFilesZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.snail4j/jmeterFiles and restart havoc executable jar");
+	        		LOGGER.info("Will not unzip [" + cfg.getJMeterFilesZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.snail4j/jmeterFiles and restart snail4j executable jar");
 	    		}
 		    	
 				
@@ -220,7 +219,7 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
 	        		pathUtil.unzip(targetWiremockFilesZipFile.toFile(), cfg.getWiremockFilesHome().toString() );
 	        		targetWiremockFilesZipFile.toFile().delete(); // don't need anymore because we just unzipped its contents.
 	    		} else {
-	        		LOGGER.info("Will not unzip [" + cfg.getWiremockFilesZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.snail4j/wiremockFiles and restart havoc executable jar");
+	        		LOGGER.info("Will not unzip [" + cfg.getWiremockFilesZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.snail4j/wiremockFiles and restart snail4j executable jar");
 	    		}
 		    	
 				
@@ -396,7 +395,7 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
 	        		pathUtil.unzip(targetSutAppZipFile.toFile(), cfg.getSutAppHome().toString() );
 	        		targetSutAppZipFile.toFile().delete(); // don't need anymore because we just unzipped its contents.
 	    		} else {
-	        		LOGGER.info("Will not unzip [" + cfg.getSutAppZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in " + cfg.getSutAppHome() + " and restart havoc executable jar");
+	        		LOGGER.info("Will not unzip [" + cfg.getSutAppZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in " + cfg.getSutAppHome() + " and restart snail4j executable jar");
 	    		}
 				
 			} else {

@@ -17,11 +17,11 @@ import com.github.eostermueller.snail4j.workload.model.json.DefaultSerialization
 import com.github.eostermueller.snail4j.workload.model.json.SerializaionUtil;
 
 public class DefaultFactory implements Factory {
-    public static final String FACTORY_SYSTEM_PROPTERY = "com.github.eostermueller.havoc.workload.factory.classname";
-    public static final String DEFAULT_FACTORY = "com.github.eostermueller.havoc.workload.DefaultFactory";
+    public static final String FACTORY_SYSTEM_PROPTERY = "com.github.eostermueller.snail4j.workload.factory.classname";
+    public static final String DEFAULT_FACTORY = "com.github.eostermueller.snail4j.workload.DefaultFactory";
 	private static Factory factory;
 
-    public static Factory getFactory() throws HavocException {
+    public static Factory getFactory() throws Snail4jWorkloadException {
             if (factory==null) {
                     String factoryClassName = System.getProperty(FACTORY_SYSTEM_PROPTERY, DEFAULT_FACTORY);
                     Class<?> clazz;
@@ -31,10 +31,10 @@ public class DefaultFactory implements Factory {
                             constructor = clazz.getConstructor();
                             factory = (Factory) constructor.newInstance();    
                     } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException e) {
-                            String error = "Unable to create factory class [" + factoryClassName + "].  Does the system property [" + FACTORY_SYSTEM_PROPTERY + "]point to the right class?  An impl of com.github.eostermueller.havoc.workload.Factory?";
+                            String error = "Unable to create factory class [" + factoryClassName + "].  Does the system property [" + FACTORY_SYSTEM_PROPTERY + "]point to the right class?  An impl of com.github.eostermueller.snail4j.workload.Factory?";
                             System.err.println(error);
                             e.printStackTrace();
-                            throw new HavocException(e,error);
+                            throw new Snail4jWorkloadException(e,error);
                     }   
             }   
             return factory;

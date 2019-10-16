@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.github.eostermueller.snail4j.workload.HavocException;
+import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
 
 public class ProcessingUnitImpl {
 	private Description description = new Description();

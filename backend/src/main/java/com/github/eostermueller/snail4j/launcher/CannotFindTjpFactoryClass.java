@@ -1,5 +1,6 @@
 package com.github.eostermueller.snail4j.launcher;
 
+import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
 
 public class CannotFindTjpFactoryClass extends Snail4jException {

@@ -12,10 +12,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.ConfigLookup;
 import com.github.eostermueller.snail4j.launcher.ConfigVariableNotFoundException;
-import com.github.eostermueller.snail4j.launcher.DefaultFactory;
 
 public class ConfigLookupTest {
 	TestConfiguration cfg = null;

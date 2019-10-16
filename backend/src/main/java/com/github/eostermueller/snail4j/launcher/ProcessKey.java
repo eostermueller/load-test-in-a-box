@@ -3,6 +3,8 @@ package com.github.eostermueller.snail4j.launcher;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import com.github.eostermueller.snail4j.DefaultFactory;
+
 /**
  * This key makes a unique identifier for one of the managed processes.
  * @author erikostermueller

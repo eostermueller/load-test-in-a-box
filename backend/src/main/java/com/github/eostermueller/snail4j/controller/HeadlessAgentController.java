@@ -1,4 +1,4 @@
-package com.github.eostermueller.snail4j.launcher.ws;
+package com.github.eostermueller.snail4j.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;

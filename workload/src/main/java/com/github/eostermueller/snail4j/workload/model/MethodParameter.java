@@ -7,7 +7,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.github.eostermueller.snail4j.workload.HavocException;
+import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
 
 public class MethodParameter  {
 	private Description description = new Description();
