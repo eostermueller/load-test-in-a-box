@@ -1,7 +1,7 @@
 package com.github.eostermueller.havoc.workload.annotations.basic;
 
-import com.github.eostermueller.havoc.workload.annotations.ProcessingUnit;
-import com.github.eostermueller.havoc.workload.annotations.UserInterfaceDescription;
+import com.github.eostermueller.snail4j.workload.annotations.ProcessingUnit;
+import com.github.eostermueller.snail4j.workload.annotations.UserInterfaceDescription;
 
 /**
  * @stolenFrom: https://github.com/akshaybahadur21/Sort/blob/master/Sort.java

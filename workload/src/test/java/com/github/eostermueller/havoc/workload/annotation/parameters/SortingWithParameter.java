@@ -2,9 +2,9 @@ package com.github.eostermueller.havoc.workload.annotation.parameters;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.github.eostermueller.havoc.workload.annotations.Param;
-import com.github.eostermueller.havoc.workload.annotations.ProcessingUnit;
-import com.github.eostermueller.havoc.workload.annotations.UserInterfaceDescription;
+import com.github.eostermueller.snail4j.workload.annotations.Param;
+import com.github.eostermueller.snail4j.workload.annotations.ProcessingUnit;
+import com.github.eostermueller.snail4j.workload.annotations.UserInterfaceDescription;
 
 /**
  * @stolenFrom: https://github.com/akshaybahadur21/Sort/blob/master/Sort.java
