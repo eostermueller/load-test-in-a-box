@@ -131,7 +131,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
   -->
               <arguments>
                 <argument>mvn</argument>
-                <argument>spring-boot:run</argument>
+                <argument>deploy</argument>
               </arguments>
             </configuration>
           </execution>
