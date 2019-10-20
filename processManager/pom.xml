@@ -80,6 +80,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
  -->
               <arguments>
                 <argument>mvn</argument>
+                <argument>--offline</argument>
+                <argument>-Dmaven.repo.local=${env.HOME}/.snail4j/repository</argument>
                 <argument>clean</argument>
                 <argument>compile</argument>
                 <argument>wiremock:run</argument>
@@ -105,6 +107,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
   -->
               <arguments>
                 <argument>mvn</argument>
+                <argument>--offline</argument>
+                <argument>-Dmaven.repo.local=${env.HOME}/.snail4j/repository</argument>
                 <argument>-Dh2.port=${h2.port}</argument>
                 <argument>
                 -Dh2.baseDirectory=${env.HOME}/.snail4j/data</argument>
@@ -131,6 +135,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
   -->
               <arguments>
                 <argument>mvn</argument>
+                <argument>--offline</argument>
+                <argument>-Dmaven.repo.local=${env.HOME}/.snail4j/repository</argument>
                 <argument>deploy</argument>
               </arguments>
             </configuration>
