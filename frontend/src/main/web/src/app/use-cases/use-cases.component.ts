@@ -67,7 +67,7 @@ public updateWorkload() {
      for (let entry of myArray) {
         workload.useCases.push( entry[1] )
      }
-     this.useCaseService.updateWorkload(workload);
+     this.useCaseService.updateWorkload(workload).subscribe();
    
 }
 public useCaseDeSelectionListener($event:string) {
