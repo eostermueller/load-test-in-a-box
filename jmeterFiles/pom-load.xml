@@ -60,6 +60,14 @@
 							<propertiesJMeter>
 								<summariser.interval>5</summariser.interval>
 							</propertiesJMeter>
+                                                        <!-- https://jmeteronthefly.blogspot.com/2018/12/pass-parameters-from-jmeter-maven-plugin.html -->
+                                                        <propertiesUser>
+                                                              <host>${myHost}</host>
+                                                              <port>${myPort}</port>
+                                                              <threads>${myThreads}</threads>
+                                                              <rampup>${myRampupInSeconds}</rampup>
+                                                              <duration>${myDurationInSeconds}</duration>
+                                                        </propertiesUser>
 						</configuration>
 					</plugin>					
 				</plugins>

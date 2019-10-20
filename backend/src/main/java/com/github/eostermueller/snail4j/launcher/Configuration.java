@@ -69,5 +69,15 @@ public interface Configuration {
 	long getJMeterNonGuiPort();
 	String getSutAppZipFileName();
 	void setSutAppZipFileName(String val);
+	long getLoadGenerationThreads();
+	void setLoadGenerationThreads(long val);
+	void setLoadGenerationTargetPort(long val);
+	long getLoadGenerationTargetPort();
+	long getLoadGenerationRampupTimeInSeconds();
+	void setLoadGenerationRampupTimeInSeconds(long val);
+	void setLoadGenerationDurationInSeconds(long val);
+	long getLoadGenerationDurationInSeconds();
+	String getLoadGenerationTargetHost();
+	void setLoadGenerationTargetHost(String val);
 	
 }

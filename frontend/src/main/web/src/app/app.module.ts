@@ -1,3 +1,5 @@
+import { HttpClientModule } from '@angular/common/http';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -30,7 +32,6 @@ import { LoadGenMetricsComponent } from './load-gen-metrics/load-gen-metrics.com
 import { TrafficJvmParametersComponent } from './traffic-jvm-parameters/traffic-jvm-parameters.component';
 import { WorkloadSelectionTypeComponent } from './workload-selection-type/workload-selection-type.component';
 import { DeploymentComponent } from './deployment/deployment.component';
-
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 
@@ -72,6 +73,7 @@ import { StartStopComponent } from './start-stop/start-stop.component';
     CoreModule,
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     LayoutModule,
     MatCardModule,
     MatPaginatorModule,

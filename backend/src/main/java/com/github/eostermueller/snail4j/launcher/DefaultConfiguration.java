@@ -11,7 +11,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public class DefaultConfiguration implements Configuration {
 
+	private static final String SPACE = " ";
 	private String sutAppZipFileName;
+	private long sutAppPort;
+	private long loadGenerationThreads;
+	private long loadGenerationTargetPort;
+	private long loadGenerationRampupTimeInSeconds;
+	private long loadGenerationDurationInSeconds;
+	private String loadGenerationTargetHost;
 
 	/**
 	 * This is the most important constructor in the project :-)
@@ -42,6 +49,8 @@ public class DefaultConfiguration implements Configuration {
 			this.setProcessManagerHome(		Paths.get( this.getSnail4jHome().toString() , "processManager") );
 			this.setProcessManagerZipFileName ("processManager.zip");
 
+			this.setJMeterNonGuiPort(4455);
+			
 			this.setH2DataFileHome(		Paths.get( this.getSnail4jHome().toString() , "data") );
 			this.setH2DataFileName		("perfSandboxDb.mv.db");
 			
@@ -49,20 +58,94 @@ public class DefaultConfiguration implements Configuration {
 			this.setJMeterFilesHome(Paths.get( this.getSnail4jHome().toString() , "jmeterFiles") );
 			
 			
-			this.setJMeterNonGuiPort(4455); 
-			this.setLoadGeneratorLaunchCmd("#{mavenHome}/bin/mvn -Dsnail4j.jmeter.port=#{jmeterNonGuiPort} -Dmaven.repo.local=#{mavenRepositoryHome} --offline -f #{jmeterFilesHome}/pom-load.xml -Djmeter.test=#{jmeterFilesHome}/traffic.jmx -Pno-gui clean verify");
+			this.setLoadGenerationTargetHost("localhost");
+			this.setLoadGenerationThreads(3); //3T0TT -- from http://bit.ly/2017tjp
+			this.setLoadGenerationTargetPort(8080);
+			this.setLoadGenerationRampupTimeInSeconds(3);
+			
+			/**
+			 * For 99% of the time, don't expect a single test run to last more than 20 minutes....so 60 minutes should be more than enough.
+			 */
+			this.setLoadGenerationDurationInSeconds(3600);
+			
+			
+			this.setJMeterNonGuiPort(4455);
+			
+			/**
+			 * https://jmeteronthefly.blogspot.com/2018/12/pass-parameters-from-jmeter-maven-plugin.html
+			 * 
+			 * The variables/names detailed below must stay in sync with variables in these two files:
+			 * snail4j/jmeterFiles/pom-load.xml
+			 * snail4j/jmeterFiles/load.jmx
+			 */
+			StringBuilder sb = new StringBuilder();
+			
+			                 sb.append("#{mavenHome}/bin/mvn");
+			sb.append(SPACE);sb.append("--offline");
+			sb.append(SPACE);sb.append("-f #{jmeterFilesHome}/pom-load.xml");
+			sb.append(SPACE);sb.append("-Pno-gui");
+			sb.append(SPACE);sb.append("clean verify");
+			sb.append(SPACE);sb.append("-Dsnail4j.jmeter.port=#{jmeterNonGuiPort}");
+			sb.append(SPACE);sb.append("-Dmaven.repo.local=#{mavenRepositoryHome}");
+			sb.append(SPACE);sb.append("-Djmeter.test=#{jmeterFilesHome}/load.jmx");
+			sb.append(SPACE);sb.append("-DmyHost=#{loadGenerationTargetHost}");
+			sb.append(SPACE);sb.append("-DmyPort=#{loadGenerationTargetPort}");
+			sb.append(SPACE);sb.append("-DmyDurationInSeconds=#{loadGenerationDurationInSeconds}");
+			sb.append(SPACE);sb.append("-DmyRampupInSeconds=#{loadGenerationRampupTimeInSeconds}");
+			sb.append(SPACE);sb.append("-DmyThreads=#{loadGenerationThreads}");
+			this.setLoadGeneratorLaunchCmd(sb.toString());
 			//mvn clean verify -Pno-gui
 
 			/*
 			 * ToDo:  embed parameters in the following for tcp listen ports for each SUT component:  h2, wiremock, tjp
 			 * 
-			 * Use same appr0ach as this, ab0ve: -Dsnail4j.jmeter.port=#{jmeterNonGuiPort}
+			 * Use same approach as this, ab0ve: -Dsnail4j.jmeter.port=#{jmeterNonGuiPort}
 			 * 
 			 */
 			this.setProcessManagerLaunchCmd("#{mavenHome}/bin/mvn -Dmaven.repo.local=#{mavenRepositoryHome} --offline verify");
 	}
-	
-	
+
+	@Override
+	public void setLoadGenerationTargetHost(String val) {
+		this.loadGenerationTargetHost = val;
+	}
+	@Override
+	public String getLoadGenerationTargetHost() {
+		return this.loadGenerationTargetHost;
+	}
+	@Override
+	public void setLoadGenerationDurationInSeconds(long val) {
+		this.loadGenerationDurationInSeconds = val;
+	}
+	@Override
+	public long getLoadGenerationDurationInSeconds() {
+		return this.loadGenerationRampupTimeInSeconds;
+	}
+	@Override
+	public void setLoadGenerationRampupTimeInSeconds(long val) {
+		this.loadGenerationRampupTimeInSeconds = val;
+	}
+	@Override
+	public long getLoadGenerationRampupTimeInSeconds() {
+		return this.loadGenerationRampupTimeInSeconds;
+	}
+	@Override
+	public void setLoadGenerationThreads(long val) {
+		this.loadGenerationThreads = val;
+	}
+	@Override
+	public long getLoadGenerationThreads() {
+		return this.loadGenerationThreads;
+	}
+	@Override
+	public void setLoadGenerationTargetPort(long val) {
+		this.loadGenerationTargetPort = val;
+	}
+	@Override
+	public long getLoadGenerationTargetPort() {
+		return this.loadGenerationTargetPort;
+	}
+
 	@Override
 	public  void setSutAppZipFileName(String val) {
 		this.sutAppZipFileName = val;

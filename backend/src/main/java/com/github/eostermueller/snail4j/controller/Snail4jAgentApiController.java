@@ -13,6 +13,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +26,7 @@ import com.github.eostermueller.snail4j.launcher.ConfigVariableNotFoundException
 import com.github.eostermueller.snail4j.processmodel.ProcessModelSingleton;
 
 
-@RequestMapping("/snail4jAgent")
+@RequestMapping("/snail4j")
 @RestController
 @EnableAutoConfiguration
 public class Snail4jAgentApiController {
@@ -32,14 +34,14 @@ public class Snail4jAgentApiController {
 	@Autowired
 	private ResourceLoader resourceLoader;
 	
-	@GetMapping("/startSystemUnderTest")
+	@GetMapping("/startSut")
 	public String startSystemUnderTest() throws Snail4jException, ConfigVariableNotFoundException, IOException {
 		LOGGER.info("About to start snail4j system under test!");
 		ProcessModelSingleton.getInstance().getSystemUnderTest().start();
 		LOGGER.info(" started!!");
 		return "started!!!!";
 	}
-	@GetMapping("/stopSystemUnderTest")
+	@GetMapping("/stopSut")
 	public String stopSystemUnderTest() throws Snail4jException, ConfigVariableNotFoundException, IOException {
 		LOGGER.info("About to stop snail4j system under test!");
 		ProcessModelSingleton.getInstance().getSystemUnderTest().stop();
@@ -50,19 +52,33 @@ public class Snail4jAgentApiController {
 	public String getEventHistory() throws CannotFindTjpFactoryClass {
 		return DefaultFactory.getFactory().getEventHistory().debug();
 	}
-	@GetMapping("/startLoadGenerator")
+	@GetMapping("/startLg")
 	public String startLoadGenerator() throws Snail4jException, ConfigVariableNotFoundException, IOException {
 		LOGGER.info("About to start the wind tunnel!");
 		ProcessModelSingleton.getInstance().getLoadGenerator().start();
 		LOGGER.info(" started!!");
 		return "started!!!!";
 	}
-	@GetMapping("/stopLoadGenerator")
+	@GetMapping("/stopLg")
 	public String stopLoadGenerator() throws Snail4jException, ConfigVariableNotFoundException, IOException {
-		LOGGER.info("About to start the wind tunnel!");
+		LOGGER.info("About to stop the load generator!");
 		ProcessModelSingleton.getInstance().getLoadGenerator().shutdown();
 		LOGGER.info(" started!!");
-		return "started!!!!";
+		return "stopped the load generator!!!!";
+	}
+	@GetMapping("/getWl")
+	public String deleteme() throws Snail4jException, ConfigVariableNotFoundException, IOException {
+		return "the stuff";
+	}
+	
+	@PostMapping("/wl")
+	public String putWorkload(String payload) throws Snail4jException, ConfigVariableNotFoundException, IOException {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Here is the payload: ");
+		sb.append(payload);
+		
+		LOGGER.info(sb.toString());
+		return sb.toString();
 	}
 
 	
