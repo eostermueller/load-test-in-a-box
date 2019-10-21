@@ -79,5 +79,9 @@ public interface Configuration {
 	long getLoadGenerationDurationInSeconds();
 	String getLoadGenerationTargetHost();
 	void setLoadGenerationTargetHost(String val);
+	Path getGlowrootHome();
+	void setGlowrootHome(Path val);
+	void setGlowrootZipFileName(String val);
+	String getGlowrootZipFileName();
 	
 }

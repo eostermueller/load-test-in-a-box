@@ -51,6 +51,7 @@ public class Snail4jInstaller {
     	installWiremock(cfg);
     	installH2DbData(cfg);
     	installJMeterFiles(cfg);
+    	installGlowroot(cfg);
     	installProcessManager(cfg);
     	
     	LOGGER.info("Install finished.  Ready to load test!");
@@ -62,7 +63,52 @@ public class Snail4jInstaller {
 	}
 
   }
-  private void createLogDir() throws CannotFindTjpFactoryClass {
+  /**
+   * Would be nice to just pull glowroot from maven, so I tried referencing this:
+   * <pre>
+   * https://search.maven.org/artifact/org.glowroot/glowroot-agent/0.13.5/jar
+   * </pre>
+   * 
+   * but ran into this exact problem:
+   * <pre>
+   * https://github.com/glowroot/glowroot/issues/582
+   * </pre>
+   * ....so my fallback plan is this method.
+   * @param cfg2
+ * @throws Snail4jException 
+   */
+  private void installGlowroot(Configuration cfg2) throws Snail4jException {
+		PathUtil pathUtil = new PathUtil();
+		String path = pathUtil.getBaseClassspath();
+		String cleansedPath;
+		try {
+			Path targetGlowrootZipFile = Paths.get( cfg.getSnail4jHome().toString(), cfg.getGlowrootZipFileName() );
+			if (path.contains(PathUtil.JAR_SUFFIX)) {
+				
+				/**
+				 * glowroot agent jar needs to be extracted from zip
+				 */
+				cleansedPath = pathUtil.cleanPath(path);
+		    	if ( !cfg.getGlowrootHome().toFile().exists() ) {
+		    		LOGGER.info("About to unzip [" + cfg.getGlowrootZipFileName() + "] from [" + cleansedPath + "] to [" + targetGlowrootZipFile + "]");
+		    		pathUtil.extractZipFromZip(cleansedPath, cfg.getGlowrootZipFileName(), targetGlowrootZipFile.toString() );
+		    		
+		    		LOGGER.info("does [" + targetGlowrootZipFile.toFile().getAbsolutePath().toString() + "] exist? [" + targetGlowrootZipFile.toFile().exists() + "]" );
+		    		
+		    		pathUtil.unzip(targetGlowrootZipFile.toFile(), cfg.getGlowrootHome().toString() );
+		    		targetGlowrootZipFile.toFile().delete();
+		    	}
+				
+			} else {
+				LOGGER.error("launch as 'java -jar <snail4j.jar> to get maven to install");
+			}
+		} catch (Exception e) {
+			throw new Snail4jException(e);
+		}
+		
+		
+	}
+private void createLogDir() throws CannotFindTjpFactoryClass {
 	  Configuration cfg = DefaultFactory.getFactory().getConfiguration();
 	  File logDir = cfg.getLogDir().toFile();
 	  if (!logDir.exists())

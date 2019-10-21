@@ -28,6 +28,8 @@ public class DefaultConfiguration implements Configuration {
 		
 			this.setJavaHome( 			Paths.get( System.getProperty("java.home")  ) );
 			this.setSnail4jHome(		Paths.get( this.getUserHomeDirString(), ".snail4j" )			);
+			this.setGlowrootHome(			Paths.get( this.getSnail4jHome().toString() , "glowroot") );
+			this.setGlowrootZipFileName ("glowroot-0.13.5-dist.zip");
 			
 			this.setMavenHome(			Paths.get( this.getSnail4jHome().toString() , this.getMavenZipFileNameWithoutExtension() )		);
 			this.setMavenRepositoryHome(Paths.get( this.getSnail4jHome().toString() , "repository" )		);
@@ -209,6 +211,8 @@ public class DefaultConfiguration implements Configuration {
 	private Path logDir;
 	private Path sutKillFile;
 	private long jmeterNonGuiPort;
+	private Path glowrootHomePath;
+	private String glowrootZipFileName;
 
 	@Override
 	public Path getH2DataFileHome() {
@@ -336,6 +340,22 @@ public class DefaultConfiguration implements Configuration {
 	@Override
 	public Path getSutAppHome() {
 		return this.sutAppHomePath;
+	}
+	@Override
+	public void setGlowrootHome(Path val) {
+		this.glowrootHomePath = val;
+	}
+	@Override
+	public Path getGlowrootHome() {
+		return this.glowrootHomePath;
+	}
+	@Override
+	public String getGlowrootZipFileName() {
+		return this.glowrootZipFileName;
+	}
+	@Override
+	public void setGlowrootZipFileName(String val) {
+		this.glowrootZipFileName = val;
 	}
 
 	@Override

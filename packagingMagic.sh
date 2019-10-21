@@ -14,6 +14,8 @@ WM_HOME=$SNAIL4J_SRC/wiremock
 MVN_BIN=http://www-us.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.zip
 MVN_REPO=/Users/erikostermueller/.m2
 
+GLOWROOT_BIN=https://github.com/glowroot/glowroot/releases/download/v0.13.5/glowroot-0.13.5-dist.zip
+
 # local location of this repo: https://github.com/eostermueller/tjp2
 # b4 running this script, you must:
 # a) cd $TJP_HOME / git clone https://github.com/eostermueller/tjp2 
@@ -51,4 +53,6 @@ cp $LANDING/data.zip $TARGET/
 
 
 wget --output-document=$TARGET/apache-maven-3.6.2-bin.zip $MVN_BIN
+
+wget --output-documnt=$TARGET/glowroot-0.13.5-dist.zip $GLOWROOT_BIN
 
