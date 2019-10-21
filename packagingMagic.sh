@@ -19,7 +19,7 @@ GLOWROOT_BIN=https://github.com/glowroot/glowroot/releases/download/v0.13.5/glow
 # local location of this repo: https://github.com/eostermueller/tjp2
 # b4 running this script, you must:
 # a) cd $TJP_HOME / git clone https://github.com/eostermueller/tjp2 
-# b) Must 'mvn clean install' to get glowroot downloaded
+
 TJP_HOME=/Users/erikostermueller/Documents/src/jsource/tjp2
 
 #Snail4j starup looks for carefully named zip files in this folder, then unzips them.
@@ -38,6 +38,10 @@ jar cvfM $TARGET/wiremockFiles.zip -C $WM_HOME .
 echo wiremockFiles.zip is created
 
 echo Creating sutApp.zip
+
+#A weird "logs " folder with a space is getting creating, not sure why.
+#th snail4j java-based unzipper pukes when encountering this folder with a space in it, so delete it.
+rm -rf $TJP_HOME/log*
 jar cvfM $TARGET/sutApp.zip -C $TJP_HOME .
 echo sutApp.zip created.
 
@@ -52,7 +56,9 @@ echo repository.zip is created
 cp $LANDING/data.zip $TARGET/
 
 
-wget --output-document=$TARGET/apache-maven-3.6.2-bin.zip $MVN_BIN
+curl -o $TARGET/apache-maven-3.6.2-bin.zip -O $MVN_BIN
 
-wget --output-documnt=$TARGET/glowroot-0.13.5-dist.zip $GLOWROOT_BIN
+
+# without the -L, curl doesn't handle the REDIRECT that github uses
+curl -L -o $TARGET/glowroot-0.13.5-dist.zip -O $GLOWROOT_BIN
 
