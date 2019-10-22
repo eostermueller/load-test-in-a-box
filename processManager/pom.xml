@@ -46,7 +46,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
         <configuration>
           <systemPropertyVariables>
             <com.github.eostermueller.snail4j.kill.file>
-            ${env.HOME}/.snail4j/deleteMeToStopSnail4jSut.txt</com.github.eostermueller.snail4j.kill.file>
+            ${user.home}/.snail4j/deleteMeToStopSnail4jSut.txt</com.github.eostermueller.snail4j.kill.file>
           </systemPropertyVariables>
         </configuration>
         <artifactId>maven-failsafe-plugin</artifactId>
@@ -76,10 +76,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <configuration>
               <name>wiremock</name>
               <workingDir>
-              ${env.HOME}/.snail4j/wiremock</workingDir>
+              ${user.home}/.snail4j/wiremock</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
               <waitAfterLaunch>4</waitAfterLaunch>
-              <processLogFile>${env.HOME}/.snail4j/log/wiremock.log</processLogFile>
+              <processLogFile>${user.home}/.snail4j/log/wiremock.log</processLogFile>
 <!--              <tcpHealthcheckHostname>
               localhost</tcpHealthcheckHostname>
               <tcpHealthcheckPort>8081</tcpHealthcheckPort>
@@ -87,7 +87,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               <arguments>
                 <argument>mvn</argument>
                 <argument>--offline</argument>
-                <argument>-Dmaven.repo.local=${env.HOME}/.snail4j/repository</argument>
+                <argument>-Dmaven.repo.local=${user.home}/.snail4j/repository</argument>
                 <argument>clean</argument>
                 <argument>compile</argument>
                 <argument>wiremock:run</argument>
@@ -103,9 +103,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <configuration>
               <name>h2</name>
               <workingDir>
-              ${env.HOME}/.snail4j/data</workingDir>
+              ${user.home}/.snail4j/data</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
-              <processLogFile>${env.HOME}/.snail4j/log/h2.log</processLogFile>
+              <processLogFile>${user.home}/.snail4j/log/h2.log</processLogFile>
               <waitAfterLaunch>4</waitAfterLaunch>
 <!--              <tcpHealthcheckHostname>
               localhost</tcpHealthcheckHostname>
@@ -114,10 +114,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               <arguments>
                 <argument>mvn</argument>
                 <argument>--offline</argument>
-                <argument>-Dmaven.repo.local=${env.HOME}/.snail4j/repository</argument>
+                <argument>-Dmaven.repo.local=${user.home}/.snail4j/repository</argument>
                 <argument>-Dh2.port=${h2.port}</argument>
                 <argument>
-                -Dh2.baseDirectory=${env.HOME}/.snail4j/data</argument>
+                -Dh2.baseDirectory=${user.home}/.snail4j/data</argument>
                 <argument>com.edugility:h2-maven-plugin:${h2.maven.plugin.version}:spawn</argument>
               </arguments>
             </configuration>
@@ -131,9 +131,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <configuration>
               <name>sutApp</name>
               <workingDir>
-              ${env.HOME}/.snail4j/sutApp</workingDir>
+              ${user.home}/.snail4j/sutApp</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
-              <processLogFile>${env.HOME}/.snail4j/log/sutApp.log</processLogFile>
+              <processLogFile>${user.home}/.snail4j/log/sutApp.log</processLogFile>
               <waitAfterLaunch>4</waitAfterLaunch>
 <!--              <tcpHealthcheckHostname>
               localhost</tcpHealthcheckHostname>
@@ -142,8 +142,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               <arguments>
                 <argument>mvn</argument>
                 <argument>--offline</argument>
-                <argument>-Dmaven.repo.local=${env.HOME}/.snail4j/repository</argument>
-                <argument>-Dspring-boot.run.jvmArguments="-javaagent:${env.HOME}/.snail4j/glowroot/glowroot/glowroot.jar"</argument>
+                <argument>-Dmaven.repo.local=${user.home}/.snail4j/repository</argument>
+                <argument>-Dspring-boot.run.jvmArguments="-javaagent:${user.home}/.snail4j/glowroot/glowroot/glowroot.jar"</argument>
                 <arguments>spring-boot:run</arguments>
               </arguments>
             </configuration>
