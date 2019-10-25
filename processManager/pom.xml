@@ -32,14 +32,39 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
-<!-- https://mvnrepository.com/artifact/org.glowroot/glowroot-agent -->
-<dependency>
-    <groupId>org.glowroot</groupId>
-    <artifactId>glowroot-agent</artifactId>
-    <version>0.13.5</version>
-</dependency>
-   
+	<!-- https://mvnrepository.com/artifact/org.glowroot/glowroot-agent -->
+	<dependency>
+	    <groupId>org.glowroot</groupId>
+	    <artifactId>glowroot-agent</artifactId>
+	    <version>0.13.5</version>
+	</dependency>
   </dependencies>
+
+	<profiles>
+		<profile>
+			<id>Windows</id>
+			<activation>
+				<os>
+					<family>Windows</family>
+				</os>
+			</activation>
+			<properties>
+				<script.extension>.cmd</script.extension>
+			</properties>
+		</profile>
+		<profile>
+			<id>unix</id>
+			<activation>
+				<os>
+					<family>unix</family>
+				</os>
+			</activation>
+			<properties>
+				<script.extension></script.extension>
+			</properties>
+		</profile>
+	</profiles>
+
   <build>
     <plugins>
       <plugin>
@@ -85,7 +110,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               <tcpHealthcheckPort>8081</tcpHealthcheckPort>
  -->
               <arguments>
-                <argument>mvn</argument>
+                <argument>mvn${script.extension}</argument>
                 <argument>--offline</argument>
                 <argument>-Dmaven.repo.local=${user.home}/.snail4j/repository</argument>
                 <argument>clean</argument>
@@ -112,7 +137,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               <tcpHealthcheckPort>${h2.port}</tcpHealthcheckPort>
   -->
               <arguments>
-                <argument>mvn</argument>
+                <argument>mvn${script.extension}</argument>
                 <argument>--offline</argument>
                 <argument>-Dmaven.repo.local=${user.home}/.snail4j/repository</argument>
                 <argument>-Dh2.port=${h2.port}</argument>
@@ -140,7 +165,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               <tcpHealthcheckPort>8080</tcpHealthcheckPort>
   -->
               <arguments>
-                <argument>mvn</argument>
+                <argument>mvn${script.extension}</argument>
                 <argument>--offline</argument>
                 <argument>-Dmaven.repo.local=${user.home}/.snail4j/repository</argument>
                 <argument>-Dspring-boot.run.jvmArguments="-javaagent:${user.home}/.snail4j/glowroot/glowroot/glowroot.jar"</argument>
