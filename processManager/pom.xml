@@ -5,7 +5,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.eostermueller.snail4j</groupId>
-  <artifactId>loadTest</artifactId>
+  <artifactId>systemUnderTest</artifactId>
   <version>0.0.1</version>
   <properties>
     <maven.compiler.target>1.8</maven.compiler.target>
