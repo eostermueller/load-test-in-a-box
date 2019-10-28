@@ -45,10 +45,6 @@ public class TestConfiguration extends DefaultConfiguration implements Configura
 		return this.getSnail4jHome().resolve( Paths.get("javaPerformanceTroubleshooting-master") );
 	}
 
-	@Override
-	public Path getMavenHome() {
-		return this.getSnail4jHome().resolve( Paths.get( "maven/apache-maven-3.5.4" ) );
-	}
 
 	@Override
 	public Path getJavaHome() {
