@@ -83,5 +83,10 @@ public interface Configuration {
 	void setGlowrootHome(Path val);
 	void setGlowrootZipFileName(String val);
 	String getGlowrootZipFileName();
+	void setOsWin(boolean b);
+	boolean isOsWin();
+	String getMavenExeName();
+	String getMavenExePath();
+	void setMavenExePath(String val);
 	
 }

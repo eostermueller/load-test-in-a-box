@@ -35,8 +35,6 @@ public class TestTheTestConfiguration {
 		Path jptHome = testConfiguration.getSutAppHome();
 		Assert.assertEquals(unix_ABS_PATH_TO_TJP + myPlatformSeparater + JAVA_PERF_TROUBLESHOOTING_MASTER, jptHome.toAbsolutePath().toString() );
 		
-		Path mavenHome = testConfiguration.getMavenHome();
-		Assert.assertEquals(unix_ABS_PATH_TO_TJP + myPlatformSeparater + MAVEN_HOME_SUFFIX, mavenHome.toAbsolutePath().toString() );
 
 	}
 	/**
@@ -54,10 +52,44 @@ public class TestTheTestConfiguration {
 		Path sutHome = testConfiguration.getSutAppHome();
 		Assert.assertEquals(win_ABS_PATH_TO_PG + myPlatformSeparater + JAVA_PERF_TROUBLESHOOTING_MASTER, sutHome.toString() );
 		
-		Path mavenHome = testConfiguration.getMavenHome();
-		Assert.assertEquals(win_ABS_PATH_TO_PG + myPlatformSeparater + MAVEN_HOME_SUFFIX, mavenHome.toString() );
 		
 
+	}
+	@Test
+	public void canFindMvnExecutableOnWindows() {
+		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
+		Path javaHome = Paths.get(this.unix_JAVA_HOME);
+		char myPlatformSeparater = '/';
+				
+		TestConfiguration testConfiguration = new TestConfiguration(tjpHome, javaHome);
+		String mavenHome = "C:/Users/erikostermueller/.snail4j/apache-maven-3.6.2";
+		
+		testConfiguration.setMavenHome( Paths.get(mavenHome ));
+		
+		testConfiguration.setOsWin(true);
+		
+		Assert.assertEquals( "mvn.cmd", testConfiguration.getMavenExeName() );
+		Assert.assertEquals( mavenHome + "/bin/mvn.cmd", testConfiguration.createMavenExePath() );
+		
+		
+	}
+	@Test
+	public void canFindMvnExecutableOnNonWindows() {
+		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
+		Path javaHome = Paths.get(this.unix_JAVA_HOME);
+		char myPlatformSeparater = '/';
+				
+		TestConfiguration testConfiguration = new TestConfiguration(tjpHome, javaHome);
+		String mavenHome = "/Users/erikostermueller/.snail4j/apache-maven-3.6.2";
+		
+		testConfiguration.setMavenHome( Paths.get(mavenHome ));
+		
+		testConfiguration.setOsWin(false);
+		
+		Assert.assertEquals( "mvn", testConfiguration.getMavenExeName() );
+		Assert.assertEquals( mavenHome + "/bin/mvn", testConfiguration.createMavenExePath() );
+		
+		
 	}
 
 }

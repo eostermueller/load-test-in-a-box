@@ -19,6 +19,8 @@ public class DefaultConfiguration implements Configuration {
 	private long loadGenerationRampupTimeInSeconds;
 	private long loadGenerationDurationInSeconds;
 	private String loadGenerationTargetHost;
+	private boolean osWin;
+	private String mavenExePath;
 
 	/**
 	 * This is the most important constructor in the project :-)
@@ -82,7 +84,7 @@ public class DefaultConfiguration implements Configuration {
 			 */
 			StringBuilder sb = new StringBuilder();
 			
-			                 sb.append("#{mavenHome}/bin/mvn");
+			                 sb.append("#{mavenExePath}");
 			sb.append(SPACE);sb.append("--offline");
 			sb.append(SPACE);sb.append("-f #{jmeterFilesHome}/pom-load.xml");
 			sb.append(SPACE);sb.append("-Pno-gui");
@@ -104,8 +106,212 @@ public class DefaultConfiguration implements Configuration {
 			 * Use same approach as this, ab0ve: -Dsnail4j.jmeter.port=#{jmeterNonGuiPort}
 			 * 
 			 */
-			this.setProcessManagerLaunchCmd("#{mavenHome}/bin/mvn -Dmaven.repo.local=#{mavenRepositoryHome} --offline verify");
+			this.setProcessManagerLaunchCmd("#{mavenExePath} -Dmaven.repo.local=#{mavenRepositoryHome} --offline verify");
+			
+			if (getOsName().contains("windows")) {  
+				this.setOsWin(true);
+			}
+			
+			this.setMavenExePath( createMavenExePath() ); 
 	}
+	/*
+	 * http://www.java-gaming.org/index.php/topic,14110
+os name   os arch   java version
+Windows XP   x86   1.5.0_02
+Windows XP   x86   1.5.0
+Windows XP   x86   1.5.0_03
+Windows XP   x86   1.4.2_06
+Windows XP   x86   1.5.0_01
+Windows XP   x86   1.4.2_05
+Windows XP   x86   1.4.2_08
+Windows XP   x86   1.6.0-ea
+Windows XP   x86   1.4.2_03
+Windows XP   x86   1.4.2_07
+Windows XP   x86   1.4.2_02
+Windows XP   x86   1.4.2
+Windows XP   x86   1.4.2_04
+Windows XP   x86   1.5.0-beta2
+Windows XP   x86   1.4.1_02
+Windows XP   x86   1.5.0-rc
+Windows XP   x86   1.4.1
+Windows XP   x86   1.4.0
+Windows XP   x86   1.6.0
+Windows XP   x86   1.4.2_01
+Windows XP   x86   1.5.0_04
+Windows XP   x86   1.5.0-beta
+Windows XP   x86   1.4.1_01
+Windows XP   x86   1.4.2_09
+Windows XP   x86   1.5.0_05
+Windows XP   x86   1.4.1_03
+Windows XP   x86   1.6.0-beta
+Windows XP   x86   1.6.0-rc
+Windows XP   x86   1.4.2_10
+Windows XP   x86   1.5.0_06
+Windows XP   x86   1.4.0_03
+Windows XP   x86   1.6.0-beta2
+Windows XP   x86   1.4.2_11
+Windows XP   x86   1.5.0_07
+Windows 2003   x86   1.5.0_02
+Windows 2003   x86   1.5.0
+Windows 2003   x86   1.5.0_03
+Windows 2003   x86   1.4.2_06
+Windows 2003   x86   1.5.0_01
+Windows 2003   x86   1.4.2_05
+Windows 2003   x86   1.6.0-ea
+Windows 2003   x86   1.4.2_07
+Windows 2003   x86   1.4.2_04
+Windows 2003   x86   1.5.0-rc
+Windows 2003   x86   1.5.0_04
+Windows 2003   x86   1.5.0-beta
+Windows 2003   x86   1.5.0_05
+Windows 2003   x86   1.6.0-rc
+Windows 2003   x86   1.5.0_06
+Windows 2003   x86   1.5.0_07
+Linux   i386   1.5.0_02
+Linux   i386   1.5.0
+Linux   i386   1.5.0_03
+Linux   i386   1.4.2_06
+Linux   i386   1.5.0_01
+Linux   i386   1.4.2_05
+Linux   i386   1.4.2_08
+Linux   i386   1.6.0-ea
+Linux   i386   1.4.2_03
+Linux   i386   1.4.2_07
+Linux   i386   1.4.2_02
+Linux   i386   1.4.2-beta
+Linux   i386   1.4.2
+Linux   i386   1.4.2_04
+Linux   i386   1.4.2-01
+Linux   i386   1.5.0-rc
+Linux   i386   1.4.2-rc1
+Linux   i386   1.5.0_04
+Linux   i386   1.4.2_09
+Linux   i386   1.5.0_05
+Linux   i386   1.6.0-beta
+Linux   i386   1.6.0-rc
+Linux   i386   1.4.2_10
+Linux   i386   1.5.0_06
+Linux   i386   1.6.0-beta2
+Linux   i386   1.4.2_11
+Linux   i386   1.5.0_07
+Linux   amd64   1.4.2-01
+Linux   amd64   1.5.0_05
+Windows 2000   x86   1.5.0_02
+Windows 2000   x86   1.5.0
+Windows 2000   x86   1.5.0_03
+Windows 2000   x86   1.4.2_06
+Windows 2000   x86   1.5.0_01
+Windows 2000   x86   1.4.2_05
+Windows 2000   x86   1.4.2_08
+Windows 2000   x86   1.6.0-ea
+Windows 2000   x86   1.4.2_03
+Windows 2000   x86   1.4.2_07
+Windows 2000   x86   1.4.2_02
+Windows 2000   x86   1.4.2-beta
+Windows 2000   x86   1.4.2
+Windows 2000   x86   1.4.2_04
+Windows 2000   x86   1.5.0-beta2
+Windows 2000   x86   1.4.1_02
+Windows 2000   x86   1.5.0-rc
+Windows 2000   x86   1.4.1
+Windows 2000   x86   1.4.2_01
+Windows 2000   x86   1.5.0_04
+Windows 2000   x86   1.4.2_09
+Windows 2000   x86   1.5.0_05
+Windows 2000   x86   1.6.0-beta
+Windows 2000   x86   1.6.0-rc
+Windows 2000   x86   1.4.2_10
+Windows 2000   x86   1.5.0_06
+Windows 2000   x86   1.6.0-beta2
+Windows 2000   x86   1.5.0_07
+Windows 2000   x86   1.4.1_07
+Mac OS X   i386   1.5.0_05
+Mac OS X   i386   1.5.0_06
+Mac OS X   ppc   1.5.0_02
+Mac OS X   ppc   1.4.2_05
+Mac OS X   ppc   1.4.2_03
+Mac OS X   ppc   1.4.2_07
+Mac OS X   ppc   1.4.2_09
+Mac OS X   ppc   1.5.0_05
+Mac OS X   ppc   1.5.0_06
+Windows 98   x86   1.5.0_03
+Windows 98   x86   1.4.2_06
+Windows 98   x86   1.5.0_01
+Windows 98   x86   1.4.2_02
+Windows 98   x86   1.4.0
+Windows 98   x86   1.4.2_01
+SunOS   x86   1.5.0_04
+SunOS   x86   1.5.0_06
+SunOS   sparc   1.5.0_02
+SunOS   sparc   1.4.2_04
+SunOS   sparc   1.5.0-beta2
+SunOS   sparc   1.5.0_05
+SunOS   sparc   1.5.0_06
+FreeBSD   i386   1.4.2-p6
+FreeBSD   i386   1.4.2-p7
+Windows NT   x86   1.5.0_02
+Windows NT   x86   1.5.0
+Windows NT   x86   1.4.2_05
+Windows NT   x86   1.4.2_08
+Windows NT   x86   1.4.2_03
+Windows Me   x86   1.5.0_04
+Windows Me   x86   1.5.0_06		 * 
+	 */
+	
+	/**
+	 * Yes, it looks inconsistent/redundant to have both createMavenExecPath() and getMavenExecPath()/setMavenExePath().
+
+snail4j uses Jackson for two things:
+1) serialize/deserialize DefaultConfiguration.
+2) Using JsonNode to resolve variables like #{mavenHome} and #{javaHome} that are specified in the snail4j.json configuration file.
+
+These things only work on simple getters/setters, like getMavenExecPath()/setMavenExePath().
+createMavenExePath() exists so the code can decide on the proper name for the maven executable, based on the
+operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
+	 * @return
+	 */
+	public String createMavenExePath() {
+		return this.getMavenHome().toString() + "/bin/" + this.getMavenExeName();
+	}
+
+	private String getOsName() {
+		return System.getProperty("os.name").toLowerCase();
+	}
+	
+	@JsonIgnore
+	@Override	
+	public String getMavenExeName() {
+		String rc = "mvn";
+		
+		if ( isOsWin() ) {
+			rc = "mvn.cmd";
+		}
+		return rc;
+	}
+	
+	@Override	
+	public void setMavenExePath(String val) {
+		this.mavenExePath = val;
+	}
+	@Override	
+	public String getMavenExePath() {
+		return this.mavenExePath;
+	}
+
+	
+	@JsonIgnore
+	@Override	
+	public void setOsWin(boolean b) {
+		osWin = b;
+	}
+
+
+	@JsonIgnore
+	@Override
+	public boolean isOsWin() {
+		return osWin;
+	}
+
 
 	@Override
 	public void setLoadGenerationTargetHost(String val) {
