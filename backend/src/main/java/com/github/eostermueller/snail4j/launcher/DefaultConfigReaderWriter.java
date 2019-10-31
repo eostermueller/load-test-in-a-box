@@ -27,11 +27,17 @@ import com.github.eostermueller.snail4j.Snail4jException;
  */
 public class DefaultConfigReaderWriter implements ConfigReaderWriter {
 
-
 	private Configuration cfg = null;
 	private File folder;
-	private String getFileName() {
-		return "perfGoat.json";
+	private String fileName = null;
+	
+	   @Override
+	public String getFileName() {
+		return fileName;
+	}
+	   @Override
+	public void setFileName(String val) {
+		this.fileName = val;
 	}
 	public File getExtendedPath() {
 		return new File(folder,getFileName() );
@@ -40,6 +46,7 @@ public class DefaultConfigReaderWriter implements ConfigReaderWriter {
 	public DefaultConfigReaderWriter(Configuration cfg, File tmpFolder) {
 		this.cfg = cfg;
 		this.folder = tmpFolder;
+		this.setFileName("snail4j.json");
 	}
 	
 	   @Override

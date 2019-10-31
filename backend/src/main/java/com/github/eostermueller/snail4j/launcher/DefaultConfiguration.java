@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public class DefaultConfiguration implements Configuration {
 
+	public static final String MAVEN_EXE_PATH = "#{mavenExePath}";
 	private static final String SPACE = " ";
 	private String sutAppZipFileName;
 	private long sutAppPort;
@@ -21,6 +22,7 @@ public class DefaultConfiguration implements Configuration {
 	private String loadGenerationTargetHost;
 	private boolean osWin;
 	private String mavenExePath;
+	private boolean mavenOnline;
 
 	/**
 	 * This is the most important constructor in the project :-)
@@ -84,8 +86,8 @@ public class DefaultConfiguration implements Configuration {
 			 */
 			StringBuilder sb = new StringBuilder();
 			
-			                 sb.append("#{mavenExePath}");
-			sb.append(SPACE);sb.append("--offline");
+			                 sb.append(MAVEN_EXE_PATH);
+//			sb.append(SPACE);sb.append("--offline");
 			sb.append(SPACE);sb.append("-f #{jmeterFilesHome}/pom-load.xml");
 			sb.append(SPACE);sb.append("-Pno-gui");
 			sb.append(SPACE);sb.append("clean verify");
@@ -106,13 +108,15 @@ public class DefaultConfiguration implements Configuration {
 			 * Use same approach as this, ab0ve: -Dsnail4j.jmeter.port=#{jmeterNonGuiPort}
 			 * 
 			 */
-			this.setProcessManagerLaunchCmd("#{mavenExePath} -Dmaven.repo.local=#{mavenRepositoryHome} --offline verify");
+//			this.setProcessManagerLaunchCmd("#{mavenExePath} -Dmaven.repo.local=#{mavenRepositoryHome} --offline verify");
+			this.setProcessManagerLaunchCmd("#{mavenExePath} -Dmaven.repo.local=#{mavenRepositoryHome} verify");
 			
 			if (getOsName().contains("windows")) {  
 				this.setOsWin(true);
 			}
 			
 			this.setMavenExePath( createMavenExePath() ); 
+			this.setMavenOnline(false);
 	}
 	/*
 	 * http://www.java-gaming.org/index.php/topic,14110
@@ -312,6 +316,22 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 		return osWin;
 	}
 
+	/**
+	 * Determines whether to maven will download dependencies online, as documented here:
+	 * https://maven.apache.org/settings.html
+	 * By default this is false, so that snail4j can run without internet, just from an uber jar on a usb stick.
+	 * @param b
+	 */
+	@Override	
+	public void setMavenOnline(boolean b) {
+		mavenOnline = b;
+	}
+
+
+	@Override
+	public boolean isMavenOnline() {
+		return this.mavenOnline;
+	}
 
 	@Override
 	public void setLoadGenerationTargetHost(String val) {
@@ -592,7 +612,16 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 
 	@Override
 	public String getLoadGeneratorLaunchCmd() {
-		return this.loadGeneratorLaunchCmd;
+		String rc = this.loadGeneratorLaunchCmd;
+		
+		if (!this.isMavenOnline() ) {
+			if (rc.trim().startsWith(this.MAVEN_EXE_PATH)) {
+				rc = this.MAVEN_EXE_PATH + " --offline" + this.loadGeneratorLaunchCmd.substring(this.MAVEN_EXE_PATH.length()); 
+			}
+		}
+		
+		return rc;
+		
 	}
 
 	@Override
@@ -602,7 +631,15 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 
 	@Override
 	public String getProcessManagerLaunchCmd() {
-		return this.processManagerLaunchCmd;
+		String rc = this.processManagerLaunchCmd;
+		
+		if (!this.isMavenOnline() ) {
+			if (rc.trim().startsWith(this.MAVEN_EXE_PATH)) {
+				rc = this.MAVEN_EXE_PATH + " -Dsnail4j.maven.offline.passthru=--offline --offline" + this.processManagerLaunchCmd.substring(this.MAVEN_EXE_PATH.length()); 
+			}
+		}
+		
+		return rc;
 	}
 
 	@Override

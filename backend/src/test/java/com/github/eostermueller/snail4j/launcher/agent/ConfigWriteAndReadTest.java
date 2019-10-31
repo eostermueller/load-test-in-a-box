@@ -16,6 +16,8 @@ import org.junit.rules.TemporaryFolder;
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.launcher.ConfigReaderWriter;
 import com.github.eostermueller.snail4j.launcher.Configuration;
+import com.github.eostermueller.snail4j.launcher.DefaultConfigReaderWriter;
+import com.github.eostermueller.snail4j.launcher.DefaultConfiguration;
 
 
 
@@ -35,7 +37,8 @@ public class ConfigWriteAndReadTest {
 	 }
 	@Test
 	public void canWriteAndReadPropertyFile() throws Exception {
-		Configuration cfg = DefaultFactory.getFactory().getConfiguration();
+		//Configuration cfg = DefaultFactory.getFactory().getConfiguration();
+		Configuration cfg = new DefaultConfiguration();
 		
 		String name="/foo";
 		int c0unt = 8675309;
@@ -48,20 +51,24 @@ public class ConfigWriteAndReadTest {
 		cfg.setSnail4jHome(path);
 		cfg.setSutAppHome(path);
 		
-		ConfigReaderWriter configWriter = DefaultFactory.getFactory().getConfigReaderWriter(cfg,tmpFolder);
+//		ConfigReaderWriter configWriter = DefaultFactory.getFactory().getConfigReaderWriter(cfg,tmpFolder);
 		
-		configWriter.write();
-		
-		cfg = configWriter.read();
-		
-		assertEquals(name,cfg.getJavaHome().toAbsolutePath().toString());
-		assertEquals(name,cfg.getMavenHome().toAbsolutePath().toString());
-		assertEquals(name,cfg.getSnail4jHome().toAbsolutePath().toString());
-		assertEquals(name,cfg.getSutAppHome().toAbsolutePath().toString());
-		
-		assertEquals( name,cfg.getMavenZipFileNameWithoutExtension() );
-		assertEquals( name + "-bin.zip",cfg.getMavenZipFileName() );
-		assertEquals( c0unt, cfg.getMaxExceptionCountPerEvent());
+		if (tmpFolder!=null) {
+			ConfigReaderWriter configWriter = new DefaultConfigReaderWriter(cfg,tmpFolder);
+			
+			configWriter.write();
+			
+			cfg = configWriter.read();
+			
+			assertEquals(name,cfg.getJavaHome().toAbsolutePath().toString());
+			assertEquals(name,cfg.getMavenHome().toAbsolutePath().toString());
+			assertEquals(name,cfg.getSnail4jHome().toAbsolutePath().toString());
+			assertEquals(name,cfg.getSutAppHome().toAbsolutePath().toString());
+			
+			assertEquals( name,cfg.getMavenZipFileNameWithoutExtension() );
+			assertEquals( name + "-bin.zip",cfg.getMavenZipFileName() );
+			assertEquals( c0unt, cfg.getMaxExceptionCountPerEvent());
+		}
 		
 		
 	}

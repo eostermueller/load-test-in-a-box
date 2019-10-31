@@ -66,9 +66,9 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 			dispInstallBanner();
 			Configuration cfg;
 			try {
-				cfg = DefaultFactory.getFactory().getConfiguration();
-				Snail4jInstaller perfGoatInstaller = DefaultFactory.getFactory().createNewInstaller(cfg);
-				perfGoatInstaller.install();
+				Snail4jInstaller snail4jInstaller = DefaultFactory.getFactory().createNewInstaller();
+				snail4jInstaller.initSnail4jCfgFile();
+				snail4jInstaller.install();
 			} catch (Snail4jException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -88,5 +88,7 @@ public interface Configuration {
 	String getMavenExeName();
 	String getMavenExePath();
 	void setMavenExePath(String val);
+	boolean isMavenOnline();
+	void setMavenOnline(boolean b);
 	
 }

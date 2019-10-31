@@ -8,4 +8,8 @@ public interface ConfigReaderWriter {
 
 	Configuration read() throws Snail4jException;
 
+	String getFileName();
+
+	void setFileName(String fileName);
+
 }
