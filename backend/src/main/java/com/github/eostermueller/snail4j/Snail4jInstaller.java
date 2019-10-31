@@ -39,10 +39,8 @@ public class Snail4jInstaller {
 	 */
   public void install() throws Snail4jException {
 
-	  PathUtil pathUtil = new PathUtil();
 	  
     try {
-    	pathUtil.createSnail4jHomeIfNotExist();
     	
     	
     	createLogDir();

@@ -6,9 +6,10 @@
 	<parent>
 		<groupId>com.github.eostermueller</groupId>
 		<artifactId>SpringBootAngularApp</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>frontend</artifactId>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>frontend</name>
 	<url>http://maven.apache.org</url>
 	<properties>
