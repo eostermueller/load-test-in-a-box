@@ -22,7 +22,7 @@ public class DefaultConfiguration implements Configuration {
 	private String loadGenerationTargetHost;
 	private boolean osWin;
 	private String mavenExePath;
-	private boolean mavenOnline;
+	private boolean mavenOnline = false;//the local maven repo distributed with snail4j should be all that is necessary
 
 	/**
 	 * This is the most important constructor in the project :-)
@@ -116,7 +116,7 @@ public class DefaultConfiguration implements Configuration {
 			}
 			
 			this.setMavenExePath( createMavenExePath() ); 
-			this.setMavenOnline(false);
+			
 	}
 	/*
 	 * http://www.java-gaming.org/index.php/topic,14110

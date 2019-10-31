@@ -67,6 +67,8 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 			Configuration cfg;
 			try {
 				Snail4jInstaller snail4jInstaller = DefaultFactory.getFactory().createNewInstaller();
+				PathUtil pathUtil = new PathUtil();
+		    	pathUtil.createSnail4jHomeIfNotExist();
 				snail4jInstaller.initSnail4jCfgFile();
 				snail4jInstaller.install();
 			} catch (Snail4jException e) {
