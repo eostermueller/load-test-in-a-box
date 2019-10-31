@@ -34,7 +34,7 @@ public interface Factory {
 
 	ProcessModelBuilder createProcessModelBuilder();
 
-	Snail4jInstaller createNewInstaller(Configuration cfg);
+	Snail4jInstaller createNewInstaller();
 
 	ConfigLookup createConfigLookup();
 
@@ -45,6 +45,8 @@ public interface Factory {
 	LoadGenerator createLoadGenerator() throws Snail4jException;
 
 	Messages createMessages();
+
+	void setConfiguration(Configuration val);
 	
 
 }

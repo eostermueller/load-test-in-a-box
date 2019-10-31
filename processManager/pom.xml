@@ -14,6 +14,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <slf4jVersion>1.6.1</slf4jVersion>
     <h2.maven.plugin.version>1.0</h2.maven.plugin.version>
     <h2.port>9093</h2.port>
+    <snail4j.maven.offline.passthru>-V</snail4j.maven.offline.passthru> <!-- -V is an innocuous value, couldn't get "" to work -->
   </properties>
   <dependencies>
     <dependency>
@@ -111,7 +112,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
  -->
               <arguments>
                 <argument>mvn${script.extension}</argument>
-                <argument>--offline</argument>
+                <argument>${snail4j.maven.offline.passthru}</argument>
                 <argument>-Dmaven.repo.local=${user.home}/.snail4j/repository</argument>
                 <argument>clean</argument>
                 <argument>compile</argument>
@@ -138,7 +139,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
   -->
               <arguments>
                 <argument>mvn${script.extension}</argument>
-                <argument>--offline</argument>
+                <argument>${snail4j.maven.offline.passthru}</argument>
                 <argument>-Dmaven.repo.local=${user.home}/.snail4j/repository</argument>
                 <argument>-Dh2.port=${h2.port}</argument>
                 <argument>
@@ -166,7 +167,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
   -->
               <arguments>
                 <argument>mvn${script.extension}</argument>
-                <argument>--offline</argument>
+                <argument>${snail4j.maven.offline.passthru}</argument>
                 <argument>-Dmaven.repo.local=${user.home}/.snail4j/repository</argument>
                 <argument>-Dspring-boot.run.jvmArguments="-javaagent:${user.home}/.snail4j/glowroot/glowroot/glowroot.jar"</argument>
                 <arguments>spring-boot:run</arguments>

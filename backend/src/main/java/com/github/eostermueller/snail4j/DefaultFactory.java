@@ -50,6 +50,7 @@ public class DefaultFactory implements Factory {
 	}
 	
 	static EventHistory eventHistory = new EventHistory();
+	static Factory FACTORY_INSTANCE = null;
 	
 	Configuration config = new DefaultConfiguration();
 	public static final String FACTORY_DASH_D_PARM = "com.github.eostermueller.snail4j.FactoryImpl";
@@ -137,28 +138,26 @@ public class DefaultFactory implements Factory {
 	 * @throws CannotFindTjpFactoryClass 
 	 */
 	public static Factory getFactory() throws CannotFindTjpFactoryClass {
-		String myFactoryClassName = System.getProperty(FACTORY_DASH_D_PARM,DEFAULT_FACTORY);
-		try {
-			Class<Factory> factoryClass = (Class<Factory>) Class.forName(myFactoryClassName); 
-			Constructor[] ctors = factoryClass.getDeclaredConstructors();
-			Constructor ctor = null;
-			for (int i = 0; i < ctors.length; i++) {
-			    ctor = ctors[i];
-			    if (ctor.getGenericParameterTypes().length == 0)
-				break;
+		if (FACTORY_INSTANCE==null) {
+			String myFactoryClassName = System.getProperty(FACTORY_DASH_D_PARM,DEFAULT_FACTORY);
+			try {
+				Class<Factory> factoryClass = (Class<Factory>) Class.forName(myFactoryClassName); 
+				Constructor[] ctors = factoryClass.getDeclaredConstructors();
+				Constructor ctor = null;
+				for (int i = 0; i < ctors.length; i++) {
+				    ctor = ctors[i];
+				    if (ctor.getGenericParameterTypes().length == 0)
+					break;
+				}
+				FACTORY_INSTANCE = (Factory)ctor.newInstance();
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | ClassNotFoundException e) {
+				CannotFindTjpFactoryClass cftf = new CannotFindTjpFactoryClass(e,myFactoryClassName);
+				throw cftf;
 			}
-			
-			Factory factory;
-		
-			factory = (Factory)ctor.newInstance();
-			return factory;
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException | ClassNotFoundException e) {
-			CannotFindTjpFactoryClass cftf = new CannotFindTjpFactoryClass(e,myFactoryClassName);
-			throw cftf;
 		}
 		
-		
+		return FACTORY_INSTANCE;
 	}
 	@Override
 	public Configuration getConfiguration() {
@@ -184,8 +183,8 @@ public class DefaultFactory implements Factory {
 	}
 	@Override
 	public
-	Snail4jInstaller createNewInstaller(Configuration cfg) {
-		return new Snail4jInstaller(cfg);
+	Snail4jInstaller createNewInstaller() {
+		return new Snail4jInstaller();
 	}
 	@Override
 	public ConfigLookup createConfigLookup() {
@@ -200,6 +199,11 @@ public class DefaultFactory implements Factory {
 		return cmdLine;
 //broken		return new CommandLineWrapper(val);
 	}
+	@Override
+	public void setConfiguration(Configuration val) {
+		this.config = val;
+	}
+	
 	@Override
 	public SystemUnderTest createSystemUnderTest() throws Snail4jException {
 		SystemUnderTest sut = new DefaultSystemUnderTest((Configuration)this.getConfiguration()); 

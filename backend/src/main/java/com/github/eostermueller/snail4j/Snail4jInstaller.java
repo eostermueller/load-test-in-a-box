@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.eostermueller.snail4j.launcher.CannotFindTjpFactoryClass;
+import com.github.eostermueller.snail4j.launcher.ConfigReaderWriter;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 
 /**
@@ -29,9 +30,8 @@ drwxr-xr-x  7 erikostermueller  staff        224 Sep 15 10:30 .
  *
  */
 public class Snail4jInstaller {
-	private Configuration cfg;
-	public Snail4jInstaller(Configuration val) {
-		this.cfg = val;
+	Configuration getConfiguration() throws CannotFindTjpFactoryClass {
+		return DefaultFactory.getFactory().getConfiguration();
 	}
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	/**
@@ -43,16 +43,18 @@ public class Snail4jInstaller {
 	  
     try {
     	pathUtil.createSnail4jHomeIfNotExist();
+    	
+    	
     	createLogDir();
     	
-    	installMaven(cfg);
-    	installMavenRepository(cfg);
-    	installSutApp(cfg);
-    	installWiremock(cfg);
-    	installH2DbData(cfg);
-    	installJMeterFiles(cfg);
-    	installGlowroot(cfg);
-    	installProcessManager(cfg);
+    	installMaven();
+    	installMavenRepository();
+    	installSutApp();
+    	installWiremock();
+    	installH2DbData();
+    	installJMeterFiles();
+    	installGlowroot();
+    	installProcessManager();
     	
     	LOGGER.info("Install finished.  Ready to load test!");
     	
@@ -64,6 +66,23 @@ public class Snail4jInstaller {
 
   }
   /**
+   * If snail4j.json exists, read it.
+   * Else write (aka install) it.
+   * @throws Snail4jException
+   */
+  void initSnail4jCfgFile() throws Snail4jException {
+		
+		Configuration c = this.getConfiguration();
+		ConfigReaderWriter configWriter = DefaultFactory.getFactory().getConfigReaderWriter(c,c.getSnail4jHome().toFile() );
+		File snail4jConfig = new File( this.getConfiguration().getSnail4jHome().toFile(),configWriter.getFileName());
+		if (snail4jConfig.exists()) {
+			c = configWriter.read();
+			DefaultFactory.getFactory().setConfiguration(c);
+		} else {
+			configWriter.write();
+		}
+	}
+/**
    * Would be nice to just pull glowroot from maven, so I tried referencing this:
    * <pre>
    * https://search.maven.org/artifact/org.glowroot/glowroot-agent/0.13.5/jar
@@ -77,25 +96,25 @@ public class Snail4jInstaller {
    * @param cfg2
  * @throws Snail4jException 
    */
-  private void installGlowroot(Configuration cfg2) throws Snail4jException {
+  private void installGlowroot() throws Snail4jException {
 		PathUtil pathUtil = new PathUtil();
 		String path = pathUtil.getBaseClassspath();
 		String cleansedPath;
 		try {
-			Path targetGlowrootZipFile = Paths.get( cfg.getSnail4jHome().toString(), cfg.getGlowrootZipFileName() );
+			Path targetGlowrootZipFile = Paths.get( this.getConfiguration().getSnail4jHome().toString(), this.getConfiguration().getGlowrootZipFileName() );
 			if (path.contains(PathUtil.JAR_SUFFIX)) {
 				
 				/**
 				 * glowroot agent jar needs to be extracted from zip
 				 */
 				cleansedPath = pathUtil.cleanPath(path);
-		    	if ( !cfg.getGlowrootHome().toFile().exists() ) {
-		    		LOGGER.info("About to unzip [" + cfg.getGlowrootZipFileName() + "] from [" + cleansedPath + "] to [" + targetGlowrootZipFile + "]");
-		    		pathUtil.extractZipFromZip(cleansedPath, cfg.getGlowrootZipFileName(), targetGlowrootZipFile.toString() );
+		    	if ( !this.getConfiguration().getGlowrootHome().toFile().exists() ) {
+		    		LOGGER.info("About to unzip [" + this.getConfiguration().getGlowrootZipFileName() + "] from [" + cleansedPath + "] to [" + targetGlowrootZipFile + "]");
+		    		pathUtil.extractZipFromZip(cleansedPath, this.getConfiguration().getGlowrootZipFileName(), targetGlowrootZipFile.toString() );
 		    		
 		    		LOGGER.info("does [" + targetGlowrootZipFile.toFile().getAbsolutePath().toString() + "] exist? [" + targetGlowrootZipFile.toFile().exists() + "]" );
 		    		
-		    		pathUtil.unzip(targetGlowrootZipFile.toFile(), cfg.getGlowrootHome().toString() );
+		    		pathUtil.unzip(targetGlowrootZipFile.toFile(), this.getConfiguration().getGlowrootHome().toString() );
 		    		targetGlowrootZipFile.toFile().delete();
 		    	}
 				
@@ -109,25 +128,25 @@ public class Snail4jInstaller {
 		
 	}
 private void createLogDir() throws CannotFindTjpFactoryClass {
-	  Configuration cfg = DefaultFactory.getFactory().getConfiguration();
-	  File logDir = cfg.getLogDir().toFile();
+	  
+	  File logDir = this.getConfiguration().getLogDir().toFile();
 	  if (!logDir.exists())
 		  logDir.mkdirs();
 	}
-protected void installProcessManager(Configuration cfg2) throws Snail4jException {
+protected void installProcessManager() throws Snail4jException {
 		PathUtil pathUtil = new PathUtil();
 		String path = pathUtil.getBaseClassspath();
 		String cleansedPath;
 		
 		
 		try {
-			Path targetProcessManagerZipFile = Paths.get( cfg.getProcessManagerHome().toString(), cfg.getProcessManagerZipFileName() );
+			Path targetProcessManagerZipFile = Paths.get( this.getConfiguration().getProcessManagerHome().toString(), this.getConfiguration().getProcessManagerZipFileName() );
 			
-			if (cfg.getProcessManagerHome().toFile().exists()) {
+			if (this.getConfiguration().getProcessManagerHome().toFile().exists()) {
 				LOGGER.info("dir for processManager already exists.");
 			} else {
 				LOGGER.info("Creating dir for processManager files");
-				cfg.getProcessManagerHome().toFile().mkdirs();
+				this.getConfiguration().getProcessManagerHome().toFile().mkdirs();
 			}
 			
 			if (path.contains(PathUtil.JAR_SUFFIX)) {
@@ -141,20 +160,20 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
 		    		LOGGER.info("processManager.zip exists. will not overwrite [" + targetProcessManagerZipFile.toString() + "]");
 		    	} else {
 		    		LOGGER.info("About to unzip [" + targetProcessManagerZipFile.toString() + "] from [" + cleansedPath + "] to [" + targetProcessManagerZipFile.toString() + "]");
-		    		pathUtil.extractZipFromZip(cleansedPath, cfg.getProcessManagerZipFileName(), targetProcessManagerZipFile.toString() );
+		    		pathUtil.extractZipFromZip(cleansedPath, this.getConfiguration().getProcessManagerZipFileName(), targetProcessManagerZipFile.toString() );
 		    	}
 		    	
-		    	String[] fileNames=cfg.getProcessManagerHome().toFile().list();
+		    	String[] fileNames=this.getConfiguration().getProcessManagerHome().toFile().list();
 		    	
-	    		LOGGER.info("[" + fileNames.length  + "] file(s) exist(s) in [" + cfg.getProcessManagerHome() + "]");
+	    		LOGGER.info("[" + fileNames.length  + "] file(s) exist(s) in [" + this.getConfiguration().getProcessManagerHome() + "]");
 	    		
 	    		if (fileNames.length<1) {
-	    			throw new Snail4jException("Install failed.  Tried to uznip [" + cfg.getProcessManagerZipFileName() + "] to [" + cfg.getProcessManagerHome() + "] but [" + targetProcessManagerZipFile.toString() + "] does not exist." );
-	    		} else if (fileNames.length==1 && fileNames[0].equals(cfg.getProcessManagerZipFileName()) ) {
-	        		pathUtil.unzip(targetProcessManagerZipFile.toFile(), cfg.getProcessManagerHome().toString() );
+	    			throw new Snail4jException("Install failed.  Tried to uznip [" + this.getConfiguration().getProcessManagerZipFileName() + "] to [" + this.getConfiguration().getProcessManagerHome() + "] but [" + targetProcessManagerZipFile.toString() + "] does not exist." );
+	    		} else if (fileNames.length==1 && fileNames[0].equals(this.getConfiguration().getProcessManagerZipFileName()) ) {
+	        		pathUtil.unzip(targetProcessManagerZipFile.toFile(), this.getConfiguration().getProcessManagerHome().toString() );
 	        		targetProcessManagerZipFile.toFile().delete(); // don't need anymore because we just unzipped its contents.
 	    		} else {
-	        		LOGGER.info("Will not unzip [" + cfg.getProcessManagerZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.snail4j/processManager and restart snail4j executable jar");
+	        		LOGGER.info("Will not unzip [" + this.getConfiguration().getProcessManagerZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.snail4j/processManager and restart snail4j executable jar");
 	    		}
 		    	
 				
@@ -167,20 +186,20 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
 		}		
 	}
   
-  protected void installJMeterFiles(Configuration cfg2) throws Snail4jException {
+  protected void installJMeterFiles() throws Snail4jException {
 		PathUtil pathUtil = new PathUtil();
 		String path = pathUtil.getBaseClassspath();
 		String cleansedPath;
 		
 		
 		try {
-			Path targetJMeterFilesZipFile = Paths.get( cfg.getJMeterFilesHome().toString(), cfg.getJMeterFilesZipFileName() );
+			Path targetJMeterFilesZipFile = Paths.get( this.getConfiguration().getJMeterFilesHome().toString(), this.getConfiguration().getJMeterFilesZipFileName() );
 			
-			if (cfg.getJMeterFilesHome().toFile().exists()) {
+			if (this.getConfiguration().getJMeterFilesHome().toFile().exists()) {
 				LOGGER.info("dir for jmeter files already exists.");
 			} else {
 				LOGGER.info("Creating dir for jmter .jmx plan files and the maven file to launch jmeter.");
-				cfg.getJMeterFilesHome().toFile().mkdirs();
+				this.getConfiguration().getJMeterFilesHome().toFile().mkdirs();
 			}
 			
 			if (path.contains(PathUtil.JAR_SUFFIX)) {
@@ -194,20 +213,20 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
 		    		LOGGER.info("jmeterFiles.zip exists. will not overwrite [" + targetJMeterFilesZipFile.toString() + "]");
 		    	} else {
 		    		LOGGER.info("About to unzip [" + targetJMeterFilesZipFile.toString() + "] from [" + cleansedPath + "] to [" + targetJMeterFilesZipFile.toString() + "]");
-		    		pathUtil.extractZipFromZip(cleansedPath, cfg.getJMeterFilesZipFileName(), targetJMeterFilesZipFile.toString() );
+		    		pathUtil.extractZipFromZip(cleansedPath, this.getConfiguration().getJMeterFilesZipFileName(), targetJMeterFilesZipFile.toString() );
 		    	}
 		    	
-		    	String[] fileNames=cfg.getJMeterFilesHome().toFile().list();
+		    	String[] fileNames=this.getConfiguration().getJMeterFilesHome().toFile().list();
 		    	
-	    		LOGGER.info("[" + fileNames.length  + "] file(s) exist(s) in [" + cfg.getJMeterFilesHome() + "]");
+	    		LOGGER.info("[" + fileNames.length  + "] file(s) exist(s) in [" + this.getConfiguration().getJMeterFilesHome() + "]");
 	    		
 	    		if (fileNames.length<1) {
-	    			throw new Snail4jException("Install failed.  Tried to uznip [" + cfg.getJMeterFilesZipFileName() + "] to [" + cfg.getJMeterFilesHome() + "] but [" + targetJMeterFilesZipFile.toString() + "] does not exist." );
-	    		} else if (fileNames.length==1 && fileNames[0].equals(cfg.getJMeterFilesZipFileName()) ) {
-	        		pathUtil.unzip(targetJMeterFilesZipFile.toFile(), cfg.getJMeterFilesHome().toString() );
+	    			throw new Snail4jException("Install failed.  Tried to uznip [" + this.getConfiguration().getJMeterFilesZipFileName() + "] to [" + this.getConfiguration().getJMeterFilesHome() + "] but [" + targetJMeterFilesZipFile.toString() + "] does not exist." );
+	    		} else if (fileNames.length==1 && fileNames[0].equals(this.getConfiguration().getJMeterFilesZipFileName()) ) {
+	        		pathUtil.unzip(targetJMeterFilesZipFile.toFile(), this.getConfiguration().getJMeterFilesHome().toString() );
 	        		targetJMeterFilesZipFile.toFile().delete(); // don't need anymore because we just unzipped its contents.
 	    		} else {
-	        		LOGGER.info("Will not unzip [" + cfg.getJMeterFilesZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.snail4j/jmeterFiles and restart snail4j executable jar");
+	        		LOGGER.info("Will not unzip [" + this.getConfiguration().getJMeterFilesZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.snail4j/jmeterFiles and restart snail4j executable jar");
 	    		}
 		    	
 				
@@ -225,20 +244,20 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
    * @param cfg
    * @throws Exception
    */
-	protected void installWiremock(Configuration cfg) throws Snail4jException {
+	protected void installWiremock() throws Snail4jException {
 		PathUtil pathUtil = new PathUtil();
 		String path = pathUtil.getBaseClassspath();
 		String cleansedPath;
 		
 		
 		try {
-			Path targetWiremockFilesZipFile = Paths.get( cfg.getWiremockFilesHome().toString(), cfg.getWiremockFilesZipFileName() );
+			Path targetWiremockFilesZipFile = Paths.get( this.getConfiguration().getWiremockFilesHome().toString(), this.getConfiguration().getWiremockFilesZipFileName() );
 			
-			if (cfg.getWiremockFilesHome().toFile().exists()) {
+			if (this.getConfiguration().getWiremockFilesHome().toFile().exists()) {
 				LOGGER.info("dir for wiremock files already exists.");
 			} else {
 				LOGGER.info("Creating dir for jmter .jmx plan files and the maven file to launch wiremock.");
-				cfg.getWiremockFilesHome().toFile().mkdirs();
+				this.getConfiguration().getWiremockFilesHome().toFile().mkdirs();
 			}
 			
 			if (path.contains(PathUtil.JAR_SUFFIX)) {
@@ -252,20 +271,20 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
 		    		LOGGER.info("wiremockFiles.zip exists. will not overwrite [" + targetWiremockFilesZipFile.toString() + "]");
 		    	} else {
 		    		LOGGER.info("About to unzip [" + targetWiremockFilesZipFile.toString() + "] from [" + cleansedPath + "] to [" + targetWiremockFilesZipFile.toString() + "]");
-		    		pathUtil.extractZipFromZip(cleansedPath, cfg.getWiremockFilesZipFileName(), targetWiremockFilesZipFile.toString() );
+		    		pathUtil.extractZipFromZip(cleansedPath, this.getConfiguration().getWiremockFilesZipFileName(), targetWiremockFilesZipFile.toString() );
 		    	}
 		    	
-		    	String[] fileNames=cfg.getWiremockFilesHome().toFile().list();
+		    	String[] fileNames=this.getConfiguration().getWiremockFilesHome().toFile().list();
 		    	
-	    		LOGGER.info("[" + fileNames.length  + "] file(s) exist(s) in [" + cfg.getWiremockFilesHome() + "]");
+	    		LOGGER.info("[" + fileNames.length  + "] file(s) exist(s) in [" + this.getConfiguration().getWiremockFilesHome() + "]");
 	    		
 	    		if (fileNames.length<1) {
-	    			throw new Snail4jException("Install failed.  Tried to unzip [" + cfg.getWiremockFilesZipFileName() + "] to [" + cfg.getWiremockFilesHome() + "] but [" + targetWiremockFilesZipFile.toString() + "] does not exist." );
-	    		} else if (fileNames.length==1 && fileNames[0].equals(cfg.getWiremockFilesZipFileName()) ) {
-	        		pathUtil.unzip(targetWiremockFilesZipFile.toFile(), cfg.getWiremockFilesHome().toString() );
+	    			throw new Snail4jException("Install failed.  Tried to unzip [" + this.getConfiguration().getWiremockFilesZipFileName() + "] to [" + this.getConfiguration().getWiremockFilesHome() + "] but [" + targetWiremockFilesZipFile.toString() + "] does not exist." );
+	    		} else if (fileNames.length==1 && fileNames[0].equals(this.getConfiguration().getWiremockFilesZipFileName()) ) {
+	        		pathUtil.unzip(targetWiremockFilesZipFile.toFile(), this.getConfiguration().getWiremockFilesHome().toString() );
 	        		targetWiremockFilesZipFile.toFile().delete(); // don't need anymore because we just unzipped its contents.
 	    		} else {
-	        		LOGGER.info("Will not unzip [" + cfg.getWiremockFilesZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.snail4j/wiremockFiles and restart snail4j executable jar");
+	        		LOGGER.info("Will not unzip [" + this.getConfiguration().getWiremockFilesZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.snail4j/wiremockFiles and restart snail4j executable jar");
 	    		}
 		    	
 				
@@ -287,29 +306,29 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
    * @param cfg
    * @throws Exception
    */
-	protected void installMavenRepository(Configuration cfg) throws Snail4jException {
+	protected void installMavenRepository() throws Snail4jException {
 		  PathUtil pathUtil = new PathUtil();
 		String path = pathUtil.getBaseClassspath();
 		String cleansedPath;
 		String zipName = "repository.zip";
 		
 		try {
-			Path targetMavenRepositoryZipFile = Paths.get( cfg.getSnail4jHome().toString(), zipName );
+			Path targetMavenRepositoryZipFile = Paths.get( this.getConfiguration().getSnail4jHome().toString(), zipName );
 			if (path.contains(PathUtil.JAR_SUFFIX)) {
 				
 				/**
 				 * maven repository zip needs to be extracted from executable jar file
 				 */
 				cleansedPath = pathUtil.cleanPath(path);
-		    	if ( cfg.getMavenRepositoryHome().toFile().exists() ) {
-		    		LOGGER.info("Maven home exists. will not overwrite [" + cfg.getMavenRepositoryHome().toString() + "]");
+		    	if ( this.getConfiguration().getMavenRepositoryHome().toFile().exists() ) {
+		    		LOGGER.info("Maven home exists. will not overwrite [" + this.getConfiguration().getMavenRepositoryHome().toString() + "]");
 		    	} else {
 		    		LOGGER.info("About to unzip [" + zipName + "] from [" + cleansedPath + "] to [" + targetMavenRepositoryZipFile + "]");
 		    		pathUtil.extractZipFromZip(cleansedPath, zipName, targetMavenRepositoryZipFile.toString() );
 		    		
 		    		LOGGER.info("does [" + targetMavenRepositoryZipFile.toFile().getAbsolutePath().toString() + "] exist? [" + targetMavenRepositoryZipFile.toFile().exists() + "]" );
 		    		
-		    		pathUtil.unzip(targetMavenRepositoryZipFile.toFile(), cfg.getSnail4jHome().toString() );
+		    		pathUtil.unzip(targetMavenRepositoryZipFile.toFile(), this.getConfiguration().getSnail4jHome().toString() );
 		    		targetMavenRepositoryZipFile.toFile().delete();
 		    	}
 				
@@ -321,7 +340,7 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
 		}
 
 	}  
-	protected void installH2DbData(Configuration cfg) throws Snail4jException {
+	protected void installH2DbData() throws Snail4jException {
 		PathUtil pathUtil = new PathUtil();
 		String path = pathUtil.getBaseClassspath();
 		String cleansedPath;
@@ -329,14 +348,14 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
 		
 		
 		try {
-			Path targetH2ZipFile = Paths.get( cfg.getH2DataFileHome().toString(), zipName );
-			Path targetH2DataFile = Paths.get( cfg.getH2DataFileHome().toString(), cfg.getH2DataFileName() );
+			Path targetH2ZipFile = Paths.get( this.getConfiguration().getH2DataFileHome().toString(), zipName );
+			Path targetH2DataFile = Paths.get( this.getConfiguration().getH2DataFileHome().toString(), this.getConfiguration().getH2DataFileName() );
 			
-			if (cfg.getH2DataFileHome().toFile().exists()) {
+			if (this.getConfiguration().getH2DataFileHome().toFile().exists()) {
 				LOGGER.info("dir for h2 db already exists.");
 			} else {
 				LOGGER.info("Creating dir for h2 db data file");
-				cfg.getH2DataFileHome().toFile().mkdirs();
+				this.getConfiguration().getH2DataFileHome().toFile().mkdirs();
 			}
 			
 			if (path.contains(PathUtil.JAR_SUFFIX)) {
@@ -357,7 +376,7 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
 	    		if (targetH2DataFile.toFile().exists()) {
 	        		LOGGER.info("[" + targetH2DataFile.toFile().getAbsolutePath().toString() + "] does exist. will not overwrite.");
 	    		} else {
-	        		pathUtil.unzip(targetH2ZipFile.toFile(), cfg.getH2DataFileHome().toString() );
+	        		pathUtil.unzip(targetH2ZipFile.toFile(), this.getConfiguration().getH2DataFileHome().toString() );
 	        		targetH2ZipFile.toFile().delete(); // don't need anymore because we just unzipped its contents.
 	    		}
 		    	
@@ -371,25 +390,25 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
 		}
 	}  
   
-	protected void installMaven(Configuration cfg) throws Snail4jException {
+	protected void installMaven() throws Snail4jException {
 		PathUtil pathUtil = new PathUtil();
 		String path = pathUtil.getBaseClassspath();
 		String cleansedPath;
 		try {
-			Path targetMavenZipFile = Paths.get( cfg.getSnail4jHome().toString(), cfg.getMavenZipFileName() );
+			Path targetMavenZipFile = Paths.get( this.getConfiguration().getSnail4jHome().toString(), this.getConfiguration().getMavenZipFileName() );
 			if (path.contains(PathUtil.JAR_SUFFIX)) {
 				
 				/**
 				 * maven zip needs to be extracted from executable jar file
 				 */
 				cleansedPath = pathUtil.cleanPath(path);
-		    	if ( !cfg.getMavenHome().toFile().exists() ) {
-		    		LOGGER.info("About to unzip [" + cfg.getMavenZipFileName() + "] from [" + cleansedPath + "] to [" + targetMavenZipFile + "]");
-		    		pathUtil.extractZipFromZip(cleansedPath, cfg.getMavenZipFileName(), targetMavenZipFile.toString() );
+		    	if ( !this.getConfiguration().getMavenHome().toFile().exists() ) {
+		    		LOGGER.info("About to unzip [" + this.getConfiguration().getMavenZipFileName() + "] from [" + cleansedPath + "] to [" + targetMavenZipFile + "]");
+		    		pathUtil.extractZipFromZip(cleansedPath, this.getConfiguration().getMavenZipFileName(), targetMavenZipFile.toString() );
 		    		
 		    		LOGGER.info("does [" + targetMavenZipFile.toFile().getAbsolutePath().toString() + "] exist? [" + targetMavenZipFile.toFile().exists() + "]" );
 		    		
-		    		pathUtil.unzip(targetMavenZipFile.toFile(), cfg.getSnail4jHome().toString() );
+		    		pathUtil.unzip(targetMavenZipFile.toFile(), this.getConfiguration().getSnail4jHome().toString() );
 		    		targetMavenZipFile.toFile().delete();
 		    	}
 				
@@ -402,19 +421,19 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
 
 		
 	}  
-	protected void installSutApp(Configuration cfg) throws Snail4jException {
+	protected void installSutApp() throws Snail4jException {
 		  PathUtil pathUtil = new PathUtil();
 		String path = pathUtil.getBaseClassspath();
 		String cleansedPath;
 		
 		try {
-			Path targetSutAppZipFile = Paths.get( cfg.getSutAppHome().toString(), cfg.getSutAppZipFileName() );
+			Path targetSutAppZipFile = Paths.get( this.getConfiguration().getSutAppHome().toString(), this.getConfiguration().getSutAppZipFileName() );
 			
-			if (cfg.getSutAppHome().toFile().exists()) {
+			if (this.getConfiguration().getSutAppHome().toFile().exists()) {
 				LOGGER.info("dir for sutApp files already exists.");
 			} else {
 				LOGGER.info("Creating dir for sut java app.");
-				cfg.getSutAppHome().toFile().mkdirs();
+				this.getConfiguration().getSutAppHome().toFile().mkdirs();
 			}
 			
 			if (path.contains(PathUtil.JAR_SUFFIX)) {
@@ -428,20 +447,20 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
 		    		LOGGER.info(targetSutAppZipFile.toFile().toString() + " exists. will not overwrite it.");
 		    	} else {
 		    		LOGGER.info("About to unzip [" + targetSutAppZipFile.toString() + "] from [" + cleansedPath + "] to [" + targetSutAppZipFile.toString() + "]");
-		    		pathUtil.extractZipFromZip(cleansedPath, cfg.getSutAppZipFileName(), targetSutAppZipFile.toString() );
+		    		pathUtil.extractZipFromZip(cleansedPath, this.getConfiguration().getSutAppZipFileName(), targetSutAppZipFile.toString() );
 		    	}
 		    	
-		    	String[] fileNames=cfg.getSutAppHome().toFile().list();
+		    	String[] fileNames=this.getConfiguration().getSutAppHome().toFile().list();
 		    	
-	    		LOGGER.info("[" + fileNames.length  + "] file(s) exist(s) in [" + cfg.getSutAppHome() + "]");
+	    		LOGGER.info("[" + fileNames.length  + "] file(s) exist(s) in [" + this.getConfiguration().getSutAppHome() + "]");
 	    		
 	    		if (fileNames.length<1) {
-	    			throw new Snail4jException("Install failed.  Tried to unzip [" + cfg.getSutAppZipFileName() + "] to [" + cfg.getSutAppHome() + "] but [" + targetSutAppZipFile.toString() + "] does not exist." );
-	    		} else if (fileNames.length==1 && fileNames[0].equals(cfg.getSutAppZipFileName()) ) {
-	        		pathUtil.unzip(targetSutAppZipFile.toFile(), cfg.getSutAppHome().toString() );
+	    			throw new Snail4jException("Install failed.  Tried to unzip [" + this.getConfiguration().getSutAppZipFileName() + "] to [" + this.getConfiguration().getSutAppHome() + "] but [" + targetSutAppZipFile.toString() + "] does not exist." );
+	    		} else if (fileNames.length==1 && fileNames[0].equals(this.getConfiguration().getSutAppZipFileName()) ) {
+	        		pathUtil.unzip(targetSutAppZipFile.toFile(), this.getConfiguration().getSutAppHome().toString() );
 	        		targetSutAppZipFile.toFile().delete(); // don't need anymore because we just unzipped its contents.
 	    		} else {
-	        		LOGGER.info("Will not unzip [" + cfg.getSutAppZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in " + cfg.getSutAppHome() + " and restart snail4j executable jar");
+	        		LOGGER.info("Will not unzip [" + this.getConfiguration().getSutAppZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in " + this.getConfiguration().getSutAppHome() + " and restart snail4j executable jar");
 	    		}
 				
 			} else {
@@ -453,22 +472,22 @@ protected void installProcessManager(Configuration cfg2) throws Snail4jException
 		}		
 		
 		
-//		String zipName = cfg.getSutAppZipFileName();
+//		String zipName = this.getConfiguration().getSutAppZipFileName();
 //		try {
-//			Path targetSutZipFile = Paths.get( cfg.getSnail4jHome().toString(), zipName );
+//			Path targetSutZipFile = Paths.get( this.getConfiguration().getSnail4jHome().toString(), zipName );
 //			if (path.contains(PathUtil.JAR_SUFFIX)) {
 //				
 //				/**
 //				 * SUT (system under test) zip needs to be extracted from executable jar file
 //				 */
 //				cleansedPath = pathUtil.cleanPath(path);
-//		    	if ( !cfg.getSutAppHome().toFile().exists() ) {
+//		    	if ( !this.getConfiguration().getSutAppHome().toFile().exists() ) {
 //		    		LOGGER.info("About to unzip [" + zipName + "] from [" + cleansedPath + "] to [" + targetSutZipFile + "]");
 //		    		pathUtil.extractZipFromZip(cleansedPath, zipName, targetSutZipFile.toString() );
 //		    		
 //		    		LOGGER.info("does [" + targetSutZipFile.toFile().getAbsolutePath().toString() + "] exist? [" + targetSutZipFile.toFile().exists() + "]" );
 //		    		
-//		    		pathUtil.unzip(targetSutZipFile.toFile(), cfg.getSnail4jHome().toString() );
+//		    		pathUtil.unzip(targetSutZipFile.toFile(), this.getConfiguration().getSnail4jHome().toString() );
 //		    		targetSutZipFile.toFile().delete();
 //		    	}
 //				

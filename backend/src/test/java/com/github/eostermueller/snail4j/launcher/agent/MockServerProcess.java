@@ -33,6 +33,10 @@ public class MockServerProcess {
 		
 		Path java_Executable = this.getJavaHome().resolve( Paths.get("bin/java") );
  
+		
+		if (!java_Executable.toFile().exists() ) {
+			throw new Snail4jException("Was expecting [" + java_Executable.toString() + "] to be the path to a java executable.");
+		}
 		//System.out.println("My java exe: " + java_Executable.toAbsolutePath().toString() );
 		ProcessBuilder pb = new ProcessBuilder(
 				java_Executable.toAbsolutePath().toString(),
@@ -103,6 +107,9 @@ public class MockServerProcess {
 		Assert.assertNotNull( javaHome );
 		
 		Path java_c_Executable = javaHome.resolve( Paths.get("bin/javac") );
+		if (!java_c_Executable.toFile().exists() ) {
+			throw new Snail4jException("Was expecting [" + java_c_Executable.toString() + "] to be the path to a javac executable.");
+		}
 
 		ProcessBuilder pb = new ProcessBuilder(
 				java_c_Executable.toAbsolutePath().toString(),
