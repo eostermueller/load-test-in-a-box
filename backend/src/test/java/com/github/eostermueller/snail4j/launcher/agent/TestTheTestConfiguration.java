@@ -81,16 +81,16 @@ public class TestTheTestConfiguration {
 				
 		TestConfiguration testCfg = new TestConfiguration(tjpHome, javaHome);
 		String launch = testCfg.MAVEN_EXE_PATH + " verify";
-		String offlineLaunch = testCfg.MAVEN_EXE_PATH + " --offline verify";
+		String expectedOfflineLaunch = testCfg.MAVEN_EXE_PATH + " --offline verify";
 		
 		testCfg.setLoadGeneratorLaunchCmd(launch);
 		testCfg.setMavenOnline(true);
 		
-		Assert.assertEquals(launch, testCfg.getLoadGeneratorLaunchCmd());
+		Assert.assertEquals("could not assemble mvn command without offline flags", launch, testCfg.getLoadGeneratorLaunchCmd());
 		
 		testCfg.setMavenOnline(false);
 
-		Assert.assertEquals(offlineLaunch, testCfg.getLoadGeneratorLaunchCmd());
+		Assert.assertEquals("could not correctly assemble mvn command with offline flags", expectedOfflineLaunch, testCfg.getLoadGeneratorLaunchCmd());
 		
 		
 	}
@@ -102,7 +102,7 @@ public class TestTheTestConfiguration {
 				
 		TestConfiguration testCfg = new TestConfiguration(tjpHome, javaHome);
 		String launch = testCfg.MAVEN_EXE_PATH + " verify";
-		String offlineLaunch = testCfg.MAVEN_EXE_PATH + " --offline verify";
+		String expectedofflineLaunch = testCfg.MAVEN_EXE_PATH + " -Dsnail4j.maven.offline.passthru=--offline --offline verify";
 		
 		testCfg.setProcessManagerLaunchCmd(launch);
 		testCfg.setMavenOnline(true);
@@ -111,7 +111,7 @@ public class TestTheTestConfiguration {
 		
 		testCfg.setMavenOnline(false);
 
-		Assert.assertEquals(offlineLaunch, testCfg.getProcessManagerLaunchCmd());
+		Assert.assertEquals(expectedofflineLaunch, testCfg.getProcessManagerLaunchCmd());
 		
 		
 	}
