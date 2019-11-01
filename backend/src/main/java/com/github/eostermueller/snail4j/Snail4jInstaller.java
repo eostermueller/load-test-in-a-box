@@ -1,8 +1,12 @@
 package com.github.eostermueller.snail4j;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -175,7 +179,7 @@ protected void installProcessManager() throws Snail4jException {
 		    	
 				
 			} else {
-				LOGGER.error("launch as 'java -jar <snail4j.jar> to get maven to install");
+				LOGGER.error("launch as 'java -jar <snail4j.jar> to get processManager to install");
 			}
 			
 		} catch (Exception e) {
@@ -228,7 +232,7 @@ protected void installProcessManager() throws Snail4jException {
 		    	
 				
 			} else {
-				LOGGER.error("launch as 'java -jar <snail4j.jar> to get maven to install");
+				LOGGER.error("launch as 'java -jar <snail4j.jar> to get JMeter test files to install");
 			}
 			
 		} catch (Exception e) {
@@ -387,6 +391,46 @@ protected void installProcessManager() throws Snail4jException {
 		}
 	}  
   
+	/**
+	 * @stolenFrom: https://stackoverflow.com/a/1410779/2377579
+	 * @param cmd
+	 * @throws Snail4jException 
+	 */
+	private boolean executeBashCmd(String cmd, File dir) throws Snail4jException {
+        boolean rc = false;
+		LOGGER.debug("About to execute bash command [" + cmd + "] in dir [" + dir.toString() + "]");
+		
+		try {
+	        List<String> commands = new ArrayList<String>();
+	        commands.add("bash");
+	        commands.add("-c");
+	        commands.add(cmd);
+
+	        ProcessBuilder pb = new ProcessBuilder(commands);
+	        pb.directory(dir);
+	        pb.redirectErrorStream(true);
+	        Process process = pb.start();
+
+	        StringBuilder out = new StringBuilder();
+	        BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+	        String line = null, previous = null;
+	        while ((line = br.readLine()) != null)
+	            if (!line.equals(previous)) {
+	                previous = line;
+	                out.append(line).append('\n');
+	                System.out.println(line);
+	            }
+
+	        if (process.waitFor() == 0) {
+	            rc = true;
+	        }		
+			LOGGER.debug("rc = [" + rc + "] for bash command [" + cmd + "] in dir [" + dir.toString() + "]");
+		} catch (Exception e) {
+			throw new Snail4jException(e);
+		}
+
+		return rc;
+	}
 	protected void installMaven() throws Snail4jException {
 		PathUtil pathUtil = new PathUtil();
 		String path = pathUtil.getBaseClassspath();
@@ -408,6 +452,20 @@ protected void installProcessManager() throws Snail4jException {
 		    		pathUtil.unzip(targetMavenZipFile.toFile(), this.getConfiguration().getSnail4jHome().toString() );
 		    		targetMavenZipFile.toFile().delete();
 		    	}
+		    	if (!this.getConfiguration().isOsWin() ) {
+			    	File mavenBinFolder = new File(this.getConfiguration().getMavenHome().toFile(), "bin");
+			    	File mavenExe = new File( mavenBinFolder, "mvn");
+			    	if (mavenExe.exists()) {
+			    		String cmd = "chmod +x " + mavenExe.getAbsolutePath().toString();
+			    		executeBashCmd(cmd, mavenBinFolder);
+			    	} else {
+			    		String err= "java.util.File is reporting that the maven executable doesn't exist.  [" + mavenExe.toString() + "].  Cmon, we just installed it.  It should be there!";
+			    		LOGGER.error(err);
+			    		throw new Snail4jException(err);
+			    	}
+		    		
+		    	}
+		    	
 				
 			} else {
 				LOGGER.error("launch as 'java -jar <snail4j.jar> to get maven to install");
