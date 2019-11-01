@@ -71,6 +71,8 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 		    	pathUtil.createSnail4jHomeIfNotExist();
 				snail4jInstaller.initSnail4jCfgFile();
 				snail4jInstaller.install();
+		    	LOGGER.info("Install finished.  Ready to load test!");
+
 			} catch (Snail4jException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
