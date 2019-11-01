@@ -87,7 +87,6 @@ public class DefaultConfiguration implements Configuration {
 			StringBuilder sb = new StringBuilder();
 			
 			                 sb.append(MAVEN_EXE_PATH);
-//			sb.append(SPACE);sb.append("--offline");
 			sb.append(SPACE);sb.append("-f #{jmeterFilesHome}/pom-load.xml");
 			sb.append(SPACE);sb.append("-Pno-gui");
 			sb.append(SPACE);sb.append("clean verify");
@@ -108,7 +107,6 @@ public class DefaultConfiguration implements Configuration {
 			 * Use same approach as this, ab0ve: -Dsnail4j.jmeter.port=#{jmeterNonGuiPort}
 			 * 
 			 */
-//			this.setProcessManagerLaunchCmd("#{mavenExePath} -Dmaven.repo.local=#{mavenRepositoryHome} --offline verify");
 			this.setProcessManagerLaunchCmd("#{mavenExePath} -Dmaven.repo.local=#{mavenRepositoryHome} verify");
 			
 			if (getOsName().contains("windows")) {  
@@ -624,8 +622,22 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 		
 	}
 
+	/**
+	 * In the getters for the launch commands (this.getLoadGeneratorLaunchCmd and getProcessManagerLaunchCmd ), 
+	 * some code decides whether Maven "offline" variables should be used.
+	 * Since this.isMavenOnline() must make the final decision on whether offline mode will be used, don't allow maven offline variables
+	 * to be set in the corresponding setters.  
+	 */
+	private String stripOfflineVariables(String val) {
+		val = val.replaceAll(" --offline", "");
+		val = val.replaceAll(" -Dsnail4j.maven.offline.passthru=--offline", "");
+		return val;
+	}
 	@Override
 	public void setLoadGeneratorLaunchCmd(String val) {
+		
+		val = stripOfflineVariables(val);
+		
 		this.loadGeneratorLaunchCmd = val;
 	}
 
@@ -634,8 +646,8 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 		String rc = this.processManagerLaunchCmd;
 		
 		if (!this.isMavenOnline() ) {
-			if (rc.trim().startsWith(this.MAVEN_EXE_PATH)) {
-				rc = this.MAVEN_EXE_PATH + " -Dsnail4j.maven.offline.passthru=--offline --offline" + this.processManagerLaunchCmd.substring(this.MAVEN_EXE_PATH.length()); 
+			if (rc.trim().startsWith(MAVEN_EXE_PATH)) {
+				rc = MAVEN_EXE_PATH + " -Dsnail4j.maven.offline.passthru=--offline --offline" + this.processManagerLaunchCmd.substring(MAVEN_EXE_PATH.length()); 
 			}
 		}
 		
@@ -644,6 +656,8 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 
 	@Override
 	public void setProcessManagerLaunchCmd(String val) {
+		val = stripOfflineVariables(val);
+
 		this.processManagerLaunchCmd = val;
 	}
 	@Override

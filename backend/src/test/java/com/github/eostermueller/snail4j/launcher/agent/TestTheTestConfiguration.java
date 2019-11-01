@@ -74,7 +74,7 @@ public class TestTheTestConfiguration {
 		
 	}
 	@Test 
-	public void canAddMavenOfflineFlagToLoadGen() {
+	public void canSetMavenOfflineFlagAndGetMavenOfflineParms_lg() {
 		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
 		Path javaHome = Paths.get(this.unix_JAVA_HOME);
 		char myPlatformSeparater = '/';
@@ -93,9 +93,9 @@ public class TestTheTestConfiguration {
 		Assert.assertEquals("could not correctly assemble mvn command with offline flags", expectedOfflineLaunch, testCfg.getLoadGeneratorLaunchCmd());
 		
 		
-	}
+	}	
 	@Test 
-	public void canAddMavenOfflineFlagToProcessManager() {
+	public void canSetMavenOfflineFlagAndGetMavenOfflineParms_processManager() {
 		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
 		Path javaHome = Paths.get(this.unix_JAVA_HOME);
 		char myPlatformSeparater = '/';
@@ -112,6 +112,49 @@ public class TestTheTestConfiguration {
 		testCfg.setMavenOnline(false);
 
 		Assert.assertEquals(expectedofflineLaunch, testCfg.getProcessManagerLaunchCmd());
+		
+		
+	}
+	@Test 
+	public void canProcessMavenOnlineFlagEvenWithHardCodedOfflineParameters_lg() {
+		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
+		Path javaHome = Paths.get(unix_JAVA_HOME);
+		
+		
+		TestConfiguration testCfg = new TestConfiguration(tjpHome, javaHome);
+		String expectedOnlineLaunch = TestConfiguration.MAVEN_EXE_PATH + " verify";
+		String expectedOfflineLaunch = TestConfiguration.MAVEN_EXE_PATH + " --offline verify";
+		
+		testCfg.setLoadGeneratorLaunchCmd(TestConfiguration.MAVEN_EXE_PATH + " --offline verify");
+		testCfg.setMavenOnline(true);
+		
+		Assert.assertEquals("could not assemble mvn command without offline flags", expectedOnlineLaunch, testCfg.getLoadGeneratorLaunchCmd());
+		
+		testCfg.setMavenOnline(false);
+
+		Assert.assertEquals("could not correctly assemble mvn command with offline flags", expectedOfflineLaunch, testCfg.getLoadGeneratorLaunchCmd());
+		
+		
+	}	
+	@Test 
+	public void canProcessMavenOnlineFlagEvenWithHardCodedOfflineParameters_processManager() {
+		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
+		Path javaHome = Paths.get(unix_JAVA_HOME);
+		
+				
+		TestConfiguration testCfg = new TestConfiguration(tjpHome, javaHome);
+		String expectedOnlineLaunch = TestConfiguration.MAVEN_EXE_PATH + " verify";
+		String expectedOfflineLaunch = TestConfiguration.MAVEN_EXE_PATH + " -Dsnail4j.maven.offline.passthru=--offline --offline verify";
+		
+		
+		testCfg.setProcessManagerLaunchCmd(TestConfiguration.MAVEN_EXE_PATH + " -Dsnail4j.maven.offline.passthru=--offline --offline verify");
+		testCfg.setMavenOnline(true);
+		
+		Assert.assertEquals(expectedOnlineLaunch, testCfg.getProcessManagerLaunchCmd());
+		
+		testCfg.setMavenOnline(false);
+
+		Assert.assertEquals(expectedOfflineLaunch, testCfg.getProcessManagerLaunchCmd());
 		
 		
 	}

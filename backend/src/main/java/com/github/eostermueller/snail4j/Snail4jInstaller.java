@@ -54,7 +54,6 @@ public class Snail4jInstaller {
     	installGlowroot();
     	installProcessManager();
     	
-    	LOGGER.info("Install finished.  Ready to load test!");
     	
 	} catch (Snail4jException e) {
 		// TODO Auto-generated catch block
