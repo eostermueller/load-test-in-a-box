@@ -9,7 +9,7 @@ export class AppComponent {
 
   routes = [
     { path: 'workload', name: 'Worload' },
-    { path: 'start-stop', name: 'start-stop' },
+    { path: 'start-stop', name: 'starT-sTop' },
     { path: 'two', name: 'Two' },
     { path: 'three', name: 'Three' }
   ];

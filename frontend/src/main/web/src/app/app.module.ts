@@ -26,6 +26,7 @@ import { MatToolbarModule,
           MatInputModule,
            } from '@angular/material';
 import { WorkloadComponent } from './workload/workload.component';
+import { OneComponent } from './one/one.component';
 
 import { RouterModule, Routes } from '@angular/router';
 import { LoadGenMetricsComponent } from './load-gen-metrics/load-gen-metrics.component';
@@ -45,6 +46,16 @@ import { UseCaseCardComponent } from './use-case-card/use-case-card.component';
 import { StartStopComponent } from './start-stop/start-stop.component';
 
   const appRoutes: Routes = [
+    /**
+     * technique for setting the default route:
+     * @st0lenFr0m:  https://stackoverflow.com/a/42156970/2377579
+     */
+    {
+      path: '',
+      redirectTo: "/snail4j",
+      pathMatch: 'full'
+    },
+    { path: 'snail4j', component: OneComponent },      
     { path: 'workload', component: WorkloadComponent },
     { path: 'start-stop', component: StartStopComponent },
     { path: 'metrics', component: LoadGenMetricsComponent },
@@ -58,6 +69,7 @@ import { StartStopComponent } from './start-stop/start-stop.component';
     AppComponent,
     NavComponent,
     WorkloadComponent,
+    OneComponent,
     LoadGenMetricsComponent,
     TrafficJvmParametersComponent,
     WorkloadSelectionTypeComponent,
