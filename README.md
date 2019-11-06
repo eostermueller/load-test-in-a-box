@@ -8,5 +8,5 @@ Also good for code reviewing the performance of your own code.
 * Runs on MS-Win, Mac, and Linux
 * Pure Java (and I guess browser)
 * Uber jar distribution
-* Can install from a USB stick, no internet access required.
+* Installs from a USB stick, no internet access required.
 
