@@ -53,8 +53,6 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 			} catch (Snail4jException e1) {
 			}
 		}
-		
-		
 	}
 
 	private void initProcessModel() throws ConfigVariableNotFoundException, Snail4jException {
@@ -64,13 +62,17 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 		String path = new PathUtil().getBaseClassspath();
 		if (path.contains(PathUtil.JAR_SUFFIX)) { //only install if launched using "java -jar".  Elsewise, installs happen with every "backend" build, because Spring Boot is launched during integration testing. 
 			dispInstallBanner();
-			Configuration cfg;
 			try {
 				Snail4jInstaller snail4jInstaller = DefaultFactory.getFactory().createNewInstaller();
 				PathUtil pathUtil = new PathUtil();
 		    	pathUtil.createSnail4jHomeIfNotExist();
 				snail4jInstaller.initSnail4jCfgFile();
+				
+				Configuration cfg = DefaultFactory.getFactory().getConfiguration();
+				LOGGER.info("online: " + cfg.isMavenOnline() );
+				LOGGER.info("snail4j maven repo: " + cfg.isSnail4jMavenRepo() );
 				snail4jInstaller.install();
+				
 		    	LOGGER.info("Install finished.  Ready to load test!");
 
 			} catch (Snail4jException e) {

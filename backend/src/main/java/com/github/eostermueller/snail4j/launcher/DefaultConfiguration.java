@@ -23,6 +23,7 @@ public class DefaultConfiguration implements Configuration {
 	private boolean osWin;
 	private String mavenExePath;
 	private boolean mavenOnline = false;//the local maven repo distributed with snail4j should be all that is necessary
+	private boolean snail4jMavenRepo;
 
 	/**
 	 * This is the most important constructor in the project :-)
@@ -36,6 +37,7 @@ public class DefaultConfiguration implements Configuration {
 			this.setGlowrootZipFileName ("glowroot-0.13.5-dist.zip");
 			
 			this.setMavenHome(			Paths.get( this.getSnail4jHome().toString() , this.getMavenZipFileNameWithoutExtension() )		);
+			this.setSnail4jMavenRepo(true); 
 			this.setMavenRepositoryHome(Paths.get( this.getSnail4jHome().toString() , "repository" )		);
 			
 			this.setSutAppHome(			Paths.get( this.getSnail4jHome().toString() , "sutApp") );
@@ -91,7 +93,6 @@ public class DefaultConfiguration implements Configuration {
 			sb.append(SPACE);sb.append("-Pno-gui");
 			sb.append(SPACE);sb.append("clean verify");
 			sb.append(SPACE);sb.append("-Dsnail4j.jmeter.port=#{jmeterNonGuiPort}");
-			sb.append(SPACE);sb.append("-Dmaven.repo.local=#{mavenRepositoryHome}");
 			sb.append(SPACE);sb.append("-Djmeter.test=#{jmeterFilesHome}/load.jmx");
 			sb.append(SPACE);sb.append("-DmyHost=#{loadGenerationTargetHost}");
 			sb.append(SPACE);sb.append("-DmyPort=#{loadGenerationTargetPort}");
@@ -107,7 +108,7 @@ public class DefaultConfiguration implements Configuration {
 			 * Use same approach as this, ab0ve: -Dsnail4j.jmeter.port=#{jmeterNonGuiPort}
 			 * 
 			 */
-			this.setProcessManagerLaunchCmd("#{mavenExePath} -Dmaven.repo.local=#{mavenRepositoryHome} verify");
+			this.setProcessManagerLaunchCmd("#{mavenExePath} verify");
 			
 			if (getOsName().contains("windows")) {  
 				this.setOsWin(true);
@@ -314,6 +315,20 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 		return osWin;
 	}
 
+	@Override	
+	public void setSnail4jMavenRepo(boolean b) {
+		snail4jMavenRepo = b;
+	}
+
+
+	/**
+	 * This must default to true to support the requirement to install by usb-stick without internet access.
+	 */
+	@Override
+	public boolean isSnail4jMavenRepo() {
+		return snail4jMavenRepo;
+	}
+	
 	/**
 	 * Determines whether to maven will download dependencies online, as documented here:
 	 * https://maven.apache.org/settings.html
@@ -608,16 +623,25 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 		this.jmeterFilesZipFileName = val;
 	}
 
+	/**
+	 * When a pom.xml file invokes mvn, that's then the 'passthru' parameters are passed.
+	 * Note that jmeterFiles/pom-load.xml file doesn't invoke mvn, so this method is freed from the obligation of messing with 'passthru' parameters.
+	 */
 	@Override
 	public String getLoadGeneratorLaunchCmd() {
 		String rc = this.loadGeneratorLaunchCmd;
 		
 		if (!this.isMavenOnline() ) {
-			if (rc.trim().startsWith(this.MAVEN_EXE_PATH)) {
-				rc = this.MAVEN_EXE_PATH + " --offline" + this.loadGeneratorLaunchCmd.substring(this.MAVEN_EXE_PATH.length()); 
+			if (rc.trim().startsWith(MAVEN_EXE_PATH)) {
+				rc = MAVEN_EXE_PATH + " --offline" + this.loadGeneratorLaunchCmd.substring(MAVEN_EXE_PATH.length()); 
 			}
 		}
 		
+		if (this.isSnail4jMavenRepo() ) {
+			if (rc.trim().startsWith(MAVEN_EXE_PATH)) {
+				rc = MAVEN_EXE_PATH + " -Dmaven.repo.local=#{mavenRepositoryHome}" + this.loadGeneratorLaunchCmd.substring(MAVEN_EXE_PATH.length()); 
+			}
+		}
 		return rc;
 		
 	}
@@ -626,17 +650,36 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	 * In the getters for the launch commands (this.getLoadGeneratorLaunchCmd and getProcessManagerLaunchCmd ), 
 	 * some code decides whether Maven "offline" variables should be used.
 	 * Since this.isMavenOnline() must make the final decision on whether offline mode will be used, don't allow maven offline variables
-	 * to be set in the corresponding setters.  
+	 * to be set in the corresponding setters.
+	 * 
+	 *  The file processManagager/pom.xml invokes 'other' mvn commands.
+	 *  properties in snail4j.json determine when these "passthru" parameters are passed t0 processManagager/pom.xml. 
+	 *  The values of these "passthru" parameters are optionally used by those 'other' mvn commands. 
 	 */
 	private String stripOfflineVariables(String val) {
-		val = val.replaceAll(" --offline", "");
+		//the order of these two lines is critical.  if reversed, the longer pattern won't be found.
 		val = val.replaceAll(" -Dsnail4j.maven.offline.passthru=--offline", "");
+		val = val.replaceAll(" --offline", "");
+		return val;
+	}
+	/**
+	 * In the getters for the launch commands (this.getLoadGeneratorLaunchCmd and getProcessManagerLaunchCmd ), 
+	 * some code decides whether the Snail4j Maven repo variable should be used.
+	 * Since this.isSnail4jMavenRepo() must make the final decision on which repo will be used, don't allow maven local repo variable
+	 * to be set in the corresponding setters.  
+	 */
+	private String stripSnail4jMavenRepoVariable(String val) {
+		
+		//the order of these two lines is critical.  if reversed, the longer pattern won't be found.
+		val = val.replaceAll(" -Dsnail4j.maven.repo.passthru=-Dmaven.repo.local=\\#\\{mavenRepositoryHome\\}", "");
+		val = val.replaceAll(" -Dmaven.repo.local=\\#\\{mavenRepositoryHome\\}", "");
 		return val;
 	}
 	@Override
 	public void setLoadGeneratorLaunchCmd(String val) {
 		
 		val = stripOfflineVariables(val);
+		val = stripSnail4jMavenRepoVariable(val);
 		
 		this.loadGeneratorLaunchCmd = val;
 	}
@@ -651,12 +694,18 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 			}
 		}
 		
+		if (this.isSnail4jMavenRepo() ) {
+			if (rc.trim().startsWith(MAVEN_EXE_PATH)) {
+				rc = MAVEN_EXE_PATH + " -Dsnail4j.maven.repo.passthru=-Dmaven.repo.local=#{mavenRepositoryHome} -Dmaven.repo.local=#{mavenRepositoryHome}" + this.processManagerLaunchCmd.substring(MAVEN_EXE_PATH.length());
+			}
+		}
 		return rc;
 	}
 
 	@Override
 	public void setProcessManagerLaunchCmd(String val) {
 		val = stripOfflineVariables(val);
+		val = stripSnail4jMavenRepoVariable(val);
 
 		this.processManagerLaunchCmd = val;
 	}
