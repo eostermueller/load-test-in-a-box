@@ -72,5 +72,30 @@ public class ConfigWriteAndReadTest {
 		
 		
 	}
+	@Test
+	public void canWriteAndReadBooleansPropertyFile() throws Exception {
+		//Configuration cfg = DefaultFactory.getFactory().getConfiguration();
+		Configuration cfg = new DefaultConfiguration();
+		
+		String name="/foo";
+		int c0unt = 8675309;
+		Path path = Paths.get(name);
+		
+		cfg.setSnail4jMavenRepo(false);
+		
+//		ConfigReaderWriter configWriter = DefaultFactory.getFactory().getConfigReaderWriter(cfg,tmpFolder);
+		
+		if (tmpFolder!=null) {
+			ConfigReaderWriter configWriter = new DefaultConfigReaderWriter(cfg,tmpFolder);
+			
+			configWriter.write();
+			
+			cfg = configWriter.read();
+			
+			assertEquals( false, cfg.isSnail4jMavenRepo() );
+		}
+		
+		
+	}
 	
 }

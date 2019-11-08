@@ -80,6 +80,7 @@ public class TestTheTestConfiguration {
 		char myPlatformSeparater = '/';
 				
 		TestConfiguration testCfg = new TestConfiguration(tjpHome, javaHome);
+		testCfg.setSnail4jMavenRepo(false);
 		String launch = testCfg.MAVEN_EXE_PATH + " verify";
 		String expectedOfflineLaunch = testCfg.MAVEN_EXE_PATH + " --offline verify";
 		
@@ -101,6 +102,7 @@ public class TestTheTestConfiguration {
 		char myPlatformSeparater = '/';
 				
 		TestConfiguration testCfg = new TestConfiguration(tjpHome, javaHome);
+		testCfg.setSnail4jMavenRepo(false);
 		String launch = testCfg.MAVEN_EXE_PATH + " verify";
 		String expectedofflineLaunch = testCfg.MAVEN_EXE_PATH + " -Dsnail4j.maven.offline.passthru=--offline --offline verify";
 		
@@ -122,6 +124,7 @@ public class TestTheTestConfiguration {
 		
 		
 		TestConfiguration testCfg = new TestConfiguration(tjpHome, javaHome);
+		testCfg.setSnail4jMavenRepo(false);
 		String expectedOnlineLaunch = TestConfiguration.MAVEN_EXE_PATH + " verify";
 		String expectedOfflineLaunch = TestConfiguration.MAVEN_EXE_PATH + " --offline verify";
 		
@@ -143,6 +146,7 @@ public class TestTheTestConfiguration {
 		
 				
 		TestConfiguration testCfg = new TestConfiguration(tjpHome, javaHome);
+		testCfg.setSnail4jMavenRepo(false);
 		String expectedOnlineLaunch = TestConfiguration.MAVEN_EXE_PATH + " verify";
 		String expectedOfflineLaunch = TestConfiguration.MAVEN_EXE_PATH + " -Dsnail4j.maven.offline.passthru=--offline --offline verify";
 		
@@ -174,7 +178,51 @@ public class TestTheTestConfiguration {
 		Assert.assertEquals( "mvn", testConfiguration.getMavenExeName() );
 		Assert.assertEquals( mavenHome + "/bin/mvn", testConfiguration.createMavenExePath() );
 		
+	}
+
+	@Test
+	public void canTurnOffUseOfSnail4jRepo_processManager() {
+		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
+		Path javaHome = Paths.get(unix_JAVA_HOME);
+		
+				
+		TestConfiguration testCfg = new TestConfiguration(tjpHome, javaHome);
+		testCfg.setMavenOnline(true);
+		testCfg.setSnail4jMavenRepo(false);
+		
+		String expectedLaunch = TestConfiguration.MAVEN_EXE_PATH + " verify";
+		String expectedLaunchWithSnail4jMavenRepo = TestConfiguration.MAVEN_EXE_PATH + " -Dsnail4j.maven.repo.passthru=-Dmaven.repo.local=#{mavenRepositoryHome} -Dmaven.repo.local=#{mavenRepositoryHome} verify";
+		System.out.println("ex: " + expectedLaunchWithSnail4jMavenRepo);
+		
+		Assert.assertEquals(expectedLaunch, testCfg.getProcessManagerLaunchCmd());
+		
+		testCfg.setSnail4jMavenRepo(true);
+		
+		String actual = testCfg.getProcessManagerLaunchCmd();
+		System.out.println("actual:"+ actual);
+		Assert.assertEquals(expectedLaunchWithSnail4jMavenRepo, actual);
 		
 	}
+	@Test
+	public void canTurnOffUseOfSnail4jRepo_loadGenerator() {
+		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
+		Path javaHome = Paths.get(unix_JAVA_HOME);
+		
+				
+		TestConfiguration testCfg = new TestConfiguration(tjpHome, javaHome);
+		testCfg.setMavenOnline(true);
+		testCfg.setSnail4jMavenRepo(false);
+		
+		String expectedLaunch = TestConfiguration.MAVEN_EXE_PATH + " -f #{jmeterFilesHome}/pom-load.xml -Pno-gui clean verify -Dsnail4j.jmeter.port=#{jmeterNonGuiPort} -Djmeter.test=#{jmeterFilesHome}/load.jmx -DmyHost=#{loadGenerationTargetHost} -DmyPort=#{loadGenerationTargetPort} -DmyDurationInSeconds=#{loadGenerationDurationInSeconds} -DmyRampupInSeconds=#{loadGenerationRampupTimeInSeconds} -DmyThreads=#{loadGenerationThreads}";
+		String expectedLaunchWithSnail4jMavenRepo = TestConfiguration.MAVEN_EXE_PATH + " -Dmaven.repo.local=#{mavenRepositoryHome} -f #{jmeterFilesHome}/pom-load.xml -Pno-gui clean verify -Dsnail4j.jmeter.port=#{jmeterNonGuiPort} -Djmeter.test=#{jmeterFilesHome}/load.jmx -DmyHost=#{loadGenerationTargetHost} -DmyPort=#{loadGenerationTargetPort} -DmyDurationInSeconds=#{loadGenerationDurationInSeconds} -DmyRampupInSeconds=#{loadGenerationRampupTimeInSeconds} -DmyThreads=#{loadGenerationThreads}";
+		
+		Assert.assertEquals(expectedLaunch, testCfg.getLoadGeneratorLaunchCmd());
+		
+		testCfg.setSnail4jMavenRepo(true);
+		
+		Assert.assertEquals(expectedLaunchWithSnail4jMavenRepo, testCfg.getLoadGeneratorLaunchCmd() );
+		
+	}
+	
 
 }
