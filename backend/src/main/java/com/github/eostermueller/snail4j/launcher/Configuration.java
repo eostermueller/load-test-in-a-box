@@ -90,5 +90,7 @@ public interface Configuration {
 	void setMavenExePath(String val);
 	boolean isMavenOnline();
 	void setMavenOnline(boolean b);
+	void setSnail4jMavenRepo(boolean b);
+	boolean isSnail4jMavenRepo();
 	
 }
