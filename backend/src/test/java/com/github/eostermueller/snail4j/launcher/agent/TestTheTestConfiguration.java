@@ -190,8 +190,9 @@ public class TestTheTestConfiguration {
 		testCfg.setMavenOnline(true);
 		testCfg.setSnail4jMavenRepo(false);
 		
-		String expectedLaunch = TestConfiguration.MAVEN_EXE_PATH + " verify";
-		String expectedLaunchWithSnail4jMavenRepo = TestConfiguration.MAVEN_EXE_PATH + " -Dsnail4j.maven.repo.passthru=-Dmaven.repo.local=#{mavenRepositoryHome} -Dmaven.repo.local=#{mavenRepositoryHome} verify";
+		
+		String expectedLaunch = TestConfiguration.MAVEN_EXE_PATH + " -Dsnail4j.wiremock.port=#{wiremockPort} -Dsnail4j.h2.port=#{h2Port} -Dsnail4j.sut.port=#{sutAppPort} verify";
+		String expectedLaunchWithSnail4jMavenRepo = TestConfiguration.MAVEN_EXE_PATH + " -Dsnail4j.maven.repo.passthru=-Dmaven.repo.local=#{mavenRepositoryHome} -Dmaven.repo.local=#{mavenRepositoryHome} -Dsnail4j.wiremock.port=#{wiremockPort} -Dsnail4j.h2.port=#{h2Port} -Dsnail4j.sut.port=#{sutAppPort} verify";
 		System.out.println("ex: " + expectedLaunchWithSnail4jMavenRepo);
 		
 		Assert.assertEquals(expectedLaunch, testCfg.getProcessManagerLaunchCmd());
@@ -213,8 +214,8 @@ public class TestTheTestConfiguration {
 		testCfg.setMavenOnline(true);
 		testCfg.setSnail4jMavenRepo(false);
 		
-		String expectedLaunch = TestConfiguration.MAVEN_EXE_PATH + " -f #{jmeterFilesHome}/pom-load.xml -Pno-gui clean verify -Dsnail4j.jmeter.port=#{jmeterNonGuiPort} -Djmeter.test=#{jmeterFilesHome}/load.jmx -DmyHost=#{loadGenerationTargetHost} -DmyPort=#{loadGenerationTargetPort} -DmyDurationInSeconds=#{loadGenerationDurationInSeconds} -DmyRampupInSeconds=#{loadGenerationRampupTimeInSeconds} -DmyThreads=#{loadGenerationThreads}";
-		String expectedLaunchWithSnail4jMavenRepo = TestConfiguration.MAVEN_EXE_PATH + " -Dmaven.repo.local=#{mavenRepositoryHome} -f #{jmeterFilesHome}/pom-load.xml -Pno-gui clean verify -Dsnail4j.jmeter.port=#{jmeterNonGuiPort} -Djmeter.test=#{jmeterFilesHome}/load.jmx -DmyHost=#{loadGenerationTargetHost} -DmyPort=#{loadGenerationTargetPort} -DmyDurationInSeconds=#{loadGenerationDurationInSeconds} -DmyRampupInSeconds=#{loadGenerationRampupTimeInSeconds} -DmyThreads=#{loadGenerationThreads}";
+		String expectedLaunch = TestConfiguration.MAVEN_EXE_PATH + " -f #{jmeterFilesHome}/pom-load.xml -Pno-gui clean verify -Dsnail4j.jmeter.port=#{jmeterNonGuiPort} -Djmeter.test=#{jmeterFilesHome}/load.jmx -DmyHost=#{sutAppHostname} -DmyPort=#{sutAppPort} -DmyDurationInSeconds=#{loadGenerationDurationInSeconds} -DmyRampupInSeconds=#{loadGenerationRampupTimeInSeconds} -DmyThreads=#{loadGenerationThreads}";
+		String expectedLaunchWithSnail4jMavenRepo = TestConfiguration.MAVEN_EXE_PATH + " -Dmaven.repo.local=#{mavenRepositoryHome} -f #{jmeterFilesHome}/pom-load.xml -Pno-gui clean verify -Dsnail4j.jmeter.port=#{jmeterNonGuiPort} -Djmeter.test=#{jmeterFilesHome}/load.jmx -DmyHost=#{sutAppHostname} -DmyPort=#{sutAppPort} -DmyDurationInSeconds=#{loadGenerationDurationInSeconds} -DmyRampupInSeconds=#{loadGenerationRampupTimeInSeconds} -DmyThreads=#{loadGenerationThreads}";
 		
 		Assert.assertEquals(expectedLaunch, testCfg.getLoadGeneratorLaunchCmd());
 		

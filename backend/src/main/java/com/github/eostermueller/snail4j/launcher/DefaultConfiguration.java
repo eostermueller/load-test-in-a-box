@@ -14,16 +14,20 @@ public class DefaultConfiguration implements Configuration {
 	public static final String MAVEN_EXE_PATH = "#{mavenExePath}";
 	private static final String SPACE = " ";
 	private String sutAppZipFileName;
-	private long sutAppPort;
+	private int sutAppPort;
 	private long loadGenerationThreads;
-	private long loadGenerationTargetPort;
 	private long loadGenerationRampupTimeInSeconds;
 	private long loadGenerationDurationInSeconds;
-	private String loadGenerationTargetHost;
+	private String sutAppHostname;
 	private boolean osWin;
 	private String mavenExePath;
 	private boolean mavenOnline = false;//the local maven repo distributed with snail4j should be all that is necessary
 	private boolean snail4jMavenRepo;
+
+	private String wiremockHostname;
+	private int wiremockPort;
+	private String h2Hostname;
+	private int h2Port;
 
 	/**
 	 * This is the most important constructor in the project :-)
@@ -42,6 +46,8 @@ public class DefaultConfiguration implements Configuration {
 			
 			this.setSutAppHome(			Paths.get( this.getSnail4jHome().toString() , "sutApp") );
 			this.setSutAppZipFileName ("sutApp.zip");
+			this.setSutAppPort		  (8080);
+			this.setSutAppHostname	  ("localhost");
 			
 			this.setSutKillFile(        Paths.get( this.getSnail4jHome().toString() , "deleteMeToStopSnail4jSut.txt") );
 			
@@ -66,9 +72,8 @@ public class DefaultConfiguration implements Configuration {
 			this.setJMeterFilesHome(Paths.get( this.getSnail4jHome().toString() , "jmeterFiles") );
 			
 			
-			this.setLoadGenerationTargetHost("localhost");
+			this.setSutAppHostname("localhost");
 			this.setLoadGenerationThreads(3); //3T0TT -- from http://bit.ly/2017tjp
-			this.setLoadGenerationTargetPort(8080);
 			this.setLoadGenerationRampupTimeInSeconds(3);
 			
 			/**
@@ -94,8 +99,8 @@ public class DefaultConfiguration implements Configuration {
 			sb.append(SPACE);sb.append("clean verify");
 			sb.append(SPACE);sb.append("-Dsnail4j.jmeter.port=#{jmeterNonGuiPort}");
 			sb.append(SPACE);sb.append("-Djmeter.test=#{jmeterFilesHome}/load.jmx");
-			sb.append(SPACE);sb.append("-DmyHost=#{loadGenerationTargetHost}");
-			sb.append(SPACE);sb.append("-DmyPort=#{loadGenerationTargetPort}");
+			sb.append(SPACE);sb.append("-DmyHost=#{sutAppHostname}");
+			sb.append(SPACE);sb.append("-DmyPort=#{sutAppPort}");
 			sb.append(SPACE);sb.append("-DmyDurationInSeconds=#{loadGenerationDurationInSeconds}");
 			sb.append(SPACE);sb.append("-DmyRampupInSeconds=#{loadGenerationRampupTimeInSeconds}");
 			sb.append(SPACE);sb.append("-DmyThreads=#{loadGenerationThreads}");
@@ -108,14 +113,25 @@ public class DefaultConfiguration implements Configuration {
 			 * Use same approach as this, ab0ve: -Dsnail4j.jmeter.port=#{jmeterNonGuiPort}
 			 * 
 			 */
-			this.setProcessManagerLaunchCmd("#{mavenExePath} verify");
+			StringBuilder sb2 = new StringBuilder();
+	 		             	  sb2.append(MAVEN_EXE_PATH);
+	 		sb2.append(SPACE);sb2.append("-Dsnail4j.wiremock.port=#{wiremockPort}");
+	 		sb2.append(SPACE);sb2.append("-Dsnail4j.h2.port=#{h2Port}");
+	 		sb2.append(SPACE);sb2.append("-Dsnail4j.sut.port=#{sutAppPort}");
+			sb2.append(SPACE);sb2.append("verify");
+			this.setProcessManagerLaunchCmd( sb2.toString() );
 			
 			if (getOsName().contains("windows")) {  
 				this.setOsWin(true);
 			}
 			
-			this.setMavenExePath( createMavenExePath() ); 
+			this.setMavenExePath( createMavenExePath() );
 			
+			this.setWiremockHostname("localhost");
+			this.setWiremockPort(8081);
+			
+			this.setH2Hostname("localhost");
+			this.setH2Port(9093);
 	}
 	/*
 	 * http://www.java-gaming.org/index.php/topic,14110
@@ -261,6 +277,16 @@ Windows Me   x86   1.5.0_04
 Windows Me   x86   1.5.0_06		 * 
 	 */
 	
+
+	@Override	
+	public void setSutAppPort(int i) {
+		this.sutAppPort = i;
+	}
+	@Override	
+	public int getSutAppPort() {
+		return this.sutAppPort;
+	}
+
 	/**
 	 * Yes, it looks inconsistent/redundant to have both createMavenExecPath() and getMavenExecPath()/setMavenExePath().
 
@@ -347,12 +373,12 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	}
 
 	@Override
-	public void setLoadGenerationTargetHost(String val) {
-		this.loadGenerationTargetHost = val;
+	public void setSutAppHostname(String val) {
+		this.sutAppHostname = val;
 	}
 	@Override
-	public String getLoadGenerationTargetHost() {
-		return this.loadGenerationTargetHost;
+	public String getSutAppHostname() {
+		return this.sutAppHostname;
 	}
 	@Override
 	public void setLoadGenerationDurationInSeconds(long val) {
@@ -377,14 +403,6 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	@Override
 	public long getLoadGenerationThreads() {
 		return this.loadGenerationThreads;
-	}
-	@Override
-	public void setLoadGenerationTargetPort(long val) {
-		this.loadGenerationTargetPort = val;
-	}
-	@Override
-	public long getLoadGenerationTargetPort() {
-		return this.loadGenerationTargetPort;
 	}
 
 	@Override
@@ -733,6 +751,41 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	@Override
 	public long getJMeterNonGuiPort() {
 		return this.jmeterNonGuiPort;
+	}
+
+	@Override
+	public String getWiremockHostname() {
+		return this.wiremockHostname;
+	}
+
+	@Override
+	public int getWiremockPort() {
+		return this.wiremockPort;
+	}
+
+	@Override
+	public String getH2Hostname() {
+		return this.h2Hostname;
+	}
+
+	@Override
+	public int getH2Port() {
+		return h2Port;
+	}
+	public void setWiremockHostname(String wiremockHostname) {
+		this.wiremockHostname = wiremockHostname;
+	}
+
+	public void setWiremockPort(int wiremockPort) {
+		this.wiremockPort = wiremockPort;
+	}
+
+	public void setH2Hostname(String h2Hostname) {
+		this.h2Hostname = h2Hostname;
+	}
+
+	public void setH2Port(int h2Port) {
+		this.h2Port = h2Port;
 	}
 
 

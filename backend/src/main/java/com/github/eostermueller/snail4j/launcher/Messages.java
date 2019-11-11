@@ -23,4 +23,10 @@ public interface Messages {
 
 	String getLoadGeneratorCommandMessage(String humanReadableString, String command, String hostOrIp, int port);
 
+	String unableToFindWiremockHostAndPort();
+
+	String unableToFindH2HostAndPort();
+
+	String unableToFindSutHostAndPort();
+
 }

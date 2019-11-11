@@ -55,5 +55,19 @@ public class Messages_en_US implements Messages {
 				command, humanReadableString, command, hostOrIp, port);
 	}
 
+	@Override
+	public String unableToFindWiremockHostAndPort() {
+		return "Verify that 'wiremockHostname' and 'wiremockPort' in the .snail4j/snail4j.json have correct values.";
+	}
+
+	@Override
+	public String unableToFindH2HostAndPort() {
+		return "Verify that 'h2Hostname' and 'h2Port' in the .snail4j/snail4j.json have correct values.";
+	}
+
+	@Override
+	public String unableToFindSutHostAndPort() {
+		return "Verify that 'sutAppHostname' and 'sutAppPort' in the .snail4j/snail4j.json have correct values.";
+	}
 
 }
