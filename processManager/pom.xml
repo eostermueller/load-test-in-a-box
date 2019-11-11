@@ -11,9 +11,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.failsafe.version>2.22.2</maven.failsafe.version>
+    <snail4j.wiremock.port>8081</snail4j.wiremock.port>
     <slf4jVersion>1.6.1</slf4jVersion>
     <h2.maven.plugin.version>1.0</h2.maven.plugin.version>
-    <h2.port>9093</h2.port>
+    <snail4j.h2.port>9093</snail4j.h2.port>
+    <snail4j.sut.port>8080</snail4j.sut.port>
 
     <!-- the following -V is an innocuous mvn parameter, couldn't get "" to work.
          The -V will be used when these optional parameters are not passed in --> 
@@ -119,6 +121,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                 <argument>mvn${script.extension}</argument>
                 <argument>${snail4j.maven.offline.passthru}</argument>
                 <argument>${snail4j.maven.repo.passthru}</argument>
+                <argument>-Dsnail4j.wiremock.port=${snail4j.wiremock.port}</argument>
                 <argument>clean</argument>
                 <argument>compile</argument>
                 <argument>wiremock:run</argument>
@@ -140,13 +143,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               <waitAfterLaunch>4</waitAfterLaunch>
 <!--              <tcpHealthcheckHostname>
               localhost</tcpHealthcheckHostname>
-              <tcpHealthcheckPort>${h2.port}</tcpHealthcheckPort>
+              <tcpHealthcheckPort>${snail4j.h2.port}</tcpHealthcheckPort>
   -->
               <arguments>
                 <argument>mvn${script.extension}</argument>
                 <argument>${snail4j.maven.offline.passthru}</argument>
                 <argument>${snail4j.maven.repo.passthru}</argument>
-                <argument>-Dh2.port=${h2.port}</argument>
+                <argument>-Dh2.port=${snail4j.h2.port}</argument>
                 <argument>
                 -Dh2.baseDirectory=${user.home}/.snail4j/data</argument>
                 <argument>com.edugility:h2-maven-plugin:${h2.maven.plugin.version}:spawn</argument>
@@ -174,6 +177,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                 <argument>mvn${script.extension}</argument>
                 <argument>${snail4j.maven.offline.passthru}</argument>
                 <argument>${snail4j.maven.repo.passthru}</argument>
+                <argument>-Dspring-boot.run.arguments=--server.port=${snail4j.sut.port}</argument>
                 <argument>-Dspring-boot.run.jvmArguments="-javaagent:${user.home}/.snail4j/glowroot/glowroot/glowroot.jar"</argument>
                 <arguments>spring-boot:run</arguments>
               </arguments>
@@ -195,7 +199,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
          <artifactId>h2-maven-plugin</artifactId>
          <version>${h2.maven.plugin.version}</version>
          <configuration>
-           <port>${h2.port}</port>
+           <port>${snail4j.h2.port}</port>
          </configuration>
          <executions>
              <execution>

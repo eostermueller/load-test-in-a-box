@@ -71,14 +71,12 @@ public interface Configuration {
 	void setSutAppZipFileName(String val);
 	long getLoadGenerationThreads();
 	void setLoadGenerationThreads(long val);
-	void setLoadGenerationTargetPort(long val);
-	long getLoadGenerationTargetPort();
 	long getLoadGenerationRampupTimeInSeconds();
 	void setLoadGenerationRampupTimeInSeconds(long val);
 	void setLoadGenerationDurationInSeconds(long val);
 	long getLoadGenerationDurationInSeconds();
-	String getLoadGenerationTargetHost();
-	void setLoadGenerationTargetHost(String val);
+	String getSutAppHostname();
+	void setSutAppHostname(String val);
 	Path getGlowrootHome();
 	void setGlowrootHome(Path val);
 	void setGlowrootZipFileName(String val);
@@ -92,5 +90,11 @@ public interface Configuration {
 	void setMavenOnline(boolean b);
 	void setSnail4jMavenRepo(boolean b);
 	boolean isSnail4jMavenRepo();
+	public String getWiremockHostname();
+	public int getWiremockPort();
+	public String getH2Hostname();
+	public int getH2Port();
+	void setSutAppPort(int i);
+	int getSutAppPort();
 	
 }
