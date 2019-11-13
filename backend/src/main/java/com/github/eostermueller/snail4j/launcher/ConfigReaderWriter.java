@@ -1,15 +1,13 @@
 package com.github.eostermueller.snail4j.launcher;
 
+import java.io.File;
+
 import com.github.eostermueller.snail4j.Snail4jException;
 
 public interface ConfigReaderWriter {
 
-	void write() throws Snail4jException;
+	void write(File configFile, Configuration cfg) throws Snail4jException;
 
-	Configuration read() throws Snail4jException;
-
-	String getFileName();
-
-	void setFileName(String fileName);
+	Configuration read(File configFile, Class configurationClass) throws Snail4jException;
 
 }

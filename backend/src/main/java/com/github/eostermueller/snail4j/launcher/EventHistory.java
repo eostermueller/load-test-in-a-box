@@ -12,7 +12,7 @@ public class EventHistory {
 				maxEventCount = DefaultFactory.getFactory()
 						.getConfiguration()
 						.getMaxExceptionCountPerEvent();
-			} catch (CannotFindTjpFactoryClass e) {
+			} catch (Snail4jException e) {
 				e.printStackTrace();
 			}
 	}
@@ -29,13 +29,13 @@ public class EventHistory {
 	public void setEvents(FixedLengthQueue<Event> events) {
 		this.events = events;
 	} 
-	public void addException(String Description, Exception e) throws CannotFindTjpFactoryClass {
+	public void addException(String Description, Exception e) throws CannotFindSnail4jFactoryClass {
 		Snail4jException te = new Snail4jException(e);
 		Event event = Event.create(Description, te);
 		this.addEvent(event);
 	}
 
-	private void addEvent(Event event) throws CannotFindTjpFactoryClass {
+	private void addEvent(Event event) throws CannotFindSnail4jFactoryClass {
 		events.add(event);
 	}
 

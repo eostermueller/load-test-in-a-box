@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.github.eostermueller.snail4j.Snail4jException;
-import com.github.eostermueller.snail4j.launcher.CannotFindTjpFactoryClass;
+import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.Level;
 import com.github.eostermueller.snail4j.launcher.ProcessKey;
 
@@ -38,7 +38,7 @@ public class ProcessKeyTest {
 		assertEquals(key.getKey(), key2.getKey());
 	}
 	@Test
-	public void canParseProcessKeyParts() throws NumberFormatException, CannotFindTjpFactoryClass {
+	public void canParseProcessKeyParts() throws NumberFormatException, CannotFindSnail4jFactoryClass {
 
 		ProcessKey key = ProcessKey.create("MySystem!PARENT!LoadGenerator!foo.com!353!235");
 		

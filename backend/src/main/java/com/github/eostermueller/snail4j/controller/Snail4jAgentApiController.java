@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.FixedLengthQueue;
 import com.github.eostermueller.snail4j.Snail4jException;
-import com.github.eostermueller.snail4j.launcher.CannotFindTjpFactoryClass;
+import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.ConfigVariableNotFoundException;
 import com.github.eostermueller.snail4j.processmodel.ProcessModelSingleton;
 
@@ -49,7 +49,7 @@ public class Snail4jAgentApiController {
 		return "stopped!!!!";
 	}
 	@GetMapping("/getEventHistory")
-	public String getEventHistory() throws CannotFindTjpFactoryClass {
+	public String getEventHistory() throws CannotFindSnail4jFactoryClass {
 		return DefaultFactory.getFactory().getEventHistory().debug();
 	}
 	@GetMapping("/startLg")

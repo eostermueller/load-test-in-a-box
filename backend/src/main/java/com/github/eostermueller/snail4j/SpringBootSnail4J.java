@@ -6,7 +6,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import com.github.eostermueller.snail4j.launcher.CannotFindTjpFactoryClass;
+import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.ConfigVariableNotFoundException;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.Event;
@@ -25,7 +25,6 @@ import com.github.eostermueller.snail4j.processmodel.ProcessModelSingleton;
 @Component
 public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEvent> {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-	private static Object lock = new Object();
 
 	private static ProcessModelSingleton PROCESS_MODEL_SINGLETON = null;
 	
@@ -64,9 +63,6 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 			dispInstallBanner();
 			try {
 				Snail4jInstaller snail4jInstaller = DefaultFactory.getFactory().createNewInstaller();
-				PathUtil pathUtil = new PathUtil();
-		    	pathUtil.createSnail4jHomeIfNotExist();
-				snail4jInstaller.initSnail4jCfgFile();
 				
 				Configuration cfg = DefaultFactory.getFactory().getConfiguration();
 				LOGGER.info("online: " + cfg.isMavenOnline() );

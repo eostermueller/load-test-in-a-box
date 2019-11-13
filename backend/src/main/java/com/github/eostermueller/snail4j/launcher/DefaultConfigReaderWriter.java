@@ -27,47 +27,25 @@ import com.github.eostermueller.snail4j.Snail4jException;
  */
 public class DefaultConfigReaderWriter implements ConfigReaderWriter {
 
-	private Configuration cfg = null;
-	private File folder;
-	private String fileName = null;
-	
 	   @Override
-	public String getFileName() {
-		return fileName;
-	}
-	   @Override
-	public void setFileName(String val) {
-		this.fileName = val;
-	}
-	public File getExtendedPath() {
-		return new File(folder,getFileName() );
-	}
-	
-	public DefaultConfigReaderWriter(Configuration cfg, File tmpFolder) {
-		this.cfg = cfg;
-		this.folder = tmpFolder;
-		this.setFileName("snail4j.json");
-	}
-	
-	   @Override
-	public void write() throws Snail4jException {
+	public void write(File configFile, Configuration cfg) throws Snail4jException {
 		      ObjectMapper mapper = new ObjectMapper();	
 		      mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		      try {
-				mapper.writeValue(getExtendedPath(), this.cfg);
+				mapper.writeValue(configFile, cfg);
 			} catch (IOException e) {
 				throw new Snail4jException(e);
 			}
 		   }
 
    @Override
-	public Configuration read() throws Snail4jException {
+	public Configuration read(File configFile, Class cfgClass) throws Snail4jException {
 	      ObjectMapper mapper = new ObjectMapper();
 	      
 	       Configuration cfg;
 		try {
-			cfg = mapper.readValue( this.getExtendedPath(), DefaultFactory.getFactory().getConfiguration().getClass() );
-		} catch (CannotFindTjpFactoryClass | IOException e) {
+			cfg = (Configuration) mapper.readValue( configFile, cfgClass );
+		} catch (IOException e) {
 			throw new Snail4jException(e);
 		}
 	      return cfg;

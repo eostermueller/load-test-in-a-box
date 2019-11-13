@@ -80,21 +80,21 @@ public class ProcessKey {
 				+ DELIMITER + String.valueOf(this.getTinyId()).trim()
 				+ DELIMITER + String.valueOf(this.getPid()).trim();
 	}
-	public static ProcessKey create(String suite, Level level, String processType) throws CannotFindTjpFactoryClass {
+	public static ProcessKey create(String suite, Level level, String processType) throws CannotFindSnail4jFactoryClass {
 		Factory factory = DefaultFactory.getFactory();
 		long tinyId = factory.getJvmLifetimeUniqueId();
 		return new ProcessKey(suite, level, processType, ProcessKey.getLocalHost().toString(), tinyId);
 	}
 	
-	public static ProcessKey create(String suite, Level level, String processType, String myHostName) throws CannotFindTjpFactoryClass {
+	public static ProcessKey create(String suite, Level level, String processType, String myHostName) throws CannotFindSnail4jFactoryClass {
 		Factory factory = DefaultFactory.getFactory();
 		long tinyId = factory.getJvmLifetimeUniqueId();
 		return new ProcessKey(suite, level, processType, myHostName, tinyId);
 	}
-	public static ProcessKey create(String suite, Level level, String processType, String myHostName, long tinyId, long pid) throws CannotFindTjpFactoryClass {
+	public static ProcessKey create(String suite, Level level, String processType, String myHostName, long tinyId, long pid) throws CannotFindSnail4jFactoryClass {
 		return new ProcessKey(suite, level, processType, myHostName, tinyId, pid);
 	}
-	public static ProcessKey create(String processKey) throws NumberFormatException, CannotFindTjpFactoryClass {
+	public static ProcessKey create(String processKey) throws NumberFormatException, CannotFindSnail4jFactoryClass {
 		String[] parts = processKey.split(ProcessKey.DELIMITER);
 		ProcessKey newKey = ProcessKey.create(
 				parts[0], 

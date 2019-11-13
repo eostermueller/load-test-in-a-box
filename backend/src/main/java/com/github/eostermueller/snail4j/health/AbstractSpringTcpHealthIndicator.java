@@ -2,23 +2,25 @@ package com.github.eostermueller.snail4j.health;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.SocketImpl;
+import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.Health.Builder;
+import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.stereotype.Component;
 
-@Component
-public abstract class AbstractSpringTcpHealthIndicator extends AbstractHealthIndicator {
+
+public abstract class AbstractSpringTcpHealthIndicator implements HealthIndicator {
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	
-	/**
-	 * backl0g
-	 * https://stackoverflow.com/a/33193011/2377579
-	 * @param val
-	 */
-	private static int BACKLOG = 50; //seems reasonable, per above
+	private final static Long TIMEOUT = TimeUnit.SECONDS.toMillis(10);	
 	public InetAddress getInetAddress() {
 		return inetAddress;
 	}
@@ -38,16 +40,32 @@ public abstract class AbstractSpringTcpHealthIndicator extends AbstractHealthInd
 		this.port = port;
 	}
 
+	/**
+	 *  	@st0lenFr0m: http://jdpgrailsdev.github.io/blog/2014/11/11/spring_boot_health_indicators_auto_config.html
+	 */
 	@Override
-    protected void doHealthCheck(Health.Builder bldr) throws Exception {
+    public Health health() {
+	     Socket socket = null;
 
-    	try {
-    	    ServerSocket serverSocket = new ServerSocket(this.getPort(),BACKLOG,this.getInetAddress());
-            bldr.up();
-    	} catch (IOException e) {
-            bldr.down();
-    	}    	
-    }
+	        try {
 
-
+	        	socket = new Socket();
+                LOGGER.debug("Testing [" + this.getInetAddress().getHostAddress() + ":" + this.getPort() + "]");
+	        	
+	            socket.connect(new InetSocketAddress(this.getInetAddress().getHostAddress(), this.getPort()), TIMEOUT.intValue());
+	            LOGGER.debug("UP");
+	            return Health.up().build();
+	        } catch (final Exception e) {
+	            LOGGER.debug("DOWN");
+	            return Health.down(e).build();
+	        } finally {
+	            if (socket != null) {
+	                try {
+	                    socket.close();
+	                } catch (final IOException e) {
+	                    LOGGER.debug("Unable to close consumer socket.", e);
+	                }
+	            }
+	        }
+	   }
 }

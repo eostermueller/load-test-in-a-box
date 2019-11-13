@@ -6,7 +6,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.github.eostermueller.snail4j.launcher.CannotFindTjpFactoryClass;
+import com.github.eostermueller.snail4j.launcher.BootstrapConfig;
+import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.CommandLine;
 import com.github.eostermueller.snail4j.launcher.ConfigLookup;
 import com.github.eostermueller.snail4j.launcher.ConfigReaderWriter;
@@ -52,7 +53,58 @@ public class DefaultFactory implements Factory {
 	static EventHistory eventHistory = new EventHistory();
 	static Factory FACTORY_INSTANCE = null;
 	
-	Configuration config = new DefaultConfiguration();
+	/**
+	 * @st0lenFr0m: https://stackoverflow.com/questions/7855700/why-is-volatile-used-in-double-checked-locking
+	 */
+	private volatile Configuration configuration;
+	
+	@Override
+	   public Configuration getConfiguration() throws Snail4jException {
+		   return getConfiguration( new BootstrapConfig() );
+	   }
+	   @Override
+	   public Configuration getConfiguration(BootstrapConfig bootstrapConfig) throws Snail4jException {
+	        if (this.configuration == null) {
+	            synchronized (Configuration.class) {
+	                if (this.configuration == null) {
+	                	
+	                	
+	            		ConfigReaderWriter configReaderWriter = DefaultFactory.getFactory().getConfigReaderWriter();
+	            		File snail4jConfigFile = bootstrapConfig.getFullPathToConfigFile().toFile();
+	            		
+	            			try {
+	            				Class<Configuration> configurationClass = (Class<Configuration>) Class.forName(this.getConfigurationClassName());
+	    	            		if (snail4jConfigFile.exists()) {
+	    	            			this.configuration = configReaderWriter.read(snail4jConfigFile, configurationClass);
+	    	            		} else {
+		            				this.configuration = (Configuration) configurationClass.getDeclaredConstructor(null).newInstance(null);
+		            				bootstrapConfig.createSnail4jHomeIfNotExist();
+			            			configReaderWriter.write(
+			            					bootstrapConfig.getFullPathToConfigFile().toFile(),
+			            					this.configuration
+			            					);
+	    	            		}
+	            				
+	            			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+	            					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+	            				CannotFindSnail4jFactoryClass cftf = new CannotFindSnail4jFactoryClass(e,this.getConfigurationClassName());
+	            				throw cftf;
+	            			} catch (ClassNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+	            			
+	                }
+	            }
+	        }
+	        return this.configuration;
+	    }	
+	
+	@Override
+	public String getConfigurationClassName() {
+		return DefaultConfiguration.class.getCanonicalName();
+	}
+
 	public static final String FACTORY_DASH_D_PARM = "com.github.eostermueller.snail4j.FactoryImpl";
     public static final String DEFAULT_FACTORY =     "com.github.eostermueller.snail4j.DefaultFactory";
 	private FluentLogger LOG = FluentLogger.forEnclosingClass();
@@ -135,9 +187,9 @@ public class DefaultFactory implements Factory {
 	/**
 	 * Build factory from Java -D system parameter: com.github.eostermueller.tjp.launcher.agent.FactoryImpl
 	 * @return
-	 * @throws CannotFindTjpFactoryClass 
+	 * @throws CannotFindSnail4jFactoryClass 
 	 */
-	public static Factory getFactory() throws CannotFindTjpFactoryClass {
+	public static Factory getFactory() throws CannotFindSnail4jFactoryClass {
 		if (FACTORY_INSTANCE==null) {
 			String myFactoryClassName = System.getProperty(FACTORY_DASH_D_PARM,DEFAULT_FACTORY);
 			try {
@@ -152,7 +204,7 @@ public class DefaultFactory implements Factory {
 				FACTORY_INSTANCE = (Factory)ctor.newInstance();
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | ClassNotFoundException e) {
-				CannotFindTjpFactoryClass cftf = new CannotFindTjpFactoryClass(e,myFactoryClassName);
+				CannotFindSnail4jFactoryClass cftf = new CannotFindSnail4jFactoryClass(e,myFactoryClassName);
 				throw cftf;
 			}
 		}
@@ -160,26 +212,17 @@ public class DefaultFactory implements Factory {
 		return FACTORY_INSTANCE;
 	}
 	@Override
-	public Configuration getConfiguration() {
-		return this.config;
-	}
-	@Override
 	public EventHistory getEventHistory() {
 		return eventHistory;
 	}
 	@Override
-	public Configuration getConfiguration(File folder) {
-		throw new UnsupportedOperationException();
-		//return null;
-	}
-	@Override
-	public ConfigReaderWriter getConfigReaderWriter(Configuration cfg, File tmpFolder) {
-		ConfigReaderWriter configReaderWriter = new DefaultConfigReaderWriter(cfg,tmpFolder);
+	public ConfigReaderWriter getConfigReaderWriter() {
+		ConfigReaderWriter configReaderWriter = new DefaultConfigReaderWriter();
 		return configReaderWriter;
 	}
 	@Override
-	public ProcessModelBuilder createProcessModelBuilder() {
-		return new DefaultProcessModelBuilder( this.getConfiguration() );
+	public ProcessModelBuilder createProcessModelBuilder() throws Snail4jException {
+		return new DefaultProcessModelBuilder( getConfiguration() );
 	}
 	@Override
 	public
@@ -187,26 +230,21 @@ public class DefaultFactory implements Factory {
 		return new Snail4jInstaller();
 	}
 	@Override
-	public ConfigLookup createConfigLookup() {
+	public ConfigLookup createConfigLookup() throws Snail4jException {
 		ConfigLookup cfgLookup = new DefaultConfigLookup();
-		cfgLookup.setConfiguration(this.getConfiguration());
+		cfgLookup.setConfiguration(getConfiguration());
 		return cfgLookup;
 	}
 	@Override
-	public CommandLine createNewCommandLine(String val)  {
+	public CommandLine createNewCommandLine(String val) throws Snail4jException  {
 		CommandLine cmdLine = new DefaultCommandLine(val);
 		cmdLine.setConfigLookup( createConfigLookup() );
 		return cmdLine;
-//broken		return new CommandLineWrapper(val);
-	}
-	@Override
-	public void setConfiguration(Configuration val) {
-		this.config = val;
 	}
 	
 	@Override
 	public SystemUnderTest createSystemUnderTest() throws Snail4jException {
-		SystemUnderTest sut = new DefaultSystemUnderTest((Configuration)this.getConfiguration()); 
+		SystemUnderTest sut = new DefaultSystemUnderTest((Configuration)getConfiguration()); 
 		return sut;
 	}
 	@Override
