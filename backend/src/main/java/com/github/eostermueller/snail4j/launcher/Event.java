@@ -20,7 +20,7 @@ public class Event {
 				maxExceptionsPerEvent = DefaultFactory.getFactory()
 						.getConfiguration()
 						.getMaxExceptionCountPerEvent();
-			} catch (CannotFindTjpFactoryClass e) {
+			} catch ( Snail4jException e) {
 				e.printStackTrace();
 			}
 	}

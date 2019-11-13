@@ -13,7 +13,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.launcher.ConfigReaderWriter;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.DefaultConfigReaderWriter;
@@ -54,11 +53,12 @@ public class ConfigWriteAndReadTest {
 //		ConfigReaderWriter configWriter = DefaultFactory.getFactory().getConfigReaderWriter(cfg,tmpFolder);
 		
 		if (tmpFolder!=null) {
-			ConfigReaderWriter configWriter = new DefaultConfigReaderWriter(cfg,tmpFolder);
+			ConfigReaderWriter configWriter = new DefaultConfigReaderWriter();
 			
-			configWriter.write();
+			File cfgFile = new File(tmpFolder, "snail4j.json");
+			configWriter.write(cfgFile,cfg);
 			
-			cfg = configWriter.read();
+			cfg = configWriter.read(cfgFile,DefaultConfiguration.class);
 			
 			assertEquals(name,cfg.getJavaHome().toAbsolutePath().toString());
 			assertEquals(name,cfg.getMavenHome().toAbsolutePath().toString());
@@ -86,11 +86,12 @@ public class ConfigWriteAndReadTest {
 //		ConfigReaderWriter configWriter = DefaultFactory.getFactory().getConfigReaderWriter(cfg,tmpFolder);
 		
 		if (tmpFolder!=null) {
-			ConfigReaderWriter configWriter = new DefaultConfigReaderWriter(cfg,tmpFolder);
+			ConfigReaderWriter configWriter = new DefaultConfigReaderWriter();
 			
-			configWriter.write();
+			File cfgFile = new File(tmpFolder,"snail4j.json");
+			configWriter.write(cfgFile,cfg);
 			
-			cfg = configWriter.read();
+			cfg = configWriter.read(cfgFile, DefaultConfiguration.class);
 			
 			assertEquals( false, cfg.isSnail4jMavenRepo() );
 		}

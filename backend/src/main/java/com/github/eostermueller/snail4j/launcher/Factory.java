@@ -24,21 +24,17 @@ public interface Factory {
 	 */
 	long getJvmLifetimeUniqueId();
 
-	Configuration getConfiguration();
-	
 	EventHistory getEventHistory();
 
-	Configuration getConfiguration(File folder);
+	Configuration getConfiguration() throws Snail4jException;
 
-	ConfigReaderWriter getConfigReaderWriter(Configuration cfg, File tmpFolder);
-
-	ProcessModelBuilder createProcessModelBuilder();
+	ProcessModelBuilder createProcessModelBuilder() throws Snail4jException;
 
 	Snail4jInstaller createNewInstaller();
 
-	ConfigLookup createConfigLookup();
+	ConfigLookup createConfigLookup() throws Snail4jException;
 
-	CommandLine createNewCommandLine(String val);
+	CommandLine createNewCommandLine(String val) throws Snail4jException;
 
 	SystemUnderTest createSystemUnderTest() throws Snail4jException;
 
@@ -46,7 +42,11 @@ public interface Factory {
 
 	Messages createMessages();
 
-	void setConfiguration(Configuration val);
+	ConfigReaderWriter getConfigReaderWriter();
+
+	Configuration getConfiguration(BootstrapConfig bootstrapConfig) throws Snail4jException;
+
+	String getConfigurationClassName();
 	
 
 }

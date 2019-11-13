@@ -16,7 +16,7 @@ import java.util.zip.ZipInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.eostermueller.snail4j.launcher.CannotFindTjpFactoryClass;
+import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 
 public class PathUtil {
@@ -32,13 +32,6 @@ public class PathUtil {
 	   */
 	  public String getBaseClassspath() {
 		  return Application.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-	  }
-	  
-	  public void createSnail4jHomeIfNotExist() throws CannotFindTjpFactoryClass {
-		  Configuration cfg = DefaultFactory.getFactory().getConfiguration();
-		  File snail4jHomeDir = cfg.getSnail4jHome().toFile();
-		  if (!snail4jHomeDir.exists())
-			  snail4jHomeDir.mkdirs();
 	  }
 	  
 	  /**

@@ -11,8 +11,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.eostermueller.snail4j.launcher.CannotFindTjpFactoryClass;
-import com.github.eostermueller.snail4j.launcher.ConfigReaderWriter;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 
 /**
@@ -34,7 +32,7 @@ drwxr-xr-x  7 erikostermueller  staff        224 Sep 15 10:30 .
  *
  */
 public class Snail4jInstaller {
-	Configuration getConfiguration() throws CannotFindTjpFactoryClass {
+	Configuration getConfiguration() throws Snail4jException {
 		return DefaultFactory.getFactory().getConfiguration();
 	}
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -66,23 +64,6 @@ public class Snail4jInstaller {
 	}
 
   }
-  /**
-   * If snail4j.json exists, read it.
-   * Else write (aka install) it.
-   * @throws Snail4jException
-   */
-  void initSnail4jCfgFile() throws Snail4jException {
-		
-		Configuration c = this.getConfiguration();
-		ConfigReaderWriter configWriter = DefaultFactory.getFactory().getConfigReaderWriter(c,c.getSnail4jHome().toFile() );
-		File snail4jConfig = new File( this.getConfiguration().getSnail4jHome().toFile(),configWriter.getFileName());
-		if (snail4jConfig.exists()) {
-			c = configWriter.read();
-			DefaultFactory.getFactory().setConfiguration(c);
-		} else {
-			configWriter.write();
-		}
-	}
 /**
    * Would be nice to just pull glowroot from maven, so I tried referencing this:
    * <pre>
@@ -128,7 +109,7 @@ public class Snail4jInstaller {
 		
 		
 	}
-private void createLogDir() throws CannotFindTjpFactoryClass {
+private void createLogDir() throws Snail4jException {
 	  
 	  File logDir = this.getConfiguration().getLogDir().toFile();
 	  if (!logDir.exists())

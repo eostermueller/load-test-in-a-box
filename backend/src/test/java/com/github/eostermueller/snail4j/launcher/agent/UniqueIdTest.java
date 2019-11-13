@@ -16,14 +16,14 @@ import java.util.concurrent.Future;
 import org.junit.Test;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
-import com.github.eostermueller.snail4j.launcher.CannotFindTjpFactoryClass;
+import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.Factory;
 
 
 public class UniqueIdTest {
 
 	@Test
-	public void canCreateUniqueIds() throws CannotFindTjpFactoryClass {
+	public void canCreateUniqueIds() throws CannotFindSnail4jFactoryClass {
 		
 		Factory f = DefaultFactory.getFactory();
 		
@@ -42,7 +42,7 @@ public class UniqueIdTest {
 		assertEquals("i added 3 unique ids, so they should all be here", 3, listOfUniqueIds.size() );
 	}
 	@Test
-	public void canCreateUniqueIdsFromMultipleFactoryInstances() throws CannotFindTjpFactoryClass {
+	public void canCreateUniqueIdsFromMultipleFactoryInstances() throws CannotFindSnail4jFactoryClass {
 				
 		Long one = DefaultFactory.getFactory().getJvmLifetimeUniqueId();
 		Long two = DefaultFactory.getFactory().getJvmLifetimeUniqueId();
@@ -56,15 +56,15 @@ public class UniqueIdTest {
 		assertEquals("i added 3 unique ids, so they should all be here", 3, listOfUniqueIds.size() );
 	}
 	@Test
-    public void test01() throws InterruptedException, ExecutionException, CannotFindTjpFactoryClass {
+    public void test01() throws InterruptedException, ExecutionException, CannotFindSnail4jFactoryClass {
         test(1);
     }
 	@Test
-    public void test08() throws InterruptedException, ExecutionException, CannotFindTjpFactoryClass {
+    public void test08() throws InterruptedException, ExecutionException, CannotFindSnail4jFactoryClass {
         test(8);
     }
 	@Test
-    public void test32() throws InterruptedException, ExecutionException, CannotFindTjpFactoryClass {
+    public void test32() throws InterruptedException, ExecutionException, CannotFindSnail4jFactoryClass {
         test(32);
     }
 	/**
@@ -88,9 +88,9 @@ public class UniqueIdTest {
 	 * @param threadCount
 	 * @throws InterruptedException
 	 * @throws ExecutionException
-	 * @throws CannotFindTjpFactoryClass 
+	 * @throws CannotFindSnail4jFactoryClass 
 	 */
-	   private void test(final int threadCount) throws InterruptedException, ExecutionException, CannotFindTjpFactoryClass {
+	   private void test(final int threadCount) throws InterruptedException, ExecutionException, CannotFindSnail4jFactoryClass {
 	        Factory f = DefaultFactory.getFactory();
 	        Callable<Long> task = new Callable<Long>() {
 	            @Override

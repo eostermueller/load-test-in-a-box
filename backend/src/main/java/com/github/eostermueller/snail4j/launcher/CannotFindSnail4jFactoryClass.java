@@ -3,7 +3,7 @@ package com.github.eostermueller.snail4j.launcher;
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
 
-public class CannotFindTjpFactoryClass extends Snail4jException {
+public class CannotFindSnail4jFactoryClass extends Snail4jException {
 
 	String className = null;
 	Exception cause = null;
@@ -17,7 +17,7 @@ public class CannotFindTjpFactoryClass extends Snail4jException {
 		this.cause = cause;
 	}
 
-	public CannotFindTjpFactoryClass(Exception causedBy, String myFactoryClassName) {
+	public CannotFindSnail4jFactoryClass(Exception causedBy, String myFactoryClassName) {
 		super(causedBy);
 		this.setClassName(myFactoryClassName);
 		this.setCause(causedBy);

@@ -3,7 +3,7 @@ package com.github.eostermueller.snail4j.processmodel;
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.FixedLengthQueue;
 import com.github.eostermueller.snail4j.Snail4jException;
-import com.github.eostermueller.snail4j.launcher.CannotFindTjpFactoryClass;
+import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.ConfigVariableNotFoundException;
 import com.github.eostermueller.snail4j.launcher.StateChange;
 import com.github.eostermueller.snail4j.launcher.Suite;
