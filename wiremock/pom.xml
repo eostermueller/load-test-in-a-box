@@ -23,7 +23,7 @@
             <configuration>
                 <keepRunning>true</keepRunning>
                 <dir>src/main/resources</dir>
-                <params>--port=8081 --verbose</params>
+                <params>--port=8082 --verbose</params>
             </configuration>
             
             <dependencies>

@@ -1,4 +1,5 @@
-SNAIL4J_SRC=/Users/erikostermueller/Documents/src/jssource/snail4j/snail4j
+#SNAIL4J_SRC=/Users/erikostermueller/Documents/src/jssource/snail4j/snail4j
+SNAIL4J_SRC=/Users/German/development/workspace-oepe-bch/havoc2
 LANDING=$SNAIL4J_SRC/../installer/installFiles
 
 #zips up and places zip files in backend/src/main/resources,
@@ -12,6 +13,7 @@ PM_HOME=$SNAIL4J_SRC/processManager
 JM_HOME=$SNAIL4J_SRC/jmeterFiles
 WM_HOME=$SNAIL4J_SRC/wiremock
 MVN_BIN=http://www-us.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.zip
+#MVN_REPO=/Users/erikostermueller/.m2
 MVN_REPO=/Users/erikostermueller/.m2
 
 GLOWROOT_BIN=https://github.com/glowroot/glowroot/releases/download/v0.13.5/glowroot-0.13.5-dist.zip
@@ -20,7 +22,8 @@ GLOWROOT_BIN=https://github.com/glowroot/glowroot/releases/download/v0.13.5/glow
 # b4 running this script, you must:
 # a) cd $TJP_HOME / git clone https://github.com/eostermueller/tjp2 
 
-TJP_HOME=/Users/erikostermueller/Documents/src/jsource/tjp2
+#TJP_HOME=/Users/erikostermueller/Documents/src/jsource/tjp2
+TJP_HOME=/Users/German/development/workspace-oepe-bch/tjp2
 
 #Snail4j starup looks for carefully named zip files in this folder, then unzips them.
 TARGET=$SNAIL4J_SRC/backend/src/main/resources
