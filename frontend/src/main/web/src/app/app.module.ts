@@ -44,6 +44,7 @@ import { DemoCardComponent } from './demo-card/demo-card.component';
 import { UseCasesComponent } from './use-cases/use-cases.component';
 import { UseCaseCardComponent } from './use-case-card/use-case-card.component';
 import { StartStopComponent } from './start-stop/start-stop.component';
+import { HealthChecksComponent } from './health-checks/health-checks.component';
 
   const appRoutes: Routes = [
     /**
@@ -79,6 +80,7 @@ import { StartStopComponent } from './start-stop/start-stop.component';
     MatPaginationDemoComponent,
     DemoCardComponent,
     StartStopComponent,
+    HealthChecksComponent,
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
