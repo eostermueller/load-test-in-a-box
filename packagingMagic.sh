@@ -1,4 +1,4 @@
-SNAIL4J_SRC=/Users/erikostermueller/Documents/src/jssource/snail4j/snail4j
+SNAIL4J_SRC=/C/Users/eoste/Documents/src/jssource/snail4j
 LANDING=$SNAIL4J_SRC/../installer/installFiles
 
 #zips up and places zip files in backend/src/main/resources,
@@ -11,8 +11,10 @@ LANDING=$SNAIL4J_SRC/../installer/installFiles
 PM_HOME=$SNAIL4J_SRC/processManager
 JM_HOME=$SNAIL4J_SRC/jmeterFiles
 WM_HOME=$SNAIL4J_SRC/wiremock
+H2_DB=/c/Users/eoste/Documents/src/jsource/javaPerformanceTroubleshooting/db/data
+#H2_DB_FILE=$H2_DB/perfSandboxDb.mv.db
 MVN_BIN=http://www-us.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.zip
-MVN_REPO=/Users/erikostermueller/.m2
+MVN_REPO=/C/Users/eoste/.m2
 
 GLOWROOT_BIN=https://github.com/glowroot/glowroot/releases/download/v0.13.5/glowroot-0.13.5-dist.zip
 
@@ -20,7 +22,7 @@ GLOWROOT_BIN=https://github.com/glowroot/glowroot/releases/download/v0.13.5/glow
 # b4 running this script, you must:
 # a) cd $TJP_HOME / git clone https://github.com/eostermueller/tjp2 
 
-TJP_HOME=/Users/erikostermueller/Documents/src/jsource/tjp2
+TJP_HOME=/C/Users/eoste/Documents/src/jsource/tjp2
 
 #Snail4j starup looks for carefully named zip files in this folder, then unzips them.
 TARGET=$SNAIL4J_SRC/backend/src/main/resources
@@ -53,7 +55,12 @@ echo repository.zip is created
 # The following file is an h2 database file zipped up into data.zip.  It takes 5-10 minutes to build.
 # To create it, download the above project and run the init.sh/init.cmd
 # That will create perfSandboxDb.mv.db, which must be zipped into data.zip
-cp $LANDING/data.zip $TARGET/
+#cp $LANDING/data.zip $TARGET/
+
+echo Creating data.zip in folder $TARGET using H2 data file in $H2_DB
+jar cvfM $TARGET/data.zip -C $H2_DB perfSandboxDb.mv.db
+echo Just created data.zip.  
+ls -lart $TARGET/data.zip
 
 
 curl -o $TARGET/apache-maven-3.6.2-bin.zip -O $MVN_BIN
