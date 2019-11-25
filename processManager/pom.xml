@@ -202,7 +202,156 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
            </executions>
        </plugin>
 
-		<!-- TODO:  -->
+		<!-- TODO: workaround to kill windows processes -->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-antrun-plugin</artifactId>
+			<version>1.8</version>
+			<executions>
+			
+				<execution>
+					<id>jps-backend</id>
+					<phase>verify</phase>
+					<configuration>
+					    <target>
+					        <property name="runtime_classpath" refid="maven.runtime.classpath" />
+					        <exec executable="${JAVA_HOME}/bin/jps">
+					            <arg value="-l" />
+					            <redirector outputproperty="process.pid">
+					                <outputfilterchain>
+					                	<linecontainsregexp>
+						                    <regexp pattern="backend\-[0-9]\.[0-9]\.[0-9]\-SNAPSHOT\.jar" />
+					                	</linecontainsregexp>
+					                	<tokenfilter>
+					                    	<replaceregex pattern=" backend\-[0-9]\.[0-9]\.[0-9]\-SNAPSHOT\.jar" replace="" />
+					                    </tokenfilter>
+					                </outputfilterchain>
+					            </redirector>
+					        </exec>
+					        <exec executable="taskkill" osfamily="winnt">
+					            <arg value="/PID" />
+					            <arg value="${process.pid}" />
+					        </exec>
+					        <exec executable="kill" osfamily="unix">
+					            <arg value="-9" />
+					            <arg value="${process.pid}" />
+					        </exec>
+					    </target>
+					</configuration>
+					<goals>
+						<goal>run</goal>
+					</goals>
+				</execution>
+
+				
+				<execution>
+					<id>jcmd-surefire</id>
+					<phase>verify</phase>
+					<configuration>
+					    <target>
+					        <property name="runtime_classpath" refid="maven.runtime.classpath" />
+					        <exec executable="${JAVA_HOME}/bin/jcmd">
+					            <redirector outputproperty="process.pid">
+					                <outputfilterchain>
+					                	<linecontainsregexp>
+					                		<!-- it can be much simpler, but It wanted to confirm is this process: -->
+						                    <regexp pattern="[\w\/]+\.snail4j\/processManager\/target\/surefire\/surefirebooter.+\.snail4j\/processManager\/target\/surefire.+[0-9]+tmp" />
+					                	</linecontainsregexp>
+					                	<tokenfilter>
+					                    	<replaceregex pattern=" [\w\/]+\.snail4j\/processManager\/target\/surefire\/surefirebooter.+\.snail4j\/processManager\/target\/surefire.+[0-9]+tmp" 
+					                    					replace="" />
+					                    </tokenfilter>
+					                </outputfilterchain>
+					            </redirector>
+					        </exec>
+					        <exec executable="taskkill" osfamily="winnt">
+					            <arg value="/PID" />
+					            <arg value="${process.pid}" />
+					        </exec>
+					        <exec executable="kill" osfamily="unix">
+					            <arg value="-9" />
+					            <arg value="${process.pid}" />
+					        </exec>
+					    </target>
+					</configuration>
+					<goals>
+						<goal>run</goal>
+					</goals>
+				</execution>
+
+				
+				<!-- these are necessary: (they're being killed by parent process)
+				<execution>
+					<id>jcmd-repository</id>
+					<phase>verify</phase>
+					<configuration>
+					    <target>
+					        <property name="runtime_classpath" refid="maven.runtime.classpath" />
+					        <exec executable="${JAVA_HOME}/bin/jcmd">
+					            <redirector outputproperty="process.pid">
+					                <outputfilterchain>
+					                	<linecontainsregexp>
+						                    <regexp pattern="org\.codehaus\.plexus\.classworlds\.launcher\.Launcher -Dmaven\.repo\.local=[\w\/]+\.snail4j\/repository\ verify" />
+					                	</linecontainsregexp>
+					                	<tokenfilter>
+					                    	<replaceregex pattern=" org\.codehaus\.plexus\.classworlds\.launcher\.Launcher -Dmaven\.repo\.local=[\w\/]+\.snail4j\/repository\ verify" 
+					                    					replace="" />
+					                    </tokenfilter>
+					                </outputfilterchain>
+					            </redirector>
+					        </exec>
+					        <exec executable="taskkill" osfamily="winnt">
+					            <arg value="/PID" />
+					            <arg value="${process.pid}" />
+					        </exec>
+					        <exec executable="kill" osfamily="unix">
+					            <arg value="-9" />
+					            <arg value="${process.pid}" />
+					        </exec>
+					    </target>
+					</configuration>
+					<goals>
+						<goal>run</goal>
+					</goals>
+				</execution>
+ 				-->
+				<!-- execution>
+					<id>jcmd-wiremock</id>
+					<phase>verify</phase>
+					<configuration>
+					    <target>
+					        <property name="runtime_classpath" refid="maven.runtime.classpath" />
+					        <exec executable="${JAVA_HOME}/bin/jcmd">
+					            <arg value="-l" />
+					            <redirector outputproperty="process.pid">
+					                <outputfilterchain>
+					                	<linecontainsregexp>
+						                    <regexp pattern="org\.codehaus\.plexus\.classworlds\.launcher\.Launcher\ \-V\ \-X\ clean\ compile\ wiremock\:run" />
+					                	</linecontainsregexp>
+					                	<tokenfilter>
+					                    	<replaceregex pattern=" org\.codehaus\.plexus\.classworlds\.launcher\.Launcher\ \-V\ \-X\ clean\ compile\ wiremock\:run" replace="" />
+					                    </tokenfilter>
+					                </outputfilterchain>
+					            </redirector>
+					        </exec>
+					        <exec executable="taskkill" osfamily="winnt">
+					            <arg value="/PID" />
+					            <arg value="${process.pid}" />
+					        </exec>
+					        <exec executable="kill" osfamily="unix">
+					            <arg value="-9" />
+					            <arg value="${process.pid}" />
+					        </exec>
+					    </target>
+					</configuration>
+					<goals>
+						<goal>run</goal>
+					</goals>
+				</execution -->
+				
+				
+			</executions>
+		</plugin>
 		
     </plugins>
   </build>
