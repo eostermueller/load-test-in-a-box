@@ -234,13 +234,14 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 					            </redirector>
 					        </exec>
 					        <exec executable="taskkill" osfamily="winnt">
+					            <arg value="/F" />
 					            <arg value="/PID" />
 					            <arg value="${process.pid}" />
 					        </exec>
-					        <exec executable="kill" osfamily="unix">
+					        <!-- exec executable="kill" osfamily="unix">
 					            <arg value="-9" />
 					            <arg value="${process.pid}" />
-					        </exec>
+					        </exec -->
 					    </target>
 					</configuration>
 					<goals>
@@ -259,24 +260,25 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 					            <redirector outputproperty="process.pid">
 					                <outputfilterchain>
 					                	<linecontainsregexp>
-					                		<!-- it can be much simpler, but It wanted to confirm is this process: -->
-						                    <regexp pattern="[\w\/]+\.snail4j\/processManager\/target\/surefire\/surefirebooter.+\.snail4j\/processManager\/target\/surefire.+[0-9]+tmp" />
+					                		<!-- it can be much simpler, but It wanted to confirm if it is surefire process: -->
+						                    <regexp pattern="[\w\\\:]+\\surefire[0-9]+.+(surefire\_?[0-9]+tmp\ ?)+" />
 					                	</linecontainsregexp>
 					                	<tokenfilter>
-					                    	<replaceregex pattern=" [\w\/]+\.snail4j\/processManager\/target\/surefire\/surefirebooter.+\.snail4j\/processManager\/target\/surefire.+[0-9]+tmp" 
+					                    	<replaceregex pattern=" [\w\\\:]+\\surefire[0-9]+.+(surefire\_?[0-9]+tmp\ ?)+" 
 					                    					replace="" />
 					                    </tokenfilter>
 					                </outputfilterchain>
 					            </redirector>
 					        </exec>
 					        <exec executable="taskkill" osfamily="winnt">
+					            <arg value="/F" />
 					            <arg value="/PID" />
 					            <arg value="${process.pid}" />
 					        </exec>
-					        <exec executable="kill" osfamily="unix">
+					        <!-- exec executable="kill" osfamily="unix">
 					            <arg value="-9" />
 					            <arg value="${process.pid}" />
-					        </exec>
+					        </exec -->
 					    </target>
 					</configuration>
 					<goals>
@@ -285,7 +287,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 				</execution>
 
 				
-				<!-- these are necessary: (they're being killed by parent process)
+				<!-- these aren't necessary: (they're being killed by parent process)
+				     deleting next 
 				<execution>
 					<id>jcmd-repository</id>
 					<phase>verify</phase>
