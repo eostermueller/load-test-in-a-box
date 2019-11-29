@@ -16,10 +16,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <h2.port>9093</h2.port>
 
     <!-- the following -V is an innocuous mvn parameter, couldn't get "" to work.
-         The -V will be used when these optional parameters are not passed in --> 
+         The -V will be used when these optional parameters are not passed in -->
 
-    <snail4j.maven.offline.passthru>-V</snail4j.maven.offline.passthru> 
-    <snail4j.maven.repo.passthru>-V</snail4j.maven.repo.passthru> 
+    <snail4j.maven.offline.passthru>-V</snail4j.maven.offline.passthru>
+    <snail4j.maven.repo.passthru>-V</snail4j.maven.repo.passthru>
   </properties>
   <dependencies>
     <dependency>
@@ -213,7 +213,47 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<artifactId>maven-antrun-plugin</artifactId>
 			<version>1.8</version>
 			<executions>
-			
+
+
+				<!--  workaround to kill windows processes -->
+				<execution>
+					<id>jcmd-surefire</id>
+					<phase>verify</phase>
+					<configuration>
+					    <target>
+					        <property name="runtime_classpath" refid="maven.runtime.classpath" />
+					        <exec executable="${JAVA_HOME}/bin/jcmd">
+					            <redirector outputproperty="process.pid">
+					                <outputfilterchain>
+					                	<linecontainsregexp>
+					                		<!-- it can be much simpler, but I wanted to confirm if it is a surefire process: -->
+						                    <regexp pattern="[\w\\\:]+\\surefire[0-9]+.+(surefire\_?[0-9]+tmp\ ?)+" />
+					                	</linecontainsregexp>
+					                	<tokenfilter>
+					                    	<replaceregex pattern=" [\w\\\:]+\\surefire[0-9]+.+(surefire\_?[0-9]+tmp\ ?)+"
+					                    					replace="" />
+					                    </tokenfilter>
+					                </outputfilterchain>
+					            </redirector>
+					        </exec>
+					        <exec executable="taskkill" osfamily="winnt">
+					            <arg value="/F" />
+					            <arg value="/PID" />
+					            <arg value="${process.pid}" />
+					        </exec>
+					        <!-- exec executable="kill" osfamily="unix">
+					            <arg value="-9" />
+					            <arg value="${process.pid}" />
+					        </exec -->
+					    </target>
+					</configuration>
+					<goals>
+						<goal>run</goal>
+					</goals>
+				</execution>
+
+
+				<!-- these aren't necessary: (they're being killed by parent process)
 				<execution>
 					<id>jps-backend</id>
 					<phase>verify</phase>
@@ -238,57 +278,16 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 					            <arg value="/PID" />
 					            <arg value="${process.pid}" />
 					        </exec>
-					        <!-- exec executable="kill" osfamily="unix">
+					        <exec executable="kill" osfamily="unix">
 					            <arg value="-9" />
 					            <arg value="${process.pid}" />
-					        </exec -->
+					        </exec>
 					    </target>
 					</configuration>
 					<goals>
 						<goal>run</goal>
 					</goals>
 				</execution>
-
-				
-				<execution>
-					<id>jcmd-surefire</id>
-					<phase>verify</phase>
-					<configuration>
-					    <target>
-					        <property name="runtime_classpath" refid="maven.runtime.classpath" />
-					        <exec executable="${JAVA_HOME}/bin/jcmd">
-					            <redirector outputproperty="process.pid">
-					                <outputfilterchain>
-					                	<linecontainsregexp>
-					                		<!-- it can be much simpler, but It wanted to confirm if it is surefire process: -->
-						                    <regexp pattern="[\w\\\:]+\\surefire[0-9]+.+(surefire\_?[0-9]+tmp\ ?)+" />
-					                	</linecontainsregexp>
-					                	<tokenfilter>
-					                    	<replaceregex pattern=" [\w\\\:]+\\surefire[0-9]+.+(surefire\_?[0-9]+tmp\ ?)+" 
-					                    					replace="" />
-					                    </tokenfilter>
-					                </outputfilterchain>
-					            </redirector>
-					        </exec>
-					        <exec executable="taskkill" osfamily="winnt">
-					            <arg value="/F" />
-					            <arg value="/PID" />
-					            <arg value="${process.pid}" />
-					        </exec>
-					        <!-- exec executable="kill" osfamily="unix">
-					            <arg value="-9" />
-					            <arg value="${process.pid}" />
-					        </exec -->
-					    </target>
-					</configuration>
-					<goals>
-						<goal>run</goal>
-					</goals>
-				</execution>
-
-				
-				<!-- these aren't necessary: (they're being killed by parent process)
-				     deleting next 
 				<execution>
 					<id>jcmd-repository</id>
 					<phase>verify</phase>
@@ -302,7 +301,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 						                    <regexp pattern="org\.codehaus\.plexus\.classworlds\.launcher\.Launcher -Dmaven\.repo\.local=[\w\/]+\.snail4j\/repository\ verify" />
 					                	</linecontainsregexp>
 					                	<tokenfilter>
-					                    	<replaceregex pattern=" org\.codehaus\.plexus\.classworlds\.launcher\.Launcher -Dmaven\.repo\.local=[\w\/]+\.snail4j\/repository\ verify" 
+					                    	<replaceregex pattern=" org\.codehaus\.plexus\.classworlds\.launcher\.Launcher -Dmaven\.repo\.local=[\w\/]+\.snail4j\/repository\ verify"
 					                    					replace="" />
 					                    </tokenfilter>
 					                </outputfilterchain>
@@ -356,11 +355,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 						<goal>run</goal>
 					</goals>
 				</execution -->
-				
-				
+
+
 			</executions>
 		</plugin>
-		
+
     </plugins>
   </build>
 </project>
