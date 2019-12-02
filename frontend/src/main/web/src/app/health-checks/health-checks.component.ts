@@ -15,22 +15,29 @@ import { Observable } from 'rxjs/Observable';
 })
 export class HealthChecksComponent implements OnInit {
 
-  polledBitcoin$: Observable<number>;
-
+  polledBitcoin$: Observable<string[]>;
 
   constructor(private http: HttpClient) {
       
   }
 
   ngOnInit() {
-//    const bitcoin$ = this.http.get('https://blockchain.info/ticker');
       const bitcoin$ = this.http.get('/actuator/health');
 
 
     this.polledBitcoin$ = timer(0, 1000).pipe(
         concatMap(_ => bitcoin$),
         map(
-          (response: {EUR: {last: number}}) => response.EUR.last),
+            (response:
+              {[key: string]: any}) => {
+                const data = response.details;
+                let temp: string[] = [];
+                for(let key of ['h2', 'sutApp', 'wiremock']) {
+                  temp.push(data[key].status);
+                }
+                return temp;
+              } 
+              ),
       );
   }
 
