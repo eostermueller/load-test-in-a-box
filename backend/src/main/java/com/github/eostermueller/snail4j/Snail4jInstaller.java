@@ -342,9 +342,6 @@ protected void installProcessManager() throws Snail4jException {
 			
 			if (path.contains(PathUtil.JAR_SUFFIX)) {
 				
-				/**
-				 * maven repository zip needs to be extracted from executable jar file
-				 */
 				cleansedPath = pathUtil.cleanPath(path);
 				
 		    	if ( targetH2ZipFile.toFile().exists() ) {

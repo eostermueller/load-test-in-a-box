@@ -15,30 +15,56 @@ import { Observable } from 'rxjs/Observable';
 })
 export class HealthChecksComponent implements OnInit {
 
-  polledBitcoin$: Observable<string[]>;
+  actuatorHealthCheck$: Observable<string[]>;
+  h2Health : boolean = false;
+  sutAppHealth : boolean = false;
+  wiremockHealth : boolean = false;
 
   constructor(private http: HttpClient) {
       
   }
 
+  /**
+   * @stolenFrom: https://stackoverflow.com/a/59146234/2377579
+   */
   ngOnInit() {
-      const bitcoin$ = this.http.get('/actuator/health');
+      const unparsedActuatorResponse$ = this.http.get('/actuator/health');
+      console.log('##@ top of ngOnInit')
+      try {
+        this.actuatorHealthCheck$ = timer(0, 1000).pipe(
+          concatMap(_ => unparsedActuatorResponse$),
+          map(
+              (response:
+                {[key: string]: any}) => {
+                  const data = response.components;
+                  this.sutAppHealth   = data['sutApp'  ].status === "UP" ? true : false;
+                  this.wiremockHealth = data['wiremock'].status === "UP" ? true : false;
+                  this.h2Health       = data['h2'      ].status === "UP" ? true : false;
+                  let temp: string[] = [];
+                  // for(let key of ['sutApp', 'h2', 'wiremock']) {
+                  //   temp.push(data[key].status);
+                  // }
+                  return temp;
+                } 
+                ),
+        );
+      }
+    catch(e) {
+        if(e instanceof Error) {
+            // IDE type hinting now available
+            // properly handle Error e
+            console.log('##@ error on /actuator/health ' + e.name);
+            console.log('##@ error on /actuator/health ' + e.message);
+            console.log('##@ error on /actuator/health ' + e.stack);
+        }
+        else {
+            // probably cannot recover...therefore, rethrow
+            console.log('##@ unable to recover from error on /actuator/health')
+            throw e;
+        }
+        console.log('##@ Execution continues!!!');
+    }
 
-
-    this.polledBitcoin$ = timer(0, 1000).pipe(
-        concatMap(_ => bitcoin$),
-        map(
-            (response:
-              {[key: string]: any}) => {
-                const data = response.details;
-                let temp: string[] = [];
-                for(let key of ['h2', 'sutApp', 'wiremock']) {
-                  temp.push(data[key].status);
-                }
-                return temp;
-              } 
-              ),
-      );
   }
 
 }

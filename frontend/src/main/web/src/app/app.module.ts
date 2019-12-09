@@ -1,5 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 
+//import { ErrorHandler, Injectable} from '@angular/core';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -26,6 +28,7 @@ import { MatToolbarModule,
           MatInputModule,
            } from '@angular/material';
 import { WorkloadComponent } from './workload/workload.component';
+//import { GlobalErrorHandler } from './GlobalErrorHandler';
 import { OneComponent } from './one/one.component';
 
 import { RouterModule, Routes } from '@angular/router';
@@ -105,10 +108,18 @@ import { HealthChecksComponent } from './health-checks/health-checks.component';
     MatFormFieldModule,
     MatInputModule,
     MatSlideToggleModule,    
+    // ErrorHandler,
+    // GlobalErrorHandler,
+    // Injectable
   ],
   exports: [
   ],
-  providers: [],
+  // providers: [
+  //   {
+  //     provide: ErrorHandler, 
+  //     useClass: GlobalErrorHandler
+  //   }    
+  // ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
