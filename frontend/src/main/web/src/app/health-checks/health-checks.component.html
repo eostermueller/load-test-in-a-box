@@ -1,2 +1,5 @@
-<p>health-checks works!</p>
-Bitcoin price: {{ polledBitcoin$ | async }}
+
+Healthcheck response: {{ actuatorHealthCheck$ | async }}
+<mat-slide-toggle [checked]="sutAppHealth"></mat-slide-toggle>
+<mat-slide-toggle [checked] = "h2Health"></mat-slide-toggle>
+<mat-slide-toggle [checked] = "wiremockHealth"></mat-slide-toggle>

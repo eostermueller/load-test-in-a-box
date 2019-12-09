@@ -22,7 +22,7 @@ GLOWROOT_BIN=https://github.com/glowroot/glowroot/releases/download/v0.13.5/glow
 # b4 running this script, you must:
 # a) cd $TJP_HOME / git clone https://github.com/eostermueller/tjp2 
 
-TJP_HOME=/C/Users/eoste/Documents/src/jsource/tjp2
+TJP_HOME=/C/Users/eoste/Documents/src/jsource/tjp2/tjp2
 
 #Snail4j starup looks for carefully named zip files in this folder, then unzips them.
 TARGET=$SNAIL4J_SRC/backend/src/main/resources
