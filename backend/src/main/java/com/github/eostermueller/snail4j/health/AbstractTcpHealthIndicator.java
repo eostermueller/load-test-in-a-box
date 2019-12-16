@@ -17,29 +17,7 @@ import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.stereotype.Component;
 
 
-public abstract class AbstractSpringTcpHealthIndicator implements HealthIndicator {
-	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-	
-	private final static Long TIMEOUT = TimeUnit.SECONDS.toMillis(10);	
-	public InetAddress getInetAddress() {
-		return inetAddress;
-	}
-
-	public void setInetAddress(InetAddress inetAddress) {
-		this.inetAddress = inetAddress;
-	}
-
-	private InetAddress inetAddress;
-    private int port;
-
-	public int getPort() {
-		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
-	}
-
+public abstract class AbstractTcpHealthIndicator extends AbstractSpringNetworkHealthIndicator {
 	/**
 	 *  	@st0lenFr0m: http://jdpgrailsdev.github.io/blog/2014/11/11/spring_boot_health_indicators_auto_config.html
 	 */
@@ -48,9 +26,8 @@ public abstract class AbstractSpringTcpHealthIndicator implements HealthIndicato
 	     Socket socket = null;
 
 	        try {
-
 	        	socket = new Socket();
-                LOGGER.debug("Testing [" + this.getInetAddress().getHostAddress() + ":" + this.getPort() + "]");
+             LOGGER.debug("Testing [" + this.getInetAddress().getHostAddress() + ":" + this.getPort() + "]");
 	        	
 	            socket.connect(new InetSocketAddress(this.getInetAddress().getHostAddress(), this.getPort()), TIMEOUT.intValue());
 	            LOGGER.debug("UP");
@@ -66,6 +43,6 @@ public abstract class AbstractSpringTcpHealthIndicator implements HealthIndicato
 	                    LOGGER.debug("Unable to close consumer socket.", e);
 	                }
 	            }
-	        }
-	   }
+	        }		
+	}
 }

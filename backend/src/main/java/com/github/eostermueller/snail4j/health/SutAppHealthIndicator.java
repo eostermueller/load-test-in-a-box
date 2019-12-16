@@ -13,7 +13,7 @@ import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.Messages;
 @Component
-public class SutAppHealthIndicator extends AbstractSpringTcpHealthIndicator {
+public class SutAppHealthIndicator extends AbstractTcpHealthIndicator {
 
 	public SutAppHealthIndicator() {
 		try {

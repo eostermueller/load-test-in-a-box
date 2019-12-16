@@ -1,5 +1,60 @@
+<div class="vertical_spacer">      
+    <p></p>
+  </div>
+        <div class="vertical_content">
+            <div class="horizontal_box">
+                 <div class="horizontal_spacer"></div>
 
-Healthcheck response: {{ actuatorHealthCheck$ | async }}
-<mat-slide-toggle [checked]="sutAppHealth"></mat-slide-toggle>
-<mat-slide-toggle [checked] = "h2Health"></mat-slide-toggle>
-<mat-slide-toggle [checked] = "wiremockHealth"></mat-slide-toggle>
+                 <div class="horizontal_content">
+                        <p></p>
+                        <div class="horizontal_spacer"></div>
+                        <table>
+                         <tr>
+                             <td align=right>
+                                    <mat-slide-toggle labelPosition='before' disabled=true aria-label='sutApp' [checked]="sutAppHealth">SUT</mat-slide-toggle>
+                            </td>
+                             <td align=right>
+                                <mat-slide-toggle labelPosition='before' disabled=true aria-label='JMeter' [checked]="jmeterLoad">JMeter</mat-slide-toggle>
+                        </td>
+                        </tr>
+                        <tr>
+                                <td align=right>
+                                        <mat-slide-toggle labelPosition='before' disabled=true aria-label='h2' [checked]="h2Health">H2</mat-slide-toggle>
+   
+                                </td>
+                                <td align=right>
+   
+                               </td>
+                           </tr>
+                           <tr>
+                                <td align=right>
+                                        <mat-slide-toggle labelPosition='before' disabled=true aria-label='wiremock' [checked]="wiremockHealth">Wiremock</mat-slide-toggle>
+                                </td>
+                                <td align=right>
+   
+                               </td>
+                           </tr>
+                           </table>
+                        <p></p>
+                </div>
+                <div class="horizontal_spacer"></div>
+                <div class="horizontal_content">
+
+                 </div>
+
+                 <div class="horizontal_spacer"></div>
+                 <div class="horizontal_content">
+
+                 </div>
+                 <div class="horizontal_spacer"></div>
+                 <div class="horizontal_content">
+
+                 </div>
+                 <div class="horizontal_spacer"></div>
+            </div>
+
+                
+  <div class="vertical_spacer">      
+    <p></p>
+  </div>
+

@@ -19,6 +19,7 @@ export class HealthChecksComponent implements OnInit {
   h2Health : boolean = false;
   sutAppHealth : boolean = false;
   wiremockHealth : boolean = false;
+  jmeterLoad : boolean = false;
 
   constructor(private http: HttpClient) {
       
@@ -37,9 +38,10 @@ export class HealthChecksComponent implements OnInit {
               (response:
                 {[key: string]: any}) => {
                   const data = response.components;
-                  this.sutAppHealth   = data['sutApp'  ].status === "UP" ? true : false;
-                  this.wiremockHealth = data['wiremock'].status === "UP" ? true : false;
-                  this.h2Health       = data['h2'      ].status === "UP" ? true : false;
+                  this.sutAppHealth   = data['sutApp'    ].status === "UP" ? true : false;
+                  this.wiremockHealth = data['wiremock'  ].status === "UP" ? true : false;
+                  this.h2Health       = data['h2'        ].status === "UP" ? true : false;
+                  this.jmeterLoad     = data['JMeterLoad'].status === "UP" ? true : false;
                   let temp: string[] = [];
                   // for(let key of ['sutApp', 'h2', 'wiremock']) {
                   //   temp.push(data[key].status);
