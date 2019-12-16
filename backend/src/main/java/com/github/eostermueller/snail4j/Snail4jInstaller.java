@@ -44,7 +44,6 @@ public class Snail4jInstaller {
 	  
     try {
     	
-    	
     	createLogDir();
     	
     	installMaven();
@@ -55,7 +54,6 @@ public class Snail4jInstaller {
     	installJMeterFiles();
     	installGlowroot();
     	installProcessManager();
-    	
     	
 	} catch (Snail4jException e) {
 		// TODO Auto-generated catch block
@@ -369,46 +367,6 @@ protected void installProcessManager() throws Snail4jException {
 		}
 	}  
   
-	/**
-	 * @stolenFrom: https://stackoverflow.com/a/1410779/2377579
-	 * @param cmd
-	 * @throws Snail4jException 
-	 */
-	private boolean executeBashCmd(String cmd, File dir) throws Snail4jException {
-        boolean rc = false;
-		LOGGER.debug("About to execute bash command [" + cmd + "] in dir [" + dir.toString() + "]");
-		
-		try {
-	        List<String> commands = new ArrayList<String>();
-	        commands.add("bash");
-	        commands.add("-c");
-	        commands.add(cmd);
-
-	        ProcessBuilder pb = new ProcessBuilder(commands);
-	        pb.directory(dir);
-	        pb.redirectErrorStream(true);
-	        Process process = pb.start();
-
-	        StringBuilder out = new StringBuilder();
-	        BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-	        String line = null, previous = null;
-	        while ((line = br.readLine()) != null)
-	            if (!line.equals(previous)) {
-	                previous = line;
-	                out.append(line).append('\n');
-	                System.out.println(line);
-	            }
-
-	        if (process.waitFor() == 0) {
-	            rc = true;
-	        }		
-			LOGGER.debug("rc = [" + rc + "] for bash command [" + cmd + "] in dir [" + dir.toString() + "]");
-		} catch (Exception e) {
-			throw new Snail4jException(e);
-		}
-
-		return rc;
-	}
 	protected void installMaven() throws Snail4jException {
 		PathUtil pathUtil = new PathUtil();
 		String path = pathUtil.getBaseClassspath();
@@ -435,16 +393,13 @@ protected void installProcessManager() throws Snail4jException {
 			    	File mavenExe = new File( mavenBinFolder, "mvn");
 			    	if (mavenExe.exists()) {
 			    		String cmd = "chmod +x " + mavenExe.getAbsolutePath().toString();
-			    		executeBashCmd(cmd, mavenBinFolder);
+			    		OsUtils.executeBashCmd(cmd, mavenBinFolder);
 			    	} else {
 			    		String err= "java.util.File is reporting that the maven executable doesn't exist.  [" + mavenExe.toString() + "].  Cmon, we just installed it.  It should be there!";
 			    		LOGGER.error(err);
 			    		throw new Snail4jException(err);
 			    	}
-		    		
 		    	}
-		    	
-				
 			} else {
 				LOGGER.error("launch as 'java -jar <snail4j.jar> to get maven to install");
 			}

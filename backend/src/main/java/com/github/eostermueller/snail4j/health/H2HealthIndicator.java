@@ -11,11 +11,11 @@ import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.Messages;
 
 @Component
-public class H2HealthIndicator extends AbstractSpringTcpHealthIndicator {
+public class H2HealthIndicator extends AbstractTcpHealthIndicator {
 
 		public H2HealthIndicator() {
 			try {
-				Configuration cfg = DefaultFactory.getFactory().getConfiguration();
+				Configuration cfg = getConfiguration();
 				String hostname = cfg.getH2Hostname();
 				InetAddress addr = InetAddress.getByName(hostname);
 				

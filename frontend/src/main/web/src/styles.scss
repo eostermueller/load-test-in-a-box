@@ -85,3 +85,57 @@ mat-form-field {
   background: no-repeat center 65% / 35% url("assets/thecodecampus_branding.svg");
 }
 */
+
+/**
+  *  snail4j stuff
+  */
+
+  .box {
+    display: flex;
+    align-content: "space-around center"
+  }
+
+  .one {
+    flex: 1;
+  }
+
+  .six {
+    flex: 6;
+box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.vertical_box {
+  flex-direction:column;
+  display: flex;
+/* box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); */
+}
+
+.vertical_spacer {
+flex: 1;
+}
+
+.vertical_content {
+flex: 6;
+}
+
+
+
+/*
+rig
+*/
+p {
+font-family: Lato;
+}
+.horizontal_box {
+  display: flex;
+    }
+
+.horizontal_spacer {
+  flex: 1;
+}
+
+.horizontal_content {
+/*        display: flex; */
+  flex: 6;
+box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}  
