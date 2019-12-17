@@ -52,6 +52,10 @@ public class Snail4jAgentApiController {
 	public String getEventHistory() throws CannotFindSnail4jFactoryClass {
 		return DefaultFactory.getFactory().getEventHistory().debug();
 	}
+	@GetMapping("/getExceptionHistory")
+	public String getExceptionHistory() throws CannotFindSnail4jFactoryClass {
+		return Snail4jException.getExceptionHistory().toString();
+	}
 	@GetMapping("/startLg")
 	public String startLoadGenerator() throws Snail4jException, ConfigVariableNotFoundException, IOException {
 		LOGGER.info("About to start the wind tunnel!");

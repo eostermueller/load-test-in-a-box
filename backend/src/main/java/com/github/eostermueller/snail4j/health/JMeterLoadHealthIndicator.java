@@ -3,9 +3,11 @@ package com.github.eostermueller.snail4j.health;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import org.springframework.boot.actuate.health.Health;
 import org.springframework.stereotype.Component;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
+import com.github.eostermueller.snail4j.OsUtils;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.Messages;

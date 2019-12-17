@@ -393,7 +393,7 @@ protected void installProcessManager() throws Snail4jException {
 			    	File mavenExe = new File( mavenBinFolder, "mvn");
 			    	if (mavenExe.exists()) {
 			    		String cmd = "chmod +x " + mavenExe.getAbsolutePath().toString();
-			    		OsUtils.executeBashCmd(cmd, mavenBinFolder);
+			    		OsUtils.executeProcess_bash(cmd, mavenBinFolder);
 			    	} else {
 			    		String err= "java.util.File is reporting that the maven executable doesn't exist.  [" + mavenExe.toString() + "].  Cmon, we just installed it.  It should be there!";
 			    		LOGGER.error(err);

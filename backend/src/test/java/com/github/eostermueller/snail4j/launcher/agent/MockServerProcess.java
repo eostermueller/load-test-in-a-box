@@ -106,7 +106,7 @@ public class MockServerProcess {
 		
 		Assert.assertNotNull( javaHome );
 		
-		Path java_c_Executable = javaHome.resolve( Paths.get("bin/javac") );
+		Path java_c_Executable = javaHome.resolve( Paths.get("bin" + File.pathSeparator + "javac") );
 		if (!java_c_Executable.toFile().exists() ) {
 			throw new Snail4jException("Was expecting [" + java_c_Executable.toString() + "] to be the path to a javac executable.");
 		}

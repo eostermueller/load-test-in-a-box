@@ -13,6 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import com.github.eostermueller.snail4j.OS;
 import com.github.eostermueller.snail4j.launcher.ConfigReaderWriter;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.DefaultConfigReaderWriter;
@@ -39,13 +40,25 @@ public class ConfigWriteAndReadTest {
 		//Configuration cfg = DefaultFactory.getFactory().getConfiguration();
 		Configuration cfg = new DefaultConfiguration();
 		
-		String name="/foo";
+		String somePath = null;
+		String os = OS.getOs().getPlatformName();
+		OS myos = OS.getOs();
+		switch( OS.getOs().getOsFamily() ) {
+			case Windows:
+				somePath = "C:\\foo";
+				break;
+			default:
+				somePath = "/foo";
+		}
 		int c0unt = 8675309;
-		Path path = Paths.get(name);
+		Path path = Paths.get(somePath);
+		
+		int loadGenDuration = 2539;
+		cfg.setLoadGenerationDurationInSeconds(loadGenDuration);
 		
 		cfg.setJavaHome(path);
 		cfg.setMavenHome(path);
-		cfg.setMavenZipFileNameWithoutExtension(name);
+		cfg.setMavenZipFileNameWithoutExtension(somePath);
 		cfg.setMaxExceptionCountPerEvent(c0unt);
 		cfg.setSnail4jHome(path);
 		cfg.setSutAppHome(path);
@@ -60,14 +73,15 @@ public class ConfigWriteAndReadTest {
 			
 			cfg = configWriter.read(cfgFile,DefaultConfiguration.class);
 			
-			assertEquals(name,cfg.getJavaHome().toAbsolutePath().toString());
-			assertEquals(name,cfg.getMavenHome().toAbsolutePath().toString());
-			assertEquals(name,cfg.getSnail4jHome().toAbsolutePath().toString());
-			assertEquals(name,cfg.getSutAppHome().toAbsolutePath().toString());
+			assertEquals(somePath,cfg.getJavaHome().toAbsolutePath().toString());
+			assertEquals(somePath,cfg.getMavenHome().toAbsolutePath().toString());
+			assertEquals(somePath,cfg.getSnail4jHome().toAbsolutePath().toString());
+			assertEquals(somePath,cfg.getSutAppHome().toAbsolutePath().toString());
 			
-			assertEquals( name,cfg.getMavenZipFileNameWithoutExtension() );
-			assertEquals( name + "-bin.zip",cfg.getMavenZipFileName() );
-			assertEquals( c0unt, cfg.getMaxExceptionCountPerEvent());
+			assertEquals( somePath,cfg.getMavenZipFileNameWithoutExtension() );
+			assertEquals( somePath + "-bin.zip",cfg.getMavenZipFileName() );
+			assertEquals( c0unt, cfg.getMaxExceptionCountPerEvent() );
+			assertEquals( loadGenDuration, cfg.getLoadGenerationDurationInSeconds() );
 		}
 		
 		
