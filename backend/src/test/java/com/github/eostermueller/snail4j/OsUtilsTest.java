@@ -64,12 +64,25 @@ Active Connections
 //		int found4445 = osResult.stdout.indexOf(":4445");
 //		assertTrue( found4445 > -1  );
 	}
+	/**
+	 * The following will requires a lot of setup.
+	 * 1) Find an un used UDP port.
+	 * 2) open a socket, listening on that unused report.
+	 * 3) run this test in a separate thread (or run the above in a separate thread), checking for the port above
+	 * 4) when the test is finished, shut down the udp listener.
+	 */
+	@Disabled
 	@Test
 	@EnabledOnOs({OS.WINDOWS})
 	void canDetectWhetherUdpIsActive_windows() {
 		
 		assertTrue( OsUtils.isUdpPortActive_mswin(4455));
 	}
+	
+	/**
+	 * Same story as the above test.  lots of work to do before this can be enabled.
+	 */
+	@Disabled
 	@Test
 	void canDetectWhetherUdpIsActive() {
 		
