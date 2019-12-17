@@ -386,7 +386,7 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	}
 	@Override
 	public long getLoadGenerationDurationInSeconds() {
-		return this.loadGenerationRampupTimeInSeconds;
+		return this.loadGenerationDurationInSeconds;
 	}
 	@Override
 	public void setLoadGenerationRampupTimeInSeconds(long val) {

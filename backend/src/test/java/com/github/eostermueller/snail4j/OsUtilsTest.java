@@ -2,9 +2,12 @@ package com.github.eostermueller.snail4j;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.github.eostermueller.snail4j.OsUtils.OsResult;
 
@@ -48,7 +51,7 @@ Active Connections
 	void testWindowsCommandExecution() {
 		String myWindowsCommand = "netstat -ano -p UDP";
 		
-		OsResult osResult = OsUtils.executeWindowsCmd(myWindowsCommand);
+		OsResult osResult = OsUtils.executeProcess_mswin(myWindowsCommand);
 		
 		assertEquals(0,osResult.exitCode);
 		
@@ -57,8 +60,20 @@ Active Connections
 
 		int foundColon = osResult.stdout.indexOf(":");
 		assertTrue( foundColon > -1  );
+		System.out.println(osResult.stdout);
 //		int found4445 = osResult.stdout.indexOf(":4445");
 //		assertTrue( found4445 > -1  );
+	}
+	@Test
+	@EnabledOnOs({OS.WINDOWS})
+	void canDetectWhetherUdpIsActive_windows() {
+		
+		assertTrue( OsUtils.isUdpPortActive_mswin(4455));
+	}
+	@Test
+	void canDetectWhetherUdpIsActive() {
+		
+		assertTrue( OsUtils.isUdpPortActive(4455));
 	}
 	
 	/**
@@ -71,7 +86,7 @@ Active Connections
 		
 		//WARNING:  Without -n and -P, it takes a long time
 		String myMacCommand = "sudo lsof -iUDP -P -n";
-		OsResult osResult = OsUtils.executeBashCmd(myMacCommand,null);
+		OsResult osResult = OsUtils.executeProcess_bash(myMacCommand,null);
 		
 		assertEquals(0,osResult.exitCode);
 		

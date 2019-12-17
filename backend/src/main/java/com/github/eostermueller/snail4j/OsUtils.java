@@ -7,18 +7,60 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.github.eostermueller.snail4j.OsUtils.OsResult;
+
 public class OsUtils {
+	static final Logger LOGGER = LoggerFactory.getLogger(OsUtils.class);
 	public static class OsResult {
 		int exitCode = UNINITIALIZED;
 		String stdout;
 	}
+
 	
 	public static final int UNINITIALIZED = -9999;
+	/**
+	 * commands for displaying UDP listening ports.
+	 */
+	static String UDP_PORT_TEST_MS_WIN = "netstat -ano -p UDP";
+	static String UDP_PORT_TEST_MAC = "sudo lsof -iUDP -P -n";
+	static String UDP_PORT_TEST_LINUX = "netstat -au";
+	
+	/**
+	 * Not ready to put the work into creating a test for this yet, so here is a way to lauch a udp port:
+	 * C:\Users\eoste\Documents\src\jdist\jmeter\apache-jmeter-5.2.1\bin>jmeter -Djmeterengine.nongui.port=4455 -n -t C:\Users\eoste\Documents\src\jssource\snail4j\jmeterFiles\load.jmx
+	 * @param udpPort
+	 * @return
+	 */
+	public static boolean isUdpPortActive_mswin(int udpPort) {
+		boolean active = false;
+		OsResult osResult = OsUtils.executeProcess_mswin(UDP_PORT_TEST_MS_WIN);
+		String portCriteria = ":" + String.valueOf(udpPort).trim();
+		if (osResult.stdout.toString().indexOf(portCriteria) > -1) {
+			active = true;
+		}
+		
+		return active;
+	}
+	public static boolean isUdpPortActive(int udpPort) {
+		boolean active = false;
+		
+		switch(OS.getOs().getOsFamily()) {
+		case Windows:
+			active = isUdpPortActive_mswin(udpPort);
+			break;
+		default:
+		}
+		return active;
+	}
+	
 	/**
 	 * @stolenFrom: https://www.mkyong.com/java/how-to-execute-shell-command-from-java/
 	 * @return
 	 */
-	public static OsResult executeWindowsCmd(String windowsCommand) {
+	public static OsResult executeProcess_mswin(String windowsCommand) {
 	     ProcessBuilder processBuilder = new ProcessBuilder();
 	     OsResult osResult = new OsResult();
 	        // Windows
@@ -36,6 +78,7 @@ public class OsUtils {
 
 	            while ((line = reader.readLine()) != null) {
 	                sb.append(line);
+	                sb.append("\n");
 	            }
 
 	            osResult.exitCode = process.waitFor();
@@ -46,6 +89,9 @@ public class OsUtils {
 	        } catch (InterruptedException e) {
 	            e.printStackTrace();
 	        }
+	        LOGGER.debug("Just executed:     " + windowsCommand);
+	        LOGGER.debug("OsResult.exitCode: "+osResult.exitCode);
+	        LOGGER.debug(osResult.stdout);
 	        return osResult;
 	}
 	/**
@@ -53,7 +99,7 @@ public class OsUtils {
 	 * @param cmd
 	 * @throws Snail4jException 
 	 */
-	public static OsResult executeBashCmd(String cmd, File dir) throws Snail4jException {
+	public static OsResult executeProcess_bash(String cmd, File dir) throws Snail4jException {
         OsResult osResult = new OsResult();
 		//LOGGER.debug("About to execute bash command [" + cmd + "] in dir [" + dir.toString() + "]");
 		
