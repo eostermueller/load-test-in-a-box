@@ -1,5 +1,6 @@
 package com.github.eostermueller.snail4j.launcher;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -300,7 +301,7 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	 * @return
 	 */
 	public String createMavenExePath() {
-		return this.getMavenHome().toString() + "/bin/" + this.getMavenExeName();
+		return this.getMavenHome().toString() + File.separator + "bin" + File.separator + this.getMavenExeName();
 	}
 
 	private String getOsName() {
@@ -491,7 +492,7 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 		this.h2DataFileName = h2DataFileName;
 	}
 	public static final String unix_ABS_PATH_TO_TJP = "/Users/erikostermueller/Documents/src/jdist/tjpUnzipped/tjp";
-	public static final String unix_JAVA_HOME = "/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home";
+	//public static final String unix_JAVA_HOME = "/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home";
 	
 	
 	@Override

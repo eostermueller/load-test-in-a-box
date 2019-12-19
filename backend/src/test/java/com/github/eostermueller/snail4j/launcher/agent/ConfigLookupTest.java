@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
+import com.github.eostermueller.snail4j.OS;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.ConfigLookup;
 import com.github.eostermueller.snail4j.launcher.ConfigVariableNotFoundException;
@@ -28,7 +29,9 @@ public class ConfigLookupTest {
 	public void setup() throws IOException {
     	this.tmpFolder = testFolder.newFolder();
     	this.expectedJavaHome = this.tmpFolder.getAbsolutePath().toString();
+    	
     	Path p = Paths.get(this.expectedJavaHome);
+    	    	
 		cfg = new TestConfiguration();
 		cfg.setJavaHome(p);
 
@@ -64,8 +67,14 @@ public class ConfigLookupTest {
 		
 		String actualJavaHome = configLookup.getValue("javaHome");
 		
+		String myExpectedJavaHome = this.expectedJavaHome;
+    	if (OS.getOs().getOsFamily()==OS.OsFamily.Windows) {
+    		myExpectedJavaHome = myExpectedJavaHome.replace("\\", "/");
+    		myExpectedJavaHome = "/" + myExpectedJavaHome;
+    	}
+		
 		assertEquals(
-				this.expectedJavaHome, 
+				myExpectedJavaHome, 
 				actualJavaHome);
 	}
 
