@@ -1,15 +1,16 @@
 package com.github.eostermueller.snail4j.launcher.agent;
 
-import static org.junit.Assert.*;
-import org.junit.rules.TemporaryFolder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 public class TestTheTestConfiguration {
 
@@ -21,11 +22,13 @@ public class TestTheTestConfiguration {
 	private static final String JAVA_PERF_TROUBLESHOOTING_MASTER = "javaPerformanceTroubleshooting-master";
 	private static final String MAVEN_HOME_SUFFIX = "maven/apache-maven-3.5.4";
 	
-	private static final String win_ABS_PATH_TO_PG = "C:/UseXrs/erikXostermueller/Documents/src/jdist/tjpUnzipped/tjp";
+	private static final String win_ABS_PATH_TO_PG = "C:\\UseXrs\\erikXostermueller\\Documents\\src\\jdist\\tjpUnzipped\\tjp";
 	private static final String win_JAVA_HOME = "C:/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home";
 	
 	@Test
+	@EnabledOnOs({OS.LINUX, OS.MAC})
 	public void canCreatePathsBasedOnInstallationHome_unixStyle() {
+		
 		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
 		Path javaHome = Paths.get(this.unix_JAVA_HOME);
 		char myPlatformSeparater = '/';
@@ -33,7 +36,7 @@ public class TestTheTestConfiguration {
 		TestConfiguration testConfiguration = new TestConfiguration(tjpHome, javaHome);
 		
 		Path jptHome = testConfiguration.getSutAppHome();
-		Assert.assertEquals(unix_ABS_PATH_TO_TJP + myPlatformSeparater + JAVA_PERF_TROUBLESHOOTING_MASTER, jptHome.toAbsolutePath().toString() );
+		Assertions.assertEquals(unix_ABS_PATH_TO_TJP + myPlatformSeparater + JAVA_PERF_TROUBLESHOOTING_MASTER, jptHome.toAbsolutePath().toString() );
 		
 
 	}
@@ -41,35 +44,39 @@ public class TestTheTestConfiguration {
 	 * 
 	 */
 	@Test
+	@EnabledOnOs({OS.WINDOWS})
 	public void canCreatePathsBasedOnInstallationHome_winStyle() {
 		Path pgHome = Paths.get(win_ABS_PATH_TO_PG);
 		Path javaHome = Paths.get(win_JAVA_HOME);
-		char myPlatformSeparater = '/';
 				
 		TestConfiguration testConfiguration = new TestConfiguration(pgHome, javaHome);
 		
 
 		Path sutHome = testConfiguration.getSutAppHome();
-		Assert.assertEquals(win_ABS_PATH_TO_PG + myPlatformSeparater + JAVA_PERF_TROUBLESHOOTING_MASTER, sutHome.toString() );
+		Assertions.assertEquals(
+				win_ABS_PATH_TO_PG + File.separator + JAVA_PERF_TROUBLESHOOTING_MASTER, 
+				sutHome.toString() 
+			);
 		
 		
 
 	}
+	@EnabledOnOs({OS.WINDOWS})
 	@Test
 	public void canFindMvnExecutableOnWindows() {
 		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
 		Path javaHome = Paths.get(this.unix_JAVA_HOME);
-		char myPlatformSeparater = '/';
+		String myPlatformSeparater = File.separator;
 				
 		TestConfiguration testConfiguration = new TestConfiguration(tjpHome, javaHome);
-		String mavenHome = "C:/Users/erikostermueller/.snail4j/apache-maven-3.6.2";
+		String mavenHome = "C:\\Users\\erikostermueller\\.snail4j\\apache-maven-3.6.2";
 		
 		testConfiguration.setMavenHome( Paths.get(mavenHome ));
 		
 		testConfiguration.setOsWin(true);
 		
-		Assert.assertEquals( "mvn.cmd", testConfiguration.getMavenExeName() );
-		Assert.assertEquals( mavenHome + "/bin/mvn.cmd", testConfiguration.createMavenExePath() );
+		Assertions.assertEquals( "mvn.cmd", testConfiguration.getMavenExeName() );
+		Assertions.assertEquals( mavenHome + "\\bin\\mvn.cmd", testConfiguration.createMavenExePath() );
 		
 		
 	}
@@ -87,11 +94,19 @@ public class TestTheTestConfiguration {
 		testCfg.setLoadGeneratorLaunchCmd(launch);
 		testCfg.setMavenOnline(true);
 		
-		Assert.assertEquals("could not assemble mvn command without offline flags", launch, testCfg.getLoadGeneratorLaunchCmd());
+		assertEquals(
+				launch, 
+				testCfg.getLoadGeneratorLaunchCmd(),
+				"could not assemble mvn command without offline flags"
+			);
 		
 		testCfg.setMavenOnline(false);
 
-		Assert.assertEquals("could not correctly assemble mvn command with offline flags", expectedOfflineLaunch, testCfg.getLoadGeneratorLaunchCmd());
+		Assertions.assertEquals(
+				expectedOfflineLaunch, 
+				testCfg.getLoadGeneratorLaunchCmd(),
+				"could not correctly assemble mvn command with offline flags"
+				);
 		
 		
 	}	
@@ -109,11 +124,11 @@ public class TestTheTestConfiguration {
 		testCfg.setProcessManagerLaunchCmd(launch);
 		testCfg.setMavenOnline(true);
 		
-		Assert.assertEquals(launch, testCfg.getProcessManagerLaunchCmd());
+		Assertions.assertEquals(launch, testCfg.getProcessManagerLaunchCmd());
 		
 		testCfg.setMavenOnline(false);
 
-		Assert.assertEquals(expectedofflineLaunch, testCfg.getProcessManagerLaunchCmd());
+		Assertions.assertEquals(expectedofflineLaunch, testCfg.getProcessManagerLaunchCmd());
 		
 		
 	}
@@ -131,13 +146,18 @@ public class TestTheTestConfiguration {
 		testCfg.setLoadGeneratorLaunchCmd(TestConfiguration.MAVEN_EXE_PATH + " --offline verify");
 		testCfg.setMavenOnline(true);
 		
-		Assert.assertEquals("could not assemble mvn command without offline flags", expectedOnlineLaunch, testCfg.getLoadGeneratorLaunchCmd());
+		Assertions.assertEquals( 
+				expectedOnlineLaunch, 
+				testCfg.getLoadGeneratorLaunchCmd(),
+				"could not assemble mvn command without offline flags"
+				);
 		
 		testCfg.setMavenOnline(false);
 
-		Assert.assertEquals("could not correctly assemble mvn command with offline flags", expectedOfflineLaunch, testCfg.getLoadGeneratorLaunchCmd());
-		
-		
+		Assertions.assertEquals(
+				expectedOfflineLaunch, 
+				testCfg.getLoadGeneratorLaunchCmd(),
+				"could not correctly assemble mvn command with offline flags");
 	}	
 	@Test 
 	public void canProcessMavenOnlineFlagEvenWithHardCodedOfflineParameters_processManager() {
@@ -154,15 +174,16 @@ public class TestTheTestConfiguration {
 		testCfg.setProcessManagerLaunchCmd(TestConfiguration.MAVEN_EXE_PATH + " -Dsnail4j.maven.offline.passthru=--offline --offline verify");
 		testCfg.setMavenOnline(true);
 		
-		Assert.assertEquals(expectedOnlineLaunch, testCfg.getProcessManagerLaunchCmd());
+		Assertions.assertEquals(expectedOnlineLaunch, testCfg.getProcessManagerLaunchCmd());
 		
 		testCfg.setMavenOnline(false);
 
-		Assert.assertEquals(expectedOfflineLaunch, testCfg.getProcessManagerLaunchCmd());
+		Assertions.assertEquals(expectedOfflineLaunch, testCfg.getProcessManagerLaunchCmd());
 		
 		
 	}
 	@Test
+	@EnabledOnOs({OS.LINUX, OS.MAC})
 	public void canFindMvnExecutableOnNonWindows() {
 		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
 		Path javaHome = Paths.get(this.unix_JAVA_HOME);
@@ -175,8 +196,8 @@ public class TestTheTestConfiguration {
 		
 		testConfiguration.setOsWin(false);
 		
-		Assert.assertEquals( "mvn", testConfiguration.getMavenExeName() );
-		Assert.assertEquals( mavenHome + "/bin/mvn", testConfiguration.createMavenExePath() );
+		Assertions.assertEquals( "mvn", testConfiguration.getMavenExeName() );
+		Assertions.assertEquals( mavenHome + "/bin/mvn", testConfiguration.createMavenExePath() );
 		
 	}
 
@@ -195,13 +216,13 @@ public class TestTheTestConfiguration {
 		String expectedLaunchWithSnail4jMavenRepo = TestConfiguration.MAVEN_EXE_PATH + " -Dsnail4j.maven.repo.passthru=-Dmaven.repo.local=#{mavenRepositoryHome} -Dmaven.repo.local=#{mavenRepositoryHome} -Dsnail4j.wiremock.port=#{wiremockPort} -Dsnail4j.h2.port=#{h2Port} -Dsnail4j.sut.port=#{sutAppPort} verify";
 		System.out.println("ex: " + expectedLaunchWithSnail4jMavenRepo);
 		
-		Assert.assertEquals(expectedLaunch, testCfg.getProcessManagerLaunchCmd());
+		Assertions.assertEquals(expectedLaunch, testCfg.getProcessManagerLaunchCmd());
 		
 		testCfg.setSnail4jMavenRepo(true);
 		
 		String actual = testCfg.getProcessManagerLaunchCmd();
 		System.out.println("actual:"+ actual);
-		Assert.assertEquals(expectedLaunchWithSnail4jMavenRepo, actual);
+		Assertions.assertEquals(expectedLaunchWithSnail4jMavenRepo, actual);
 		
 	}
 	@Test
@@ -217,11 +238,11 @@ public class TestTheTestConfiguration {
 		String expectedLaunch = TestConfiguration.MAVEN_EXE_PATH + " -f #{jmeterFilesHome}/pom-load.xml -Pno-gui clean verify -Dsnail4j.jmeter.port=#{jmeterNonGuiPort} -Djmeter.test=#{jmeterFilesHome}/load.jmx -DmyHost=#{sutAppHostname} -DmyPort=#{sutAppPort} -DmyDurationInSeconds=#{loadGenerationDurationInSeconds} -DmyRampupInSeconds=#{loadGenerationRampupTimeInSeconds} -DmyThreads=#{loadGenerationThreads}";
 		String expectedLaunchWithSnail4jMavenRepo = TestConfiguration.MAVEN_EXE_PATH + " -Dmaven.repo.local=#{mavenRepositoryHome} -f #{jmeterFilesHome}/pom-load.xml -Pno-gui clean verify -Dsnail4j.jmeter.port=#{jmeterNonGuiPort} -Djmeter.test=#{jmeterFilesHome}/load.jmx -DmyHost=#{sutAppHostname} -DmyPort=#{sutAppPort} -DmyDurationInSeconds=#{loadGenerationDurationInSeconds} -DmyRampupInSeconds=#{loadGenerationRampupTimeInSeconds} -DmyThreads=#{loadGenerationThreads}";
 		
-		Assert.assertEquals(expectedLaunch, testCfg.getLoadGeneratorLaunchCmd());
+		Assertions.assertEquals(expectedLaunch, testCfg.getLoadGeneratorLaunchCmd());
 		
 		testCfg.setSnail4jMavenRepo(true);
 		
-		Assert.assertEquals(expectedLaunchWithSnail4jMavenRepo, testCfg.getLoadGeneratorLaunchCmd() );
+		Assertions.assertEquals(expectedLaunchWithSnail4jMavenRepo, testCfg.getLoadGeneratorLaunchCmd() );
 		
 	}
 	

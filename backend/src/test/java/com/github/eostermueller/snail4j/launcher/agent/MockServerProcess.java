@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import org.junit.Assert;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
+import com.github.eostermueller.snail4j.OS;
 import com.github.eostermueller.snail4j.Snail4jException;
 
 
@@ -31,7 +32,13 @@ public class MockServerProcess {
 	}
 	public ProcessBuilder getProcessBuilder() throws Snail4jException {
 		
-		Path java_Executable = this.getJavaHome().resolve( Paths.get("bin/java") );
+		String fileExtension = "";
+		if (OS.getOs().getOsFamily() == OS.OsFamily.Windows) {
+			fileExtension = ".exe";
+		}
+		
+		String binAndJavaExecutable = "bin" + File.separator + "java" + fileExtension;
+		Path java_Executable = this.getJavaHome().resolve( Paths.get(binAndJavaExecutable) );
  
 		
 		if (!java_Executable.toFile().exists() ) {
@@ -106,7 +113,13 @@ public class MockServerProcess {
 		
 		Assert.assertNotNull( javaHome );
 		
-		Path java_c_Executable = javaHome.resolve( Paths.get("bin" + File.pathSeparator + "javac") );
+		String fileExtension = "";
+		if (OS.getOs().getOsFamily() == OS.OsFamily.Windows) {
+			fileExtension = ".exe";
+		}
+		String pathSuffix = "bin" + File.separator + "javac" + fileExtension;
+		
+		Path java_c_Executable = javaHome.resolve( Paths.get("bin" + File.separator + "javac" + fileExtension) );
 		if (!java_c_Executable.toFile().exists() ) {
 			throw new Snail4jException("Was expecting [" + java_c_Executable.toString() + "] to be the path to a javac executable.");
 		}

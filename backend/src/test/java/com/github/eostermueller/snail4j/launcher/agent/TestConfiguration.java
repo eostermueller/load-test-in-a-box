@@ -26,13 +26,13 @@ public class TestConfiguration extends DefaultConfiguration implements Configura
 	 
 	Path tjpHome = null;
 	Path javaHome = null;
-	public static final String unix_JAVA_HOME = "/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home";
+	//public static final String unix_JAVA_HOME = "/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home";
 	
 	/**
 	 * WOW this needs to go away, hard coding paths from my machine.
 	 */
 	public TestConfiguration() {
-			this.setJavaHome( Paths.get(unix_JAVA_HOME) );
+		this.setJavaHome( 			Paths.get( System.getProperty("java.home")  ) );
 		
 	}
 	public TestConfiguration(Path pgHome, Path javaHome) {
