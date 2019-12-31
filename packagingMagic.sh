@@ -1,5 +1,4 @@
 SNAIL4J_SRC=/C/Users/eoste/Documents/src/jssource/snail4j
-LANDING=$SNAIL4J_SRC/../installer/installFiles
 
 #zips up and places zip files in backend/src/main/resources,
 #so that the backend maven build will include them in the spring boot uber jar.
@@ -12,8 +11,8 @@ PM_HOME=$SNAIL4J_SRC/processManager
 JM_HOME=$SNAIL4J_SRC/jmeterFiles
 WM_HOME=$SNAIL4J_SRC/wiremock
 H2_DB=/c/Users/eoste/Documents/src/jsource/javaPerformanceTroubleshooting/db/data
-#H2_DB_FILE=$H2_DB/perfSandboxDb.mv.db
-MVN_BIN=http://www-us.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.zip
+MVN_ZIP_NAME=apache-maven-3.6.3-bin.zip
+MVN_URL=http://www-us.apache.org/dist/maven/maven-3/3.6.3/binaries/${MVN_ZIP_NAME}
 MVN_REPO=/C/Users/eoste/.m2
 
 GLOWROOT_BIN=https://github.com/glowroot/glowroot/releases/download/v0.13.5/glowroot-0.13.5-dist.zip
@@ -63,7 +62,7 @@ echo Just created data.zip.
 ls -lart $TARGET/data.zip
 
 
-curl -o $TARGET/apache-maven-3.6.2-bin.zip -O $MVN_BIN
+curl -o $TARGET/${MVN_ZIP_NAME} -O $MVN_URL
 
 
 # without the -L, curl doesn't handle the REDIRECT that github uses

@@ -23,6 +23,12 @@ public class Snail4jException extends Exception {
 		history.add(this);
 		this.timestamp = System.currentTimeMillis();
 	}
+	public Snail4jException(Exception c, String s) {
+		super(s);
+		cause = c;
+		history.add(this);
+		this.timestamp = System.currentTimeMillis();
+	}
 	@Override
 	public Exception getCause() {
 		return this.cause;

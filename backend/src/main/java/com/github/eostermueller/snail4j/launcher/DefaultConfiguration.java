@@ -29,6 +29,7 @@ public class DefaultConfiguration implements Configuration {
 	private int wiremockPort;
 	private String h2Hostname;
 	private int h2Port;
+	private String wiremockStopCmd;
 
 	/**
 	 * This is the most important constructor in the project :-)
@@ -56,6 +57,7 @@ public class DefaultConfiguration implements Configuration {
 			this.setLogDir(             Paths.get( this.getSnail4jHome().toString() , "log" )		);
 			this.setSystemUnderTestStdoutLogFileName("systemUnderTest.log");
 			this.setLoadGeneratorStdoutLogFileName("loadGenerator.log");
+			this.setWiremockStopStdoutLogFileName("wiremockStop.log");
 
 			this.setWiremockFilesHome(		Paths.get( this.getSnail4jHome().toString() , "wiremock") );
 			this.setWiremockFilesZipFileName ("wiremockFiles.zip");
@@ -94,7 +96,7 @@ public class DefaultConfiguration implements Configuration {
 			 */
 			StringBuilder sb = new StringBuilder();
 			
-			                 sb.append(MAVEN_EXE_PATH);
+			sb.append(MAVEN_EXE_PATH);
 			sb.append(SPACE);sb.append("-f #{jmeterFilesHome}/pom-load.xml");
 			sb.append(SPACE);sb.append("-Pno-gui");
 			sb.append(SPACE);sb.append("clean verify");
@@ -115,12 +117,21 @@ public class DefaultConfiguration implements Configuration {
 			 * 
 			 */
 			StringBuilder sb2 = new StringBuilder();
-	 		             	  sb2.append(MAVEN_EXE_PATH);
+	 		sb2.append(MAVEN_EXE_PATH);
 	 		sb2.append(SPACE);sb2.append("-Dsnail4j.wiremock.port=#{wiremockPort}");
 	 		sb2.append(SPACE);sb2.append("-Dsnail4j.h2.port=#{h2Port}");
 	 		sb2.append(SPACE);sb2.append("-Dsnail4j.sut.port=#{sutAppPort}");
 			sb2.append(SPACE);sb2.append("verify");
 			this.setProcessManagerLaunchCmd( sb2.toString() );
+			
+			
+			StringBuilder sb3 = new StringBuilder();
+	 		sb3.append(MAVEN_EXE_PATH);
+	 		sb3.append(SPACE);sb3.append("-Dsnail4j.wiremock.port=#{wiremockPort}");
+			sb3.append(SPACE);sb3.append("clean");
+			sb3.append(SPACE);sb3.append("compile");
+			sb3.append(SPACE);sb3.append("wiremock:stop");
+			this.setWiremockStopCmd( sb3.toString() );
 			
 			if (getOsName().contains("windows")) {  
 				this.setOsWin(true);
@@ -279,6 +290,36 @@ Windows Me   x86   1.5.0_06		 *
 	 */
 	
 
+	@Override
+	public void setWiremockStopCmd(String val) {
+		wiremockStopCmd = val;
+		
+		val = stripOfflineVariables(val);
+		val = stripSnail4jMavenRepoVariable(val);
+		
+		this.wiremockStopCmd = val;
+		
+	}
+	@Override
+	public String getWiremockStopCmd() {
+		String rc = this.wiremockStopCmd;
+		
+		if (!this.isMavenOnline() ) {
+			if (rc.trim().startsWith(MAVEN_EXE_PATH)) {
+				rc = MAVEN_EXE_PATH + " --offline" + this.wiremockStopCmd.substring(MAVEN_EXE_PATH.length()); 
+			}
+		}
+		
+		if (this.isSnail4jMavenRepo() ) {
+			if (rc.trim().startsWith(MAVEN_EXE_PATH)) {
+				rc = MAVEN_EXE_PATH + " -Dmaven.repo.local=#{mavenRepositoryHome}" + this.wiremockStopCmd.substring(MAVEN_EXE_PATH.length()); 
+			}
+		}
+		return rc;
+		
+	}
+
+
 	@Override	
 	public void setSutAppPort(int i) {
 		this.sutAppPort = i;
@@ -421,7 +462,7 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	private Path userHomeDir;
 	private Path Snail4jHomeDir;
 	private int maxExceptionCountPerEvent = 100;
-	private String mavenZipFileNameWithoutExtension = "apache-maven-3.6.2";
+	private String mavenZipFileNameWithoutExtension = "apache-maven-3.6.3";
 	private Path mavenRepositoryHome;
 	private String wiremockZipFileName;
 	private String processManagerZipFileName;
@@ -471,6 +512,7 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	private long jmeterNonGuiPort;
 	private Path glowrootHomePath;
 	private String glowrootZipFileName;
+	private String wiremockStopStdoutLogFileName;
 
 	@Override
 	public Path getH2DataFileHome() {
@@ -787,6 +829,19 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 
 	public void setH2Port(int h2Port) {
 		this.h2Port = h2Port;
+	}
+
+
+	@Override
+	public String getWiremockStopStdoutLogFileName() {
+		return this.wiremockStopStdoutLogFileName;
+	}
+
+
+	@Override
+	public void setWiremockStopStdoutLogFileName(String val) {
+		this.wiremockStopStdoutLogFileName = val;
+		
 	}
 
 

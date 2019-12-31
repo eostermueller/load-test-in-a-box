@@ -5,7 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { timer } from 'rxjs/observable/timer';
 import { concatMap, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
-
+import { SutLaunchStatusService } from '../services/sut-launch-status.service';
+import { LaunchStatus }           from '../services/sut-launch-status.service';
 
 
 @Component({
@@ -14,7 +15,7 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./health-checks.component.scss']
 })
 export class HealthChecksComponent implements OnInit {
-
+  sutLaunchStatus: LaunchStatus;
   actuatorHealthCheck$: Observable<string[]>;
   h2Health : boolean = false;
   sutAppHealth : boolean = false;
@@ -23,32 +24,17 @@ export class HealthChecksComponent implements OnInit {
   polledBitcoin$ : Observable<number>;
   theAnswer : number = -1;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private sutLaunchStatusService: SutLaunchStatusService) {
       
   }
-  // ngOnInit() {
-  //   const bitcoin$ = this.http.get('https://blockchain.info/ticker');
-
-  //   this.polledBitcoin$ = timer(0, 1000).pipe(
-  //       concatMap(_ => bitcoin$),
-  //       map(
-  //         (response: {EUR: {last: number}}) => { 
-  //           this.theAnswer = response.EUR.last;
-  //           return 4
-  //         }
-  //         ),
-  //     );
-  // }
-
-// (response: {[key: string]: any}) => {
-//  return [];
-//}),
 
   /**
    * @stolenFrom: https://stackoverflow.com/a/59146234/2377579
    * @stolenFrom: https://stackblitz.com/edit/angular-abcqen
    */
   ngOnInit() {
+    this.sutLaunchStatusService.currentStatus.subscribe(sutLaunchStatus => this.sutLaunchStatus = sutLaunchStatus);
+
       const unparsedActuatorResponse$ = this.http.get('/actuator/health');
       console.log('##@ top of ngOnInit')
       try {
@@ -64,10 +50,13 @@ export class HealthChecksComponent implements OnInit {
                   this.wiremockHealth = data['wiremock'  ].status === "UP" ? true : false;
                   this.h2Health       = data['h2'        ].status === "UP" ? true : false;
                   this.jmeterLoad     = data['JMeterLoad'].status === "UP" ? true : false;
+
+                  if (this.sutAppHealth && /* this.wiremockHealth && */ this.h2Health)
+                    this.sutLaunchStatusService.changeLaunchStatus(LaunchStatus.Started)
+                  else if (!this.sutAppHealth /* && !this.wiremockHealth */ && !this.h2Health)
+                    this.sutLaunchStatusService.changeLaunchStatus(LaunchStatus.Stopped)
+
                   let temp: string[] = [];
-                  // for(let key of ['sutApp', 'h2', 'wiremock']) {
-                  //   temp.push(data[key].status);
-                  //  }
                   console.log("after health check parse");
                   return temp;
                 } 

@@ -43,6 +43,10 @@ public class Messages_en_US implements Messages {
 	public String getSutStartMessage(String humanReadableString) {
 		return String.format("Attmpted to start process [%s]\n", humanReadableString);
 	}
+	@Override
+	public String getWiremockStopMessage(String humanReadableString) {
+		return String.format("Attmpted to start process [%s] to stop wiremock.\n", humanReadableString);
+	}
 
 	@Override
 	public String getLoadGeneratorStartMessage(String humanReadableString) {
@@ -68,6 +72,11 @@ public class Messages_en_US implements Messages {
 	@Override
 	public String unableToFindSutHostAndPort() {
 		return "Verify that 'sutAppHostname' and 'sutAppPort' in the .snail4j/snail4j.json have correct values.";
+	}
+
+	@Override
+	public String getDefaultShutdownMessage(String url, String appName) {
+		return "<missing shutdown response from [" + appName + "] URL: [" + url + "]";
 	}
 
 }

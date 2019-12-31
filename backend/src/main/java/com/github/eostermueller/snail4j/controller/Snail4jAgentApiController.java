@@ -34,12 +34,22 @@ public class Snail4jAgentApiController {
 	@Autowired
 	private ResourceLoader resourceLoader;
 	
+	/**
+	 * Launches a number of processes that comprise the "System Under Test".
+	 * Does not wait for launch to complete.
+	 * @return
+	 * @throws Snail4jException
+	 * @throws ConfigVariableNotFoundException
+	 * @throws IOException
+	 */
 	@GetMapping("/startSut")
-	public String startSystemUnderTest() throws Snail4jException, ConfigVariableNotFoundException, IOException {
+	public AgentApiResponse startSystemUnderTest() throws Snail4jException, ConfigVariableNotFoundException, IOException {
+		AgentApiResponse apiResponse = new AgentApiResponse( System.nanoTime() );
 		LOGGER.info("About to start snail4j system under test!");
 		ProcessModelSingleton.getInstance().getSystemUnderTest().start();
+		apiResponse.setStatus(AgentStatus.SUCCESS);
 		LOGGER.info(" started!!");
-		return "started!!!!";
+		return apiResponse;
 	}
 	@GetMapping("/stopSut")
 	public String stopSystemUnderTest() throws Snail4jException, ConfigVariableNotFoundException, IOException {

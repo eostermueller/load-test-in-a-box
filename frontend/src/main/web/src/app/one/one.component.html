@@ -1,15 +1,25 @@
 <mat-card class="info-card">
 
   <mat-tab-group>
-    <mat-tab label="Step 1:  Start/Stop SUT">
+    <mat-tab label="Step 1:  Start/Stop">
+      <mat-card class="info-card">
+        <mat-checkbox 
+        [disabled]="isSutInProcess()"
+        [(ngModel)]="IsChecked"
+        (change)="onEnableCheckboxChange($event)" >System Under Test</mat-checkbox>
+
+        <mat-card-title>
+            Status: {{ getTextStatus() }}
+        </mat-card-title>
+      </mat-card>
 
     </mat-tab>
-    <mat-tab label="Step 2:  Choose Workload">
+    <mat-tab [disabled]="workloadTabDisabled"  label="Step 2:  Choose Workload">
             <mat-tab-group mat-align-tabs="end">
-                    <mat-tab label="Live Workload Lookup">
+                    <mat-tab label="@Load Annotations">
 
                     </mat-tab>
-                    <mat-tab label="Enter WorkloadKey">
+                    <mat-tab label="Workload Key">
 
                     </mat-tab>
                 </mat-tab-group>        
