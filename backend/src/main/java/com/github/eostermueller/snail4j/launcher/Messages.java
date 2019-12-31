@@ -29,4 +29,8 @@ public interface Messages {
 
 	String unableToFindSutHostAndPort();
 
+	String getDefaultShutdownMessage(String url, String appName);
+
+	String getWiremockStopMessage(String humanReadableString);
+
 }

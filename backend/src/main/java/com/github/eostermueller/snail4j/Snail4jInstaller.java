@@ -40,7 +40,6 @@ public class Snail4jInstaller {
 	 * @optimization:  all install* methods could be invoked in separate threads.
 	 */
   public void install() throws Snail4jException {
-
 	  
     try {
     	

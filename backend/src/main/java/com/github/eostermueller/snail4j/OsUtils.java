@@ -94,6 +94,9 @@ public class OsUtils {
 	        LOGGER.debug(osResult.stdout);
 	        return osResult;
 	}
+	public static OsResult executeProcess_bash(String cmd) throws Snail4jException {
+		return executeProcess_bash(cmd,null/* no need to switch to a current directory*/);
+	}
 	/**
 	 * @stolenFrom: https://stackoverflow.com/a/1410779/2377579
 	 * @param cmd
@@ -134,6 +137,18 @@ public class OsUtils {
 			throw new Snail4jException(e);
 		}
 
+		return osResult;
+	}
+	public static OsResult killPid(long longValue) throws Snail4jException {
+		OsResult osResult = null;		
+		switch(OS.getOs().getOsFamily()) {
+		case Windows:
+			osResult = executeProcess_mswin("taskkill /F /PID " + longValue);
+			break;
+		default:
+			osResult = executeProcess_bash("kill -9 " + longValue);
+			break;
+		}
 		return osResult;
 	}
 

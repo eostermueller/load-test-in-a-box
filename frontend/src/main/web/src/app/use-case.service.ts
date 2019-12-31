@@ -32,7 +32,7 @@ export class UseCaseService {
         //havocAgent/useCases
         //return this.http.get('/havocAgent/useCases');
         console.log( 'oct 19: 01 getUseCases');
-        this.http.get('http://www.google.com' );
+//        this.http.get('http://www.google.com' );
         console.log( 'oct 19: 02 getUseCases');
         return this.http.get('http://localhost:8080/traffic/useCases');
           // }));

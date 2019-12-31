@@ -96,5 +96,9 @@ public interface Configuration {
 	public int getH2Port();
 	void setSutAppPort(int i);
 	int getSutAppPort();
+	public void setWiremockStopCmd(String val);
+	public String getWiremockStopCmd();
+	public String getWiremockStopStdoutLogFileName();
+	public void setWiremockStopStdoutLogFileName(String args);
 	
 }
