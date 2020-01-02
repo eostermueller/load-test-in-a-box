@@ -52,11 +52,13 @@ public class Snail4jAgentApiController {
 		return apiResponse;
 	}
 	@GetMapping("/stopSut")
-	public String stopSystemUnderTest() throws Snail4jException, ConfigVariableNotFoundException, IOException {
+	public AgentApiResponse stopSystemUnderTest() throws Snail4jException, ConfigVariableNotFoundException, IOException {
+		AgentApiResponse apiResponse = new AgentApiResponse( System.nanoTime() );
 		LOGGER.info("About to stop snail4j system under test!");
 		ProcessModelSingleton.getInstance().getSystemUnderTest().stop();
 		LOGGER.info(" stopped!!");
-		return "stopped!!!!";
+		apiResponse.setStatus(AgentStatus.SUCCESS);
+		return apiResponse;
 	}
 	@GetMapping("/getEventHistory")
 	public String getEventHistory() throws CannotFindSnail4jFactoryClass {
@@ -67,18 +69,26 @@ public class Snail4jAgentApiController {
 		return Snail4jException.getExceptionHistory().toString();
 	}
 	@GetMapping("/startLg")
-	public String startLoadGenerator() throws Snail4jException, ConfigVariableNotFoundException, IOException {
+	public AgentApiResponse startLoadGenerator() throws Snail4jException, ConfigVariableNotFoundException, IOException {
+		AgentApiResponse apiResponse = new AgentApiResponse( System.nanoTime() );
+
 		LOGGER.info("About to start the wind tunnel!");
 		ProcessModelSingleton.getInstance().getLoadGenerator().start();
 		LOGGER.info(" started!!");
-		return "started!!!!";
+		apiResponse.setStatus(AgentStatus.SUCCESS);
+		return apiResponse;
 	}
 	@GetMapping("/stopLg")
-	public String stopLoadGenerator() throws Snail4jException, ConfigVariableNotFoundException, IOException {
+	public AgentApiResponse stopLoadGenerator() throws Snail4jException, ConfigVariableNotFoundException, IOException {
+		AgentApiResponse apiResponse = new AgentApiResponse( System.nanoTime() );
+
 		LOGGER.info("About to stop the load generator!");
 		ProcessModelSingleton.getInstance().getLoadGenerator().shutdown();
-		LOGGER.info(" started!!");
-		return "stopped the load generator!!!!";
+		LOGGER.info(" stopped!!");
+		
+		apiResponse.setStatus(AgentStatus.SUCCESS);
+		//apiResponse.setMessage(message);
+		return apiResponse;
 	}
 	@GetMapping("/getWl")
 	public String deleteme() throws Snail4jException, ConfigVariableNotFoundException, IOException {

@@ -5,12 +5,77 @@
       <mat-card class="info-card">
         <mat-checkbox 
         [disabled]="isSutInProcess()"
-        [(ngModel)]="IsChecked"
-        (change)="onEnableCheckboxChange($event)" >System Under Test</mat-checkbox>
+        [(ngModel)]="IsSutChecked"
+        matTooltip="Check to start the System Under Test"
+        matTooltipPosition="after"
+        (change)="launchSutCheckboxChange($event)" >System Under Test</mat-checkbox>
 
         <mat-card-title>
-            Status: {{ getTextStatus() }}
+            Status: {{ getSutTextStatus() }}
         </mat-card-title>
+        <mat-card-actions>
+            <div class="vertical_box">
+
+                <div class="vertical_spacer">      
+                  <p> </p>
+                </div>
+            
+                <div class="vertical_content">
+                  <div class="horizontal_box">
+            
+                    <div class="horizontal_spacer"></div>
+            
+                    <div class="horizontal_content">
+                        <div class="horizontal_spacer">
+
+                        </div>
+
+                        <mat-card-header>
+                            <div class="horizontal_spacer">
+
+                                <mat-checkbox 
+                                [disabled]="isLoadGeneratorInProcess()"
+                                [(ngModel)]="IsLoadGeneratorChecked"
+                                matTooltip="Check to apply load"
+                                matTooltipPosition="after"
+                                (change)="launchLoadGeneratorCheckboxChange($event)" >Load Generator</mat-checkbox>
+                        
+                                <p></p>
+                                <p>Status: {{ getLoadGeneratorTextStatus() }}</p>
+                            </div>
+                            
+                        </mat-card-header>        
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                  </div>
+              <div class="horizontal_spacer"></div>
+              <div class="horizontal_spacer"></div>
+              <div class="horizontal_spacer"></div>
+              <div class="horizontal_spacer"></div>
+              <div class="horizontal_spacer"></div>
+  <!--            <div class="horizontal_content">
+                <p> 
+                <p> 
+                <p> 
+                <p> 
+              </div>
+-->              
+              <div class="horizontal_spacer"></div>
+                <p>
+            
+            </div>
+            
+                </div>
+            
+                <div class="vertical_spacer">
+                  <p> </p>
+                </div>
+                
+            
+            </div>
+            
+        </mat-card-actions>
       </mat-card>
 
     </mat-tab>

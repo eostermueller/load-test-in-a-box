@@ -6,7 +6,9 @@ import { timer } from 'rxjs/observable/timer';
 import { concatMap, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { SutLaunchStatusService } from '../services/sut-launch-status.service';
-import { LaunchStatus }           from '../services/sut-launch-status.service';
+import { LoadGeneratorLaunchStatusService } from '../services/load-generator-launch-status-service';
+import { LaunchStatus }           from '../services/LaunchStatus';
+import { LoadGeneratorLauncherService } from '../services/load-generator-launcher.service';
 
 
 @Component({
@@ -16,6 +18,7 @@ import { LaunchStatus }           from '../services/sut-launch-status.service';
 })
 export class HealthChecksComponent implements OnInit {
   sutLaunchStatus: LaunchStatus;
+  loadGeneratorLaunchStatus: LaunchStatus;
   actuatorHealthCheck$: Observable<string[]>;
   h2Health : boolean = false;
   sutAppHealth : boolean = false;
@@ -24,8 +27,11 @@ export class HealthChecksComponent implements OnInit {
   polledBitcoin$ : Observable<number>;
   theAnswer : number = -1;
 
-  constructor(private http: HttpClient, private sutLaunchStatusService: SutLaunchStatusService) {
-      
+  constructor(
+    private http: HttpClient, 
+    private sutLaunchStatusService: SutLaunchStatusService,
+    private loadGeneratorLaunchStatusService: LoadGeneratorLaunchStatusService
+    ) {      
   }
 
   /**
@@ -34,6 +40,7 @@ export class HealthChecksComponent implements OnInit {
    */
   ngOnInit() {
     this.sutLaunchStatusService.currentStatus.subscribe(sutLaunchStatus => this.sutLaunchStatus = sutLaunchStatus);
+    this.loadGeneratorLaunchStatusService.currentStatus.subscribe(loadGeneratorLaunchStatus => this.loadGeneratorLaunchStatus = loadGeneratorLaunchStatus);
 
       const unparsedActuatorResponse$ = this.http.get('/actuator/health');
       console.log('##@ top of ngOnInit')
@@ -56,9 +63,15 @@ export class HealthChecksComponent implements OnInit {
                   else if (!this.sutAppHealth /* && !this.wiremockHealth */ && !this.h2Health)
                     this.sutLaunchStatusService.changeLaunchStatus(LaunchStatus.Stopped)
 
-                  let temp: string[] = [];
+                  if (this.jmeterLoad)
+                    this.loadGeneratorLaunchStatusService.changeLaunchStatus(LaunchStatus.Started);
+                  else if (!this.jmeterLoad)
+                    this.loadGeneratorLaunchStatusService.changeLaunchStatus(LaunchStatus.Stopped);
+
+
+                  let neverUsed: string[] = [];
                   console.log("after health check parse");
-                  return temp;
+                  return neverUsed;
                 } 
             ),
         );
@@ -80,5 +93,4 @@ export class HealthChecksComponent implements OnInit {
     }
 
   }
-
 }

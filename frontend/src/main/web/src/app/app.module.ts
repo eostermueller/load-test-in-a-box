@@ -17,6 +17,10 @@ import { MatExpansionModule} from '@angular/material/expansion';
 import {MatFormFieldModule, MatFormFieldControl} from '@angular/material/form-field';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
+import { MatTooltipModule } from '@angular/material/tooltip';
+//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 import { MatToolbarModule,
           MatButtonModule,
           MatIconModule,
@@ -108,6 +112,7 @@ import { HealthChecksComponent } from './health-checks/health-checks.component';
     MatFormFieldModule,
     MatInputModule,
     MatSlideToggleModule,    
+    MatTooltipModule
     // ErrorHandler,
     // GlobalErrorHandler,
     // Injectable

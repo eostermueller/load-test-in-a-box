@@ -48,6 +48,10 @@ public class AgentApiResponse {
 	public Object getResult() {
 		return result;
 	}
+	/**
+	 * This is result detail, like the result of an inquiry.
+	 * @param result
+	 */
 	public void setResult(Object result) {
 		this.result = result;
 	}
