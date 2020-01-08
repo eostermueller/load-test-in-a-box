@@ -14,7 +14,7 @@ JM_HOME=$SNAIL4J_SRC/jmeterFiles
 WM_HOME=$SNAIL4J_SRC/wiremock
 MVN_BIN=http://www-us.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.zip
 #MVN_REPO=/Users/erikostermueller/.m2
-MVN_REPO=/Users/erikostermueller/.m2
+MVN_REPO=/Users/German/.m2
 
 GLOWROOT_BIN=https://github.com/glowroot/glowroot/releases/download/v0.13.5/glowroot-0.13.5-dist.zip
 

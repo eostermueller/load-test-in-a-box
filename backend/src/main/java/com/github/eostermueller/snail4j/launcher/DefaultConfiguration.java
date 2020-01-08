@@ -30,64 +30,64 @@ public class DefaultConfiguration implements Configuration {
 	 */
 	public DefaultConfiguration() {
     		this.setUserHomeDir(		Paths.get( getUserHomeDirString() )	);
-		
+
 			this.setJavaHome( 			Paths.get( System.getProperty("java.home")  ) );
 			this.setSnail4jHome(		Paths.get( this.getUserHomeDirString(), ".snail4j" )			);
 			this.setGlowrootHome(			Paths.get( this.getSnail4jHome().toString() , "glowroot") );
 			this.setGlowrootZipFileName ("glowroot-0.13.5-dist.zip");
-			
+
 			this.setMavenHome(			Paths.get( this.getSnail4jHome().toString() , this.getMavenZipFileNameWithoutExtension() )		);
-			this.setSnail4jMavenRepo(true); 
+			this.setSnail4jMavenRepo(true);
 			this.setMavenRepositoryHome(Paths.get( this.getSnail4jHome().toString() , "repository" )		);
-			
+
 			this.setSutAppHome(			Paths.get( this.getSnail4jHome().toString() , "sutApp") );
 			this.setSutAppZipFileName ("sutApp.zip");
-			
+
 			this.setSutKillFile(        Paths.get( this.getSnail4jHome().toString() , "deleteMeToStopSnail4jSut.txt") );
-			
-			
+
+
 			this.setLogDir(             Paths.get( this.getSnail4jHome().toString() , "log" )		);
 			this.setSystemUnderTestStdoutLogFileName("systemUnderTest.log");
 			this.setLoadGeneratorStdoutLogFileName("loadGenerator.log");
 
 			this.setWiremockFilesHome(		Paths.get( this.getSnail4jHome().toString() , "wiremock") );
 			this.setWiremockFilesZipFileName ("wiremockFiles.zip");
-			
-			
+
+
 			this.setProcessManagerHome(		Paths.get( this.getSnail4jHome().toString() , "processManager") );
 			this.setProcessManagerZipFileName ("processManager.zip");
 
 			this.setJMeterNonGuiPort(4455);
-			
+
 			this.setH2DataFileHome(		Paths.get( this.getSnail4jHome().toString() , "data") );
 			this.setH2DataFileName		("perfSandboxDb.mv.db");
-			
+
 			this.setJMeterFilesZipFileName("jmeterFiles.zip");
 			this.setJMeterFilesHome(Paths.get( this.getSnail4jHome().toString() , "jmeterFiles") );
-			
-			
+
+
 			this.setLoadGenerationTargetHost("localhost");
 			this.setLoadGenerationThreads(3); //3T0TT -- from http://bit.ly/2017tjp
 			this.setLoadGenerationTargetPort(8080);
 			this.setLoadGenerationRampupTimeInSeconds(3);
-			
+
 			/**
 			 * For 99% of the time, don't expect a single test run to last more than 20 minutes....so 60 minutes should be more than enough.
 			 */
 			this.setLoadGenerationDurationInSeconds(3600);
-			
-			
+
+
 			this.setJMeterNonGuiPort(4455);
-			
+
 			/**
 			 * https://jmeteronthefly.blogspot.com/2018/12/pass-parameters-from-jmeter-maven-plugin.html
-			 * 
+			 *
 			 * The variables/names detailed below must stay in sync with variables in these two files:
 			 * snail4j/jmeterFiles/pom-load.xml
 			 * snail4j/jmeterFiles/load.jmx
 			 */
 			StringBuilder sb = new StringBuilder();
-			
+
 			                 sb.append(MAVEN_EXE_PATH);
 			sb.append(SPACE);sb.append("-f #{jmeterFilesHome}/pom-load.xml");
 			sb.append(SPACE);sb.append("-Pno-gui");
@@ -104,18 +104,23 @@ public class DefaultConfiguration implements Configuration {
 
 			/*
 			 * ToDo:  embed parameters in the following for tcp listen ports for each SUT component:  h2, wiremock, tjp
-			 * 
+			 *
 			 * Use same approach as this, ab0ve: -Dsnail4j.jmeter.port=#{jmeterNonGuiPort}
-			 * 
+			 *
 			 */
 			this.setProcessManagerLaunchCmd("#{mavenExePath} verify");
-			
-			if (getOsName().contains("windows")) {  
+
+			//TODO: add workaround for closing threads in window!
+			this.setWindowsKillerProcess("#{mavenExePath} antrun:run@tmp-echo");
+			//mvn antrun:run@jcmd-surefire
+			//mvn antrun:run@tmp-echo
+
+			if (getOsName().contains("windows")) {
 				this.setOsWin(true);
 			}
-			
-			this.setMavenExePath( createMavenExePath() ); 
-			
+
+			this.setMavenExePath( createMavenExePath() );
+
 	}
 	/*
 	 * http://www.java-gaming.org/index.php/topic,14110
@@ -258,9 +263,9 @@ Windows NT   x86   1.4.2_05
 Windows NT   x86   1.4.2_08
 Windows NT   x86   1.4.2_03
 Windows Me   x86   1.5.0_04
-Windows Me   x86   1.5.0_06		 * 
+Windows Me   x86   1.5.0_06		 *
 	 */
-	
+
 	/**
 	 * Yes, it looks inconsistent/redundant to have both createMavenExecPath() and getMavenExecPath()/setMavenExePath().
 
@@ -280,30 +285,30 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	private String getOsName() {
 		return System.getProperty("os.name").toLowerCase();
 	}
-	
+
 	@JsonIgnore
-	@Override	
+	@Override
 	public String getMavenExeName() {
 		String rc = "mvn";
-		
+
 		if ( isOsWin() ) {
 			rc = "mvn.cmd";
 		}
 		return rc;
 	}
-	
-	@Override	
+
+	@Override
 	public void setMavenExePath(String val) {
 		this.mavenExePath = val;
 	}
-	@Override	
+	@Override
 	public String getMavenExePath() {
 		return this.mavenExePath;
 	}
 
-	
+
 	@JsonIgnore
-	@Override	
+	@Override
 	public void setOsWin(boolean b) {
 		osWin = b;
 	}
@@ -315,7 +320,7 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 		return osWin;
 	}
 
-	@Override	
+	@Override
 	public void setSnail4jMavenRepo(boolean b) {
 		snail4jMavenRepo = b;
 	}
@@ -328,14 +333,14 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	public boolean isSnail4jMavenRepo() {
 		return snail4jMavenRepo;
 	}
-	
+
 	/**
 	 * Determines whether to maven will download dependencies online, as documented here:
 	 * https://maven.apache.org/settings.html
 	 * By default this is false, so that snail4j can run without internet, just from an uber jar on a usb stick.
 	 * @param b
 	 */
-	@Override	
+	@Override
 	public void setMavenOnline(boolean b) {
 		mavenOnline = b;
 	}
@@ -452,6 +457,17 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	private long jmeterNonGuiPort;
 	private Path glowrootHomePath;
 	private String glowrootZipFileName;
+	private String windowsKillerProcess;
+
+
+	@Override
+	public String getWindowsKillerProcess() {
+		return windowsKillerProcess;
+	}
+	@Override
+	public void setWindowsKillerProcess(String windowsKillerProcess) {
+		this.windowsKillerProcess = windowsKillerProcess;
+	}
 
 	@Override
 	public Path getH2DataFileHome() {
@@ -474,8 +490,8 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	}
 	public static final String unix_ABS_PATH_TO_TJP = "/Users/erikostermueller/Documents/src/jdist/tjpUnzipped/tjp";
 	public static final String unix_JAVA_HOME = "/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home";
-	
-	
+
+
 	@Override
 	public void setSutKillFile(Path val) {
 		this.sutKillFile= val;
@@ -484,18 +500,18 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	public Path getSutKillFile() {
 		return this.sutKillFile;
 	}
-	
+
 
 	@Override
 	public void setLogDir(Path val) {
 		logDir = val;
-		
+
 	}
 	@Override
 	public Path getLogDir() {
 		return logDir;
 	}
-	
+
 
 	public DefaultConfiguration(Path pgHome, Path javaHome) {
 		this.setSnail4jHome(pgHome);
@@ -527,7 +543,7 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	public void setUserHomeDir(Path val) {
 		this.userHomeDir = val;
 	}
-	
+
 	@JsonIgnore
 	public String getUserHomeDirString() {
 		return System.getProperty("user.home");
@@ -553,7 +569,7 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	public void setSnail4jHome(Path  val) {
 		this.Snail4jHomeDir = val;
 	}
-	
+
 	@Override
 	public Path getJavaHome() {
 		return this.javaHome;
@@ -630,31 +646,31 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	@Override
 	public String getLoadGeneratorLaunchCmd() {
 		String rc = this.loadGeneratorLaunchCmd;
-		
+
 		if (!this.isMavenOnline() ) {
 			if (rc.trim().startsWith(MAVEN_EXE_PATH)) {
-				rc = MAVEN_EXE_PATH + " --offline" + this.loadGeneratorLaunchCmd.substring(MAVEN_EXE_PATH.length()); 
+				rc = MAVEN_EXE_PATH + " --offline" + this.loadGeneratorLaunchCmd.substring(MAVEN_EXE_PATH.length());
 			}
 		}
-		
+
 		if (this.isSnail4jMavenRepo() ) {
 			if (rc.trim().startsWith(MAVEN_EXE_PATH)) {
-				rc = MAVEN_EXE_PATH + " -Dmaven.repo.local=#{mavenRepositoryHome}" + this.loadGeneratorLaunchCmd.substring(MAVEN_EXE_PATH.length()); 
+				rc = MAVEN_EXE_PATH + " -Dmaven.repo.local=#{mavenRepositoryHome}" + this.loadGeneratorLaunchCmd.substring(MAVEN_EXE_PATH.length());
 			}
 		}
 		return rc;
-		
+
 	}
 
 	/**
-	 * In the getters for the launch commands (this.getLoadGeneratorLaunchCmd and getProcessManagerLaunchCmd ), 
+	 * In the getters for the launch commands (this.getLoadGeneratorLaunchCmd and getProcessManagerLaunchCmd ),
 	 * some code decides whether Maven "offline" variables should be used.
 	 * Since this.isMavenOnline() must make the final decision on whether offline mode will be used, don't allow maven offline variables
 	 * to be set in the corresponding setters.
-	 * 
+	 *
 	 *  The file processManagager/pom.xml invokes 'other' mvn commands.
-	 *  properties in snail4j.json determine when these "passthru" parameters are passed t0 processManagager/pom.xml. 
-	 *  The values of these "passthru" parameters are optionally used by those 'other' mvn commands. 
+	 *  properties in snail4j.json determine when these "passthru" parameters are passed t0 processManagager/pom.xml.
+	 *  The values of these "passthru" parameters are optionally used by those 'other' mvn commands.
 	 */
 	private String stripOfflineVariables(String val) {
 		//the order of these two lines is critical.  if reversed, the longer pattern won't be found.
@@ -663,13 +679,13 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 		return val;
 	}
 	/**
-	 * In the getters for the launch commands (this.getLoadGeneratorLaunchCmd and getProcessManagerLaunchCmd ), 
+	 * In the getters for the launch commands (this.getLoadGeneratorLaunchCmd and getProcessManagerLaunchCmd ),
 	 * some code decides whether the Snail4j Maven repo variable should be used.
 	 * Since this.isSnail4jMavenRepo() must make the final decision on which repo will be used, don't allow maven local repo variable
-	 * to be set in the corresponding setters.  
+	 * to be set in the corresponding setters.
 	 */
 	private String stripSnail4jMavenRepoVariable(String val) {
-		
+
 		//the order of these two lines is critical.  if reversed, the longer pattern won't be found.
 		val = val.replaceAll(" -Dsnail4j.maven.repo.passthru=-Dmaven.repo.local=\\#\\{mavenRepositoryHome\\}", "");
 		val = val.replaceAll(" -Dmaven.repo.local=\\#\\{mavenRepositoryHome\\}", "");
@@ -677,23 +693,23 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	}
 	@Override
 	public void setLoadGeneratorLaunchCmd(String val) {
-		
+
 		val = stripOfflineVariables(val);
 		val = stripSnail4jMavenRepoVariable(val);
-		
+
 		this.loadGeneratorLaunchCmd = val;
 	}
 
 	@Override
 	public String getProcessManagerLaunchCmd() {
 		String rc = this.processManagerLaunchCmd;
-		
+
 		if (!this.isMavenOnline() ) {
 			if (rc.trim().startsWith(MAVEN_EXE_PATH)) {
-				rc = MAVEN_EXE_PATH + " -Dsnail4j.maven.offline.passthru=--offline --offline" + this.processManagerLaunchCmd.substring(MAVEN_EXE_PATH.length()); 
+				rc = MAVEN_EXE_PATH + " -Dsnail4j.maven.offline.passthru=--offline --offline" + this.processManagerLaunchCmd.substring(MAVEN_EXE_PATH.length());
 			}
 		}
-		
+
 		if (this.isSnail4jMavenRepo() ) {
 			if (rc.trim().startsWith(MAVEN_EXE_PATH)) {
 				rc = MAVEN_EXE_PATH + " -Dsnail4j.maven.repo.passthru=-Dmaven.repo.local=#{mavenRepositoryHome} -Dmaven.repo.local=#{mavenRepositoryHome}" + this.processManagerLaunchCmd.substring(MAVEN_EXE_PATH.length());

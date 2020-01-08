@@ -4,7 +4,7 @@ import java.nio.file.Path;
 
 public interface Configuration {
 	/**
-	 * Path with 
+	 * Path with
 	 * -- the runnable-jar file for the agent resides.
 	 * -- the zip file maven local repo and the SUT
 	 * @return
@@ -16,12 +16,12 @@ public interface Configuration {
 	public void setJavaHome(Path p);
 	Path getUserHomeDir();
 	String getUserHomeDirString();
-	
+
 	/*
 	 * Examples:  /home/betty/.snail4j or C:\Users\betty\.snail4j
 	 */
 	Path getSnail4jHome();
-	
+
 	/**
 	 * Name of the file zipped up with Launcher
 	 * @return
@@ -44,7 +44,7 @@ public interface Configuration {
 	Path getJMeterFilesHome();
 	String getJMeterFilesZipFileName();
 	void setJMeterFilesZipFileName(String val);
-	
+
 	String getLoadGeneratorLaunchCmd();
 	void setLoadGeneratorLaunchCmd(String val);
 	String getProcessManagerLaunchCmd();
@@ -92,5 +92,10 @@ public interface Configuration {
 	void setMavenOnline(boolean b);
 	void setSnail4jMavenRepo(boolean b);
 	boolean isSnail4jMavenRepo();
-	
+
+	public String getWindowsKillerProcess();
+	public void setWindowsKillerProcess(String windowsKillerProcess);
+
+
+
 }

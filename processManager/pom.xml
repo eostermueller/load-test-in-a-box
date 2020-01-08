@@ -207,14 +207,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
            </executions>
        </plugin>
 
-		<!-- TODO: workaround to kill windows processes -->
+		<!-- TODO: workaround to kill windows processes: mvn antrun:run@jcmd-surefire -->
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-antrun-plugin</artifactId>
 			<version>1.8</version>
 			<executions>
-
-
 				<!--  workaround to kill windows processes -->
 				<execution>
 					<id>jcmd-surefire</id>
@@ -241,7 +239,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 					            <arg value="/PID" />
 					            <arg value="${process.pid}" />
 					        </exec>
-					        <!-- exec executable="kill" osfamily="unix">
+					        <!-- never used:
+					            exec executable="kill" osfamily="unix">
 					            <arg value="-9" />
 					            <arg value="${process.pid}" />
 					        </exec -->
@@ -252,7 +251,28 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 					</goals>
 				</execution>
 
-
+				<!-- this is for testing purposes.
+				     adding timestamp to log.txt processManager directory -->
+				<execution>
+					<id>tmp-echo</id>
+		            <phase>generate-resources</phase>
+		            <goals>
+		                <goal>run</goal>
+		            </goals>
+		            <configuration>
+		                <target>
+							<tstamp>
+							     <format property="last.updated" pattern="yyyy-MM-dd hh:mm:ss"/>
+					        </tstamp>
+		                    <echo>Hello world!</echo>
+						    <echo message="${last.updated}"/>
+		                    <concat destfile="log.txt" append="yes" fixlastline="yes">${last.updated}</concat>
+		                    <concat destfile="log.txt" append="yes" fixlastline="yes">
+								<path path="hola.txt"/>
+							</concat>
+		                </target>
+		            </configuration>
+		        </execution>
 			</executions>
 		</plugin>
 
