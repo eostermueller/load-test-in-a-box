@@ -19,6 +19,7 @@ export class Database { // {{{
   constructor(data) {
     // Fill up the database .
     this.dataChange.next(data);
+    debugger
   }
   getChange(data){
     this.dataChange.next(data);
@@ -41,7 +42,9 @@ export class UseCasesComponent implements OnInit {
   useCaseSelection: Map<string, any>; //one day, I'll add value objects and replace any with UseCase
   @ViewChild(MatPaginator, {static: true} ) paginator: MatPaginator;
 
-constructor(private useCaseService : UseCaseService, private cdRef:ChangeDetectorRef) {  }
+constructor(private useCaseService : UseCaseService, private cdRef:ChangeDetectorRef) { 
+  debugger
+ }
 
 public getKey(useCase: any): string {
   return useCase.name;
@@ -83,8 +86,6 @@ dispUseCases(ctx:string) {
     console.log(key, value);
   }
 }
-
-
     ngOnInit() {
         this.useCaseService.getUseCases().subscribe(data=>{
           console.log(data);
@@ -104,7 +105,6 @@ dispUseCases(ctx:string) {
     //   this.dataSource = new MyDataSource(this.database, this.paginator);
     // });
   }
-
 }
 
 export class MyDataSource extends DataSource<any> {
@@ -113,7 +113,7 @@ export class MyDataSource extends DataSource<any> {
       super();
     console.log('In constructor');
     console.log(dataBase);
-
+    debugger
   }
    /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<any[]> {

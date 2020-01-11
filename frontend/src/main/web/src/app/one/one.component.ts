@@ -8,6 +8,8 @@ import { SutLauncherService }     from '../services/sut-launcher.service';
 
 import { LaunchStatus }           from '../services/LaunchStatus';
 import { MatCheckboxChange } from '@angular/material';
+import { MatCheckbox } from '@angular/material';
+import { ViewChild } from '@angular/core'; 
 import { Observable } from 'rxjs';
 import { ApiResponseInterface } from '../model/api.response.interface';
 import { stringify } from 'querystring';
@@ -19,6 +21,8 @@ import { refCount } from 'rxjs/operators';
 })
 export class OneComponent implements OnInit {
 
+  @ViewChild('sutCheckbox',{static: false}) private sutCheckbox: MatCheckbox;
+  @ViewChild('loadGeneratorCheckbox',{static: false}) private loadGeneratorCheckbox: MatCheckbox;
   /** Example of how to disable tab:
    * https://stackblitz.com/edit/angular-zqe112
    */
@@ -136,6 +140,7 @@ export class OneComponent implements OnInit {
    * when the JVM is down.
    */
   public updateTabStatus() {
+//    console.log('updateTabStatus this.sutLaunchStatusService.statusChangeCount:' + this.sutLaunchStatusService.statusChangeCount + ' this.sutLaunchStatus: ' + this.sutLaunchStatus);
     switch(this.sutLaunchStatus) {
       case LaunchStatus.Started:
         this.workloadTabDisabled = false;
@@ -144,18 +149,43 @@ export class OneComponent implements OnInit {
         this.workloadTabDisabled = true;
         break;
     }
+
+
+      /**
+       *  If you shut down your browser and navigate to snail4j,
+       *  enable the check box if the sut and lg are started.
+       */
+
+      if (this.sutLaunchStatusService.uiRecentlyLaunched() ) {
+        if (this.sutLaunchStatus == LaunchStatus.Started) {
+          this.sutCheckbox.checked = true;
+        }
+      }
+
+      if (this.loadGeneratorLaunchStatusService.uiRecentlyLaunched() ) {
+          if (this.loadGeneratorLaunchStatus == LaunchStatus.Started) {
+            this.loadGeneratorCheckbox.checked = true;
+          }
+        }
   }
   ngOnInit() {
+//    console.log('ngOnInit this.sutLaunchStatusService.statusChangeCount:' + this.sutLaunchStatusService.statusChangeCount);
     this.sutLaunchStatusService.currentStatus.subscribe(status => {
         this.sutLaunchStatus = status;
+//        console.log('sutLaunchStatusService.currentStatus.subscribe:' + this.sutLaunchStatusService.statusChangeCount);
+
         this.updateTabStatus();
         }
     );
     this.loadGeneratorLaunchStatusService.currentStatus.subscribe(status => {
       this.loadGeneratorLaunchStatus = status;
+  //    console.log('loadGeneratorLaunchStatusService.currentStatus.subscribe this.sutLaunchStatusService.statusChangeCount:' + this.sutLaunchStatusService.statusChangeCount);
       this.updateTabStatus();
     }
   );
-}
+
+
+
+  }
 
 }
