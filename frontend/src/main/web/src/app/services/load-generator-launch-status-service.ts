@@ -6,11 +6,16 @@ import { LaunchStatus } from './LaunchStatus'
   providedIn: 'root'
 })
 export class LoadGeneratorLaunchStatusService {
+  public uiRecentlyLaunched() : boolean {
+    return (this.statusChangeCount < 10);
+  }
   private launchStatusSource = new BehaviorSubject(LaunchStatus.Stopped);
   currentStatus = this.launchStatusSource.asObservable();
+  private statusChangeCount : number = 0;
 
   constructor() { }
   changeLaunchStatus(status: LaunchStatus) {
+    this.statusChangeCount++;
 
     if (this.launchStatusSource.getValue() == LaunchStatus.Starting
       && status == LaunchStatus.Stopped) {

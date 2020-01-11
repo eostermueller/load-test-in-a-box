@@ -43,15 +43,15 @@ export class HealthChecksComponent implements OnInit {
     this.loadGeneratorLaunchStatusService.currentStatus.subscribe(loadGeneratorLaunchStatus => this.loadGeneratorLaunchStatus = loadGeneratorLaunchStatus);
 
       const unparsedActuatorResponse$ = this.http.get('/actuator/health');
-      console.log('##@ top of ngOnInit')
+//      console.log('##@ top of ngOnInit')
       try {
-        console.log('##@ top of ngOnInit2')
+//        console.log('##@ top of ngOnInit2')
         this.actuatorHealthCheck$ = timer(0, 1000).pipe(
           concatMap(_ => unparsedActuatorResponse$),
           map(
               (response:
                 {[key: string]: any}) => {
-                  console.log("b4 health check parse");
+//                  console.log("b4 health check parse");
                   const data = response.components;
                   this.sutAppHealth   = data['sutApp'    ].status === "UP" ? true : false;
                   this.wiremockHealth = data['wiremock'  ].status === "UP" ? true : false;
@@ -70,7 +70,7 @@ export class HealthChecksComponent implements OnInit {
 
 
                   let neverUsed: string[] = [];
-                  console.log("after health check parse");
+//                  console.log("after health check parse");
                   return neverUsed;
                 } 
             ),

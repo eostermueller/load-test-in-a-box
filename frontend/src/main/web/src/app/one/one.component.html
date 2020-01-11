@@ -4,8 +4,8 @@
     <mat-tab label="Step 1:  Start/Stop">
       <mat-card class="info-card">
         <mat-checkbox 
+        #sutCheckbox
         [disabled]="isSutInProcess()"
-        [(ngModel)]="IsSutChecked"
         matTooltip="Check to start the System Under Test"
         matTooltipPosition="after"
         (change)="launchSutCheckboxChange($event)" >System Under Test</mat-checkbox>
@@ -34,8 +34,8 @@
                             <div class="horizontal_spacer">
 
                                 <mat-checkbox 
+                                #loadGeneratorCheckbox
                                 [disabled]="isLoadGeneratorInProcess()"
-                                [(ngModel)]="IsLoadGeneratorChecked"
                                 matTooltip="Check to apply load"
                                 matTooltipPosition="after"
                                 (change)="launchLoadGeneratorCheckboxChange($event)" >Load Generator</mat-checkbox>
@@ -82,7 +82,7 @@
     <mat-tab [disabled]="workloadTabDisabled"  label="Step 2:  Choose Workload">
             <mat-tab-group mat-align-tabs="end">
                     <mat-tab label="@Load Annotations">
-
+                          <app-workload></app-workload>
                     </mat-tab>
                     <mat-tab label="Workload Key">
 
