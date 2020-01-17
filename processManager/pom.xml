@@ -216,7 +216,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 				<!--  workaround to kill windows processes -->
 				<execution>
 					<id>jcmd-surefire</id>
-					<phase>verify</phase>
+					<phase>initialize</phase>
 					<configuration>
 					    <target>
 					        <property name="runtime_classpath" refid="maven.runtime.classpath" />
@@ -253,7 +253,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
 				<execution>
 					<id>jcmd-wiremock</id>
-					<phase>verify</phase>
+					<phase>initialize</phase>
 					<configuration>
 					    <target>
 					        <property name="runtime_classpath" refid="maven.runtime.classpath" />
@@ -285,7 +285,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
 				<execution>
 					<id>jcmd-workloadcontroller</id>
-					<phase>clean</phase>
+					<phase>initialize</phase>
 					<configuration>
 					    <target>
 					        <property name="runtime_classpath" refid="maven.runtime.classpath" />
@@ -319,7 +319,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 				     adding timestamp to log.txt at processManager directory -->
 				<execution>
 					<id>tmp-echo</id>
-		            <phase>generate-resources</phase>
+					<phase>initialize</phase>
 		            <goals>
 		                <goal>run</goal>
 		            </goals>

@@ -153,6 +153,8 @@ public class DefaultSystemUnderTest implements SystemUnderTest {
 			//this is generated at DefaultConfiguration - this.setWindowsKillerProcess("#{mavenExePath} antrun:run@tmp-echo");
 			processBuilder.command("mvn antrun:run@tmp-echo");
 
+			mvn antrun:run initialize
+
 			try {
 				Process process = processBuilder.start();
 			} catch (IOException e) {
