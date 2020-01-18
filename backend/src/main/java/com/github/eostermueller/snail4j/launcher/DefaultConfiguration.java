@@ -111,7 +111,7 @@ public class DefaultConfiguration implements Configuration {
 			this.setProcessManagerLaunchCmd("#{mavenExePath} verify");
 
 			//TODO: add workaround for closing threads in window!
-			this.setWindowsKillerProcess("#{mavenExePath} mvn antrun:run initialize");
+			this.setWindowsKillerProcess("#{mavenExePath} antrun:run initialize");
 
 			if (getOsName().contains("windows")) {
 				this.setOsWin(true);
