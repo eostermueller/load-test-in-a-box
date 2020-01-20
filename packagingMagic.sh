@@ -1,4 +1,9 @@
 
+# set machine specific variables in setenv_package.sh
+# and run this command _before_ running "mvn install"
+
+
+
 #zips up and places zip files in backend/src/main/resources,
 #so that the backend maven build will include them in the spring boot uber jar.
 #When spring boot starts, Snail4jInstaller.java will unzip those files into the
