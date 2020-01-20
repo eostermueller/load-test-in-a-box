@@ -115,7 +115,6 @@ public abstract class SimpleStdoutProcessRunner {
 		        //debug();
 		        Process process = pb.start();
 		        getProcessKey().setPid( process.pid() );
-		        System.out.println("start procesos................." + process.pid() );
 
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

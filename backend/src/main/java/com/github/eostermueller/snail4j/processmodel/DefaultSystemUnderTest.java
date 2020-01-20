@@ -101,8 +101,6 @@ public class DefaultSystemUnderTest implements SystemUnderTest {
 		Messages m = DefaultFactory.getFactory().createMessages();
 		String d = m.getSutStartMessage( runner.toHumanReadableString() );
 
-		System.out.println("1mensaje = " + d);
-
 		DefaultFactory.getFactory().getEventHistory().getEvents().add( Event.create(d) );
 
 	}
@@ -124,42 +122,19 @@ public class DefaultSystemUnderTest implements SystemUnderTest {
 		DefaultFactory.getFactory().getEventHistory().getEvents().add( Event.create(d) );
 
 
-		//TODO: remove!
-		System.out.println("*************** EJEMPLO MIO *******************************************");
-		System.out.println("2mensaje = " + d);
 
-		//TODO: if it's windows then execute ant-taskkill must be executed
+		//TODO: if it's windows then maven-antrun-plugin must be executed
 		if(isWindows()) {
 
-			System.out.println("*************** es Windows !");
+			LOGGER.debug("It's Windows!");
 
 			runnerStop.start();
-			System.out.println("**** " + runnerStop.toHumanReadableString() );
 
 
 		} else if (isMac()) {
-			System.out.println("**** This is Mac!");
+			LOGGER.debug("This is Mac!");
 
 			runnerStop.start();
-			System.out.println("**** " + runnerStop.toHumanReadableString() );
-
-
-			/*
-			//TODO: cleanup this hardcoded, and use another "SimpleStdoutProcessRunner runner"
-			// maybe something similar from DefaultProcessModelBuilder : protected StdoutProcessRunner getJMeterProcess()
-			ProcessBuilder processBuilder = new ProcessBuilder();
-
-			//TODO: this is backend and need to be ran on processManager
-			//this is generated at DefaultConfiguration - this.setWindowsKillerProcess("#{mavenExePath} antrun:run@tmp-echo");
-			processBuilder.command("mvn antrun:run@tmp-echo");
-
-			mvn antrun:run initialize
-
-			try {
-				Process process = processBuilder.start();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}*/
 
 		}
 
