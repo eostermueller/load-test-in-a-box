@@ -14,6 +14,8 @@ import { Observable } from 'rxjs';
 import { ApiResponseInterface } from '../model/api.response.interface';
 import { stringify } from 'querystring';
 import { refCount } from 'rxjs/operators';
+import { UseCasesComponent } from '../use-cases/use-cases.component';
+
 @Component({
   selector: 'app-one',
   templateUrl: './one.component.html',
@@ -23,6 +25,8 @@ export class OneComponent implements OnInit {
 
   @ViewChild('sutCheckbox',{static: false}) private sutCheckbox: MatCheckbox;
   @ViewChild('loadGeneratorCheckbox',{static: false}) private loadGeneratorCheckbox: MatCheckbox;
+  
+  @ViewChild(UseCasesComponent,{static: false}) useCases : UseCasesComponent;
   /** Example of how to disable tab:
    * https://stackblitz.com/edit/angular-zqe112
    */
@@ -133,7 +137,13 @@ export class OneComponent implements OnInit {
         }    
     return rc;
   }
-
+  tabSelectionChanged(tabIndex:number) {
+    console.log("tabSelectionChange index [" + tabIndex + "]")
+    console.log('index => ', tabIndex);
+    if (tabIndex==1) {
+      this.useCases.load();
+    }
+  }
   /**
    * If the JVM where the workload is running is unavailable,
    * then keep the user from changing the workload selection by disabling the workload tab

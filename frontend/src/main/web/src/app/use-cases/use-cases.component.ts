@@ -11,15 +11,22 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { stringify } from '@angular/compiler/src/util';
 import {Workload} from '../model/workload';
 
+import { SutLaunchStatusService } from '../services/sut-launch-status.service';
+
+import { LaunchStatus }           from '../services/LaunchStatus';
+
 export class Database { // {{{
+
   /** Stream that emits whenever the data has been modified. If filter is applied on the data*/
   dataChange: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   get data(): any[] { return this.dataChange.value; }
 
-  constructor(data) {
+  constructor(
+    data : any[],     
+    ) {
     // Fill up the database .
     this.dataChange.next(data);
-    debugger
+    //debugger
   }
   getChange(data){
     this.dataChange.next(data);
@@ -32,6 +39,11 @@ export class Database { // {{{
   styleUrls: ['./use-cases.component.scss']
 })
 export class UseCasesComponent implements OnInit {
+
+  private forceHttpWorkloadRq : boolean = true;
+  private sutLaunchStatus:LaunchStatus = LaunchStatus.Stopped;
+  private sutLaunchStatusPrevious:LaunchStatus = LaunchStatus.Stopped;
+
   useCases : any[];
   length = 0;
   pageIndex = 0;
@@ -42,7 +54,10 @@ export class UseCasesComponent implements OnInit {
   useCaseSelection: Map<string, any>; //one day, I'll add value objects and replace any with UseCase
   @ViewChild(MatPaginator, {static: true} ) paginator: MatPaginator;
 
-constructor(private useCaseService : UseCaseService, private cdRef:ChangeDetectorRef) { 
+constructor(
+  private useCaseService : UseCaseService, 
+  private sutLaunchStatusService: SutLaunchStatusService,
+  private cdRef:ChangeDetectorRef) { 
   debugger
  }
 
@@ -86,7 +101,11 @@ dispUseCases(ctx:string) {
     console.log(key, value);
   }
 }
-    ngOnInit() {
+  public load() {
+    console.log("UseCasesComponents.load()");
+//    if (this.sutLaunchStatus == LaunchStatus.Started 
+//      && this.forceHttpWorkloadRq == true) {
+
         this.useCaseService.getUseCases().subscribe(data=>{
           console.log(data);
           this.useCases= data.useCases;
@@ -95,7 +114,31 @@ dispUseCases(ctx:string) {
           this.dataSource = new MyDataSource(this.database, this.paginator);
           this.useCaseSelection = new Map<string,any>();
           this.cdRef.detectChanges();
+          this.forceHttpWorkloadRq = false;
         });
+
+//      }
+  }
+    ngOnInit() {
+
+      this.sutLaunchStatusService.currentStatus.subscribe(
+        status => {
+          this.sutLaunchStatusPrevious = this.sutLaunchStatus;
+          this.sutLaunchStatus = status;
+
+          /**
+           * When restart is first complete,
+           * query newly started JVM for code annotated
+           * with @Load
+           */
+          if (this.sutLaunchStatus != this.sutLaunchStatusPrevious) {
+            if (this.sutLaunchStatus == LaunchStatus.Started) {
+              this.forceHttpWorkloadRq = true;
+            }
+          }
+        }
+    );
+
 
     // this.useCaseService.getUseCases().subscribe(data=>{
     //   console.log(data);
@@ -113,29 +156,23 @@ export class MyDataSource extends DataSource<any> {
       super();
     console.log('In constructor');
     console.log(dataBase);
-    debugger
+    //debugger
   }
    /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<any[]> {
-    //return Observable.of(this.dataBase);
     const displayDataChanges = [
-      //Observable.of(this.dataBase),
       this.dataBase.dataChange,
       this.paginator.page
     ];
 
     return Observable.merge(displayDataChanges).pipe(map(() => {
-      let data;
+      let data : any[];
       this.dataBase.dataChange.subscribe(xdata=>{
         // console.log(data.data);
-        //2019-05-28 console.log(Object.values(xdata));
         data=Object.values(xdata);
         }
       );
 
-      // const data = this.dataBase.data;//.slice();
-      //2019-05-28 console.log('In merge');
-      //2019-05-28 console.log(data);
       // // Grab the page's slice of data.
       const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
       const finalData = data.splice(startIndex, this.paginator.pageSize);

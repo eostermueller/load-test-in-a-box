@@ -1,6 +1,6 @@
 <mat-card class="info-card">
 
-  <mat-tab-group>
+  <mat-tab-group (selectedIndexChange)="tabSelectionChanged($event)"> 
     <mat-tab label="Step 1:  Start/Stop">
       <mat-card class="info-card">
         <mat-checkbox 
@@ -82,7 +82,7 @@
     <mat-tab [disabled]="workloadTabDisabled"  label="Step 2:  Choose Workload">
             <mat-tab-group mat-align-tabs="end">
                     <mat-tab label="@Load Annotations">
-                          <app-workload></app-workload>
+                          <app-use-cases></app-use-cases>   
                     </mat-tab>
                     <mat-tab label="Workload Key">
 

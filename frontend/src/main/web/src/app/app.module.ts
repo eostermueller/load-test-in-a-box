@@ -31,7 +31,7 @@ import { MatToolbarModule,
           MatTabsModule,
           MatInputModule,
            } from '@angular/material';
-import { WorkloadComponent } from './workload/workload.component';
+//import { WorkloadComponent } from './workload/workload.component';
 //import { GlobalErrorHandler } from './GlobalErrorHandler';
 import { OneComponent } from './one/one.component';
 
@@ -64,7 +64,7 @@ import { HealthChecksComponent } from './health-checks/health-checks.component';
       pathMatch: 'full'
     },
     { path: 'snail4j', component: OneComponent },      
-    { path: 'workload', component: WorkloadComponent },
+    //{ path: 'workload', component: WorkloadComponent },
     { path: 'start-stop', component: StartStopComponent },
     { path: 'metrics', component: LoadGenMetricsComponent },
     { path: 'jvm-parameters', component: TrafficJvmParametersComponent },
@@ -76,7 +76,7 @@ import { HealthChecksComponent } from './health-checks/health-checks.component';
   declarations: [
     AppComponent,
     NavComponent,
-    WorkloadComponent,
+//    WorkloadComponent,
     OneComponent,
     LoadGenMetricsComponent,
     TrafficJvmParametersComponent,
