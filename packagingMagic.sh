@@ -1,21 +1,20 @@
-SNAIL4J_SRC=/C/Users/eoste/Documents/src/jssource/snail4j
 
 #zips up and places zip files in backend/src/main/resources,
 #so that the backend maven build will include them in the spring boot uber jar.
 #When spring boot starts, Snail4jInstaller.java will unzip those files into the
 # .snail4j folder in the user's home folder.  Jenkins uses this approach.
 
+#set machine-specific variables.
+. setenv_package.sh
 
 #These are part of snail4j distribution
 PM_HOME=$SNAIL4J_SRC/processManager
 JM_HOME=$SNAIL4J_SRC/jmeterFiles
 WM_HOME=$SNAIL4J_SRC/wiremock
-H2_DB=/c/Users/eoste/Documents/src/jsource/javaPerformanceTroubleshooting/db/data
-MVN_ZIP_NAME=apache-maven-3.6.3-bin.zip
-MVN_URL=http://www-us.apache.org/dist/maven/maven-3/3.6.3/binaries/${MVN_ZIP_NAME}
-MVN_REPO=/C/Users/eoste/.m2
 
 GLOWROOT_BIN=https://github.com/glowroot/glowroot/releases/download/v0.13.5/glowroot-0.13.5-dist.zip
+MVN_ZIP_NAME=apache-maven-3.6.3-bin.zip
+MVN_URL=http://www-us.apache.org/dist/maven/maven-3/3.6.3/binaries/${MVN_ZIP_NAME}
 
 # local location of this repo: https://github.com/eostermueller/tjp2
 # b4 running this script, you must:
