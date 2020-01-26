@@ -1,7 +1,5 @@
-
 # set machine specific variables in setenv_package.sh
 # and run this command _before_ running "mvn install"
-
 
 
 #zips up and places zip files in backend/src/main/resources,
@@ -16,16 +14,11 @@
 PM_HOME=$SNAIL4J_SRC/processManager
 JM_HOME=$SNAIL4J_SRC/jmeterFiles
 WM_HOME=$SNAIL4J_SRC/wiremock
+MVN_BIN=http://www-us.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.zip
 
 GLOWROOT_BIN=https://github.com/glowroot/glowroot/releases/download/v0.13.5/glowroot-0.13.5-dist.zip
 MVN_ZIP_NAME=apache-maven-3.6.3-bin.zip
 MVN_URL=http://www-us.apache.org/dist/maven/maven-3/3.6.3/binaries/${MVN_ZIP_NAME}
-
-# local location of this repo: https://github.com/eostermueller/tjp2
-# b4 running this script, you must:
-# a) cd $TJP_HOME / git clone https://github.com/eostermueller/tjp2 
-
-TJP_HOME=/C/Users/eoste/Documents/src/jsource/tjp2/tjp2
 
 #Snail4j starup looks for carefully named zip files in this folder, then unzips them.
 TARGET=$SNAIL4J_SRC/backend/src/main/resources
