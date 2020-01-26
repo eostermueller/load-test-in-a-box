@@ -18,10 +18,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <snail4j.sut.port>8080</snail4j.sut.port>
 
     <!-- the following -V is an innocuous mvn parameter, couldn't get "" to work.
-         The -V will be used when these optional parameters are not passed in --> 
+         The -V will be used when these optional parameters are not passed in -->
 
-    <snail4j.maven.offline.passthru>-V</snail4j.maven.offline.passthru> 
-    <snail4j.maven.repo.passthru>-V</snail4j.maven.repo.passthru> 
+    <snail4j.maven.offline.passthru>-V</snail4j.maven.offline.passthru>
+    <snail4j.maven.repo.passthru>-V</snail4j.maven.repo.passthru>
   </properties>
   <dependencies>
     <dependency>
@@ -210,6 +210,139 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
              </execution>
            </executions>
        </plugin>
+
+		<!-- TODO: workaround to kill windows processes: mvn antrun:run@jcmd-surefire -->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-antrun-plugin</artifactId>
+			<version>1.8</version>
+			<executions>
+				<!--  workaround to kill windows processes -->
+				<execution>
+					<id>jcmd-surefire</id>
+					<phase>initialize</phase>
+					<configuration>
+					    <target>
+					        <property name="runtime_classpath" refid="maven.runtime.classpath" />
+					        <exec executable="${JAVA_HOME}/bin/jcmd">
+					            <redirector outputproperty="process.pid">
+					                <outputfilterchain>
+					                	<linecontainsregexp>
+					                		<!-- it can be much simpler, but I wanted to confirm if it is a surefire process: -->
+						                    <regexp pattern="[\w\\\:]+\\surefire[0-9]+.+(surefire\_?[0-9]+tmp\ ?)+" />
+					                	</linecontainsregexp>
+					                	<tokenfilter>
+					                    	<replaceregex pattern=" [\w\\\:]+\\surefire[0-9]+.+(surefire\_?[0-9]+tmp\ ?)+"
+					                    					replace="" />
+					                    </tokenfilter>
+					                </outputfilterchain>
+					            </redirector>
+					        </exec>
+					        <exec executable="taskkill" osfamily="winnt">
+					            <arg value="/F" />
+					            <arg value="/PID" />
+					            <arg value="${process.pid}" />
+					        </exec>
+					        <!-- never used:
+					            exec executable="kill" osfamily="unix">
+					            <arg value="-9" />
+					            <arg value="${process.pid}" />
+					        </exec -->
+					    </target>
+					</configuration>
+					<goals>
+						<goal>run</goal>
+					</goals>
+				</execution>
+
+				<execution>
+					<id>jcmd-wiremock</id>
+					<phase>initialize</phase>
+					<configuration>
+					    <target>
+					        <property name="runtime_classpath" refid="maven.runtime.classpath" />
+					        <exec executable="${JAVA_HOME}/bin/jcmd">
+					            <arg value="-l" />
+					            <redirector outputproperty="process.pid">
+					                <outputfilterchain>
+					                	<linecontainsregexp>
+											<!-- some greedy regexp to identy windows path, but it looks more clear than a simple .+ -->
+						                    <regexp pattern="org\.codehaus\.plexus\.classworlds\.launcher\.Launcher\ \-V\ \-Dmaven\.repo\.local\=(.+\/+.+)+\ clean\ compile\ wiremock\:run" />
+					                	</linecontainsregexp>
+					                	<tokenfilter>
+					                    	<replaceregex pattern=" org\.codehaus\.plexus\.classworlds\.launcher\.Launcher\ \-V\ \-Dmaven\.repo\.local\=(.+\/+.+)+\ clean\ compile\ wiremock\:run" replace="" />
+					                    </tokenfilter>
+					                </outputfilterchain>
+					            </redirector>
+					        </exec>
+					        <exec executable="taskkill" osfamily="winnt">
+					            <arg value="/F" />
+					            <arg value="/PID" />
+					            <arg value="${process.pid}" />
+					        </exec>
+					    </target>
+					</configuration>
+					<goals>
+						<goal>run</goal>
+					</goals>
+				</execution >
+
+				<execution>
+					<id>jcmd-workloadcontroller</id>
+					<phase>initialize</phase>
+					<configuration>
+					    <target>
+					        <property name="runtime_classpath" refid="maven.runtime.classpath" />
+					        <exec executable="${JAVA_HOME}/bin/jcmd">
+					            <redirector outputproperty="process.pid">
+							    <outputfilterchain>
+                                                          <linecontainsregexp>
+							       <regexp pattern="com\.github\.eostermueller\.tjp2\.rest\.WorkloadController" />
+						          </linecontainsregexp>
+					                	<tokenfilter>
+					                    	<replaceregex pattern="(\d+)( com\.github\.eostermueller\.tjp2\.rest\.WorkloadController)(.*)"
+					                    					replace="\1" />
+					                    </tokenfilter>
+					                </outputfilterchain>
+					            </redirector>
+					        </exec>
+					        <exec executable="taskkill" osfamily="winnt">
+					            <arg value="/F" />
+					            <arg value="/T" />
+					            <arg value="/PID" />
+					            <arg value="${process.pid}" />
+					        </exec>
+					    </target>
+					</configuration>
+					<goals>
+						<goal>run</goal>
+					</goals>
+				</execution>
+
+				<!-- this is for testing purposes.
+				     adding timestamp to log.txt at processManager directory -->
+				<execution>
+					<id>tmp-echo</id>
+					<phase>initialize</phase>
+		            <goals>
+		                <goal>run</goal>
+		            </goals>
+		            <configuration>
+		                <target>
+							<tstamp>
+							     <format property="last.updated" pattern="yyyy-MM-dd hh:mm:ss"/>
+					        </tstamp>
+		                    <echo>Hello world!</echo>
+						    <echo message="${last.updated}"/>
+		                    <concat destfile="log.txt" append="yes" fixlastline="yes">${last.updated}</concat>
+		                    <concat destfile="log.txt" append="yes" fixlastline="yes">
+								<path path="hola.txt"/>
+							</concat>
+		                </target>
+		            </configuration>
+		        </execution>
+			</executions>
+		</plugin>
 
     </plugins>
   </build>

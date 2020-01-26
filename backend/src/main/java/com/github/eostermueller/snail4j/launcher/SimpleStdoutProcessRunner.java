@@ -16,14 +16,14 @@ import com.github.eostermueller.snail4j.Snail4jException;
 
 /**
  * Stores stdout/err from an OS process, and watches that output to detect certain events life of the process "Startup Complete" is the most obvious one.
- * 
+ *
  * Class is named as jdk8 because it d0es n0t reference this jdk 9 feature:
  * https://docs.oracle.com/javase/9/docs/api/java/lang/Process.html#pid--
  * https://docs.oracle.com/javase/9/docs/api/java/lang/ProcessHandle.html#pid--
  * from:
  * https://openjdk.java.net/jeps/102
  * Why?  So we can support java8 and prior!
- * 
+ *
  * Need to try these suggestions:
  * https://stackoverflow.com/questions/7260066/output-of-forked-child-process-in-java
  * https://www.javaworld.com/article/2071275/when-runtime-exec---won-t.html
@@ -32,9 +32,9 @@ import com.github.eostermueller.snail4j.Snail4jException;
  */
 public abstract class SimpleStdoutProcessRunner {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-	private static boolean ynMessageDisplayed_MissingStartupText = false; 
+	private static boolean ynMessageDisplayed_MissingStartupText = false;
 	ProcessKey processKey = null;
-	
+
 
 	public ProcessKey getProcessKey() {
 		return processKey;
@@ -45,7 +45,7 @@ public abstract class SimpleStdoutProcessRunner {
 	String processType = null;
 
 	private ProcessBuilder processBuilder;
-	
+
 	StateChangeListener parentListener = null;
 	File workingDirectory = null;
 
@@ -71,12 +71,12 @@ public abstract class SimpleStdoutProcessRunner {
 	public String getDebugInfo() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\ncwd: " + this.getWorkingDirectory().getAbsolutePath() + "\n");
-		
+
 		List<String> myParms = this.getProcessBuilder().command();
 		for(String param : myParms) {
 			sb.append(" " + param);
 		}
-		
+
 		return sb.toString();
 	}
 	public SimpleStdoutProcessRunner(ProcessKey processKey) throws Snail4jException {
@@ -92,31 +92,30 @@ public abstract class SimpleStdoutProcessRunner {
 	public void setProcessType(String processType) {
 		this.processType = processType;
 	}
-	
+
 	public void start() throws Snail4jException {
-		
+
 	    InetAddress inetAddress;
 		try {
 			inetAddress = InetAddress.getLocalHost();
-			
+
 		       ProcessBuilder pb = getProcessBuilder();
 		       if (this.getWorkingDirectory() != null)
 		    	   pb.directory( this.getWorkingDirectory() ); //Current working directory of the process.
 		       pb.redirectErrorStream(true);
-		       
+
 		       /**
 		        * Adding this line:
 		        * pb.inheritIO();
 		        * ...breaks everything, gives me this error:
-		        * 
-		        * [WARNING] Corrupted STDOUT by directly writing to native stream in forked JVM 1. 
+		        *
+		        * [WARNING] Corrupted STDOUT by directly writing to native stream in forked JVM 1.
 		        * See FAQ web page and the dump file /Users/erikostermueller/Documents/src/jsource/tjpHeadlessAgent/target/surefire-reports/2018-10-21T13-28-41_543-jvmRun1.dumpstream
 		        */
 		        //debug();
 		        Process process = pb.start();
 		        getProcessKey().setPid( process.pid() );
 
-				
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 			DefaultFactory.getFactory().getEventHistory().addException("trying to launch [" + this.getDebugInfo() + "]", e);
@@ -124,7 +123,7 @@ public abstract class SimpleStdoutProcessRunner {
 			e.printStackTrace();
 			DefaultFactory.getFactory().getEventHistory().addException("trying to launch [" + this.getDebugInfo() + "]", e);
 		}
-		
+
 	}
 	protected boolean isOutputWatcher = true;
 	public boolean isOutputWatcher() {
@@ -135,17 +134,17 @@ public abstract class SimpleStdoutProcessRunner {
 	}
 	public String toHumanReadableString() {
 		StringBuilder sb = new StringBuilder();
-		
+
 		sb.append("key: " + this.processKey.getKey() + "\n" );
 		sb.append("info: " + this.getDebugInfo() + "\n");
-		
+
 		return sb.toString();
 	}
 	/**
-	 * @stolenFrom:  https://kodejava.org/how-do-i-get-process-id-of-a-java-application/ 
-	 * 
+	 * @stolenFrom:  https://kodejava.org/how-do-i-get-process-id-of-a-java-application/
+	 *
 	 */
-	public abstract long getPid(); 
+	public abstract long getPid();
 	private ProcessBuilder getProcessBuilder() {
 		return this.processBuilder;
 	}
@@ -153,7 +152,7 @@ public abstract class SimpleStdoutProcessRunner {
 		this.processBuilder = processBuilder;
 	}
 	public void stop() throws Snail4jException {
-		
+		System.out.println("stop procesos..........................");
 	}
 
 }
