@@ -42,7 +42,8 @@ export class UseCasesComponent implements OnInit {
 
   private forceHttpWorkloadRq : boolean = true;
   private sutLaunchStatus:LaunchStatus = LaunchStatus.Stopped;
-  private sutLaunchStatusPrevious:LaunchStatus = LaunchStatus.Stopped;
+
+  private useCaseInquiryInProgress : boolean = false;
 
   useCases : any[];
   length = 0;
@@ -65,6 +66,16 @@ public getKey(useCase: any): string {
   return useCase.name;
 }
 
+/**
+ * this destroys currently selected use cases, so it will need to be requried.
+ */
+ public removeAll() {
+   if (this.useCases!=null){
+    while(this.useCases.length) {
+      this.useCases.pop();
+    }    
+  }
+ }
 /**
  * 
  * @param $event The type here shows string, but I've confirmed its an object.
@@ -102,40 +113,32 @@ dispUseCases(ctx:string) {
   }
 }
   public load() {
-    console.log("UseCasesComponents.load()");
-//    if (this.sutLaunchStatus == LaunchStatus.Started 
-//      && this.forceHttpWorkloadRq == true) {
+    console.log("Use_Cases_Components.load()");
+    this.removeAll();
+    if( this.forceHttpWorkloadRq == true) {
 
-        this.useCaseService.getUseCases().subscribe(data=>{
-          console.log(data);
-          this.useCases= data.useCases;
-          this.length = this.useCases.length;
-          this.database=new Database(this.useCases);
-          this.dataSource = new MyDataSource(this.database, this.paginator);
-          this.useCaseSelection = new Map<string,any>();
-          this.cdRef.detectChanges();
-          this.forceHttpWorkloadRq = false;
-        });
+      var _me = this;
+      _me.useCaseInquiryInProgress = true;
+          this.useCaseService.getUseCases().subscribe(data=>{
+            console.log("getUseCases() just returned!!");
+            console.log(data);
+            _me.useCaseInquiryInProgress = false;
 
-//      }
+            this.useCases= data.useCases;
+            this.length = this.useCases.length;
+            this.database=new Database(this.useCases);
+            this.dataSource = new MyDataSource(this.database, this.paginator);
+            this.useCaseSelection = new Map<string,any>();
+            this.cdRef.detectChanges();
+            this.forceHttpWorkloadRq = false;
+          });
+      }
   }
     ngOnInit() {
 
       this.sutLaunchStatusService.currentStatus.subscribe(
         status => {
-          this.sutLaunchStatusPrevious = this.sutLaunchStatus;
-          this.sutLaunchStatus = status;
-
-          /**
-           * When restart is first complete,
-           * query newly started JVM for code annotated
-           * with @Load
-           */
-          if (this.sutLaunchStatus != this.sutLaunchStatusPrevious) {
-            if (this.sutLaunchStatus == LaunchStatus.Started) {
-              this.forceHttpWorkloadRq = true;
-            }
-          }
+              this.forceHttpWorkloadRq = true; //check whether there's new stuff on the classpath.
         }
     );
 

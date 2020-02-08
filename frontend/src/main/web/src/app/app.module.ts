@@ -18,6 +18,7 @@ import {MatFormFieldModule, MatFormFieldControl} from '@angular/material/form-fi
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
@@ -112,7 +113,8 @@ import { HealthChecksComponent } from './health-checks/health-checks.component';
     MatFormFieldModule,
     MatInputModule,
     MatSlideToggleModule,    
-    MatTooltipModule
+    MatTooltipModule,
+    MatProgressSpinnerModule,
     // ErrorHandler,
     // GlobalErrorHandler,
     // Injectable

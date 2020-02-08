@@ -138,10 +138,18 @@ export class OneComponent implements OnInit {
     return rc;
   }
   tabSelectionChanged(tabIndex:number) {
+    var start = Date.now();
+
     console.log("tabSelectionChange index [" + tabIndex + "]")
     console.log('index => ', tabIndex);
     if (tabIndex==1) {
+
+      var begin = Date.now();
+      console.log("useCases.load():" + begin/1000+"secs");
       this.useCases.load();
+      var end = Date.now();
+      var timeSpent=(end-begin)/1000+"secs";
+      console.log("useCases.load():" + timeSpent);
     }
   }
   /**
