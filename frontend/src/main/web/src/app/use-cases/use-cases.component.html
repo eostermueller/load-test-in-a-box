@@ -9,6 +9,7 @@
         <ul class="list" style="list-style: none; ">
             <li *ngFor="let useCase of dataSource?.connect() |  async">
             <app-use-case-card 
+              #useCaseCard
               [useCase]="useCase" 
               (useCaseSelect)="useCaseSelectionListener($event)"
               (useCaseDeSelect)="useCaseDeSelectionListener($event)"
