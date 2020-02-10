@@ -28,6 +28,10 @@ export class UseCaseCardComponent implements OnInit {
   typeOf(obj:any) {
     return {}.toString.call(obj).split(' ')[1].slice(0, -1).toLowerCase();
   }
+  public getName() : string {
+    return this.useCase.name;
+  }
+
 
   ngOnInit() {
   //  console.log('selectedIndex b: ' + this.selectedIndex );
@@ -78,7 +82,12 @@ export class UseCaseCardComponent implements OnInit {
         this.useCaseDeSelect.emit(this.useCase);
       }
 
-      //this.useCaseChange.emit('uc change 1');
+  }
+
+  public setSelectionState(running:boolean, selectedNdx:number) {
+    this.IsChecked = running;
+    this.selectedIndex = selectedNdx;
+    this.updateSelectedFlags();
   }
   updateSelectedFlags() {
     for(let i = 0; i < this.useCase.processingUnits.length; i++) {

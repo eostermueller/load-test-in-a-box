@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, AfterViewInit } from '@angular/core';
 import {UseCaseService} from './../use-case.service';
 import {PageEvent, MatPaginator} from '@angular/material';
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, ViewChildren, QueryList } from '@angular/core';
 import {DataSource} from '@angular/cdk/collections';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
@@ -14,9 +14,9 @@ import {Workload} from '../model/workload';
 import { SutLaunchStatusService } from '../services/sut-launch-status.service';
 
 import { LaunchStatus }           from '../services/LaunchStatus';
+import { UseCaseCardComponent } from '../use-case-card/use-case-card.component';
 
 export class Database { // {{{
-
   /** Stream that emits whenever the data has been modified. If filter is applied on the data*/
   dataChange: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   get data(): any[] { return this.dataChange.value; }
@@ -38,7 +38,12 @@ export class Database { // {{{
   templateUrl: './use-cases.component.html',
   styleUrls: ['./use-cases.component.scss']
 })
-export class UseCasesComponent implements OnInit {
+export class UseCasesComponent implements OnInit, AfterViewInit {
+  ngAfterViewInit(): void {
+    throw new Error("Method not implemented.");
+  }
+  @ViewChildren('useCaseCard') 
+  useCaseCards: QueryList<UseCaseCardComponent>; 
 
   private forceHttpWorkloadRq : boolean = true;
   private sutLaunchStatus:LaunchStatus = LaunchStatus.Stopped;
@@ -55,11 +60,21 @@ export class UseCasesComponent implements OnInit {
   useCaseSelection: Map<string, any>; //one day, I'll add value objects and replace any with UseCase
   @ViewChild(MatPaginator, {static: true} ) paginator: MatPaginator;
 
+  private getUseCase(criteria:string) : any {
+    var rc:any;
+    for(let i=0; i< this.useCases.length; i++){
+      if (this.useCases[i].useCaseName === criteria)
+      rc = this.useCases[i];
+    }    
+    return rc;
+  }
+ 
+
 constructor(
   private useCaseService : UseCaseService, 
   private sutLaunchStatusService: SutLaunchStatusService,
   private cdRef:ChangeDetectorRef) { 
-  debugger
+//  debugger
  }
 
 public getKey(useCase: any): string {
@@ -67,7 +82,7 @@ public getKey(useCase: any): string {
 }
 
 /**
- * this destroys currently selected use cases, so it will need to be requried.
+ * this destroys currently selected use case(s), so it will need to be updated.
  */
  public removeAll() {
    if (this.useCases!=null){
@@ -130,10 +145,58 @@ dispUseCases(ctx:string) {
             this.dataSource = new MyDataSource(this.database, this.paginator);
             this.useCaseSelection = new Map<string,any>();
             this.cdRef.detectChanges();
+            this.getSelectedWorkload();
             this.forceHttpWorkloadRq = false;
           });
       }
   }
+
+
+  getIndexOfSelectedProcessingUnit(selectedUseCase:any):number {
+    var indexOfSelectedProcessingUnit:number = -1;
+    for( var i:number =0; i < selectedUseCase.processingUnits.length;i++) {
+      var processingUnit:any = selectedUseCase.processingUnits[i];
+      if (processingUnit.selected) {
+        indexOfSelectedProcessingUnit = i;
+        break;
+      }
+    }
+    return indexOfSelectedProcessingUnit;
+  }
+  reSelectUseCase(selectedUseCase:any) {
+    var selectedIndex:number = this.getIndexOfSelectedProcessingUnit(selectedUseCase);
+    var useCaseCardsAry = this.useCaseCards.toArray();
+
+    for(var i:number = 0; i < useCaseCardsAry.length; i++ ) {
+
+      var useCaseCardComponent:UseCaseCardComponent = useCaseCardsAry[i];
+      console.log("selected useCase:" + selectedUseCase.name + " does it match this:" + useCaseCardComponent.getName() ); 
+      if (selectedUseCase.name === useCaseCardComponent.getName()) {
+        console.log("A match is found for " + useCaseCardComponent.getName() + "!");
+        useCaseCardComponent.setSelectionState(true,selectedIndex);
+        console.log('Found card 0 ' + useCaseCardsAry[i].constructor.name);
+        console.log('Found card: ' + i + ' : ' + useCaseCardsAry[i].getName() );
+        break;
+        }
+    }
+    console.log("after ary");
+  }
+  reSetUseCaseSelection(selectedUseCases:any) {
+    for( var i:number = 0; i < selectedUseCases.result.useCases.length;i++) {
+      var selectedUseCase = selectedUseCases.result.useCases[i];
+      console.log('re-selecting useCase:' + selectedUseCase.name);
+      this.reSelectUseCase(selectedUseCase);
+    }
+  }
+  public getSelectedWorkload() {
+    console.log("UseCasesComponents.getWorkLoad()");
+  /**
+   * result.useCases[x].processingUnits[x].selected
+   */
+  this.useCaseService.getWorkload().subscribe(data=>{
+            this.reSetUseCaseSelection(data);            
+          });
+  }  
     ngOnInit() {
 
       this.sutLaunchStatusService.currentStatus.subscribe(

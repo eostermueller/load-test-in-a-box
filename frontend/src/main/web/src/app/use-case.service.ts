@@ -38,6 +38,10 @@ export class UseCaseService {
           // }));
       }
 
+      getWorkload() :Observable<any> {
+        return this.http.get('http://localhost:8080/traffic/workload');
+      }
+
       updateWorkload(workload:Workload): Observable<ApiResponseInterface> {
         console.log( '... 01 updateWorkload oct 20: ' + JSON.stringify(workload));
         return this.http.put<ApiResponseInterface>('http://localhost:8080/traffic/workload', workload);
