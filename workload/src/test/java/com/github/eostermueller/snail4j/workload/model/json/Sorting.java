@@ -1,6 +1,6 @@
 package com.github.eostermueller.snail4j.workload.model.json;
 
-import com.github.eostermueller.snail4j.workload.annotations.ProcessingUnit;
+import com.github.eostermueller.snail4j.workload.annotations.Load;
 import com.github.eostermueller.snail4j.workload.annotations.UserInterfaceDescription;
 
 /**
@@ -11,7 +11,7 @@ public class Sorting {
 	public static final String USE_CASE_NAME = "numericSorting";
 	int a[] = {5,3,6436,53,100};
 	
-	@ProcessingUnit(
+	@Load(
 			useCase = "numericSorting", 
 			value = {@UserInterfaceDescription("Selection Sort")}
 			)
@@ -32,7 +32,7 @@ public class Sorting {
 		}
 		print(a,a.length);
 	}
-	@ProcessingUnit(
+	@Load(
 			useCase = "numericSorting", 
 			value = {@UserInterfaceDescription(locale="en-us", value = "Binary Sort in American English"),
 					@UserInterfaceDescription( locale="fr-fr", value = "Binary Sort in French")}			

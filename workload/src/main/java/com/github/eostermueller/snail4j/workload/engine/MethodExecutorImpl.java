@@ -1,11 +1,18 @@
 package com.github.eostermueller.snail4j.workload.engine;
 
 import java.lang.reflect.InvocationTargetException;
+
 import java.lang.reflect.Method;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.github.eostermueller.snail4j.workload.model.MethodWrapper;
 
 public class MethodExecutorImpl implements MethodExecutor {
+//	private @Autowired AutowireCapableBeanFactory beanFactory; 
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+
+
 	private MethodWrapper methodWrapper;
 	private Object instance;
 	private Method myMethod;
@@ -17,7 +24,7 @@ public class MethodExecutorImpl implements MethodExecutor {
 			Class noparams[] = {};
 			Class cls = getMyClass();
 			
-			System.out.println("about to execute II[" + cls.getName() + "]");
+			LOGGER.debug("about to execute II{}",cls.getName());
 			
 			this.myMethod = cls.getDeclaredMethod( this.getMethodWrapper().getMethodName(), noparams);
 			
@@ -63,12 +70,27 @@ public class MethodExecutorImpl implements MethodExecutor {
 	}
 
 	private void instantiate() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		
 		Class cls = this.getMyClass();
+		LOGGER.debug("instantiate{}",cls.getName());
 		
 		if (this.getInstance() == null) {
 			Object object = cls.newInstance();
+			LOGGER.debug("instantiate() newInstance() return object:{}", object );
+			
+			
+//			ApplicationContext ctx = SpringContextHolder.getContext();
+//			LOGGER.debug("instantiate() applicationContext:{}", ctx);
+//			AutowireCapableBeanFactory factory = ctx.getAutowireCapableBeanFactory();
+//			LOGGER.debug("instantiate() return factory from this.applicationContext.getAutowireCapableBeanFactory():{}", factory );
+//			factory.autowireBean(object);
+			
+			//beanFactory.autowireBean(object); // obj will now have its dependencies autowired.			
 			this.setInstance( object );
+			LOGGER.debug("instantiate() object is null:{}", object==null );
 		}
+		LOGGER.debug("instantiate() exit", true );
+
 	}
 
 	@Override
@@ -89,5 +111,6 @@ public class MethodExecutorImpl implements MethodExecutor {
 	public Object getInstance() {
 		return this.instance;
 	}
+
 
 }

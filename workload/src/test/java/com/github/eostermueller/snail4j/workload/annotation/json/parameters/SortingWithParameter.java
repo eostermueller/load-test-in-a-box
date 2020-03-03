@@ -3,7 +3,7 @@ package com.github.eostermueller.snail4j.workload.annotation.json.parameters;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.github.eostermueller.snail4j.workload.annotations.Param;
-import com.github.eostermueller.snail4j.workload.annotations.ProcessingUnit;
+import com.github.eostermueller.snail4j.workload.annotations.Load;
 import com.github.eostermueller.snail4j.workload.annotations.UserInterfaceDescription;
 
 /**
@@ -14,7 +14,7 @@ public class SortingWithParameter {
 	public static final String USE_CASE_NAME = "numericSorting";
 	
 	
-	@ProcessingUnit(
+	@Load(
 			useCase = "numericSorting", 
 			value = {@UserInterfaceDescription("Selection Sort")}
 			)

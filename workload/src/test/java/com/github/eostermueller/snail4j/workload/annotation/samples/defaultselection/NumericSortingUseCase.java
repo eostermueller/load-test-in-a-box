@@ -3,7 +3,7 @@ package com.github.eostermueller.snail4j.workload.annotation.samples.defaultsele
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.github.eostermueller.snail4j.workload.annotations.Param;
-import com.github.eostermueller.snail4j.workload.annotations.ProcessingUnit;
+import com.github.eostermueller.snail4j.workload.annotations.Load;
 import com.github.eostermueller.snail4j.workload.annotations.UserInterfaceDescription;
 
 public class NumericSortingUseCase {
@@ -18,7 +18,7 @@ public class NumericSortingUseCase {
 			
 		return numbersToSort;
 	}
-	@ProcessingUnit(
+	@Load(
 			useCase = "numericSorting", 
 			value = {@UserInterfaceDescription("Binary Sort")}
 			)
@@ -32,7 +32,7 @@ public class NumericSortingUseCase {
 		Sort.BinarySort(numbersToSort, numbersToSort.length);
 	}
 	
-	@ProcessingUnit(
+	@Load(
 			useCase = "numericSorting",
 			value = {@UserInterfaceDescription("Selection Sort")}
 			)
@@ -45,7 +45,7 @@ public class NumericSortingUseCase {
 		
 		Sort.SelectionSort(numbersToSort, numbersToSort.length);
 	}
-	@ProcessingUnit(
+	@Load(
 			useCase = "numericSorting", 
 					selected = true,
 			value = {@UserInterfaceDescription("Insertion Sort")}
@@ -59,7 +59,7 @@ public class NumericSortingUseCase {
 		
 		Sort.InsertionSort(numbersToSort, numbersToSort.length);
 	}
-	@ProcessingUnit(
+	@Load(
 			useCase = "numericSorting", 
 			value = {@UserInterfaceDescription("Merge Sort")}
 			)
@@ -72,7 +72,7 @@ public class NumericSortingUseCase {
 		
 		Sort.MergeSort(numbersToSort, numbersToSort.length);
 	}
-	@ProcessingUnit(
+	@Load(
 			useCase = "numericSorting", 
 			value = {@UserInterfaceDescription("Quick Sort")}
 			)

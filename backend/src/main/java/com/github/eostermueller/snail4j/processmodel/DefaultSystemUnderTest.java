@@ -125,7 +125,19 @@ public class DefaultSystemUnderTest implements SystemUnderTest {
 	public void stop() throws Snail4jException {
 		boolean ynKillFileExistsBefore = false;
 		boolean ynKillFileExistsAfter = true;
+		
+		String wiremockShutdownUrl = getWiremockShutdownUrl();
+		this.shutdownAppViaHttpPost(
+				wiremockShutdownUrl, 
+				"wiremock", 
+				getMessages().getDefaultShutdownMessage(wiremockShutdownUrl, "wiremock"));
 
+		String sutShutdownUrl = getSutShutdownUrl();
+		this.shutdownAppViaHttpPost(
+				sutShutdownUrl, 
+				"sut", 
+				getMessages().getDefaultShutdownMessage(sutShutdownUrl, "sut"));
+		
 		File killFile = this.getConfiguration().getSutKillFile().toFile();
 		ynKillFileExistsBefore = killFile.exists();
 		killFile.delete();
@@ -152,6 +164,59 @@ public class DefaultSystemUnderTest implements SystemUnderTest {
 
 		}
 
+	}
+	private Messages getMessages() throws CannotFindSnail4jFactoryClass {
+		Messages m = DefaultFactory.getFactory().createMessages();
+		return m;
+	}
+	/**
+	 * As documented here:  http://wiremock.org/docs/running-standalone/
+	 * @return
+	 */
+	private String getWiremockShutdownUrl() {
+		
+		String url = 
+				"http://" 
+						+ this.getConfiguration().getSutAppHostname() 
+						+ ":" + this.getConfiguration().getWiremockPort() 
+						+ "__admin/shutdown";
+		LOGGER.debug("wiremock shutdown URL: [" + url + "]");
+		return url;
+	}
+	/**
+	 * As documented here:  http://wiremock.org/docs/running-standalone/
+	 * @return
+	 */
+	private String getSutShutdownUrl() {
+		
+		String url = 
+				"http://" 
+						+ this.getConfiguration().getSutAppHostname() 
+						+ ":" + this.getConfiguration().getSutAppPort() 
+						+ "/actuator/shutdown";
+		LOGGER.debug("sutApp shutdown URL: [" + url + "]");
+		return url;
+	}
+	
+	/**
+	 * @throws Snail4jException 
+	 * @stolenFrom: https://www.mkyong.com/java/how-to-send-http-request-getpost-in-java/
+	 */
+	private void shutdownAppViaHttpPost(String url, String appName, String defaultMessage) throws Snail4jException {
+		
+		DefaultFactory.getFactory().getEventHistory().getEvents().add( Event.create(defaultMessage) );
+
+		HttpPost post = new HttpPost( url );
+
+		String httpResponse = this.getMessages().getDefaultShutdownMessage(url, appName);
+	       
+	        try (CloseableHttpClient httpClient = HttpClients.createDefault();
+	             CloseableHttpResponse response = httpClient.execute(post)) {
+
+	            httpResponse = EntityUtils.toString(response.getEntity() );
+	        } catch (ParseException | IOException e) {
+				throw new Snail4jException(e, httpResponse);
+			}		
 	}
 
 
