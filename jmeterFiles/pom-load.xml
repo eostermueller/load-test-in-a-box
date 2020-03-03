@@ -23,8 +23,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<jmeter.version>3.1</jmeter.version>
-		<jmeter.maven.plugin.version>2.1.0</jmeter.maven.plugin.version>
+		<jmeter.version>5.2.1</jmeter.version>
+		<jmeter.maven.plugin.version>3.0.0</jmeter.maven.plugin.version>
 		<jmeter.lib.plugins.version>1.4.0</jmeter.lib.plugins.version>
 		<jmeter.json.plugins.version>2.6</jmeter.json.plugins.version>
 	</properties>
@@ -38,6 +38,14 @@
 						<artifactId>jmeter-maven-plugin</artifactId>
 						<version>${jmeter.maven.plugin.version}</version>
 						<executions>
+							<!-- Generate JMeter configuration -->
+							<execution>
+								<id>configuration</id>
+								<goals>
+									<goal>configure</goal>
+								</goals>
+							</execution>
+						
 							<execution>
 								<id>jmeter-tests-gui</id>
 								<phase>verify</phase>
@@ -82,6 +90,14 @@
 						<artifactId>jmeter-maven-plugin</artifactId>
 						<version>${jmeter.maven.plugin.version}</version>
 						<executions>
+							<!-- Generate JMeter configuration -->
+							<execution>
+								<id>configuration</id>
+								<goals>
+									<goal>configure</goal>
+								</goals>
+							</execution>
+						
                             <execution>
                                 <id>jmeter-tests</id>
                                 <goals>

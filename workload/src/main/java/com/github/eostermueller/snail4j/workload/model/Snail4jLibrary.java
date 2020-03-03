@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
 import com.github.eostermueller.snail4j.workload.OnlyStringAndLongAndIntAreAllowedParameterTypes;
-import com.github.eostermueller.snail4j.workload.annotations.ProcessingUnit;
+import com.github.eostermueller.snail4j.workload.annotations.Load;
 
 import io.github.classgraph.AnnotationInfo;
 import io.github.classgraph.ClassGraph;
@@ -37,7 +37,7 @@ public class Snail4jLibrary {
 	}
 	public static void loadAnnotations(ScanResult scanResult, UseCases snail4jScanResult) throws Snail4jWorkloadException, OnlyStringAndLongAndIntAreAllowedParameterTypes {
     	ClassInfoList puClassInfoList = scanResult.getClassesWithMethodAnnotation(
-    			ProcessingUnit.class.getName().toString()
+    			Load.class.getName().toString()
     			);
         for (ClassInfo puClassInfo : puClassInfoList) {
         	
@@ -48,9 +48,9 @@ public class Snail4jLibrary {
         		
         		for( MethodInfo methodInfo : methodInfoList) {
         			
-        			if (methodInfo.hasAnnotation(ProcessingUnit.class.getName())) {
+        			if (methodInfo.hasAnnotation(Load.class.getName())) {
         				
-        				AnnotationInfo annotationInfo = methodInfo.getAnnotationInfo(ProcessingUnit.class.getName());
+        				AnnotationInfo annotationInfo = methodInfo.getAnnotationInfo(Load.class.getName());
     	                ProcessingUnitImpl processingUnit 
     	                	= DefaultBuilder.getBuilder()
     	                	.createProcessingUnit(

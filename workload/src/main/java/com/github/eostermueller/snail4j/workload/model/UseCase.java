@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.github.eostermueller.snail4j.workload.annotations.ProcessingUnit;
+import com.github.eostermueller.snail4j.workload.annotations.Load;
 
 public class UseCase  {
 	List<ProcessingUnitImpl> processingUnits = new CopyOnWriteArrayList<ProcessingUnitImpl>();

@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
 import com.github.eostermueller.snail4j.workload.OnlyStringAndLongAndIntAreAllowedParameterTypes;
 import com.github.eostermueller.snail4j.workload.annotations.Param;
-import com.github.eostermueller.snail4j.workload.annotations.ProcessingUnit;
+import com.github.eostermueller.snail4j.workload.annotations.Load;
 import com.github.eostermueller.snail4j.workload.annotations.UserInterfaceDescription;
 
 import io.github.classgraph.AnnotationInfo;
@@ -35,7 +35,7 @@ public class DefaultBuilder implements Builder {
 	@Override 
 	public void addDescriptions(ProcessingUnitImpl processingUnit, AnnotationInfo annotationInfo) throws Snail4jWorkloadException {
 		AnnotationParameterValueList parms = annotationInfo.getParameterValues();
-		Object[] uiDescriptionAnnArray = (Object[]) parms.get(ProcessingUnit.VALUE);
+		Object[] uiDescriptionAnnArray = (Object[]) parms.get(Load.VALUE);
 		for( Object ann : uiDescriptionAnnArray ) {
 			AnnotationInfo annInfo = (AnnotationInfo) ann;
 			//String descr = (String) annInfo.getParameterValues().get(UserInterfaceDescription.VALUE);
@@ -72,15 +72,15 @@ public class DefaultBuilder implements Builder {
 			processingUnit = new ProcessingUnitImpl();
 			AnnotationParameterValueList parms = annotationInfo.getParameterValues();
 			
-			String useCase = (String)parms.get(ProcessingUnit.USE_CASE);
+			String useCase = (String)parms.get(Load.USE_CASE);
 			if (useCase==null || "".equals(useCase)) {
-				String error = "The [" + ProcessingUnit.class.getSimpleName() + "] annotation for class [" + methodWrapper.getDeclaringClassName()  + "] must have an attribute named [" + ProcessingUnit.USE_CASE + "]";
+				String error = "The [" + Load.class.getSimpleName() + "] annotation for class [" + methodWrapper.getDeclaringClassName()  + "] must have an attribute named [" + Load.USE_CASE + "]";
 				throw new Snail4jWorkloadException(error);
 			}
 			
 			processingUnit.setUseCaseName( useCase );
 			
-			boolean selected = (boolean)parms.get(ProcessingUnit.SELECTED);
+			boolean selected = (boolean)parms.get(Load.SELECTED);
 			processingUnit.setSelected(selected);
 			
 			processingUnit.setMethodWrapper(methodWrapper);
@@ -188,7 +188,7 @@ public class DefaultBuilder implements Builder {
 	@Override 
 	public void addDescriptions(MethodParameter methodParameter, AnnotationInfo annotationInfo) throws Snail4jWorkloadException {
 		AnnotationParameterValueList parms = annotationInfo.getParameterValues();
-		Object[] uiDescriptionAnnArray = (Object[]) parms.get(ProcessingUnit.VALUE);
+		Object[] uiDescriptionAnnArray = (Object[]) parms.get(Load.VALUE);
 		for( Object ann : uiDescriptionAnnArray ) {
 			AnnotationInfo annInfo = (AnnotationInfo) ann;
 			//String descr = (String) annInfo.getParameterValues().get(UserInterfaceDescription.VALUE);

@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.github.eostermueller.snail4j.workload.annotations.Param;
-import com.github.eostermueller.snail4j.workload.annotations.ProcessingUnit;
+import com.github.eostermueller.snail4j.workload.annotations.Load;
 import com.github.eostermueller.snail4j.workload.annotations.UserInterfaceDescription;
 
 /**

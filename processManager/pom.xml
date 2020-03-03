@@ -13,7 +13,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <maven.failsafe.version>2.22.2</maven.failsafe.version>
     <snail4j.wiremock.port>8081</snail4j.wiremock.port>
     <slf4jVersion>1.6.1</slf4jVersion>
-    <h2.maven.plugin.version>1.0</h2.maven.plugin.version>
+    <h2.maven.plugin.version>0.1_1.4.191</h2.maven.plugin.version>
     <snail4j.h2.port>9093</snail4j.h2.port>
     <snail4j.sut.port>8080</snail4j.sut.port>
 
@@ -146,13 +146,15 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               <tcpHealthcheckPort>${snail4j.h2.port}</tcpHealthcheckPort>
   -->
               <arguments>
-                <argument>mvn${script.extension}</argument>
+		      <argument>mvn${script.extension}</argument>
+		      <argument>-debug</argument>
+		      <argument>-Dh2Version=1.4.191</argument>
                 <argument>${snail4j.maven.offline.passthru}</argument>
                 <argument>${snail4j.maven.repo.passthru}</argument>
                 <argument>-Dh2.port=${snail4j.h2.port}</argument>
-                <argument>
-                -Dh2.baseDirectory=${user.home}/.snail4j/data</argument>
-                <argument>com.edugility:h2-maven-plugin:${h2.maven.plugin.version}:spawn</argument>
+			<!-- <argument>-Dh2.baseDirectory=${user.home}/.snail4j/data</argument> -->
+			<argument>-Dh2.baseDirectory=C:/Users/eoste/.snail4j/data</argument>
+                <argument>com.github.eostermueller:h2-maven-plugin:${h2.maven.plugin.version}:spawn</argument>
               </arguments>
             </configuration>
           </execution>
@@ -195,7 +197,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
       </plugin>
 
       <plugin>
-         <groupId>com.edugility</groupId>
+         <groupId>com.github.eostermueller</groupId>
          <artifactId>h2-maven-plugin</artifactId>
          <version>${h2.maven.plugin.version}</version>
          <configuration>

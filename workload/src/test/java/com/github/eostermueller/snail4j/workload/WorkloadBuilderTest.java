@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import com.github.eostermueller.snail4j.workload.DefaultFactory;
 import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
-import com.github.eostermueller.snail4j.workload.annotations.ProcessingUnit;
+import com.github.eostermueller.snail4j.workload.annotations.Load;
 import com.github.eostermueller.snail4j.workload.engine.MethodExecutor;
 import com.github.eostermueller.snail4j.workload.engine.Workload;
 import com.github.eostermueller.snail4j.workload.engine.WorkloadBuilder;
