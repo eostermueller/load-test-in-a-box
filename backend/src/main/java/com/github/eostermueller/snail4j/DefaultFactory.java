@@ -58,6 +58,15 @@ public class DefaultFactory implements Factory {
 	 */
 	private volatile Configuration configuration;
 	
+	/**
+	 * Very low overhead (no more than a dozen a minute, single user changing configuration), so sync won't cause problem slowdowns.
+	 */
+	@Override
+	public void setConfiguration(Configuration cfg) {
+		synchronized (this.configuration) {
+			this.configuration = cfg;
+		}
+	}
 	@Override
 	   public Configuration getConfiguration() throws Snail4jException {
 		   return getConfiguration( new BootstrapConfig() );

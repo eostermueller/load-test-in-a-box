@@ -7,6 +7,10 @@ import java.util.List;
 import org.assertj.core.util.Arrays;
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
@@ -38,6 +42,25 @@ public class CommandLineTester {
 		String[] expected = { "java", "-classpath", ".", "MyClass" };
 		assertArrayEquals(expected,cmdLine.getUnprocessedCommandLine() );
 		assertArrayEquals(expected,cmdLine.getProcessedCommandLine()   );
+	}
+	/**
+	 * Just testing the API -- not testing any snail4j code quite yet :-)
+	 * This jackson API wants to instantiate the target class.
+	 * That won't work for snail4j, where the instance (DefaultConfiguration) will already exist.
+	 * @stolenFrom: https://www.baeldung.com/jackson-json-node-tree-model
+	 * @throws JsonProcessingException 
+	 */
+	@Test
+	public void canApplyNameValuePairToConfig() throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper(); //Since creation of an ObjectMapper object is expensive, it's recommended that the same one should be reused for multiple operations.
+		 JsonNode node = mapper.createObjectNode();
+		    ((ObjectNode) node).put("id", 2016);
+		    ((ObjectNode) node).put("name", "baeldung.com");
+		 
+		    NodeBean toValue = mapper.treeToValue(node, NodeBean.class);
+		 
+		    assertEquals(2016, toValue.getId());
+		    assertEquals("baeldung.com", toValue.getName());		
 	}
 	@Test
 	public void canFindAndResolveVariable() throws ConfigVariableNotFoundException, Snail4jException {
@@ -90,4 +113,34 @@ public class CommandLineTester {
 
 	}
 
+}
+class NodeBean {
+    private int id;
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	private String name;
+ 
+    public NodeBean() {
+    }
+ 
+    public NodeBean(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+ 
+    // standard getters and setters
 }

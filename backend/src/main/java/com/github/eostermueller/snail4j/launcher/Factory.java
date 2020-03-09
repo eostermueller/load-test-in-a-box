@@ -27,6 +27,7 @@ public interface Factory {
 	EventHistory getEventHistory();
 
 	Configuration getConfiguration() throws Snail4jException;
+	void setConfiguration(Configuration cfg) throws Snail4jException;
 
 	ProcessModelBuilder createProcessModelBuilder() throws Snail4jException;
 
