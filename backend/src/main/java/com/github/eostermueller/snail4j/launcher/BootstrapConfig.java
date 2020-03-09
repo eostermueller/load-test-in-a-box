@@ -8,7 +8,7 @@ import com.github.eostermueller.snail4j.DefaultFactory;
 
 /**
  * just the bare minimum required to find and read the snail4j.json config file.
- * Currently, user cannot change any of these settings.
+ * Currently, user cannot change any of these settings, like ".snail4j" folder and "snail4j.json" config file name.
  * @author erikostermueller
  *
  */

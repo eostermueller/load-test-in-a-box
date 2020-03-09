@@ -15,14 +15,12 @@ import org.junit.jupiter.api.condition.OS;
 public class TestTheTestConfiguration {
 
 	
-	public static final String unix_ABS_PATH_TO_TJP = "/Users/erikostermueller/Documents/src/jdist/tjpUnzipped/tjp";
+	public static final String unix_ABS_PATH_TO_TJP = "/Users/janedoe/Documents/src/jdist/tjpUnzipped/tjp";
 	public static final String unix_JAVA_HOME = "/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home";
-	private static final String LITTLE_MOCK_MASTER = "littleMock-master";
 	
 	private static final String JAVA_PERF_TROUBLESHOOTING_MASTER = "javaPerformanceTroubleshooting-master";
-	private static final String MAVEN_HOME_SUFFIX = "maven/apache-maven-3.5.4";
 	
-	private static final String win_ABS_PATH_TO_PG = "C:\\UseXrs\\erikXostermueller\\Documents\\src\\jdist\\tjpUnzipped\\tjp";
+	private static final String win_ABS_PATH_TO_PG = "C:\\UseXrs\\janedoe\\Documents\\src\\jdist\\tjpUnzipped\\tjp";
 	private static final String win_JAVA_HOME = "C:/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home";
 	
 	@Test

@@ -10,4 +10,7 @@ public interface ConfigReaderWriter {
 
 	Configuration read(File configFile, Class configurationClass) throws Snail4jException;
 
+	String toJson(Configuration cfg) throws Snail4jException;
+
+	Configuration toObject(String json, Class cfgClass) throws Snail4jException;
 }
