@@ -91,7 +91,7 @@ public class OsUtils {
 	        }
 	        LOGGER.debug("Just executed:     " + windowsCommand);
 	        LOGGER.debug("OsResult.exitCode: "+osResult.exitCode);
-	        LOGGER.debug(osResult.stdout);
+	        //tons of detail here!!!! LOGGER.debug(osResult.stdout);
 	        return osResult;
 	}
 	public static OsResult executeProcess_bash(String cmd) throws Snail4jException {

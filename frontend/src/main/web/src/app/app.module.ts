@@ -19,6 +19,9 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ConfigService } from './services/config.service';
+import { APP_INITIALIZER } from '@angular/core';
+
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
@@ -53,6 +56,7 @@ import { UseCasesComponent } from './use-cases/use-cases.component';
 import { UseCaseCardComponent } from './use-case-card/use-case-card.component';
 import { StartStopComponent } from './start-stop/start-stop.component';
 import { HealthChecksComponent } from './health-checks/health-checks.component';
+import { UseCaseService } from './use-case.service';
 
   const appRoutes: Routes = [
     /**
@@ -77,7 +81,6 @@ import { HealthChecksComponent } from './health-checks/health-checks.component';
   declarations: [
     AppComponent,
     NavComponent,
-//    WorkloadComponent,
     OneComponent,
     LoadGenMetricsComponent,
     TrafficJvmParametersComponent,
@@ -91,6 +94,7 @@ import { HealthChecksComponent } from './health-checks/health-checks.component';
     HealthChecksComponent,
   ],
   imports: [
+    HttpClientModule,
     RouterModule.forRoot(appRoutes),
     CoreModule,
     BrowserModule,
@@ -127,7 +131,17 @@ import { HealthChecksComponent } from './health-checks/health-checks.component';
   //     useClass: GlobalErrorHandler
   //   }    
   // ],
-  bootstrap: [AppComponent]
+  entryComponents: [UseCaseService],
+  bootstrap: [AppComponent],
+  providers: [ConfigService,
+    {
+      provide: APP_INITIALIZER,
+      // useFactory: (configService: ConfigService) => function () { return configService.load(); },
+      useFactory: (configService: ConfigService) => configService.loader,
+      deps: [ConfigService],
+      multi: true
+    }]
+ 
 })
 export class AppModule {
 }
