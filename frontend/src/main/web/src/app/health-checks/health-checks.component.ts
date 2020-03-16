@@ -46,7 +46,7 @@ export class HealthChecksComponent implements OnInit {
 //      console.log('##@ top of ngOnInit')
       try {
 //        console.log('##@ top of ngOnInit2')
-        this.actuatorHealthCheck$ = timer(0, 1000).pipe(
+        this.actuatorHealthCheck$ = timer(0, 5000).pipe(
           concatMap(_ => unparsedActuatorResponse$),
           map(
               (response:

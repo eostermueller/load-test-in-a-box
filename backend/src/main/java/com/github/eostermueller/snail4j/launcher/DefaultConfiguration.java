@@ -48,7 +48,7 @@ public class DefaultConfiguration implements Configuration {
 
 			this.setSutAppHome(			Paths.get( this.getSnail4jHome().toString() , "sutApp") );
 			this.setSutAppZipFileName ("sutApp.zip");
-			this.setSutAppPort		  (8080);
+			this.setSutAppPort		  (8079);
 			this.setSutAppHostname	  ("localhost");
 			
 

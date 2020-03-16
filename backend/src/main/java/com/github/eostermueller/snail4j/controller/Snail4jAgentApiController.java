@@ -80,6 +80,7 @@ public class Snail4jAgentApiController {
 		
 		defaultConfigReaderWriter.write(new BootstrapConfig().getFullPathToConfigFile().toFile(), cfg);
 		DefaultFactory.getFactory().setConfiguration(cfg);
+		LOGGER.info("call to snail4j/config");
 
 		return apiResponse;
 		
