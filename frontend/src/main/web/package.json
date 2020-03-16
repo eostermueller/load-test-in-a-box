@@ -12,7 +12,7 @@
   "private": true,
   "dependencies": {
     "@angular-devkit/build-optimizer": "^0.800.6",
-    "@angular-devkit/schematics": "^8.1.1",
+    "@angular-devkit/schematics": "^8.3.25",
     "@angular/animations": "^8.1.1",
     "@angular/cdk": "^8.0.2",
     "@angular/common": "^8.1.1",
