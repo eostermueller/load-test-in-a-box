@@ -7,8 +7,14 @@ import { SutLaunchStatusService } from '../services/sut-launch-status.service';
 import { SutLauncherService }     from '../services/sut-launcher.service';
 
 import { LaunchStatus }           from '../services/LaunchStatus';
-import { MatCheckboxChange } from '@angular/material';
-import { MatCheckbox } from '@angular/material';
+
+/**
+ * "ng update" to angular 9 (https://update.angular.io/#8.0:9.0l3) did not upgrade these imports
+ * to include the component specific end to '@angular/material'
+ */
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatCheckbox } from '@angular/material/checkbox';
+
 import { ViewChild } from '@angular/core'; 
 import { Observable } from 'rxjs';
 import { ApiResponseInterface } from '../model/api.response.interface';

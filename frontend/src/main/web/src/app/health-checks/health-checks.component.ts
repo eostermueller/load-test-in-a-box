@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 //import { AppModule } from '../../app/app.module';
 
 import { HttpClient } from '@angular/common/http';
-import { timer } from 'rxjs/observable/timer';
+import { timer } from 'rxjs';
+
 import { concatMap, map, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { SutLaunchStatusService } from '../services/sut-launch-status.service';
 import { LoadGeneratorLaunchStatusService } from '../services/load-generator-launch-status-service';
 import { LaunchStatus }           from '../services/LaunchStatus';

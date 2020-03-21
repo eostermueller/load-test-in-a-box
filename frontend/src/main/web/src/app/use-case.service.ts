@@ -1,23 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {ApiResponse} from './model/api.response';
 import {Workload} from './model/workload';
-import {ConfigService} from './services/config.service';
 import { ApiResponseInterface } from './model/api.response.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UseCaseService {
-  config = this.configService.config;
-  sutHostAndPort : string;
 
-  constructor(private http: HttpClient, private configService: ConfigService) {
-    console.log('UseCaseService.constructor() before:'  + this.sutHostAndPort);
-    this.sutHostAndPort = 'http://localhost:' + this.config.sutAppPort;
-    console.log('after:'  + this.sutHostAndPort);
+  constructor(private http: HttpClient) {
   }
   /**
    * Alternative approach.  See how the Race class
@@ -32,20 +26,24 @@ export class UseCaseService {
     }
    * 
    */
-
-      getUseCases() :Observable<any> {
+    getBaseUrl(host:string, port:number) :string{
+      var baseUrl:string = 'http://' + host + ':' + port;
+      console.log('Base url for useCases [' + baseUrl + ']');
+      return baseUrl;
+    }
+      getUseCases(host:string, port:number) :Observable<any> {
         console.log( 'oct 19: 02 getUseCases');
 
-        return this.http.get(this.sutHostAndPort + '/traffic/useCases');
+        return this.http.get( this.getBaseUrl(host,port) + '/traffic/useCases');
           // }));
       }
 
-      getWorkload() :Observable<any> {
-        return this.http.get(this.sutHostAndPort + '/traffic/workload');
+      getWorkload(host:string,port:number) :Observable<any> {
+        return this.http.get(this.getBaseUrl(host,port) + '/traffic/workload');
       }
 
-      updateWorkload(workload:Workload): Observable<ApiResponseInterface> {
+      updateWorkload(host:string,port:number,workload:Workload): Observable<ApiResponseInterface> {
         console.log( '... 01 updateWorkload oct 20: ' + JSON.stringify(workload));
-        return this.http.put<ApiResponseInterface>(this.sutHostAndPort + '/traffic/workload', workload);        
+        return this.http.put<ApiResponseInterface>(this.getBaseUrl(host,port) + '/traffic/workload', workload);        
       }
 }

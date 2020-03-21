@@ -1,15 +1,27 @@
 import { Component, OnInit, ViewChild, Input, AfterViewInit } from '@angular/core';
 import {UseCaseService} from './../use-case.service';
-import {PageEvent, MatPaginator} from '@angular/material';
+
+
+/**
+ * "ng update" to angular 9 (https://update.angular.io/#8.0:9.0l3) did not upgrade these imports
+ * to include the component specific end to '@angular/material'
+ */
+import { MatPaginator } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
+
+
 import { ChangeDetectorRef, ViewChildren, QueryList } from '@angular/core';
 import {DataSource} from '@angular/cdk/collections';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/merge';
+import {BehaviorSubject} from 'rxjs';
+import {Observable} from 'rxjs';
+import {merge} from 'rxjs'
+//import 'rxjs/add/observable/merge';
 import { map } from 'rxjs/operators';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { stringify } from '@angular/compiler/src/util';
 import {Workload} from '../model/workload';
+import {ConfigService} from '../services/config.service';
+import {ConfigModel} from '../services/config.model';
 
 import { SutLaunchStatusService } from '../services/sut-launch-status.service';
 
@@ -39,6 +51,8 @@ export class Database { // {{{
   styleUrls: ['./use-cases.component.scss']
 })
 export class UseCasesComponent implements OnInit, AfterViewInit {
+  config: ConfigModel = this.configService.config;
+
   ngAfterViewInit(): void {
     throw new Error("Method not implemented.");
   }
@@ -73,7 +87,8 @@ export class UseCasesComponent implements OnInit, AfterViewInit {
 constructor(
   private useCaseService : UseCaseService, 
   private sutLaunchStatusService: SutLaunchStatusService,
-  private cdRef:ChangeDetectorRef) { 
+  private cdRef:ChangeDetectorRef,
+  private configService: ConfigService) { 
 //  debugger
  }
 
@@ -111,7 +126,10 @@ public updateWorkload() {
      for (let entry of myArray) {
         workload.useCases.push( entry[1] )
      }
-     this.useCaseService.updateWorkload(workload).subscribe();
+     this.useCaseService.updateWorkload(
+       this.config.sutAppHostname,
+       this.config.sutAppPort,
+       workload).subscribe();
    
 }
 public useCaseDeSelectionListener($event:string) {
@@ -134,7 +152,10 @@ dispUseCases(ctx:string) {
 
       var _me = this;
       _me.useCaseInquiryInProgress = true;
-          this.useCaseService.getUseCases().subscribe(data=>{
+          this.useCaseService.getUseCases(
+            this.config.sutAppHostname,
+            this.config.sutAppPort,     
+          ).subscribe(data=>{
             console.log("getUseCases() just returned!!");
             console.log(data);
             _me.useCaseInquiryInProgress = false;
@@ -193,7 +214,10 @@ dispUseCases(ctx:string) {
   /**
    * result.useCases[x].processingUnits[x].selected
    */
-  this.useCaseService.getWorkload().subscribe(data=>{
+  this.useCaseService.getWorkload(
+    this.config.sutAppHostname,
+    this.config.sutAppPort,
+  ).subscribe(data=>{
             this.reSetUseCaseSelection(data);            
           });
   }  
@@ -231,8 +255,9 @@ export class MyDataSource extends DataSource<any> {
       this.paginator.page
     ];
 
-    return Observable.merge(displayDataChanges).pipe(map(() => {
-      let data : any[];
+//    return Observable.merge(displayDataChanges).pipe(map(() => {
+    return merge(displayDataChanges).pipe(map(() => {
+  let data : any[];
       this.dataBase.dataChange.subscribe(xdata=>{
         // console.log(data.data);
         data=Object.values(xdata);

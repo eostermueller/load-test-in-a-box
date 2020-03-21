@@ -18,7 +18,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
-import { MatNativeDateModule } from '@angular/material';
+/**
+ * "ng update" to angular 9 (https://update.angular.io/#8.0:9.0l3) did not upgrade these imports
+ * to include the component specific end to '@angular/material'
+ */
+import { MatNativeDateModule } from '@angular/material/core';
+
 // import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 //
