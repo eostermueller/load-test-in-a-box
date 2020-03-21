@@ -44,7 +44,7 @@
 					</execution>
 
 					<execution>
-						<id>npm run build</id>
+						<id>npm run build --verbose</id>
 						<goals>
 							<goal>npm</goal>
 						</goals>

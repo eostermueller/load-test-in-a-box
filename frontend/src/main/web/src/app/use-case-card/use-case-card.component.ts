@@ -1,5 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MatCheckboxChange, MatRadioButton, MatRadioChange } from '@angular/material';
+
+/**
+ * "ng update" to angular 9 (https://update.angular.io/#8.0:9.0l3) did not upgrade these imports
+ * to include the component specific end to '@angular/material'
+ */
+
+import { MatCheckboxChange  } from '@angular/material/checkbox';
+import { MatRadioButton } from '@angular/material/radio';
+import { MatRadioChange } from '@angular/material/radio';
+
+
 import { Output, EventEmitter } from '@angular/core';
 
 @Component({

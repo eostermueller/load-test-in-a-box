@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {ApiResponse} from '../model/api.response';

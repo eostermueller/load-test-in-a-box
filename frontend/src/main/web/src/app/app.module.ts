@@ -24,19 +24,20 @@ import { APP_INITIALIZER } from '@angular/core';
 
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+/**
+ * "ng update" to angular 9 (https://update.angular.io/#8.0:9.0l3) did not upgrade these imports
+ * to include the component specific end to '@angular/material'
+ */
+import {  MatToolbarModule } from '@angular/material/toolbar';
+import {  MatButtonModule } from '@angular/material/button';
+import {  MatIconModule } from '@angular/material/icon';
+import {  MatCardModule } from '@angular/material/card';
+import {  MatSidenavModule } from '@angular/material/sidenav';
+import {  MatListModule } from '@angular/material/list';
+import {  MatPaginatorModule } from '@angular/material/paginator';
+import {  MatTabsModule } from '@angular/material/tabs';
+import {  MatInputModule } from '@angular/material/input';
 
-import { MatToolbarModule,
-          MatButtonModule,
-          MatIconModule,
-          MatCardModule,
-          MatSidenavModule,
-          MatListModule,
-          MatPaginatorModule,
-          MatTabsModule,
-          MatInputModule,
-           } from '@angular/material';
-//import { WorkloadComponent } from './workload/workload.component';
-//import { GlobalErrorHandler } from './GlobalErrorHandler';
 import { OneComponent } from './one/one.component';
 
 import { RouterModule, Routes } from '@angular/router';
@@ -49,7 +50,7 @@ import {MatRadioModule} from '@angular/material/radio';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import { MatPaginationDemoComponent } from './mat-pagination-demo/mat-pagination-demo.component';
+//import { MatPaginationDemoComponent } from './mat-pagination-demo/mat-pagination-demo.component';
 import { DemoCardComponent } from './demo-card/demo-card.component';
 
 import { UseCasesComponent } from './use-cases/use-cases.component';
@@ -88,7 +89,7 @@ import { UseCaseService } from './use-case.service';
     UseCasesComponent,
     UseCaseCardComponent,
     DeploymentComponent,
-    MatPaginationDemoComponent,
+//    MatPaginationDemoComponent,
     DemoCardComponent,
     StartStopComponent,
     HealthChecksComponent,
@@ -131,8 +132,8 @@ import { UseCaseService } from './use-case.service';
   //     useClass: GlobalErrorHandler
   //   }    
   // ],
-  entryComponents: [UseCaseService],
-  bootstrap: [AppComponent],
+//  entryComponents: [UseCaseService],
+  bootstrap: [AppComponent, UseCasesComponent],
   providers: [ConfigService,
     {
       provide: APP_INITIALIZER,
