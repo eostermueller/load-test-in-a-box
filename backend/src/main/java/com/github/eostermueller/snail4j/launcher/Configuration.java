@@ -103,6 +103,8 @@ public interface Configuration {
 	
 	public String getWindowsKillerProcess();
 	public void setWindowsKillerProcess(String windowsKillerProcess);
+	void setGlowrootPort(int i);
+	public int getGlowrootPort();
 
 
 

@@ -62,9 +62,11 @@ echo Just created data.zip.
 ls -lart $TARGET/data.zip
 
 
+echo Downloading Maven from $MVN_URL
 curl -o $TARGET/${MVN_ZIP_NAME} -O $MVN_URL
 
 
+echo Downloading Glowroot from $GLOWROOT_BIN
 # without the -L, curl doesn't handle the REDIRECT that github uses
 curl -L -o $TARGET/glowroot-0.13.5-dist.zip -O $GLOWROOT_BIN
 

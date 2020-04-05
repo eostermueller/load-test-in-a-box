@@ -179,7 +179,7 @@ public class DefaultSystemUnderTest implements SystemUnderTest {
 				"http://" 
 						+ this.getConfiguration().getSutAppHostname() 
 						+ ":" + this.getConfiguration().getWiremockPort() 
-						+ "__admin/shutdown";
+						+ "/__admin/shutdown";
 		LOGGER.debug("wiremock shutdown URL: [" + url + "]");
 		return url;
 	}

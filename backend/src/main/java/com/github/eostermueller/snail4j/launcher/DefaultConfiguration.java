@@ -16,6 +16,7 @@ public class DefaultConfiguration implements Configuration {
 	private static final String SPACE = " ";
 	private String sutAppZipFileName;
 	private int sutAppPort;
+	
 	private long loadGenerationThreads;
 	private long loadGenerationRampupTimeInSeconds;
 	private long loadGenerationDurationInSeconds;
@@ -50,6 +51,7 @@ public class DefaultConfiguration implements Configuration {
 			this.setSutAppZipFileName ("sutApp.zip");
 			this.setSutAppPort		  (8079);
 			this.setSutAppHostname	  ("localhost");
+			this.setGlowrootPort(4001);
 			
 
 			this.setSutKillFile(        Paths.get( this.getSnail4jHome().toString() , "deleteMeToStopSnail4jSut.txt") );
@@ -124,6 +126,7 @@ public class DefaultConfiguration implements Configuration {
 	 		sb2.append(SPACE);sb2.append("-Dsnail4j.wiremock.port=#{wiremockPort}");
 	 		sb2.append(SPACE);sb2.append("-Dsnail4j.h2.port=#{h2Port}");
 	 		sb2.append(SPACE);sb2.append("-Dsnail4j.sut.port=#{sutAppPort}");
+	 		sb2.append(SPACE);sb2.append("-Dsnail4j.glowroot.port=#{glowrootPort}");
 			sb2.append(SPACE);sb2.append("verify");
 			this.setProcessManagerLaunchCmd( sb2.toString() );
 			
@@ -528,6 +531,7 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	private String glowrootZipFileName;
 	private String wiremockStopStdoutLogFileName;
 	private String windowsKillerProcess;
+	private int glowrootPort;
 
 
 	@Override
@@ -867,6 +871,16 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	public void setWiremockStopStdoutLogFileName(String val) {
 		this.wiremockStopStdoutLogFileName = val;
 		
+	}
+
+
+	@Override
+	public void setGlowrootPort(int i) {
+		this.glowrootPort = i;
+	}
+	@Override
+	public int getGlowrootPort() {
+		return this.glowrootPort;
 	}
 
 

@@ -208,10 +208,9 @@ public class TestTheTestConfiguration {
 		TestConfiguration testCfg = new TestConfiguration(tjpHome, javaHome);
 		testCfg.setMavenOnline(true);
 		testCfg.setSnail4jMavenRepo(false);
-		
-		
-		String expectedLaunch = TestConfiguration.MAVEN_EXE_PATH + " -Dsnail4j.wiremock.port=#{wiremockPort} -Dsnail4j.h2.port=#{h2Port} -Dsnail4j.sut.port=#{sutAppPort} verify";
-		String expectedLaunchWithSnail4jMavenRepo = TestConfiguration.MAVEN_EXE_PATH + " -Dsnail4j.maven.repo.passthru=-Dmaven.repo.local=#{mavenRepositoryHome} -Dmaven.repo.local=#{mavenRepositoryHome} -Dsnail4j.wiremock.port=#{wiremockPort} -Dsnail4j.h2.port=#{h2Port} -Dsnail4j.sut.port=#{sutAppPort} verify";
+				
+		String expectedLaunch = TestConfiguration.MAVEN_EXE_PATH + " -Dsnail4j.wiremock.port=#{wiremockPort} -Dsnail4j.h2.port=#{h2Port} -Dsnail4j.sut.port=#{sutAppPort} -Dsnail4j.glowroot.port=#{glowrootPort} verify";
+		String expectedLaunchWithSnail4jMavenRepo = TestConfiguration.MAVEN_EXE_PATH + " -Dsnail4j.maven.repo.passthru=-Dmaven.repo.local=#{mavenRepositoryHome} -Dmaven.repo.local=#{mavenRepositoryHome} -Dsnail4j.wiremock.port=#{wiremockPort} -Dsnail4j.h2.port=#{h2Port} -Dsnail4j.sut.port=#{sutAppPort} -Dsnail4j.glowroot.port=#{glowrootPort} verify";
 		System.out.println("ex: " + expectedLaunchWithSnail4jMavenRepo);
 		
 		Assertions.assertEquals(expectedLaunch, testCfg.getProcessManagerLaunchCmd());
