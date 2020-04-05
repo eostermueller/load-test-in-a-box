@@ -2,7 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.eostermueller.snail4j</groupId>
   <artifactId>systemUnderTest</artifactId>
@@ -176,12 +175,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               <tcpHealthcheckPort>8080</tcpHealthcheckPort>
   -->
               <arguments>
-                <argument>mvn${script.extension}</argument>
-                <argument>${snail4j.maven.offline.passthru}</argument>
-                <argument>${snail4j.maven.repo.passthru}</argument>
-                <argument>-Dspring-boot.run.arguments=--server.port=${snail4j.sut.port}</argument>
-                <argument>-Dspring-boot.run.jvmArguments="-javaagent:${user.home}/.snail4j/glowroot/glowroot/glowroot.jar"</argument>
-                <arguments>spring-boot:run</arguments>
+				<argument>cmd.exe</argument>
+				<argument>/C</argument>
+                <argument>mvn -e -X ${snail4j.maven.offline.passthru} ${snail4j.maven.repo.passthru} -Dspring-boot.run.fork=true -Dspring-boot.run.jvmArguments="-Dglowroot.agent.port=${snail4j.glowroot.port} -Xmx1024m -XX:NewSize=512m -XX:MaxNewSize=512m" -Dspring-boot.run.agents=${user.home}/.snail4j/glowroot/glowroot/glowroot.jar -Dspring-boot.run.arguments=--server.port=${snail4j.sut.port} spring-boot:run</argument>
+			<!-- @stolenFrom: https://stackoverflow.com/a/46628861/2377579 -->
+			<!-- @stolenFrom: http://myjavaadventures.com/blog/2018/07/21/spring-boot-pass-arguments/ -->
+			<!-- <argument>-Dspring-boot.run.jvmArguments="-javaagent:${user.home}/.snail4j/glowroot/glowroot/glowroot.jar,-Dglowroot.agent.port=${snail4j.glowroot.port}"</argument> -->
               </arguments>
             </configuration>
           </execution>
@@ -269,10 +268,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 					                <outputfilterchain>
 					                	<linecontainsregexp>
 											<!-- some greedy regexp to identy windows path, but it looks more clear than a simple .+ -->
-						                    <regexp pattern="org\.codehaus\.plexus\.classworlds\.launcher\.Launcher\ \-V\ \-Dmaven\.repo\.local\=(.+\/+.+)+\ clean\ compile\ wiremock\:run" />
+						                    <regexp pattern="org\.codehaus\.plexus\.classworlds\.launcher\.Launcher\ .* wiremock\:run" />
 					                	</linecontainsregexp>
 					                	<tokenfilter>
-					                    	<replaceregex pattern=" org\.codehaus\.plexus\.classworlds\.launcher\.Launcher\ \-V\ \-Dmaven\.repo\.local\=(.+\/+.+)+\ clean\ compile\ wiremock\:run" replace="" />
+					                    	<replaceregex pattern=" org\.codehaus\.plexus\.classworlds\.launcher\.Launcher\ .* wiremock\:run" replace="" />
 					                    </tokenfilter>
 					                </outputfilterchain>
 					            </redirector>
