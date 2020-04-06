@@ -10,10 +10,16 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.failsafe.version>2.22.2</maven.failsafe.version>
-    <snail4j.wiremock.port>8081</snail4j.wiremock.port>
     <slf4jVersion>1.6.1</slf4jVersion>
     <h2.maven.plugin.version>0.1_1.4.191</h2.maven.plugin.version>
+
+	    <!-- The following allow us to pass in -D parameters to the mvn script -->
+    <snail4j.wiremock.port>8081</snail4j.wiremock.port>
+    <snail4j.wiremock.hostname>localhost</snail4j.wiremock.hostname>
+
+    <snail4j.h2.hostname>localhost</snail4j.h2.hostname>
     <snail4j.h2.port>9093</snail4j.h2.port>
+
     <snail4j.sut.port>8080</snail4j.sut.port>
 
     <!-- the following -V is an innocuous mvn parameter, couldn't get "" to work.
@@ -177,7 +183,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               <arguments>
 				<argument>cmd.exe</argument>
 				<argument>/C</argument>
-                <argument>mvn -e -X ${snail4j.maven.offline.passthru} ${snail4j.maven.repo.passthru} -Dspring-boot.run.fork=true -Dspring-boot.run.jvmArguments="-Dglowroot.agent.port=${snail4j.glowroot.port} -Xmx1024m -XX:NewSize=512m -XX:MaxNewSize=512m" -Dspring-boot.run.agents=${user.home}/.snail4j/glowroot/glowroot/glowroot.jar -Dspring-boot.run.arguments=--server.port=${snail4j.sut.port} spring-boot:run</argument>
+				<argument>mvn -e -X ${snail4j.maven.offline.passthru} ${snail4j.maven.repo.passthru} -Dspring-boot.run.fork=true -Dspring-boot.run.jvmArguments="-Dsnail4j.wiremock.hostname=${snail4j.wiremock.hostname} -Dsnail4j.h2.port=${snail4j.h2.port} -Dsnail4j.h2.hostname=${snail4j.h2.hostname} -Dsnail4j.wiremock.port=${snail4j.wiremock.port} -Dglowroot.agent.port=${snail4j.glowroot.port} -Xmx1024m -XX:NewSize=512m -XX:MaxNewSize=512m" -Dspring-boot.run.agents=${user.home}/.snail4j/glowroot/glowroot/glowroot.jar -Dspring-boot.run.arguments=--server.port=${snail4j.sut.port} spring-boot:run</argument>
 			<!-- @stolenFrom: https://stackoverflow.com/a/46628861/2377579 -->
 			<!-- @stolenFrom: http://myjavaadventures.com/blog/2018/07/21/spring-boot-pass-arguments/ -->
 			<!-- <argument>-Dspring-boot.run.jvmArguments="-javaagent:${user.home}/.snail4j/glowroot/glowroot/glowroot.jar,-Dglowroot.agent.port=${snail4j.glowroot.port}"</argument> -->

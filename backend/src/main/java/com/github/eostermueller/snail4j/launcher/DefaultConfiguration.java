@@ -49,9 +49,9 @@ public class DefaultConfiguration implements Configuration {
 
 			this.setSutAppHome(			Paths.get( this.getSnail4jHome().toString() , "sutApp") );
 			this.setSutAppZipFileName ("sutApp.zip");
-			this.setSutAppPort		  (8079);
+			this.setSutAppPort		  (10675);
 			this.setSutAppHostname	  ("localhost");
-			this.setGlowrootPort(4001);
+			this.setGlowrootPort(13675);
 			
 
 			this.setSutKillFile(        Paths.get( this.getSnail4jHome().toString() , "deleteMeToStopSnail4jSut.txt") );
@@ -69,7 +69,7 @@ public class DefaultConfiguration implements Configuration {
 			this.setProcessManagerHome(		Paths.get( this.getSnail4jHome().toString() , "processManager") );
 			this.setProcessManagerZipFileName ("processManager.zip");
 
-			this.setJMeterNonGuiPort(4455);
+			this.setJMeterNonGuiPort(9675);
 
 			this.setH2DataFileHome(		Paths.get( this.getSnail4jHome().toString() , "data") );
 			this.setH2DataFileName		("perfSandboxDb.mv.db");
@@ -91,7 +91,7 @@ public class DefaultConfiguration implements Configuration {
 			this.setLoadGenerationDurationInSeconds(3600);
 
 
-			this.setJMeterNonGuiPort(4455);
+//			this.setJMeterNonGuiPort(4455);
 
 			/**
 			 * https://jmeteronthefly.blogspot.com/2018/12/pass-parameters-from-jmeter-maven-plugin.html
@@ -124,7 +124,9 @@ public class DefaultConfiguration implements Configuration {
 			StringBuilder sb2 = new StringBuilder();
 	 		sb2.append(MAVEN_EXE_PATH);
 	 		sb2.append(SPACE);sb2.append("-Dsnail4j.wiremock.port=#{wiremockPort}");
+	 		sb2.append(SPACE);sb2.append("-Dsnail4j.wiremock.hostname=#{wiremockHostname}");
 	 		sb2.append(SPACE);sb2.append("-Dsnail4j.h2.port=#{h2Port}");
+	 		sb2.append(SPACE);sb2.append("-Dsnail4j.h2.hostname=#{h2Hostname}");
 	 		sb2.append(SPACE);sb2.append("-Dsnail4j.sut.port=#{sutAppPort}");
 	 		sb2.append(SPACE);sb2.append("-Dsnail4j.glowroot.port=#{glowrootPort}");
 			sb2.append(SPACE);sb2.append("verify");
@@ -146,10 +148,10 @@ public class DefaultConfiguration implements Configuration {
 			this.setMavenExePath( createMavenExePath() );
 			
 			this.setWiremockHostname("localhost");
-			this.setWiremockPort(8081);
+			this.setWiremockPort(12675);
 			
 			this.setH2Hostname("localhost");
-			this.setH2Port(9093);
+			this.setH2Port(11675);
 			// this.setProcessManagerLaunchCmd("#{mavenExePath} verify");
 
 			//Adding workaround for closing threads in Windows OS
