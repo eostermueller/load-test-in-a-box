@@ -17,7 +17,7 @@ export class SutLauncherService {
     console.log('b4 try block to call http startSut');
     try {
       console.log("before http call to startSut");
-      result = this.http.get<ApiResponseInterface>('http://localhost:8090/snail4j/startSut');
+      result = this.http.get<ApiResponseInterface>('/snail4j/startSut');
       console.log("after http call to startSut");
       console.log('after startSut');
     } catch(e) {

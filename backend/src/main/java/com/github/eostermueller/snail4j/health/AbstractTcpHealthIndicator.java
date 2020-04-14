@@ -16,6 +16,8 @@ import org.springframework.boot.actuate.health.Health.Builder;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.stereotype.Component;
 
+import com.github.eostermueller.snail4j.OsUtils;
+
 
 public abstract class AbstractTcpHealthIndicator extends AbstractSpringNetworkHealthIndicator {
 	/**
@@ -23,26 +25,12 @@ public abstract class AbstractTcpHealthIndicator extends AbstractSpringNetworkHe
 	 */
 	@Override
     public Health health() {
-	     Socket socket = null;
-
-	        try {
-	        	socket = new Socket();
-             LOGGER.debug("Testing [" + this.getInetAddress().getHostAddress() + ":" + this.getPort() + "]");
-	        	
-	            socket.connect(new InetSocketAddress(this.getInetAddress().getHostAddress(), this.getPort()), TIMEOUT.intValue());
-	            LOGGER.debug("UP");
-	            return Health.up().build();
-	        } catch (final Exception e) {
-	            LOGGER.debug("DOWN");
-	            return Health.down(e).build();
-	        } finally {
-	            if (socket != null) {
-	                try {
-	                    socket.close();
-	                } catch (final IOException e) {
-	                    LOGGER.debug("Unable to close consumer socket.", e);
-	                }
-	            }
-	        }		
+		if (OsUtils.isTcpPortActive(
+				this.getInetAddress().getHostAddress(), 
+				this.getPort(), 
+				TIMEOUT.intValue()))
+            return Health.up().build();
+		else 
+            return Health.down().build();
 	}
 }

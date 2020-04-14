@@ -30,7 +30,7 @@ public abstract class AbstractUdpHealthIndicator extends AbstractSpringNetworkHe
 	public Health health() {
         LOGGER.debug("Testing UDP [" + this.getInetAddress().getHostAddress() + ":" + this.getPort() + "]");
 		
-		boolean up = OsUtils.isUdpPortActive(getPort());
+		boolean up = OsUtils.isUdpPortActive(this.getPort());
         LOGGER.debug( up ? "UP" : "DOWN");
 
 		if (up)

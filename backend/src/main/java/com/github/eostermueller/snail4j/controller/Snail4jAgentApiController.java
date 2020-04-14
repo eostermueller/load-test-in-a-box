@@ -94,11 +94,11 @@ public class Snail4jAgentApiController {
 		
 		return myJson;
 	}
-	@GetMapping("/getEventHistory")
+	@GetMapping("/events")
 	public String getEventHistory() throws CannotFindSnail4jFactoryClass {
 		return DefaultFactory.getFactory().getEventHistory().debug();
 	}
-	@GetMapping("/getExceptionHistory")
+	@GetMapping("/exceptions")
 	public String getExceptionHistory() throws CannotFindSnail4jFactoryClass {
 		return Snail4jException.getExceptionHistory().toString();
 	}

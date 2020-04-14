@@ -12,7 +12,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public class DefaultConfiguration implements Configuration {
 
+	/**
+	 * When this snail4j variable is resolved (by com.github.eostermueller.snail4j.launcher.ConfigLookup), it resolves correctly on MS-Win and *Nix to be the full path of either
+	 * mvn.bat or mvn.
+	 */
 	public static final String MAVEN_EXE_PATH = "#{mavenExePath}";
+	/**
+	 * When this snail4j variable is resolved (by com.github.eostermueller.snail4j.launcher.ConfigLookup), it resolves correctly on MS-Win and *Nix 
+	 * to be the full path snail4j's own copy of jmeter of either
+	 * jmeter.bat (MS-Win) or jmeter (*nix)
+	 */
+	public static final String JMETER_EXE_PATH = "#{jmeterExePath}";
+	public static final String JMETER_SHUTDOWN_EXE_PATH = "#{jmeterShutdownExePath}";
 	private static final String SPACE = " ";
 	private String sutAppZipFileName;
 	private int sutAppPort;
@@ -31,6 +42,10 @@ public class DefaultConfiguration implements Configuration {
 	private String h2Hostname;
 	private int h2Port;
 	private String wiremockStopCmd;
+	private long maxJMeterNonGuiPort;
+	private String jmeterExePath;
+	private String loadGeneratorShutdownCmd;
+	private String jmeterShutdownExePath;
 
 	/**
 	 * This is the most important constructor in the project :-)
@@ -49,9 +64,9 @@ public class DefaultConfiguration implements Configuration {
 
 			this.setSutAppHome(			Paths.get( this.getSnail4jHome().toString() , "sutApp") );
 			this.setSutAppZipFileName ("sutApp.zip");
-			this.setSutAppPort		  (10675);
+			this.setSutAppPort		  (12675);
 			this.setSutAppHostname	  ("localhost");
-			this.setGlowrootPort(13675);
+			this.setGlowrootPort(15675);
 			
 
 			this.setSutKillFile(        Paths.get( this.getSnail4jHome().toString() , "deleteMeToStopSnail4jSut.txt") );
@@ -69,7 +84,12 @@ public class DefaultConfiguration implements Configuration {
 			this.setProcessManagerHome(		Paths.get( this.getSnail4jHome().toString() , "processManager") );
 			this.setProcessManagerZipFileName ("processManager.zip");
 
-			this.setJMeterNonGuiPort(9675);
+			String baseJMeter = "apache-jmeter-5.2.1";
+			this.setJMeterZipFileNameWithoutExtension(baseJMeter);
+			this.setJMeterDistHome(		Paths.get( this.getSnail4jHome().toString() , baseJMeter ) );
+
+			this.setStartJMeterNonGuiPort(4445);
+			this.setMaxJMeterNonGuiPort(4445+40);
 
 			this.setH2DataFileHome(		Paths.get( this.getSnail4jHome().toString() , "data") );
 			this.setH2DataFileName		("perfSandboxDb.mv.db");
@@ -101,20 +121,24 @@ public class DefaultConfiguration implements Configuration {
 			 * snail4j/jmeterFiles/load.jmx
 			 */
 			StringBuilder sb = new StringBuilder();
-			sb.append(MAVEN_EXE_PATH);
-			sb.append(SPACE);sb.append("-f #{jmeterFilesHome}/pom-load.xml");
-			sb.append(SPACE);sb.append("-Pno-gui");
-			sb.append(SPACE);sb.append("clean verify");
-			sb.append(SPACE);sb.append("-Dsnail4j.jmeter.port=#{jmeterNonGuiPort}");
-			sb.append(SPACE);sb.append("-Djmeter.test=#{jmeterFilesHome}/load.jmx");
-			sb.append(SPACE);sb.append("-DmyHost=#{sutAppHostname}");
-			sb.append(SPACE);sb.append("-DmyPort=#{sutAppPort}");
-			sb.append(SPACE);sb.append("-DmyDurationInSeconds=#{loadGenerationDurationInSeconds}");
-			sb.append(SPACE);sb.append("-DmyRampupInSeconds=#{loadGenerationRampupTimeInSeconds}");
-			sb.append(SPACE);sb.append("-DmyThreads=#{loadGenerationThreads}");
+			sb.append(JMETER_EXE_PATH);
+			sb.append(SPACE);sb.append("-n");
+			sb.append(SPACE);sb.append("-l #{jmeterFilesHome}/load.jtl");
+			sb.append(SPACE);sb.append("-t #{jmeterFilesHome}/load.jmx");
+			
+			// -J parameter syntax defined here: 
+			// https://jmeter.apache.org/usermanual/get-started.html#override
+			sb.append(SPACE);sb.append("-Jsnail4j.host=#{sutAppHostname}");
+			sb.append(SPACE);sb.append("-Jsnail4j.port=#{sutAppPort}");
+			sb.append(SPACE);sb.append("-Jsnail4j.durationSeconds=#{loadGenerationDurationInSeconds}");
+			sb.append(SPACE);sb.append("-Jsnail4j.rampupSeconds=#{loadGenerationRampupTimeInSeconds}");
+			sb.append(SPACE);sb.append("-Jsnail4j.threads=#{loadGenerationThreads}");
 			this.setLoadGeneratorLaunchCmd(sb.toString());
-			//mvn clean verify -Pno-gui
 
+			sb = new StringBuilder();
+			sb.append(JMETER_SHUTDOWN_EXE_PATH);
+			this.setLoadGeneratorShutdownCmd(sb.toString());
+			
 			/*
 			 * ToDo:  embed parameters in the following for tcp listen ports for each SUT component:  h2, wiremock, tjp
 			 *
@@ -146,12 +170,14 @@ public class DefaultConfiguration implements Configuration {
 			}
 			
 			this.setMavenExePath( createMavenExePath() );
+			this.setJMeterExePath( createJMeterExePath() );
+			this.setJMeterShutdownExePath( createJMeterShutdownExePath() );
 			
 			this.setWiremockHostname("localhost");
-			this.setWiremockPort(12675);
+			this.setWiremockPort(14675);
 			
 			this.setH2Hostname("localhost");
-			this.setH2Port(11675);
+			this.setH2Port(13675);
 			// this.setProcessManagerLaunchCmd("#{mavenExePath} verify");
 
 			//Adding workaround for closing threads in Windows OS
@@ -310,6 +336,26 @@ Windows Me   x86   1.5.0_06		 *
 	
 
 	@Override
+	public void setJMeterShutdownExePath(String val) {
+		this.jmeterShutdownExePath = val;
+	}
+	@Override
+	public void setLoadGeneratorShutdownCmd(String val) {
+		this.loadGeneratorShutdownCmd = val;
+	}
+
+
+	@Override
+	public void setMaxJMeterNonGuiPort(long val) {
+		this.maxJMeterNonGuiPort = val;
+	}
+	@Override
+	public long getMaxJMeterNonGuiPort() {
+		return this.maxJMeterNonGuiPort;
+	}
+
+
+	@Override
 	public void setWiremockStopCmd(String val) {
 		wiremockStopCmd = val;
 		
@@ -337,8 +383,6 @@ Windows Me   x86   1.5.0_06		 *
 		return rc;
 		
 	}
-
-
 	@Override	
 	public void setSutAppPort(int i) {
 		this.sutAppPort = i;
@@ -363,6 +407,12 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	public String createMavenExePath() {
 		return this.getMavenHome().toString() + File.separator + "bin" + File.separator + this.getMavenExeName();
 	}
+	public String createJMeterExePath() {
+		return this.getJMeterDistHome().toString() + File.separator + "bin" + File.separator + this.getJMeterExeName();
+	}
+	public String createJMeterShutdownExePath() {
+		return this.getJMeterDistHome().toString() + File.separator + "bin" + File.separator + this.getJMeterShutdownExeName();
+	}
 
 	private String getOsName() {
 		return System.getProperty("os.name").toLowerCase();
@@ -378,6 +428,26 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 		}
 		return rc;
 	}
+	@JsonIgnore
+	@Override
+	public String getJMeterExeName() {
+		String rc = "jmeter.sh";
+
+		if ( isOsWin() ) {
+			rc = "jmeter.bat";
+		}
+		return rc;
+	}
+	@JsonIgnore
+	@Override
+	public String getJMeterShutdownExeName() {
+		String rc = "shutdown.sh";
+
+		if ( isOsWin() ) {
+			rc = "shutdown.bat";
+		}
+		return rc;
+	}
 
 	@Override
 	public void setMavenExePath(String val) {
@@ -386,6 +456,14 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	@Override
 	public String getMavenExePath() {
 		return this.mavenExePath;
+	}
+	@Override
+	public void setJMeterExePath(String val) {
+		this.jmeterExePath = val;
+	}
+	@Override
+	public String getJMeterExePath() {
+		return this.jmeterExePath;
 	}
 
 
@@ -534,6 +612,9 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	private String wiremockStopStdoutLogFileName;
 	private String windowsKillerProcess;
 	private int glowrootPort;
+	private long startJMeterNonGuiPort;
+	private String jmeterZipFileNameWithoutExtension;
+	private Path jmeterDistHome;
 
 
 	@Override
@@ -826,6 +907,14 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	public long getJMeterNonGuiPort() {
 		return this.jmeterNonGuiPort;
 	}
+	@Override
+	public void setStartJMeterNonGuiPort(long val) {
+		this.startJMeterNonGuiPort = val;
+	}
+	@Override
+	public long getStartJMeterNonGuiPort() {
+		return this.startJMeterNonGuiPort;
+	}
 
 	@Override
 	public String getWiremockHostname() {
@@ -883,6 +972,28 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	@Override
 	public int getGlowrootPort() {
 		return this.glowrootPort;
+	}
+
+
+	@Override
+	public String getJMeterZipFileNameWithoutExtension() {
+		return this.jmeterZipFileNameWithoutExtension;
+	}
+	@Override
+	public void setJMeterZipFileNameWithoutExtension(String val) {
+		this.jmeterZipFileNameWithoutExtension = val;
+	}
+
+
+	@Override
+	public Path getJMeterDistHome() {
+		return jmeterDistHome;
+	}
+
+
+	@Override
+	public void setJMeterDistHome(Path val) {
+		this.jmeterDistHome = val;
 	}
 
 

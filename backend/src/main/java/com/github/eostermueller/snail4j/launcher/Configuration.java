@@ -105,6 +105,20 @@ public interface Configuration {
 	public void setWindowsKillerProcess(String windowsKillerProcess);
 	void setGlowrootPort(int i);
 	public int getGlowrootPort();
+	void setMaxJMeterNonGuiPort(long val);
+	long getMaxJMeterNonGuiPort();
+	void setStartJMeterNonGuiPort(long val);
+	long getStartJMeterNonGuiPort();
+	public Path getJMeterDistHome();
+	public void setJMeterDistHome(Path val);
+	String getJMeterExeName();
+	void setJMeterExePath(String val);
+	String getJMeterExePath();
+	String getJMeterZipFileNameWithoutExtension();
+	void setJMeterZipFileNameWithoutExtension(String val);
+	void setLoadGeneratorShutdownCmd(String val);
+	void setJMeterShutdownExePath(String val);
+	String getJMeterShutdownExeName();
 
 
 

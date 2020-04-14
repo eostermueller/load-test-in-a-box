@@ -225,26 +225,6 @@ public class TestTheTestConfiguration {
 		Assertions.assertEquals(expectedLaunchWithSnail4jMavenRepo, actual);
 		
 	}
-	@Test
-	public void canTurnOffUseOfSnail4jRepo_loadGenerator() {
-		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
-		Path javaHome = Paths.get(unix_JAVA_HOME);
-		
-				
-		TestConfiguration testCfg = new TestConfiguration(tjpHome, javaHome);
-		testCfg.setMavenOnline(true);
-		testCfg.setSnail4jMavenRepo(false);
-		
-		String expectedLaunch = TestConfiguration.MAVEN_EXE_PATH + " -f #{jmeterFilesHome}/pom-load.xml -Pno-gui clean verify -Dsnail4j.jmeter.port=#{jmeterNonGuiPort} -Djmeter.test=#{jmeterFilesHome}/load.jmx -DmyHost=#{sutAppHostname} -DmyPort=#{sutAppPort} -DmyDurationInSeconds=#{loadGenerationDurationInSeconds} -DmyRampupInSeconds=#{loadGenerationRampupTimeInSeconds} -DmyThreads=#{loadGenerationThreads}";
-		String expectedLaunchWithSnail4jMavenRepo = TestConfiguration.MAVEN_EXE_PATH + " -Dmaven.repo.local=#{mavenRepositoryHome} -f #{jmeterFilesHome}/pom-load.xml -Pno-gui clean verify -Dsnail4j.jmeter.port=#{jmeterNonGuiPort} -Djmeter.test=#{jmeterFilesHome}/load.jmx -DmyHost=#{sutAppHostname} -DmyPort=#{sutAppPort} -DmyDurationInSeconds=#{loadGenerationDurationInSeconds} -DmyRampupInSeconds=#{loadGenerationRampupTimeInSeconds} -DmyThreads=#{loadGenerationThreads}";
-		
-		Assertions.assertEquals(expectedLaunch, testCfg.getLoadGeneratorLaunchCmd());
-		
-		testCfg.setSnail4jMavenRepo(true);
-		
-		Assertions.assertEquals(expectedLaunchWithSnail4jMavenRepo, testCfg.getLoadGeneratorLaunchCmd() );
-		
-	}
 	
 
 }
