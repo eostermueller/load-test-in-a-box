@@ -79,4 +79,36 @@ public class Messages_en_US implements Messages {
 		return "<missing shutdown response from [" + appName + "] URL: [" + url + "]";
 	}
 
+	@Override
+	public String getNoUdpPortsAvailableBetween(int startUdpPort, int udpPortMax) {
+		return String.format("No UDP ports available between %d and %d",startUdpPort,udpPortMax);
+	}
+
+	@Override
+	public String multipleProblems() {
+		return "Multiple problems were encountered";
+	}
+
+	@Override
+	public String tcpPortConflict(String name, String hostname, int port, String snail4jProperty) {
+		return String.format("Port [%d] on [%s] is in use.  This is a port conflict for [%s]; . Configure an availabe/unused port in property [%s] in $HOME or %%USERPROFILE%% /.snail4j/snail4j.json.",
+				port,
+				hostname,
+				name,
+				snail4jProperty);
+	}
+
+	@Override
+	public String portInitStatus(List<String> errors) {
+		
+		String status = (errors.size()==0) ? "All required network ports are available for testing!" : "Unable to launch Snail4j.  One or more network port conflicts";
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(status + "\n");
+		for(String e : errors)
+			sb.append(e + "\n");
+		
+		return sb.toString();
+	}
+
 }

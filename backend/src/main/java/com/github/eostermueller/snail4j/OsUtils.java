@@ -4,11 +4,16 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.actuate.health.Health;
 
 import com.github.eostermueller.snail4j.OsUtils.OsResult;
 
@@ -21,12 +26,6 @@ public class OsUtils {
 
 	
 	public static final int UNINITIALIZED = -9999;
-	/**
-	 * commands for displaying UDP listening ports.
-	 */
-	static String UDP_PORT_TEST_MS_WIN = "netstat -ano -p UDP";
-	static String UDP_PORT_TEST_MAC = "sudo lsof -iUDP -P -n";
-	static String UDP_PORT_TEST_LINUX = "netstat -au";
 	
 	/**
 	 * Not ready to put the work into creating a test for this yet, so here is a way to lauch a udp port:
@@ -34,27 +33,72 @@ public class OsUtils {
 	 * @param udpPort
 	 * @return
 	 */
-	public static boolean isUdpPortActive_mswin(int udpPort) {
-		boolean active = false;
-		OsResult osResult = OsUtils.executeProcess_mswin(UDP_PORT_TEST_MS_WIN);
-		String portCriteria = ":" + String.valueOf(udpPort).trim();
-		if (osResult.stdout.toString().indexOf(portCriteria) > -1) {
-			active = true;
-		}
-		
-		return active;
-	}
 	public static boolean isUdpPortActive(int udpPort) {
 		boolean active = false;
-		
-		switch(OS.getOs().getOsFamily()) {
-		case Windows:
-			active = isUdpPortActive_mswin(udpPort);
-			break;
-		default:
+
+		DatagramSocket tempDatagramSocket = null;
+        try {
+			tempDatagramSocket = new DatagramSocket(udpPort); //if new open fails, the someone's already listen/active.
+		} catch (SocketException e) {
+			active = true;
 		}
+        
+        /**
+         * More then just being tidy.
+         * If this method get calls multiple times testing for the same port, the temp socket opened here will be discovered/tested in subsequent invocations!
+         * Close it so testDatagramSocket doesn't interfere with knowing whether other systems are listening on this same port.
+         */
+        try {
+        	if (tempDatagramSocket!=null)
+        		tempDatagramSocket.close();
+        } catch(Exception e) {
+        	//don't care whether close of temp works.
+        }
+		
 		return active;
 	}
+	public static boolean isTcpPortActive(String hostname, int tcpPort, int timeoutMs) {
+		boolean active = false;
+	     Socket socket = null;
+	     String target = hostname + ":" + tcpPort;
+        try {
+        	socket = new Socket();
+            socket.connect(new InetSocketAddress(hostname, tcpPort), timeoutMs);
+            active = true;
+        } catch (final Exception e) {
+            active = false;
+        } finally {
+            if (socket != null) {
+                try {
+                    socket.close();
+                } catch (final IOException e) {
+                    LOGGER.error("Unable to close consumer socket." + target, e);
+                }
+            }
+        }		
+        LOGGER.debug("Is tcp [" + target + "] active? " + active);
+		return active;
+	}
+	/**
+	 * @stolenFrom https://github.com/apache/jmeter/blob/0bdbe5bd17f6e2385a5fe58216e259dd85a04054/src/core/src/main/java/org/apache/jmeter/JMeter.java#L1490
+	 * @param udpPort
+	 * @return
+	 * @throws Snail4jException 
+	 */
+	public static int getAvailableUdpPort(int startUdpPort, int udpPortMax) {
+		int rc = -1;
+        int i = startUdpPort;
+        while (i<= udpPortMax) {
+        	if (isUdpPortActive(i)) {
+        		i++;
+        	} else {
+    			rc = i;
+    			break;
+    		}
+        }
+        	
+        return rc;
+    }	
 	
 	/**
 	 * @stolenFrom: https://www.mkyong.com/java/how-to-execute-shell-command-from-java/

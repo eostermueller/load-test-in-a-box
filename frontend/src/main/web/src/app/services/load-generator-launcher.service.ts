@@ -17,7 +17,7 @@ export class LoadGeneratorLauncherService {
     console.log('b4 try block to call http startLg');
     try {
       console.log("before http call to startLg");
-      result = this.http.get<ApiResponseInterface>('http://localhost:8090/snail4j/startLg');
+      result = this.http.get<ApiResponseInterface>('/snail4j/startLg');
       console.log("after http call to startLg");
       console.log('after startLg');
     } catch(e) {
@@ -42,7 +42,7 @@ export class LoadGeneratorLauncherService {
     console.log('b4 try block to call http stopLg');
     try {
       console.log("before http call to stopLg");
-      result = this.http.get<ApiResponseInterface>('http://localhost:8090/snail4j/stopLg');
+      result = this.http.get<ApiResponseInterface>('/snail4j/stopLg');
       console.log("after http call to stopLg");
       console.log('after stopLg');
     } catch(e) {

@@ -33,4 +33,12 @@ public interface Messages {
 
 	String getWiremockStopMessage(String humanReadableString);
 
+	String getNoUdpPortsAvailableBetween(int startUdpPort, int udpPortMax);
+
+	String multipleProblems();
+
+	String tcpPortConflict(String name, String hostname, int port, String snail4jProperty);
+
+	String portInitStatus(List<String> errors);
+
 }

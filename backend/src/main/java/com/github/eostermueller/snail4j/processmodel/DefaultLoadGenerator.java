@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
+import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.CommandLine;
 import com.github.eostermueller.snail4j.launcher.ConfigVariableNotFoundException;
 import com.github.eostermueller.snail4j.launcher.Configuration;
@@ -36,17 +37,21 @@ public class DefaultLoadGenerator implements LoadGenerator {
 	
 	
 	private Configuration cfg;
-	private SimpleStdoutProcessRunner runner = null;
 
 	public DefaultLoadGenerator(Configuration val) throws Snail4jException {
 		this.cfg = val;
-		
+	}
+	
+	private SimpleStdoutProcessRunner getRunner() throws Snail4jException {
+		SimpleStdoutProcessRunner runner = null;
+
 		ProcessKey key = ProcessKey.create(this.getClass().getCanonicalName(), Level.CHILD, "loadGenerator");
 		runner = new SimpleStdoutProcessRunnerJdk8(key);
 		
 		runner.setProcessBuilder( getProcessBuilder() );
-		runner.setWorkingDirectory(val.getJMeterFilesHome().toFile() );
+		runner.setWorkingDirectory(cfg.getJMeterFilesHome().toFile() );
 		
+		return runner;
 	}
 	private Configuration getConfiguration() {
 		return this.cfg;
@@ -71,7 +76,7 @@ public class DefaultLoadGenerator implements LoadGenerator {
 
 	@Override
 	public void start() throws ConfigVariableNotFoundException, IOException, Snail4jException {
-		
+		SimpleStdoutProcessRunner runner = getRunner();
 		runner.start();
 		Messages m = DefaultFactory.getFactory().createMessages();
 		String d = m.getLoadGeneratorStartMessage( runner.toHumanReadableString() );
@@ -89,6 +94,7 @@ public class DefaultLoadGenerator implements LoadGenerator {
 	}
 	@Override
 	public void stopTestNow() throws Snail4jException {
+		
 		this.sendCommand("localhost", (int) this.getConfiguration().getJMeterNonGuiPort(), STOP_TEST_NOW);
 	}
 	@Override
@@ -108,9 +114,8 @@ public class DefaultLoadGenerator implements LoadGenerator {
             InetAddress address = InetAddress.getByName(hostOrIp);
             DatagramPacket packet = new DatagramPacket(buf, buf.length, address,port);
 	        socket.send(packet);		
-			Messages m = DefaultFactory.getFactory().createMessages();
-			
-			String d = m.getLoadGeneratorCommandMessage( runner.toHumanReadableString(), command, hostOrIp, port); 
+			Messages m = DefaultFactory.getFactory().getMessages();
+			String d = m.getLoadGeneratorCommandMessage( getRunner().toHumanReadableString(), command, hostOrIp, port); 
 			DefaultFactory.getFactory().getEventHistory().getEvents().add( Event.create(d) );
 		} catch (Exception e) {
 			throw new Snail4jException(e);

@@ -51,6 +51,7 @@ public class Snail4jInstaller {
     	installWiremock();
     	installH2DbData();
     	installJMeterFiles();
+    	installJMeterDistribution();
     	installGlowroot();
     	installProcessManager();
     	
@@ -61,6 +62,58 @@ public class Snail4jInstaller {
 	}
 
   }
+	private void installJMeterDistribution() throws Snail4jException {
+		PathUtil pathUtil = new PathUtil();
+		String path = pathUtil.getBaseClassspath();
+		String cleansedPath;
+		String jmeterDistZip = this.getConfiguration().getJMeterZipFileNameWithoutExtension() + ".zip";
+		try {
+			Path targetJMeterZipFile = Paths.get( this.getConfiguration().getSnail4jHome().toString(), jmeterDistZip );
+			if (path.contains(PathUtil.JAR_SUFFIX)) {
+				
+				/**
+				 * jmeter zip needs to be extracted from executable jar file
+				 */
+				cleansedPath = pathUtil.cleanPath(path);
+		    	if ( !this.getConfiguration().getJMeterDistHome().toFile().exists() ) {
+		    		LOGGER.info("About to unzip [" + jmeterDistZip + "] from [" + cleansedPath + "] to [" + targetJMeterZipFile + "]");
+		    		pathUtil.extractZipFromZip(cleansedPath, jmeterDistZip, targetJMeterZipFile.toString() );
+		    		
+		    		LOGGER.info("does [" + targetJMeterZipFile.toFile().getAbsolutePath().toString() + "] exist? [" + targetJMeterZipFile.toFile().exists() + "]" );
+		    		
+		    		pathUtil.unzip(targetJMeterZipFile.toFile(), this.getConfiguration().getSnail4jHome().toString() );
+		    		targetJMeterZipFile.toFile().delete();
+		    	}
+		    	if (!this.getConfiguration().isOsWin() ) {
+			    	File jmeterBinFolder = new File(this.getConfiguration().getJMeterDistHome().toFile(), "bin");
+			    	File jmeterExe = new File( jmeterBinFolder, "jmeter.sh");
+			    	if (jmeterExe.exists()) {
+			    		String cmd = "chmod +x " + jmeterExe.getAbsolutePath().toString();
+			    		OsUtils.executeProcess_bash(cmd, jmeterBinFolder);
+			    	} else {
+			    		String err= "java.util.File is reporting that the jmeter.sh executable doesn't exist.  [" + jmeterExe.toString() + "].  Cmon, we just installed it.  It should be there!";
+			    		LOGGER.error(err);
+			    		throw new Snail4jException(err);
+			    	}
+			    	File shutdownExe = new File( jmeterBinFolder, "shutdown.sh");
+			    	if (shutdownExe.exists()) {
+			    		String cmd = "chmod +x " + shutdownExe.getAbsolutePath().toString();
+			    		OsUtils.executeProcess_bash(cmd, jmeterBinFolder);
+			    	} else {
+			    		String err= "java.util.File is reporting that the jmeter shutdown.sh executable doesn't exist.  [" + shutdownExe.toString() + "].  Cmon, we just installed it.  It should be there!";
+			    		LOGGER.error(err);
+			    		throw new Snail4jException(err);
+			    	}
+		    	}
+			} else {
+				LOGGER.error("launch as 'java -jar <snail4j.jar> to get maven to install");
+			}
+		} catch (Exception e) {
+			throw new Snail4jException(e);
+		}
+	
+		
+	}  
 /**
    * Would be nice to just pull glowroot from maven, so I tried referencing this:
    * <pre>

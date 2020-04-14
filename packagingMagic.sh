@@ -18,6 +18,8 @@ WM_HOME=$SNAIL4J_SRC/wiremock
 GLOWROOT_BIN=https://github.com/glowroot/glowroot/releases/download/v0.13.5/glowroot-0.13.5-dist.zip
 MVN_ZIP_NAME=apache-maven-3.6.3-bin.zip
 MVN_URL=https://downloads.apache.org/maven/maven-3/3.6.3/binaries/${MVN_ZIP_NAME}
+JMETER_ZIP_NAME=apache-jmeter-5.2.1.zip
+JMETER_URL=https://downloads.apache.org//jmeter/binaries/${JMETER_ZIP_NAME}
 
 
 #Snail4j starup looks for carefully named zip files in this folder, then unzips them.
@@ -30,6 +32,9 @@ echo processManager.zip is created
 echo Creating jmeterFiles.zip
 jar cvfM $TARGET/jmeterFiles.zip -C $JM_HOME .
 echo jmeterFiles.zip is created
+curl -o $TARGET/${JMETER_ZIP_NAME} -O $JMETER_URL
+ls -lart $TARGET/${JMETER_ZIP_NAME}
+echo JMeter has been downloaded and copied into place.
 
 echo Creating wiremockFiles.zip
 jar cvfM $TARGET/wiremockFiles.zip -C $WM_HOME .
