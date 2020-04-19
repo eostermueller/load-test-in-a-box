@@ -9,13 +9,13 @@ Snail4j challenges the end user to [solicit predictions](https://blog.upperlinec
  * Threads
  * Heap
 
-(the acronym is PATH)
+(the acronym is P.A.T.H.)
 
- Here are some predictions that snail4j solicits from the end user:
+ Helpful predictions to solicit from the end user:
 
- * Does performance improve with more are less invocations to the database?
+ * Does performance improve with fewer or more invocations to the database?
  * How large must a payload be to degrade transmission time?
- * How much delay is required to really slow down code using Java synchronization?
+ * How much delay is required to slow down code with a sync block?
 
 # Goals
 ## Easy Install for Quick Meeting/Classroom/Conference Discussion
