@@ -3,7 +3,7 @@ What’s the problem?  What’s the cause?  The fix?  Click click click. Done.
 Snail4j is a load-test-in-a-box that aims to educate all Java developers on software performance.
 
 # Motivation
-Snail4j challenges the end user to solicit predictions [1] on software performance experiments with main types of software defects:  
+Snail4j challenges the end user to [solicit predictions](https://blog.upperlinecode.com/stop-teaching-code-a1039983b39) on software performance experiments with main types of software defects:  
  * Persistence
  * Alien systems
  * Threads
