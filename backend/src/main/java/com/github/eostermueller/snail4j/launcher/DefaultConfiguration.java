@@ -64,13 +64,11 @@ public class DefaultConfiguration implements Configuration {
 
 			this.setSutAppHome(			Paths.get( this.getSnail4jHome().toString() , "sutApp") );
 			this.setSutAppZipFileName ("sutApp.zip");
-			this.setSutAppPort		  (12675);
+			this.setSutAppPort		  (9675);
 			this.setSutAppHostname	  ("localhost");
-			this.setGlowrootPort(15675);
-			
+			this.setGlowrootPort(12675);
 
 			this.setSutKillFile(        Paths.get( this.getSnail4jHome().toString() , "deleteMeToStopSnail4jSut.txt") );
-
 
 			this.setLogDir(             Paths.get( this.getSnail4jHome().toString() , "log" )		);
 			this.setSystemUnderTestStdoutLogFileName("systemUnderTest.log");
@@ -174,10 +172,10 @@ public class DefaultConfiguration implements Configuration {
 			this.setJMeterShutdownExePath( createJMeterShutdownExePath() );
 			
 			this.setWiremockHostname("localhost");
-			this.setWiremockPort(14675);
+			this.setWiremockPort(11675);
 			
 			this.setH2Hostname("localhost");
-			this.setH2Port(13675);
+			this.setH2Port(10675);
 			// this.setProcessManagerLaunchCmd("#{mavenExePath} verify");
 
 			//Adding workaround for closing threads in Windows OS
