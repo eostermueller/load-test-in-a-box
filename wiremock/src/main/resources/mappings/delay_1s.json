@@ -1,10 +1,11 @@
 {
     "request": {
         "method": "GET",
-        "url": "/delayed"
+        "url": "/delay_1s"
     },
     "response": {
         "status": 200,
-        "fixedDelayMilliseconds": 2000
+        "body": "success",
+        "fixedDelayMilliseconds": 1000
     }
 }
