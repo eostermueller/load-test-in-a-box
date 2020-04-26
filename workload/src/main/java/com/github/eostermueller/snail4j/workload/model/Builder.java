@@ -16,8 +16,6 @@ public interface Builder {
 
 	ProcessingUnitImpl createProcessingUnit(AnnotationInfo annotationInfo, ClassInfo classInfo, MethodInfo methodInfo) throws Snail4jWorkloadException, OnlyStringAndLongAndIntAreAllowedParameterTypes;
 
-//	Descriptor createDescriptor(AnnotationInfo annotationInfo) throws HavocException;
-
 	MethodWrapper createMethodWrapper(Method method);
 
 	MethodParameter createParameter(Method method, MethodParameterInfo parm)
