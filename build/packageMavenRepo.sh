@@ -24,12 +24,19 @@ TARGET=$SNAIL4J_SRC/backend/src/main/resources
 
 
 echo to trim uber jar size, deleting unused copies of snail4js own uber jar from M2 Repo: 
-echo $MAVEN_LOCAL_REPO/repository/${SNAIL4J_MVN_DIR}/*.jar
-echo Number of files to be deleted:  $( ls -lart $MAVEN_LOCAL_REPO/repository/${SNAIL4J_MVN_DIR}/*.jar 2>/dev/null | wc -l )
-echo sizes of files to be deleted:  $( ls -lart $MAVEN_LOCAL_REPO/repository/${SNAIL4J_MVN_DIR}/*.jar 2>/dev/null )
-rm -rf $MAVEN_LOCAL_REPO/repository/${SNAIL4J_MVN_DIR}/*.jar
-echo Number of files remaining:  $( ls -lart $MAVEN_LOCAL_REPO/repository/${SNAIL4J_MVN_DIR}/*.jar 2>/dev/null | wc -l )
-echo Sizes of files remaining:  $( ls -lart $MAVEN_LOCAL_REPO/repository/${SNAIL4J_MVN_DIR}/*.jar 2>/dev/null )
+
+SEARCH_PATH=$MAVEN_LOCAL_REPO/repository/${SNAIL4J_MVN_DIR}/*.jar
+
+echo possibly with backslashes: $SEARCH_PATH
+SEARCH_PATH="${SEARCH_PATH//\\//}"
+echo without backslashes: $SEARCH_PATH
+
+
+echo Number of files to be deleted:  $( ls -lart $SEARCH_PATH 2>/dev/null | wc -l )
+echo sizes of files to be deleted:  $( ls -lart SEARCH_PATH 2>/dev/null )
+rm -rf $SEARCH_PATH
+echo Number of files remaining:  $( ls -lart $SEARCH_PATH 2>/dev/null | wc -l )
+echo Sizes of files remaining:  $( ls -lart $SEARCH_PATH 2>/dev/null )
 
 
 echo Creating repository.zip
