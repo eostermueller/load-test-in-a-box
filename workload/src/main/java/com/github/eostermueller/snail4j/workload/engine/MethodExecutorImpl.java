@@ -51,7 +51,6 @@ public class MethodExecutorImpl implements MethodExecutor {
 
 	Class getInstanceClass() {
 		Class c = this.getInstance().getClass();
-		System.out.println("about to execute [" + c.getName() + "]");
 		return c;
 	}
 	private Class getMyClass() throws ClassNotFoundException {
@@ -60,6 +59,7 @@ public class MethodExecutorImpl implements MethodExecutor {
 			cls = this.getInstanceClass();
 		} else {
 			cls = Class.forName( this.getMethodWrapper().getDeclaringClassName() );
+			LOGGER.debug("just instantiated [" + cls.getName() + "]");
 		}
 		return cls;
 	}
