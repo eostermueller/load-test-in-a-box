@@ -22,7 +22,7 @@
           [length]="length"
           [pageIndex]="pageIndex"
           [pageSize]="pageSize"
-          [pageSizeOptions]="[5, 10, 25, 100]"
+          [pageSizeOptions]="[200, 500, 1000]"
           (page)="pageEvent = $event; pageChange($event)"        
         ></mat-paginator>
       </div>
