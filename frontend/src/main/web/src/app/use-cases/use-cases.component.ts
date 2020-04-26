@@ -67,7 +67,7 @@ export class UseCasesComponent implements OnInit, AfterViewInit {
   useCases : any[];
   length = 0;
   pageIndex = 0;
-  pageSize = 5;
+  pageSize = 200;
   database: Database;
   pageEvent: PageEvent;
   dataSource : MyDataSource;
