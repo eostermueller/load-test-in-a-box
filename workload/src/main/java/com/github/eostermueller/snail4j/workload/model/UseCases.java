@@ -1,5 +1,6 @@
 package com.github.eostermueller.snail4j.workload.model;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -7,6 +8,10 @@ import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
 
 public class UseCases {
 
+	public UseCases sort(Comparator<UseCase> c) {
+		useCases.sort(c);
+		return this;
+	}
 	private List<UseCase> useCases = new CopyOnWriteArrayList<UseCase>();
 	
 	/* (non-Javadoc)
