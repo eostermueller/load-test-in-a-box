@@ -3,7 +3,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 $DIR/deleteAndDownload.sh
-$DIR/build.sh
+$DIR/buildDeps.sh
 $DIR/packageFast.sh
 $DIR/packageSlow.sh
 $DIR/packageMavenRepo.sh
