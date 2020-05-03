@@ -46,7 +46,7 @@ public class DefaultConfiguration implements Configuration {
 	private String jmeterExePath;
 	private String loadGeneratorShutdownCmd;
 	private String jmeterShutdownExePath;
-
+	private String useCaseSearchCriteria;
 	/**
 	 * This is the most important constructor in the project :-)
 	 */
@@ -186,6 +186,7 @@ public class DefaultConfiguration implements Configuration {
 			}
 
 			this.setMavenExePath( createMavenExePath() );
+			this.setUseCaseSearchCriteria("com.github.eostermueller.tjp2");
 
 	}
 	/*
@@ -510,12 +511,12 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	}
 
 	@Override
-	public void setSutAppHostname(String val) {
-		this.sutAppHostname = val;
+	public void setUseCaseSearchCriteria(String val) {
+		this.useCaseSearchCriteria = val;
 	}
 	@Override
-	public String getSutAppHostname() {
-		return this.sutAppHostname;
+	public String getUseCaseSearchCriteria() {
+		return this.useCaseSearchCriteria;
 	}
 	@Override
 	public void setLoadGenerationDurationInSeconds(long val) {
@@ -994,5 +995,14 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 		this.jmeterDistHome = val;
 	}
 
+
+	@Override
+	public void setSutAppHostname(String val) {
+		this.sutAppHostname = val;
+	}
+	@Override
+	public String getSutAppHostname() {
+		return this.sutAppHostname;
+	}
 
 }

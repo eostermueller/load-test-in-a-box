@@ -19,7 +19,13 @@ public class Snail4jLibrary {
 
 	public static UseCases scan(String whiteList) throws Snail4jWorkloadException, OnlyStringAndLongAndIntAreAllowedParameterTypes {
 		UseCases snail4jScanResult = new UseCases();
-        try (ScanResult scanResult = new ClassGraph().verbose().enableAllInfo().enableMethodInfo().whitelistPackages(whiteList).scan()) {
+        try (ScanResult scanResult = new ClassGraph()
+        									.verbose()
+        									.enableAllInfo()
+        									.enableMethodInfo()
+        									.disableNestedJarScanning()
+        									.whitelistPackages(whiteList)
+        									.scan()) {
         	
         	loadAnnotations(scanResult, snail4jScanResult);
         	
@@ -28,7 +34,12 @@ public class Snail4jLibrary {
 	}
 	public static UseCases scan() throws Snail4jWorkloadException, OnlyStringAndLongAndIntAreAllowedParameterTypes {
 		UseCases snail4jScanResult = new UseCases();
-        try (ScanResult scanResult = new ClassGraph().verbose().enableAllInfo().enableMethodInfo().scan()) {
+        try (ScanResult scanResult = new ClassGraph()
+        									.verbose()
+        									.enableAllInfo()
+        									.enableMethodInfo()
+        									.disableNestedJarScanning()
+        									.scan()) {
         	
         	loadAnnotations(scanResult, snail4jScanResult);
         	

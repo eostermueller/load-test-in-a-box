@@ -44,4 +44,5 @@ export interface ConfigModel {
     glowrootHome : string;
     jmeterFilesHome : string;
     snail4jHome : string;    
+    useCaseSearchCriteria : string;
   }

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
+import com.github.eostermueller.snail4j.workload.StringUtils;
 import com.github.eostermueller.snail4j.workload.OnlyStringAndLongAndIntAreAllowedParameterTypes;
 import com.github.eostermueller.snail4j.workload.annotations.Param;
 import com.github.eostermueller.snail4j.workload.annotations.Load;
@@ -35,13 +36,17 @@ public class DefaultBuilder implements Builder {
 	@Override 
 	public void addDescriptions(ProcessingUnitImpl processingUnit, AnnotationInfo annotationInfo) throws Snail4jWorkloadException {
 		AnnotationParameterValueList parms = annotationInfo.getParameterValues();
-		Object[] uiDescriptionAnnArray = (Object[]) parms.get(Load.VALUE);
+		Object[] uiDescriptionAnnArray = (Object[]) parms.get(Load.VALUE).getValue();
 		for( Object ann : uiDescriptionAnnArray ) {
 			AnnotationInfo annInfo = (AnnotationInfo) ann;
 			//String descr = (String) annInfo.getParameterValues().get(UserInterfaceDescription.VALUE);
 			
 			AnnotationParameterValueList values = annInfo.getParameterValues();
-			String localeString = (String) values.get(UserInterfaceDescription.LOCALE);
+			String localeString = 
+//					StringUtils.getNvpValue(
+							(String)  values.get(UserInterfaceDescription.LOCALE).getValue();
+//					);
+			
 			if (localeString==null) {
 
 				//seems like I need to open a classgraph 'issue' for this.
@@ -51,7 +56,10 @@ public class DefaultBuilder implements Builder {
 				localeString = "en_US"; //as a workaround, this value must stay in sync with the default specified in UserInterfaceDescription:
 								  //	public String locale() default "en_US";
 			}
-			String description = (String) values.get(UserInterfaceDescription.VALUE);
+			String description = 
+//					StringUtils.getNvpValue(
+							(String) values.get(UserInterfaceDescription.VALUE).getValue();
+//					);
 			//Locale aLocale = Locale.forLanguageTag(localeString);
 			processingUnit.addDescription(localeString, description);
 //			descriptor.addMessage(aLocale, description);
@@ -72,7 +80,10 @@ public class DefaultBuilder implements Builder {
 			processingUnit = new ProcessingUnitImpl();
 			AnnotationParameterValueList parms = annotationInfo.getParameterValues();
 			
-			String useCase = (String)parms.get(Load.USE_CASE);
+			String useCase = 
+//					StringUtils.getNvpValue(
+							(String)parms.get(Load.USE_CASE).getValue();
+	//						);
 			if (useCase==null || "".equals(useCase)) {
 				String error = "The [" + Load.class.getSimpleName() + "] annotation for class [" + methodWrapper.getDeclaringClassName()  + "] must have an attribute named [" + Load.USE_CASE + "]";
 				throw new Snail4jWorkloadException(error);
@@ -80,7 +91,9 @@ public class DefaultBuilder implements Builder {
 			
 			processingUnit.setUseCaseName( useCase );
 			
-			boolean selected = (boolean)parms.get(Load.SELECTED);
+
+			boolean selected = (boolean)parms.get(Load.SELECTED).getValue();
+			
 			processingUnit.setSelected(selected);
 			
 			processingUnit.setMethodWrapper(methodWrapper);
@@ -138,7 +151,7 @@ public class DefaultBuilder implements Builder {
 		AnnotationInfo annotationInfo = parm.getAnnotationInfo().get(0); 
 		
 		
-		String defaultValue = (String) annotationInfo.getParameterValues().get("defaultValue");
+		String defaultValue = (String) annotationInfo.getParameterValues().get("defaultValue").getValue();
 		
 		TypeSignature type = parm.getTypeSignatureOrTypeDescriptor();
 		if (type instanceof ClassRefTypeSignature) {
@@ -177,7 +190,7 @@ public class DefaultBuilder implements Builder {
 		
 		
 		
-		String name = (String) annotationInfo.getParameterValues().get("name");
+		String name = (String)annotationInfo.getParameterValues().get("name").getValue();
 		newParam.setName(name);
 
 		//newParam.setDescriptor( this.createDescriptor( annotationInfo ) );
@@ -188,13 +201,13 @@ public class DefaultBuilder implements Builder {
 	@Override 
 	public void addDescriptions(MethodParameter methodParameter, AnnotationInfo annotationInfo) throws Snail4jWorkloadException {
 		AnnotationParameterValueList parms = annotationInfo.getParameterValues();
-		Object[] uiDescriptionAnnArray = (Object[]) parms.get(Load.VALUE);
+		Object[] uiDescriptionAnnArray = (Object[]) parms.get(Load.VALUE).getValue();
 		for( Object ann : uiDescriptionAnnArray ) {
 			AnnotationInfo annInfo = (AnnotationInfo) ann;
 			//String descr = (String) annInfo.getParameterValues().get(UserInterfaceDescription.VALUE);
 			
 			AnnotationParameterValueList values = annInfo.getParameterValues();
-			String localeString = (String) values.get(UserInterfaceDescription.LOCALE);
+			String localeString = (String) values.get(UserInterfaceDescription.LOCALE).getValue();
 			if (localeString==null) {
 
 				//seems like I need to open a classgraph 'issue' for this.
@@ -204,7 +217,7 @@ public class DefaultBuilder implements Builder {
 				localeString = "en_US"; //as a workaround, this value must stay in sync with the default specified in UserInterfaceDescription:
 								  //	public String locale() default "en_US";
 			}
-			String description = (String) values.get(UserInterfaceDescription.VALUE);
+			String description = (String) values.get(UserInterfaceDescription.VALUE).getValue();
 			//Locale aLocale = Locale.forLanguageTag(localeString);
 			methodParameter.addDescription(localeString, description);
 		}

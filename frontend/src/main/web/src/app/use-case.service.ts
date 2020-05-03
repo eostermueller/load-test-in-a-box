@@ -31,10 +31,10 @@ export class UseCaseService {
       console.log('Base url for useCases [' + baseUrl + ']');
       return baseUrl;
     }
-      getUseCases(host:string, port:number) :Observable<any> {
+      getUseCases(host:string, port:number,searchCriteria:string) :Observable<any> {
         console.log( 'oct 19: 02 getUseCases');
 
-        return this.http.get( this.getBaseUrl(host,port) + '/traffic/useCases');
+        return this.http.get( this.getBaseUrl(host,port) + '/traffic/useCases?useCaseSearchCriteria='+searchCriteria);
           // }));
       }
 
