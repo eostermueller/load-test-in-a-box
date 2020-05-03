@@ -11,6 +11,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import org.junit.rules.TemporaryFolder;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
@@ -159,70 +162,78 @@ public class SimpleProcessSuiteTest {
 		Assert.assertFalse(suite.isFirstRunner(two.getProcessKey()) );
 		Assert.assertFalse(suite.isFirstRunner(three.getProcessKey()) );
 	}
-	@Test
-	public void canConfigureAndRunSimpleSuite() throws Exception {
-		
-		int startExceptionCount = DefaultFactory.getFactory().getEventHistory().getEvents().size();
-		ProcessKey keyOne = ProcessKey.create("mySuite", Level.CHILD, "one", ProcessKey.getLocalHost().toString() );
-		ProcessKey keyTwo = ProcessKey.create("mySuite", Level.CHILD, "two", ProcessKey.getLocalHost().toString() );
-		ProcessKey keyThree = ProcessKey.create("mySuite", Level.CHILD, "three", ProcessKey.getLocalHost().toString() );
-		
-		TestConfiguration t = new TestConfiguration();
-		
-		MockServerProcess testOne = new MockServerProcess(this.tmpFolder,t.getJavaHome(),keyOne.getTinyId());
-		testOne.compile();
-		
-		MockServerProcess testTwo = new MockServerProcess(this.tmpFolder,t.getJavaHome(),keyTwo.getTinyId());
-		testTwo.compile();
-		MockServerProcess testThree = new MockServerProcess(this.tmpFolder,t.getJavaHome(),keyThree.getTinyId());
-		testThree.compile();
-		
-		StdoutProcessRunnerJdk8 one = new StdoutProcessRunnerJdk8(keyOne);  
-		one.setStartupCompleteMessage(testOne.getStartupCompleteMessage());
-		
-		StdoutProcessRunnerJdk8 two = new StdoutProcessRunnerJdk8(keyTwo);
-		two.setStartupCompleteMessage(testTwo.getStartupCompleteMessage());
-		
-		StdoutProcessRunnerJdk8 three = new StdoutProcessRunnerJdk8(keyThree);
-		three.setStartupCompleteMessage(testThree.getStartupCompleteMessage());
-		
-		one.setProcessBuilder(testOne.getProcessBuilder());
-		two.setProcessBuilder(testTwo.getProcessBuilder());
-		three.setProcessBuilder(testThree.getProcessBuilder());
-
-		ProcessKey keySuite = ProcessKey.create("mySuite", Level.PARENT, "Aggregator", ProcessKey.getLocalHost().toString() );
-		
-		Suite suite = new SequentialProcessSuite(keySuite);
-		suite.addRunnerInOrder(one);
-		suite.addRunnerInOrder(two);
-		suite.addRunnerInOrder(three);
-		
-
-		List<StateChange> stateChanges = new ArrayList<StateChange>();
-		StateChangeListener scl = (processKey, newState) 
-				-> stateChanges.add( new StateChange( processKey, newState) );
-		
-		suite.registerStateChangeListener(scl);
-		
-		suite.start();
-		Thread.sleep(3000);
-		
-//		String debug = DefaultFactory.getFactory().getEventHistory().debug();
-//		System.out.println("Debug: " + debug);
-		Assert.assertEquals(startExceptionCount, DefaultFactory.getFactory().getEventHistory().getEvents().size() );
-		
-		StateChange actualStateChanges[] =  stateChanges.toArray( new StateChange[0] );
-		
-		assertEquals(keySuite.getKey(),actualStateChanges[0].processKey.getKey());
-		assertEquals(State.START_IN_PROGRESS,actualStateChanges[0].state);
-		
-		assertEquals(keySuite.getKey(),actualStateChanges[1].processKey.getKey());
-		assertEquals(State.STARTED,actualStateChanges[1].state);
-		
-		StateChange[] expectedStateChanges = {
-		  new StateChange(keySuite, State.START_IN_PROGRESS),
-		  new StateChange(keySuite, State.STARTED)
-		};
+//	/**
+//	 * The @Disabled annotation is causing problem: https://stackoverflow.com/a/58421650/2377579
+//	 * ...so using the unbecoming "@DisabledOnOs" below.
+//	 * 
+//	 * @throws Exception
+//	 */
+//	@Test
+//	@DisabledOnOs({OS.WINDOWS, OS.AIX, OS.SOLARIS, OS.MAC, OS.LINUX})
+//	@Disabled("Enable once jdk 1.8 support is dropped")
+//	public void canConfigureAndRunSimpleSuite() throws Exception {
+//		
+//		int startExceptionCount = DefaultFactory.getFactory().getEventHistory().getEvents().size();
+//		ProcessKey keyOne = ProcessKey.create("mySuite", Level.CHILD, "one", ProcessKey.getLocalHost().toString() );
+//		ProcessKey keyTwo = ProcessKey.create("mySuite", Level.CHILD, "two", ProcessKey.getLocalHost().toString() );
+//		ProcessKey keyThree = ProcessKey.create("mySuite", Level.CHILD, "three", ProcessKey.getLocalHost().toString() );
+//		
+//		TestConfiguration t = new TestConfiguration();
+//		
+//		MockServerProcess testOne = new MockServerProcess(this.tmpFolder,t.getJavaHome(),keyOne.getTinyId());
+//		testOne.compile();
+//		
+//		MockServerProcess testTwo = new MockServerProcess(this.tmpFolder,t.getJavaHome(),keyTwo.getTinyId());
+//		testTwo.compile();
+//		MockServerProcess testThree = new MockServerProcess(this.tmpFolder,t.getJavaHome(),keyThree.getTinyId());
+//		testThree.compile();
+//		
+//		StdoutProcessRunnerJdk8 one = new StdoutProcessRunnerJdk8(keyOne);  
+//		one.setStartupCompleteMessage(testOne.getStartupCompleteMessage());
+//		
+//		StdoutProcessRunnerJdk8 two = new StdoutProcessRunnerJdk8(keyTwo);
+//		two.setStartupCompleteMessage(testTwo.getStartupCompleteMessage());
+//		
+//		StdoutProcessRunnerJdk8 three = new StdoutProcessRunnerJdk8(keyThree);
+//		three.setStartupCompleteMessage(testThree.getStartupCompleteMessage());
+//		
+//		one.setProcessBuilder(testOne.getProcessBuilder());
+//		two.setProcessBuilder(testTwo.getProcessBuilder());
+//		three.setProcessBuilder(testThree.getProcessBuilder());
+//
+//		ProcessKey keySuite = ProcessKey.create("mySuite", Level.PARENT, "Aggregator", ProcessKey.getLocalHost().toString() );
+//		
+//		Suite suite = new SequentialProcessSuite(keySuite);
+//		suite.addRunnerInOrder(one);
+//		suite.addRunnerInOrder(two);
+//		suite.addRunnerInOrder(three);
+//		
+//
+//		List<StateChange> stateChanges = new ArrayList<StateChange>();
+//		StateChangeListener scl = (processKey, newState) 
+//				-> stateChanges.add( new StateChange( processKey, newState) );
+//		
+//		suite.registerStateChangeListener(scl);
+//		
+//		suite.start();
+//		Thread.sleep(3000);
+//		
+////		String debug = DefaultFactory.getFactory().getEventHistory().debug();
+////		System.out.println("Debug: " + debug);
+//		Assert.assertEquals(startExceptionCount, DefaultFactory.getFactory().getEventHistory().getEvents().size() );
+//		
+//		StateChange actualStateChanges[] =  stateChanges.toArray( new StateChange[0] );
+//		
+//		assertEquals(keySuite.getKey(),actualStateChanges[0].processKey.getKey());
+//		assertEquals(State.START_IN_PROGRESS,actualStateChanges[0].state);
+//		
+//		assertEquals(keySuite.getKey(),actualStateChanges[1].processKey.getKey());
+//		assertEquals(State.STARTED,actualStateChanges[1].state);
+//		
+//		StateChange[] expectedStateChanges = {
+//		  new StateChange(keySuite, State.START_IN_PROGRESS),
+//		  new StateChange(keySuite, State.STARTED)
+//		};
 		
 //		StateChange[] expectedStateChanges = {
 //				  new StateChange(keyOne, State.START_IN_PROGRESS),
@@ -239,7 +250,7 @@ public class SimpleProcessSuiteTest {
 		
 		
 		
-	}
+//	}
 
 
 }

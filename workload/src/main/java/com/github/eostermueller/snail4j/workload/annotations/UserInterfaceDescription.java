@@ -12,8 +12,8 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target({ METHOD, PARAMETER })
 public @interface UserInterfaceDescription {
-	public static final String VALUE="value";
-	public static final String LOCALE="locale";
+	public static final String VALUE="value"; //as in "value=myUserInterfaceDescription"
+	public static final String LOCALE="locale";// as in "locale=en_US"
 	public String value();
 	
 	/**

@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Assert;
 
@@ -37,12 +39,22 @@ public class MockServerProcess {
 			fileExtension = ".exe";
 		}
 		
+		List<String> attemptedPaths = new ArrayList<String>();
+		
 		String binAndJavaExecutable = "bin" + File.separator + "java" + fileExtension;
 		Path java_Executable = this.getJavaHome().resolve( Paths.get(binAndJavaExecutable) );
  
 		
 		if (!java_Executable.toFile().exists() ) {
-			throw new Snail4jException("Was expecting [" + java_Executable.toString() + "] to be the path to a java executable.");
+			//Checking to see if java is here:
+			//openjdk-8u242-b01/jre is java home
+			//openjdk-8u242-b01/bin/java.exe is here.
+			attemptedPaths.add(binAndJavaExecutable);
+			binAndJavaExecutable = ".." + File.separator + "bin" + File.separator + "java" + fileExtension;
+			java_Executable = this.getJavaHome().resolve( Paths.get(binAndJavaExecutable) );
+			if (!java_Executable.toFile().exists() ) {
+				throw new Snail4jException("Was expecting java to be in one of these paths: [" + attemptedPaths.toString() + "]");
+			}
 		}
 		//System.out.println("My java exe: " + java_Executable.toAbsolutePath().toString() );
 		ProcessBuilder pb = new ProcessBuilder(
@@ -119,9 +131,23 @@ public class MockServerProcess {
 		}
 		String pathSuffix = "bin" + File.separator + "javac" + fileExtension;
 		
-		Path java_c_Executable = javaHome.resolve( Paths.get("bin" + File.separator + "javac" + fileExtension) );
+		Path java_c_Executable = javaHome.resolve( Paths.get(pathSuffix) );
+//		if (!java_c_Executable.toFile().exists() ) {
+//			throw new Snail4jException("Was expecting [" + java_c_Executable.toString() + "] to be the path to a javac executable.");
+//		}
+		List<String> attemptedPaths = new ArrayList<String>();
+		
 		if (!java_c_Executable.toFile().exists() ) {
-			throw new Snail4jException("Was expecting [" + java_c_Executable.toString() + "] to be the path to a javac executable.");
+			//Checking to see if java is here:
+			//openjdk-8u242-b01/jre is java home
+			//openjdk-8u242-b01/bin/java.exe is here.
+			attemptedPaths.add(java_c_Executable.toString());
+			pathSuffix = ".." + File.separator + "bin" + File.separator + "javac" + fileExtension;
+			java_c_Executable = this.getJavaHome().resolve( Paths.get(pathSuffix) );
+			if (!java_c_Executable.toFile().exists() ) {
+				attemptedPaths.add(java_c_Executable.toString());
+				throw new Snail4jException("Was expecting java to be in one of these paths: [" + attemptedPaths.toString() + "]");
+			}
 		}
 
 		ProcessBuilder pb = new ProcessBuilder(

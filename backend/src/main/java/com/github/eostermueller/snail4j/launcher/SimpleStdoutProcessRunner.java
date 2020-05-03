@@ -114,7 +114,9 @@ public abstract class SimpleStdoutProcessRunner {
 		        */
 		        //debug();
 		        Process process = pb.start();
-		        getProcessKey().setPid( process.pid() );
+		        // when snail4j drops 1.8 support, add this:
+		        //getProcessKey().setPid( process.pid() );
+		        getProcessKey().setPid( 0 ); //when snail4j drops 1.8 support, delete this line.
 
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

@@ -155,6 +155,7 @@ dispUseCases(ctx:string) {
           this.useCaseService.getUseCases(
             this.config.sutAppHostname,
             this.config.sutAppPort,     
+            this.config.useCaseSearchCriteria
           ).subscribe(data=>{
             console.log("getUseCases() just returned!!");
             console.log(data);

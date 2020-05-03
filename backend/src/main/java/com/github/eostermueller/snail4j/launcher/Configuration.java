@@ -119,6 +119,8 @@ public interface Configuration {
 	void setLoadGeneratorShutdownCmd(String val);
 	void setJMeterShutdownExePath(String val);
 	String getJMeterShutdownExeName();
+	void setUseCaseSearchCriteria(String val);
+	String getUseCaseSearchCriteria();
 
 
 

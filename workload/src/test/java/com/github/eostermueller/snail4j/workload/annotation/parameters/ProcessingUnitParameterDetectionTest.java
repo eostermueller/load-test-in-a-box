@@ -45,7 +45,7 @@ class ProcessingUnitParameterDetectionTest {
 		
 		
 		MethodParameter parm0 = selectionSortProcessingUnit.getMethodWrapper().getParameter(0);
-		assertEquals( "arraySize", parm0.getName());
+		assertEquals( "arraySize", parm0.getName() );
 		assertEquals( "10", parm0.getDefaultValue() );
 		assertEquals( "number of intergers to be created (ThreadLocalRandom) and sorted for each execution", 
 				parm0.getDescription("en_US") );
