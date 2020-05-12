@@ -158,7 +158,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                 <argument>${snail4j.maven.repo.passthru}</argument>
                 <argument>-Dh2.port=${snail4j.h2.port}</argument>
 			<!-- <argument>-Dh2.baseDirectory=${user.home}/.snail4j/data</argument> -->
-			<argument>-Dh2.baseDirectory=C:/Users/eoste/.snail4j/data</argument>
+				<!--	<argument>-Dh2.baseDirectory=C:/Users/eoste/.snail4j/data</argument> -->
                 <argument>com.github.eostermueller:h2-maven-plugin:${h2.maven.plugin.version}:spawn</argument>
               </arguments>
             </configuration>
