@@ -95,6 +95,16 @@ public class Snail4jInstaller {
 			    		LOGGER.error(err);
 			    		throw new Snail4jException(err);
 			    	}
+			    	File jmeterExe2 = new File( jmeterBinFolder, "jmeter");
+			    	if (jmeterExe2.exists()) {
+			    		String cmd = "chmod +x " + jmeterExe2.getAbsolutePath().toString();
+			    		OsUtils.executeProcess_bash(cmd, jmeterBinFolder);
+			    	} else {
+			    		String err= "java.util.File is reporting that the jmeter executable doesn't exist.  [" + jmeterExe2.toString() + "].  Cmon, we just installed it.  It should be there!";
+			    		LOGGER.error(err);
+			    		throw new Snail4jException(err);
+			    	}
+			    	
 			    	File shutdownExe = new File( jmeterBinFolder, "shutdown.sh");
 			    	if (shutdownExe.exists()) {
 			    		String cmd = "chmod +x " + shutdownExe.getAbsolutePath().toString();

@@ -16,6 +16,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	    <!-- The following allow us to pass in -D parameters to the mvn script -->
     <snail4j.wiremock.port>8081</snail4j.wiremock.port>
     <snail4j.wiremock.hostname>localhost</snail4j.wiremock.hostname>
+    <snail4j.sut.arguments></snail4j.sut.arguments>
 
     <snail4j.h2.hostname>localhost</snail4j.h2.hostname>
     <snail4j.h2.port>9093</snail4j.h2.port>
@@ -62,7 +63,22 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 				</os>
 			</activation>
 			<properties>
+				<!--
+				 The following "benigh filler args" are ugly tech debt.
+					To fix this, need to yank the maven-process-plugin
+				-->
 				<script.extension>.cmd</script.extension>
+				<sutApp.cmd.01>cmd.exe</sutApp.cmd.01>
+				<sutApp.cmd.02>/E:ON</sutApp.cmd.02> <!-- benign filler arg -->
+				<sutApp.cmd.03>/E:ON</sutApp.cmd.03> <!-- benign filler arg -->
+				<sutApp.cmd.04>/E:ON</sutApp.cmd.04> <!-- benign filler arg -->
+				<sutApp.cmd.05>/E:ON</sutApp.cmd.05> <!-- benign filler arg -->
+				<sutApp.cmd.06>/E:ON</sutApp.cmd.06> <!-- benign filler arg -->
+				<sutApp.cmd.07>/E:ON</sutApp.cmd.07> <!-- benign filler arg -->
+				<sutApp.cmd.08>/E:ON</sutApp.cmd.08> <!-- benign filler arg -->
+				<sutApp.cmd.09>/E:ON</sutApp.cmd.09> <!-- benign filler arg -->
+				<sutApp.cmd.10>/C</sutApp.cmd.10>
+				<sutApp.cmd.11>mvn -e -X ${snail4j.maven.offline.passthru} ${snail4j.maven.repo.passthru} -Dspring-boot.run.fork=true -Dspring-boot.run.jvmArguments="-Dsnail4j.wiremock.hostname=${snail4j.wiremock.hostname} -Dsnail4j.h2.port=${snail4j.h2.port} -Dsnail4j.h2.hostname=${snail4j.h2.hostname} -Dsnail4j.wiremock.port=${snail4j.wiremock.port} -Dglowroot.agent.port=${snail4j.glowroot.port} ${snail4j.sut.jvmArguments}" -Dspring-boot.run.agents=${user.home}/.snail4j/glowroot/glowroot/glowroot.jar -Dspring-boot.run.arguments=--server.port=${snail4j.sut.port} spring-boot:run</sutApp.cmd.11>
 			</properties>
 		</profile>
 		<profile>
@@ -74,6 +90,26 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			</activation>
 			<properties>
 				<script.extension></script.extension>
+				<sutApp.cmd.01>mvn</sutApp.cmd.01>
+				<sutApp.cmd.02>-e</sutApp.cmd.02>
+				<sutApp.cmd.03>-X</sutApp.cmd.03>
+				<sutApp.cmd.04>-debug</sutApp.cmd.04>
+				<sutApp.cmd.05>${snail4j.maven.offline.passthru}</sutApp.cmd.05>
+				<sutApp.cmd.06>${snail4j.maven.repo.passthru}</sutApp.cmd.06>
+				<sutApp.cmd.07>-Dspring-boot.run.fork=true</sutApp.cmd.07>
+					<!--
+						The following says "make sure to wrap multiple values between quotes" but on make, that causes a problem and the 
+					        -D system parameters were not recognized...big problem.  
+						https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/html/#goals-run-parameters-details-jvmArguments
+						Oddly, these didnt' have to be removed for MS-Windows...
+					 	I'm thinking this is a problem with the maven-process-plugin, because the following works OK with mac and quotes,
+						but the maven-process-plugin is not used here:
+						https://github.com/eostermueller/mac-and-windows-processes
+					-->
+				<sutApp.cmd.08>-Dspring-boot.run.jvmArguments=-Dsnail4j.wiremock.hostname=${snail4j.wiremock.hostname} -Dsnail4j.h2.port=${snail4j.h2.port} -Dsnail4j.h2.hostname=${snail4j.h2.hostname} -Dsnail4j.wiremock.port=${snail4j.wiremock.port} -Dglowroot.agent.port=${snail4j.glowroot.port} ${snail4j.sut.jvmArguments}</sutApp.cmd.08>
+				<sutApp.cmd.09>-Dspring-boot.run.agents=${user.home}/.snail4j/glowroot/glowroot/glowroot.jar</sutApp.cmd.09>
+				<sutApp.cmd.10>-Dspring-boot.run.arguments=--server.port=${snail4j.sut.port}</sutApp.cmd.10>
+				<sutApp.cmd.11>spring-boot:run</sutApp.cmd.11>
 			</properties>
 		</profile>
 	</profiles>
@@ -181,9 +217,17 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               <tcpHealthcheckPort>8080</tcpHealthcheckPort>
   -->
               <arguments>
-				<argument>cmd.exe</argument>
-				<argument>/C</argument>
-				<argument>mvn -e -X ${snail4j.maven.offline.passthru} ${snail4j.maven.repo.passthru} -Dspring-boot.run.fork=true -Dspring-boot.run.jvmArguments="-Dsnail4j.wiremock.hostname=${snail4j.wiremock.hostname} -Dsnail4j.h2.port=${snail4j.h2.port} -Dsnail4j.h2.hostname=${snail4j.h2.hostname} -Dsnail4j.wiremock.port=${snail4j.wiremock.port} -Dglowroot.agent.port=${snail4j.glowroot.port} -Xmx1024m -XX:NewSize=512m -XX:MaxNewSize=512m" -Dspring-boot.run.agents=${user.home}/.snail4j/glowroot/glowroot/glowroot.jar -Dspring-boot.run.arguments=--server.port=${snail4j.sut.port} spring-boot:run</argument>
+		         <argument>${sutApp.cmd.01}</argument>
+				 <argument>${sutApp.cmd.02}</argument>
+				 <argument>${sutApp.cmd.03}</argument>
+		         <argument>${sutApp.cmd.04}</argument>
+				 <argument>${sutApp.cmd.05}</argument>
+				 <argument>${sutApp.cmd.06}</argument>
+		         <argument>${sutApp.cmd.07}</argument>
+				 <argument>${sutApp.cmd.08}</argument>
+				 <argument>${sutApp.cmd.09}</argument>
+				 <argument>${sutApp.cmd.10}</argument>
+				 <argument>${sutApp.cmd.11}</argument>
 			<!-- @stolenFrom: https://stackoverflow.com/a/46628861/2377579 -->
 			<!-- @stolenFrom: http://myjavaadventures.com/blog/2018/07/21/spring-boot-pass-arguments/ -->
 			<!-- <argument>-Dspring-boot.run.jvmArguments="-javaagent:${user.home}/.snail4j/glowroot/glowroot/glowroot.jar,-Dglowroot.agent.port=${snail4j.glowroot.port}"</argument> -->

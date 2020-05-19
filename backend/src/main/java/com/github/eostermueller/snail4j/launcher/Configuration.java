@@ -121,6 +121,8 @@ public interface Configuration {
 	String getJMeterShutdownExeName();
 	void setUseCaseSearchCriteria(String val);
 	String getUseCaseSearchCriteria();
+	void setSutJvmArguments(String val);
+	String getSutJvmArguments();
 
 
 

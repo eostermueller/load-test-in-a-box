@@ -45,7 +45,7 @@ public class CommandLineTester {
 	}
 	/**
 	 * Just testing the API -- not testing any snail4j code quite yet :-)
-	 * This jackson API wants to instantiate the target class.
+	 * This jackson API instantiates the target class.
 	 * That won't work for snail4j, where the instance (DefaultConfiguration) will already exist.
 	 * @stolenFrom: https://www.baeldung.com/jackson-json-node-tree-model
 	 * @throws JsonProcessingException 
