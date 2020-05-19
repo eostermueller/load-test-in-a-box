@@ -47,6 +47,27 @@ public class DefaultConfiguration implements Configuration {
 	private String loadGeneratorShutdownCmd;
 	private String jmeterShutdownExePath;
 	private String useCaseSearchCriteria;
+	
+	/**
+	 * A space-delimited set of JVM parameters that gets passed into 
+	 * -Dspring-boot.run.jvmArguments
+	 * https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/html/#goals-run-parameters-details-jvmArguments
+	 * No quotation marks are allowed in this value.
+	 * The following pom.xml file wraps 'this' value in quotes:
+	 * https://github.com/eostermueller/snail4j/blob/master/processManager/pom.xml 
+	 */
+	private String sutJvmArguments;
+	
+	
+	@Override
+	public String getSutJvmArguments() {
+		return sutJvmArguments;
+	}
+	@Override
+	public void setSutJvmArguments(String val) {
+		sutJvmArguments = val;
+	}
+	
 	/**
 	 * This is the most important constructor in the project :-)
 	 */
@@ -151,6 +172,7 @@ public class DefaultConfiguration implements Configuration {
 	 		sb2.append(SPACE);sb2.append("-Dsnail4j.h2.hostname=#{h2Hostname}");
 	 		sb2.append(SPACE);sb2.append("-Dsnail4j.sut.port=#{sutAppPort}");
 	 		sb2.append(SPACE);sb2.append("-Dsnail4j.glowroot.port=#{glowrootPort}");
+	 		sb2.append(SPACE);sb2.append("-Dsnail4j.sut.jvmArguments=#{sutJvmArguments}");
 			sb2.append(SPACE);sb2.append("verify");
 			this.setProcessManagerLaunchCmd( sb2.toString() );
 			
@@ -187,6 +209,12 @@ public class DefaultConfiguration implements Configuration {
 
 			this.setMavenExePath( createMavenExePath() );
 			this.setUseCaseSearchCriteria("com.github.eostermueller.tjp2");
+			
+			sb3 = new StringBuilder();
+			                  sb3.append("-Xmx1024m");
+			sb3.append(SPACE);sb3.append("-XX:NewSize=512m");
+			sb3.append(SPACE);sb3.append("-XX:MaxNewSize=512m");
+			this.setSutJvmArguments( sb3.toString() );
 
 	}
 	/*
