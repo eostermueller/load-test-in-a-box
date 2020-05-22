@@ -78,7 +78,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 				<sutApp.cmd.08>/E:ON</sutApp.cmd.08> <!-- benign filler arg -->
 				<sutApp.cmd.09>/E:ON</sutApp.cmd.09> <!-- benign filler arg -->
 				<sutApp.cmd.10>/C</sutApp.cmd.10>
-				<sutApp.cmd.11>mvn -e -X ${snail4j.maven.offline.passthru} ${snail4j.maven.repo.passthru} -Dspring-boot.run.fork=true -Dspring-boot.run.jvmArguments="-Dsnail4j.wiremock.hostname=${snail4j.wiremock.hostname} -Dsnail4j.h2.port=${snail4j.h2.port} -Dsnail4j.h2.hostname=${snail4j.h2.hostname} -Dsnail4j.wiremock.port=${snail4j.wiremock.port} -Dglowroot.agent.port=${snail4j.glowroot.port} ${snail4j.sut.jvmArguments}" -Dspring-boot.run.agents=${user.home}/.snail4j/glowroot/glowroot/glowroot.jar -Dspring-boot.run.arguments=--server.port=${snail4j.sut.port} spring-boot:run</sutApp.cmd.11>
+				<sutApp.cmd.11>..${file.separator}apache-maven-3.6.3${file.separator}bin${file.separator}mvn${script.extension} -e -X ${snail4j.maven.offline.passthru} ${snail4j.maven.repo.passthru} -Dspring-boot.run.fork=true -Dspring-boot.run.jvmArguments="-Dsnail4j.wiremock.hostname=${snail4j.wiremock.hostname} -Dsnail4j.h2.port=${snail4j.h2.port} -Dsnail4j.h2.hostname=${snail4j.h2.hostname} -Dsnail4j.wiremock.port=${snail4j.wiremock.port} -Dglowroot.agent.port=${snail4j.glowroot.port} ${snail4j.sut.jvmArguments}" -Dspring-boot.run.agents=${user.home}/.snail4j/glowroot/glowroot/glowroot.jar -Dspring-boot.run.arguments=--server.port=${snail4j.sut.port} spring-boot:run</sutApp.cmd.11>
 			</properties>
 		</profile>
 		<profile>
@@ -90,7 +90,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			</activation>
 			<properties>
 				<script.extension></script.extension>
-				<sutApp.cmd.01>mvn</sutApp.cmd.01>
+				<sutApp.cmd.01>..${file.separator}apache-maven-3.6.3${file.separator}bin${file.separator}mvn${script.extension}</sutApp.cmd.01>
 				<sutApp.cmd.02>-e</sutApp.cmd.02>
 				<sutApp.cmd.03>-X</sutApp.cmd.03>
 				<sutApp.cmd.04>-debug</sutApp.cmd.04>
@@ -159,7 +159,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               <tcpHealthcheckPort>8081</tcpHealthcheckPort>
  -->
               <arguments>
-                <argument>mvn${script.extension}</argument>
+		      <argument>..${file.separator}apache-maven-3.6.3${file.separator}bin${file.separator}mvn${script.extension}</argument>
                 <argument>${snail4j.maven.offline.passthru}</argument>
                 <argument>${snail4j.maven.repo.passthru}</argument>
                 <argument>-Dsnail4j.wiremock.port=${snail4j.wiremock.port}</argument>
@@ -187,7 +187,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
               <tcpHealthcheckPort>${snail4j.h2.port}</tcpHealthcheckPort>
   -->
               <arguments>
-		      <argument>mvn${script.extension}</argument>
+		      <argument>..${file.separator}apache-maven-3.6.3${file.separator}bin${file.separator}mvn${script.extension}</argument>
 		      <argument>-debug</argument>
 		      <argument>-Dh2Version=1.4.191</argument>
                 <argument>${snail4j.maven.offline.passthru}</argument>
