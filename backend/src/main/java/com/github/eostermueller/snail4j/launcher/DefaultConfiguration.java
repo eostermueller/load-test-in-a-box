@@ -77,7 +77,7 @@ public class DefaultConfiguration implements Configuration {
 			this.setJavaHome( 			Paths.get( System.getProperty("java.home")  ) );
 			this.setSnail4jHome(		Paths.get( this.getUserHomeDirString(), ".snail4j" )			);
 			this.setGlowrootHome(			Paths.get( this.getSnail4jHome().toString() , "glowroot") );
-			this.setGlowrootZipFileName ("glowroot-0.13.5-dist.zip");
+			this.setGlowrootZipFileName ("glowroot-0.13.6-dist.zip");
 
 			this.setMavenHome(			Paths.get( this.getSnail4jHome().toString() , this.getMavenZipFileNameWithoutExtension() )		);
 			this.setSnail4jMavenRepo(true);

@@ -41,10 +41,18 @@ TJP2_DIR=$SRC_DIR/tjp2
 H2_MAVEN_PLUGIN_GIT=https://github.com/eostermueller/h2-maven-plugin
 H2_MAVEN_PLUGIN_DIR=$SRC_DIR/h2_maven_plugin
 
-GLOWROOT_DIST_ZIP=glowroot-0.13.5-dist.zip
-GLOWROOT_BIN=https://github.com/glowroot/glowroot/releases/download/v0.13.5/${GLOWROOT_DIST_ZIP}
-MVN_ZIP_NAME=apache-maven-3.6.3-bin.zip
-MVN_URL=https://downloads.apache.org/maven/maven-3/3.6.3/binaries/${MVN_ZIP_NAME}
+
+#The following version change must be updated and recompiled:
+#  			this.setGlowrootZipFileName ("glowroot-0.13.6-dist.zip");
+# ../backend/src/main/java/com/github/eostermueller/snail4j/launcher/DefaultConfiguration.java
+GLOWROOT_VERSION=0.13.6
+GLOWROOT_DIST_ZIP=glowroot-${GLOWROOT_VERSION}-dist.zip
+GLOWROOT_BIN=https://github.com/glowroot/glowroot/releases/download/v${GLOWROOT_VERSION}/${GLOWROOT_DIST_ZIP}
+
+MVN_VERSION=3.6.3
+MVN_ZIP_NAME=apache-maven-${MVN_VERSION}-bin.zip
+MVN_URL=https://downloads.apache.org/maven/maven-3/${MVN_VERSION}/binaries/${MVN_ZIP_NAME}
+
 JMETER_ZIP_NAME=apache-jmeter-5.2.1.zip
 JMETER_URL=https://downloads.apache.org//jmeter/binaries/${JMETER_ZIP_NAME}
 
