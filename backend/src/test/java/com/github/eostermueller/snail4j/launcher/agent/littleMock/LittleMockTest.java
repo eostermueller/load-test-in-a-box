@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.Suite;
 import com.github.eostermueller.snail4j.launcher.agent.TestConfiguration;
@@ -19,7 +20,7 @@ import com.github.eostermueller.snail4j.launcher.agent.runner.MavenSpringBootRun
 public class LittleMockTest {
 
 	@Before
-	public void canAddLoadTestStructure() {
+	public void canAddLoadTestStructure() throws Snail4jException  {
 		Path tjpHome = Paths.get(TestTheTestConfiguration.unix_ABS_PATH_TO_TJP);
 		Path javaHome = Paths.get(TestTheTestConfiguration.unix_JAVA_HOME);				
 		TestConfiguration testConfiguration = new TestConfiguration(tjpHome, javaHome);

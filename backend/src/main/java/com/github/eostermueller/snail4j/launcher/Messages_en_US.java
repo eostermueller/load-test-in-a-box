@@ -1,5 +1,6 @@
 package com.github.eostermueller.snail4j.launcher;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -109,6 +110,36 @@ public class Messages_en_US implements Messages {
 			sb.append(e + "\n");
 		
 		return sb.toString();
+	}
+
+	@Override
+	public String getHostnameInitMessage(String hostname) {
+		return String.format("Detected hostname [%s].  This will be written to snail4j.json configuration file.", hostname);
+	}
+
+	@Override
+	public String javaHomeEnvVarNotSet() {
+		return "The JAVA_HOME envirnoment variable must be set so Snail4j can locate java, jcmd and other tools.";
+	}
+
+	@Override
+	public String javaHomeFolderDoesNotExist(File javaHomeFolder) {
+		return String.format("JAVA_HOME env is set to [%s].  This path does not exist or you're lacking permissions to access it. Snail4j uses JAVA_HOME to locate java, jcmd and other tools.",javaHomeFolder.getAbsolutePath().toString());
+	}
+
+	@Override
+	public String startInstallMessage() {
+		return "Start of Snail4j Install";
+	}
+
+	@Override
+	public String successfulInstallation() {
+		return "Snail4j Install Succeeded";
+	}
+
+	@Override
+	public String failedInstallation() {
+		return "Snail4j Install Failed";
 	}
 
 }

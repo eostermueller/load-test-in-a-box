@@ -3,6 +3,7 @@ package com.github.eostermueller.snail4j;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 
 /**
@@ -32,6 +34,16 @@ drwxr-xr-x  7 erikostermueller  staff        224 Sep 15 10:30 .
  *
  */
 public class Snail4jInstaller {
+	public int preinstallCheck() throws CannotFindSnail4jFactoryClass, MalformedURLException {
+		int zeroErrorsMeansSuccess = 0;
+		
+		InstallAdvice ia = new InstallAdvice();
+		
+		if (!ia.isJavaHomeEnvVarOk() )
+			zeroErrorsMeansSuccess++;
+		
+		return zeroErrorsMeansSuccess;
+	}
 	Configuration getConfiguration() throws Snail4jException {
 		return DefaultFactory.getFactory().getConfiguration();
 	}
@@ -62,6 +74,7 @@ public class Snail4jInstaller {
 	}
 
   }
+  
 	private void installJMeterDistribution() throws Snail4jException {
 		PathUtil pathUtil = new PathUtil();
 		String path = pathUtil.getBaseClassspath();

@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 
+import com.github.eostermueller.snail4j.Snail4jException;
+
 public class TestTheTestConfiguration {
 
 	
@@ -25,7 +27,7 @@ public class TestTheTestConfiguration {
 	
 	@Test
 	@EnabledOnOs({OS.LINUX, OS.MAC})
-	public void canCreatePathsBasedOnInstallationHome_unixStyle() {
+	public void canCreatePathsBasedOnInstallationHome_unixStyle() throws Snail4jException {
 		
 		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
 		Path javaHome = Paths.get(this.unix_JAVA_HOME);
@@ -43,7 +45,7 @@ public class TestTheTestConfiguration {
 	 */
 	@Test
 	@EnabledOnOs({OS.WINDOWS})
-	public void canCreatePathsBasedOnInstallationHome_winStyle() {
+	public void canCreatePathsBasedOnInstallationHome_winStyle()  throws Snail4jException {
 		Path pgHome = Paths.get(win_ABS_PATH_TO_PG);
 		Path javaHome = Paths.get(win_JAVA_HOME);
 				
@@ -61,7 +63,7 @@ public class TestTheTestConfiguration {
 	}
 	@EnabledOnOs({OS.WINDOWS})
 	@Test
-	public void canFindMvnExecutableOnWindows() {
+	public void canFindMvnExecutableOnWindows()  throws Snail4jException {
 		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
 		Path javaHome = Paths.get(this.unix_JAVA_HOME);
 		String myPlatformSeparater = File.separator;
@@ -79,7 +81,7 @@ public class TestTheTestConfiguration {
 		
 	}
 	@Test 
-	public void canSetMavenOfflineFlagAndGetMavenOfflineParms_lg() {
+	public void canSetMavenOfflineFlagAndGetMavenOfflineParms_lg()  throws Snail4jException  {
 		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
 		Path javaHome = Paths.get(this.unix_JAVA_HOME);
 		char myPlatformSeparater = '/';
@@ -109,7 +111,7 @@ public class TestTheTestConfiguration {
 		
 	}	
 	@Test 
-	public void canSetMavenOfflineFlagAndGetMavenOfflineParms_processManager() {
+	public void canSetMavenOfflineFlagAndGetMavenOfflineParms_processManager()  throws Snail4jException  {
 		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
 		Path javaHome = Paths.get(this.unix_JAVA_HOME);
 		char myPlatformSeparater = '/';
@@ -131,7 +133,7 @@ public class TestTheTestConfiguration {
 		
 	}
 	@Test 
-	public void canProcessMavenOnlineFlagEvenWithHardCodedOfflineParameters_lg() {
+	public void canProcessMavenOnlineFlagEvenWithHardCodedOfflineParameters_lg()  throws Snail4jException  {
 		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
 		Path javaHome = Paths.get(unix_JAVA_HOME);
 		
@@ -158,7 +160,7 @@ public class TestTheTestConfiguration {
 				"could not correctly assemble mvn command with offline flags");
 	}	
 	@Test 
-	public void canProcessMavenOnlineFlagEvenWithHardCodedOfflineParameters_processManager() {
+	public void canProcessMavenOnlineFlagEvenWithHardCodedOfflineParameters_processManager() throws Snail4jException  {
 		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
 		Path javaHome = Paths.get(unix_JAVA_HOME);
 		
@@ -182,7 +184,7 @@ public class TestTheTestConfiguration {
 	}
 	@Test
 	@EnabledOnOs({OS.LINUX, OS.MAC})
-	public void canFindMvnExecutableOnNonWindows() {
+	public void canFindMvnExecutableOnNonWindows()  throws Snail4jException {
 		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
 		Path javaHome = Paths.get(this.unix_JAVA_HOME);
 		char myPlatformSeparater = '/';
@@ -200,7 +202,7 @@ public class TestTheTestConfiguration {
 	}
 
 	@Test
-	public void canTurnOffUseOfSnail4jRepo_processManager() {
+	public void canTurnOffUseOfSnail4jRepo_processManager()  throws Snail4jException {
 		Path tjpHome = Paths.get(unix_ABS_PATH_TO_TJP);
 		Path javaHome = Paths.get(unix_JAVA_HOME);
 		

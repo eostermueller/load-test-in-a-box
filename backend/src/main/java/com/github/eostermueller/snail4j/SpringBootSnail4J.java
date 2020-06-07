@@ -1,20 +1,22 @@
 package com.github.eostermueller.snail4j;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.ConfigVariableNotFoundException;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.Event;
-import com.github.eostermueller.snail4j.launcher.Suite;
-import com.github.eostermueller.snail4j.processmodel.ProcessModelBuilder;
+import com.github.eostermueller.snail4j.launcher.Messages;
 import com.github.eostermueller.snail4j.processmodel.ProcessModelSingleton;
 
 /**
@@ -27,6 +29,8 @@ import com.github.eostermueller.snail4j.processmodel.ProcessModelSingleton;
  */
 @Component
 public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEvent> {
+	@Autowired
+	private ConfigurableApplicationContext ctx;
 	private static final String WIREMOCK_PORT_PROPERTY = "wiremockPort";
 
 	private static final String H2_PORT_PROPERTY = "h2Port";
@@ -50,15 +54,13 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 	public void onApplicationEvent(ApplicationReadyEvent event) {
 
 		try {
-			Configuration cfg = DefaultFactory.getFactory().getConfiguration();
+			Configuration cfg = DefaultFactory.getFactory().getConfiguration();						
+			
+			
 			install(cfg);
-			DefaultFactory.getFactory().getEventHistory().getEvents().add(
-					Event.create("snail4j install complete.") );
 			initProcessModel();
 			initPorts(cfg);
-			DefaultFactory.getFactory().getEventHistory().getEvents().add(
-					Event.create("snail4j startup complete.") );
-		} catch (Snail4jException e) {
+		} catch (Snail4jException | MalformedURLException e) {
 			try {
 				ProcessModelSingleton.getInstance().setCauseOfSystemFailure(e);
 				DefaultFactory.getFactory().getEventHistory().addException("Exception during snail4j startup.", e);
@@ -132,36 +134,52 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 	private void initProcessModel() throws ConfigVariableNotFoundException, Snail4jException {
 		ProcessModelSingleton.getInstance();
 	}
-	private void install(Configuration cfg) {
+	private void install(Configuration cfg) throws CannotFindSnail4jFactoryClass, MalformedURLException {
 		String path = new PathUtil().getBaseClassspath();
+		Messages m = DefaultFactory.getFactory().getMessages();
 		if (path.contains(PathUtil.JAR_SUFFIX)) { //only install if launched using "java -jar".  Elsewise, installs happen with every "backend" build, because Spring Boot is launched during integration testing. 
-			dispInstallBanner();
 			try {
-				Snail4jInstaller snail4jInstaller = DefaultFactory.getFactory().createNewInstaller();
 				
-				LOGGER.info("online: " + cfg.isMavenOnline() );
-				LOGGER.info("snail4j maven repo: " + cfg.isSnail4jMavenRepo() );
-				snail4jInstaller.install();
+				dispInstallBanner(m.startInstallMessage() );
+				DefaultFactory.getFactory().getEventHistory().getEvents().add(
+						Event.create(m.startInstallMessage()) );
+				
+				Snail4jInstaller snail4jInstaller = DefaultFactory.getFactory().createNewInstaller();
+				LOGGER.info("Maven online mode: " + cfg.isMavenOnline() );
+				LOGGER.info("snail4j maven repo location: " + cfg.isSnail4jMavenRepo() );
+				
+				int countOfFailedPreChecks = snail4jInstaller.preinstallCheck();
+				if (countOfFailedPreChecks==0)
+					snail4jInstaller.install();
+				else
+					throw new Snail4jException(String.format("[%d] install prechecks failed.", countOfFailedPreChecks));
 				
 		    	LOGGER.info("Install finished.  Ready to load test!");
-
+		    	dispInstallBanner( m.successfulInstallation() );
+				DefaultFactory.getFactory().getEventHistory().getEvents().add(
+						Event.create(m.successfulInstallation()) );
 			} catch (Snail4jException e) {
-				// TODO Auto-generated catch block
+		    	dispInstallBanner( m.failedInstallation() );
+				DefaultFactory.getFactory().getEventHistory().getEvents().add(
+						Event.create(m.failedInstallation()) );
 				e.printStackTrace();
-			}
+				if (ctx !=null) 
+					ctx.close();//Shut down spring boot
+			} 
+			
 		} else {
-			this.LOGGER.info("Install has been skipped!   It only runs when WindTunnel is launched with 'java -jar'. Startup: [" + path + "]" );
+			this.LOGGER.error("Install has been skipped!   It only runs when WindTunnel is launched with 'java -jar'. Startup: [" + path + "]" );
 		}
 	}
 
-	private void dispInstallBanner() {
-		this.LOGGER.info("##########################" );
-		this.LOGGER.info("##########################" );
-		this.LOGGER.info("####                 #####" );
-		this.LOGGER.info("####  I N S T A L L  #####" );
-		this.LOGGER.info("####                 #####" );
-		this.LOGGER.info("##########################" );
-		this.LOGGER.info("##########################" );
+	private void dispInstallBanner(String msg) {
+		this.LOGGER.info("########################################" );
+		this.LOGGER.info("########################################" );
+		this.LOGGER.info("####                               #####" );
+		this.LOGGER.info("#### " + msg);
+		this.LOGGER.info("####                               #####" );
+		this.LOGGER.info("########################################" );
+		this.LOGGER.info("########################################" );
 	}
 
 }

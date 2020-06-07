@@ -113,6 +113,14 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
       <systemPath>${toolsjar}</systemPath>
     </dependency>
 
+        <dependency>
+         <groupId>com.github.stefanbirkner</groupId>
+         <artifactId>system-rules</artifactId>
+        <!-- <version>1.19.0</version> newer, but broken!!! -->
+         <version>1.17.2</version>
+         <scope>test</scope>
+        </dependency>
+
 
 
 <!-- end of launcher dependencies -->

@@ -1,5 +1,6 @@
 package com.github.eostermueller.snail4j.launcher;
 
+import java.io.File;
 import java.util.List;
 
 public interface Messages {
@@ -40,5 +41,19 @@ public interface Messages {
 	String tcpPortConflict(String name, String hostname, int port, String snail4jProperty);
 
 	String portInitStatus(List<String> errors);
+
+	String getHostnameInitMessage(String hostname);
+
+	String javaHomeEnvVarNotSet();
+
+	String javaHomeFolderDoesNotExist(File javaHomeFolder);
+
+	String startInstallMessage();
+
+	String successfulInstallation();
+
+	String failedInstallation();
+
+
 
 }
