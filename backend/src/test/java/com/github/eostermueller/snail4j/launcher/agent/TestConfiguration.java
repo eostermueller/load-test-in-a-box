@@ -3,6 +3,7 @@ package com.github.eostermueller.snail4j.launcher.agent;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.DefaultConfiguration;
 
@@ -26,16 +27,13 @@ public class TestConfiguration extends DefaultConfiguration implements Configura
 	 
 	Path tjpHome = null;
 	Path javaHome = null;
-	//public static final String unix_JAVA_HOME = "/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home";
 	
-	/**
-	 * WOW this needs to go away, hard coding paths from my machine.
-	 */
-	public TestConfiguration() {
+	
+	public TestConfiguration() throws Snail4jException {
 		this.setJavaHome( 			Paths.get( System.getProperty("java.home")  ) );
 		
 	}
-	public TestConfiguration(Path pgHome, Path javaHome) {
+	public TestConfiguration(Path pgHome, Path javaHome) throws Snail4jException {
 		this.setSnail4jHome(pgHome);
 		this.setJavaHome(javaHome);
 	}

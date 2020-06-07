@@ -2,6 +2,8 @@ package com.github.eostermueller.snail4j.launcher;
 
 import java.nio.file.Path;
 
+import com.github.eostermueller.snail4j.Snail4jException;
+
 public interface Configuration {
 	/**
 	 * Path with
@@ -123,6 +125,7 @@ public interface Configuration {
 	String getUseCaseSearchCriteria();
 	void setSutJvmArguments(String val);
 	String getSutJvmArguments();
+	void setDefaultHostname(String hostname) throws Snail4jException;
 
 
 

@@ -1,16 +1,24 @@
 package com.github.eostermueller.snail4j.launcher;
 
 import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.eostermueller.snail4j.DefaultFactory;
+import com.github.eostermueller.snail4j.Snail4jException;
 
 /**
  * @author erikostermueller
  *
  */
 public class DefaultConfiguration implements Configuration {
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());	
 
 	/**
 	 * When this snail4j variable is resolved (by com.github.eostermueller.snail4j.launcher.ConfigLookup), it resolves correctly on MS-Win and *Nix to be the full path of either
@@ -58,7 +66,16 @@ public class DefaultConfiguration implements Configuration {
 	 */
 	private String sutJvmArguments;
 	
-	
+	@JsonIgnore
+	@Override
+	public void setDefaultHostname(String hostname) throws Snail4jException {
+		this.setWiremockHostname	(hostname);
+		this.setH2Hostname			(hostname);
+		this.setSutAppHostname		(hostname);
+		
+		Messages m = DefaultFactory.getFactory().getMessages();
+		LOGGER.info(m.getHostnameInitMessage(hostname));
+	}
 	@Override
 	public String getSutJvmArguments() {
 		return sutJvmArguments;
@@ -70,8 +87,20 @@ public class DefaultConfiguration implements Configuration {
 	
 	/**
 	 * This is the most important constructor in the project :-)
+	 * @throws Snail4jException 
 	 */
-	public DefaultConfiguration() {
+	public DefaultConfiguration() throws Snail4jException {
+		
+			String hostname = null;
+			
+			try {
+				hostname = InetAddress.getLocalHost().getHostName();
+				this.setDefaultHostname(hostname);
+			} catch (UnknownHostException e) {
+				throw new Snail4jException(e);
+			}
+		
+		
     		this.setUserHomeDir(		Paths.get( getUserHomeDirString() )	);
 
 			this.setJavaHome( 			Paths.get( System.getProperty("java.home")  ) );
@@ -86,7 +115,6 @@ public class DefaultConfiguration implements Configuration {
 			this.setSutAppHome(			Paths.get( this.getSnail4jHome().toString() , "sutApp") );
 			this.setSutAppZipFileName ("sutApp.zip");
 			this.setSutAppPort		  (9675);
-			this.setSutAppHostname	  ("localhost");
 			this.setGlowrootPort(12675);
 
 			this.setSutKillFile(        Paths.get( this.getSnail4jHome().toString() , "deleteMeToStopSnail4jSut.txt") );
@@ -115,12 +143,7 @@ public class DefaultConfiguration implements Configuration {
 
 			this.setJMeterFilesZipFileName("jmeterFiles.zip");
 			this.setJMeterFilesHome(Paths.get( this.getSnail4jHome().toString() , "jmeterFiles") );
-			
-			
-			this.setSutAppHostname("localhost");
 
-
-			//this.setLoadGenerationTargetHost("localhost");
 			this.setLoadGenerationThreads(3); //3T0TT -- from http://bit.ly/2017tjp
 			this.setLoadGenerationRampupTimeInSeconds(3);
 
@@ -193,10 +216,8 @@ public class DefaultConfiguration implements Configuration {
 			this.setJMeterExePath( createJMeterExePath() );
 			this.setJMeterShutdownExePath( createJMeterShutdownExePath() );
 			
-			this.setWiremockHostname("localhost");
 			this.setWiremockPort(11675);
 			
-			this.setH2Hostname("localhost");
 			this.setH2Port(10675);
 			// this.setProcessManagerLaunchCmd("#{mavenExePath} verify");
 
@@ -210,10 +231,19 @@ public class DefaultConfiguration implements Configuration {
 			this.setMavenExePath( createMavenExePath() );
 			this.setUseCaseSearchCriteria("com.github.eostermueller.tjp2");
 			
+			//-Xloggc:gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=128K
 			sb3 = new StringBuilder();
 			                  sb3.append("-Xmx1024m");
 			sb3.append(SPACE);sb3.append("-XX:NewSize=512m");
 			sb3.append(SPACE);sb3.append("-XX:MaxNewSize=512m");
+//			sb3.append(SPACE);sb3.append("-Xloggc:gc.log");
+//			sb3.append(SPACE);sb3.append("-verbose:gc");
+//			sb3.append(SPACE);sb3.append("-XX:+PrintGCDetails");
+//			sb3.append(SPACE);sb3.append("-XX:+PrintGCDateStamps");
+//			sb3.append(SPACE);sb3.append("-XX:+PrintGCTimeStamps");
+//			sb3.append(SPACE);sb3.append("-XX:+UseGCLogFileRotation");
+//			sb3.append(SPACE);sb3.append("-XX:NumberOfGCLogFiles=5");
+//			sb3.append(SPACE);sb3.append("-XX:GCLogFileSize=1m");
 			this.setSutJvmArguments( sb3.toString() );
 
 	}

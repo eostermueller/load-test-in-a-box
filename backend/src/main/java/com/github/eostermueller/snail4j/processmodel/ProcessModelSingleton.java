@@ -9,7 +9,7 @@ import com.github.eostermueller.snail4j.launcher.StateChange;
 import com.github.eostermueller.snail4j.launcher.Suite;
 
 public class ProcessModelSingleton {
-	Snail4jException causeOfSystemFailure = null;
+	Exception causeOfSystemFailure = null;
 	public SystemUnderTest getSystemUnderTest() {
 		return systemUnderTest;
 	}
@@ -25,11 +25,11 @@ public class ProcessModelSingleton {
 	private SystemUnderTest systemUnderTest = null;
 	private LoadGenerator loadGenerator = null;
 	
-	public Snail4jException getCauseOfSystemFailure() {
+	public Exception getCauseOfSystemFailure() {
 		return causeOfSystemFailure;
 	}
-	public void setCauseOfSystemFailure(Snail4jException causeOfSystemFailure) {
-		this.causeOfSystemFailure = causeOfSystemFailure;
+	public void setCauseOfSystemFailure(Exception e) {
+		this.causeOfSystemFailure = e;
 	}
 	/**
 	 * @st0lenFr0m: https://stackoverflow.com/questions/7855700/why-is-volatile-used-in-double-checked-locking

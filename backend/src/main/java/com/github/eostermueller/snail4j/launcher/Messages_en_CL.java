@@ -3,7 +3,7 @@ package com.github.eostermueller.snail4j.launcher;
 import java.util.Arrays;
 import java.util.List;
 
-public class Messages_en_CL implements Messages {
+public class Messages_en_CL extends Messages_en_US implements Messages {
 
 	@Override
 	public String testMustBeStoppedBeforeAttemptingToStart(String name) {

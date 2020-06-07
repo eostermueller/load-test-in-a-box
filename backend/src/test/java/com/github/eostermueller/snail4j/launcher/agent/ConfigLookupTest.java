@@ -26,7 +26,7 @@ public class ConfigLookupTest {
 	 File tmpFolder = null;
 	
 	@Before
-	public void setup() throws IOException {
+	public void setup() throws IOException, Snail4jException  {
     	this.tmpFolder = testFolder.newFolder();
     	this.expectedJavaHome = this.tmpFolder.getAbsolutePath().toString();
     	
