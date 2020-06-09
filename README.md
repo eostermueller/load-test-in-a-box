@@ -4,7 +4,7 @@ Snail4j is a load-test-in-a-box that aims to educate all Java developers on soft
 
 # Snail4j Intro
 
-[https://github.com/eostermueller/snail4j/wiki/quickstart](Quickstart)
+[Download/Install/Run doc](https://github.com/eostermueller/snail4j/wiki/quickstart) - the "Quickstart"
 
 [Build wiki](https://github.com/eostermueller/snail4j/wiki/Build)
 
