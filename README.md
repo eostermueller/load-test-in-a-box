@@ -27,5 +27,7 @@ Snail4j challenges the end user to [solicit predictions](https://blog.upperlinec
 
 # Goals
 * Quick and easy "[No Friction](https://github.com/eostermueller/snail4j/wiki/No-Friction-Distribution)" distribution.
-* Provides hands-on experience troubleshooting java performance.
+* Provides self-paced, hands-on experience troubleshooting java performance.
+* Great for a performance code review.
+* Testing environment for any monitoring solution, to quickly test resource overhead of monitoring, confirm that monitoring can detect perf defects.
 
