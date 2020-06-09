@@ -2,13 +2,13 @@ Re-live datacenter performance firefights on your own desktop, installs in <5 mi
 What’s the problem?  What’s the cause?  The fix?  Click click click. Done.
 Snail4j is a load-test-in-a-box that aims to educate all Java developers on software performance.
 
-# Intro
+# Snail4j Intro
 
-The [[quickstart|Snail4j Quickstart]] is the fastest way to install/run Snail4j, the load-test-in-a-box.  
+[https://github.com/eostermueller/snail4j/wiki/quickstart](Quickstart)
 
-Wanna make changes to snailj?  [Build wiki is here](https://github.com/eostermueller/snail4j/wiki/Build).
+[Build wiki](https://github.com/eostermueller/snail4j/wiki/Build)
 
-Wanna contribute changes to snail4j?  [Contributing wiki is here](https://github.com/eostermueller/snail4j/wiki/Contributing).
+[Contribute](https://github.com/eostermueller/snail4j/wiki/Contributing).
 
 # Motivation
 Snail4j challenges the end user to [solicit predictions](https://blog.upperlinecode.com/stop-teaching-code-a1039983b39) on software performance experiments with main types of software defects:  
@@ -26,9 +26,6 @@ Snail4j challenges the end user to [solicit predictions](https://blog.upperlinec
  * How much delay is required to slow down code with a sync block?
 
 # Goals
-## Easy Install for Quick Meeting/Classroom/Conference Discussion
-* <5 minute install
-* Runs on MS-Win, Mac, and Linux
-* Pure Java (and I guess browser)
-* Optionally, just copy uber jar from USB stick, no internet access required.
+* Quick and easy "[No Friction](https://github.com/eostermueller/snail4j/wiki/No-Friction-Distribution)" distribution.
+* Provides hands-on experience troubleshooting java performance.
 
