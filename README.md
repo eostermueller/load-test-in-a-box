@@ -2,6 +2,14 @@ Re-live datacenter performance firefights on your own desktop, installs in <5 mi
 What’s the problem?  What’s the cause?  The fix?  Click click click. Done.
 Snail4j is a load-test-in-a-box that aims to educate all Java developers on software performance.
 
+# Intro
+
+The [[quickstart|Snail4j Quickstart]] is the fastest way to install/run Snail4j, the load-test-in-a-box.  
+
+Wanna make changes to snailj?  [Build wiki is here](https://github.com/eostermueller/snail4j/wiki/Build).
+
+Wanna contribute changes to snail4j?  [Contributing wiki is here](https://github.com/eostermueller/snail4j/wiki/Contributing).
+
 # Motivation
 Snail4j challenges the end user to [solicit predictions](https://blog.upperlinecode.com/stop-teaching-code-a1039983b39) on software performance experiments with main types of software defects:  
  * Persistence
