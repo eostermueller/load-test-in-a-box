@@ -14,7 +14,14 @@ public interface Configuration {
 	public Path getSutAppHome();
 	public void setSutAppHome(Path val);
 	public Path getMavenHome();
-	public Path getJavaHome();
+	
+	/**
+	 * Returns JAVA_HOME environment variable -- not the java.home system property.
+	 * snail4j startup will fail of JAVA_HOME isn't set.
+	 * @return
+	 * @throws Snail4jException
+	 */
+	public Path getJavaHome() throws Snail4jException;
 	public void setJavaHome(Path p);
 	Path getUserHomeDir();
 	String getUserHomeDirString();

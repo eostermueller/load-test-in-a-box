@@ -3,6 +3,10 @@ package com.github.eostermueller.snail4j.launcher.agent;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.github.eostermueller.snail4j.JdkUtils;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.DefaultConfiguration;
@@ -24,18 +28,24 @@ C:\Users\JaneDoe\Documents\tjp ( on mac /Users/JaneDoe/Documents/tjp )
  *
  */
 public class TestConfiguration extends DefaultConfiguration implements Configuration {
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	 
 	Path tjpHome = null;
 	Path javaHome = null;
 	
 	
 	public TestConfiguration() throws Snail4jException {
-		this.setJavaHome( 			Paths.get( System.getProperty("java.home")  ) );
+		LOGGER.debug("start of TestConfiguration ctor 1");
+		this.setJavaHome( 			JdkUtils.get_JAVA_HOME()  );
 		
+		LOGGER.debug("stop of TestConfiguration ctor 1");
 	}
 	public TestConfiguration(Path pgHome, Path javaHome) throws Snail4jException {
+		LOGGER.debug("start of TestConfiguration ctor 2");
 		this.setSnail4jHome(pgHome);
 		this.setJavaHome(javaHome);
+		LOGGER.debug("stop of TestConfiguration ctor 2");
+
 	}
 
 	@Override
@@ -45,7 +55,7 @@ public class TestConfiguration extends DefaultConfiguration implements Configura
 
 
 	@Override
-	public Path getJavaHome() {
+	public Path getJavaHome() throws Snail4jException {
 		return this.javaHome;
 	}
 

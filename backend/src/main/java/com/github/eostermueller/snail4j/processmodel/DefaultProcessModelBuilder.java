@@ -46,7 +46,7 @@ public class DefaultProcessModelBuilder implements ProcessModelBuilder {
 	
 	private Configuration cfg = null;
 
-	public DefaultProcessModelBuilder(Configuration val) {
+	public DefaultProcessModelBuilder(Configuration val) throws Snail4jException {
 		this.cfg = val;
 		this.setJavaHome( cfg.getJavaHome() );
 	}
