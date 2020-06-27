@@ -46,13 +46,14 @@ public interface Messages {
 
 	String javaHomeEnvVarNotSet();
 
-	String javaHomeFolderDoesNotExist(File javaHomeFolder);
+	String javaHomeFolderDoesNotExistOrLackingPermissions(File javaHomeFolder);
 
 	String startInstallMessage();
 
 	String successfulInstallation();
 
 	String failedInstallation();
+
 
 
 

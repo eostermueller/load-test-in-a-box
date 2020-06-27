@@ -8,6 +8,7 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +17,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.health.Health;
 
 import com.github.eostermueller.snail4j.OsUtils.OsResult;
+import com.github.eostermueller.snail4j.launcher.Configuration;
+import com.github.eostermueller.snail4j.launcher.DefaultConfiguration;
+import com.github.eostermueller.snail4j.launcher.Messages;
 
 public class OsUtils {
 	static final Logger LOGGER = LoggerFactory.getLogger(OsUtils.class);
 	public static class OsResult {
 		int exitCode = UNINITIALIZED;
-		String stdout;
+		public String stdout;
 	}
 
 	
@@ -138,6 +142,27 @@ public class OsUtils {
 	        //tons of detail here!!!! LOGGER.debug(osResult.stdout);
 	        return osResult;
 	}
+	
+	
+	/**
+	 * @throws Snail4jException 
+	 */
+	public static OsResult executeProcess(String osCmd) throws Snail4jException {
+		
+		OsResult osResult = null;
+		
+		switch(OS.getOs().getOsFamily()) {
+		case Windows:
+			osResult = executeProcess_mswin(osCmd);
+			break;
+		default:
+			osResult = executeProcess_bash(osCmd);
+			break;
+		}
+		return osResult;
+		
+	}
+	
 	public static OsResult executeProcess_bash(String cmd) throws Snail4jException {
 		return executeProcess_bash(cmd,null/* no need to switch to a current directory*/);
 	}

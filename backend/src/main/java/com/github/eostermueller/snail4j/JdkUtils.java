@@ -1,6 +1,9 @@
 package com.github.eostermueller.snail4j;
 
+import java.io.File;
 import java.lang.management.ManagementFactory;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,16 +13,69 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
 
-import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.VirtualMachineDescriptor;
+import com.github.eostermueller.snail4j.OsUtils.OsResult;
+import com.github.eostermueller.snail4j.DefaultFactory;
+import com.github.eostermueller.snail4j.launcher.Messages;
 
 public class JdkUtils {
 
-	public static void main(String args[]) {
+	public static Path get_JAVA_HOME() throws Snail4jException {
+		String javaHomeEnvVar = System.getenv("JAVA_HOME");
+		//String javaHomeEnvVar = "C:\\java\\java-1.8.0-openjdk-1.8.0.252-2.b09.ojdkbuild.windows.x86_64\\java-1.8.0-openjdk-1.8.0.252-2.b09.ojdkbuild.windows.x86_64";
+		Messages m = DefaultFactory.getFactory().getMessages();
+		Path p = null;
+		if (javaHomeEnvVar!=null && javaHomeEnvVar.trim().length()>0) {
+			p = Paths.get(javaHomeEnvVar);
+			
+			if (!p.toFile().exists() || !p.toFile().isDirectory() ) {
+				throw new Snail4jException( m.javaHomeFolderDoesNotExistOrLackingPermissions(p.toFile()) );
+			}
+		} else {
+			throw new Snail4jException(m.javaHomeEnvVarNotSet());
+		}
+		return p;
 	}
-	
+	public static ProcessDescriptor[] getJavaProcesses(Path jdkHome) throws Snail4jException {
+		OsResult osResult = executeJdkBinCmd(jdkHome,JCMD);
+		List<ProcessDescriptor> processes = new ArrayList<ProcessDescriptor>();
+		
+		String[] javaProcesses = osResult.stdout.split("\\r?\\n");
+		for(String oneLine : javaProcesses) {
+			int indexOfSpace = oneLine.indexOf(' ');
+			if (indexOfSpace > 1) {
+				
+				long pid = 0;
+				try {
+					pid = Long.parseLong(
+						oneLine.substring(0,indexOfSpace).trim()
+						);
+				} catch (NumberFormatException e) {
+					throw new Snail4jException(String.format("Unable to locate PID after first space char in this JCMD output line [%s]", oneLine));
+				}
+				processes.add( ProcessDescriptor.create(
+						pid, 
+						oneLine.substring(indexOfSpace+1, oneLine.length() ).trim()
+						) );
+			}
+		}
+		return processes.toArray(new ProcessDescriptor[] {});
+		
+	}
+	public static OsResult executeJdkBinCmd(Path jdkHome, String jdkCmd) throws Snail4jException {
+		OsResult osResult = null;
+		Messages m = DefaultFactory.getFactory().getMessages();
+		
+		if (jdkHome.toFile().exists() && jdkHome.toFile().isDirectory() ) {
+			String jdkBinCommand = jdkHome.toFile().getAbsolutePath().toString() + File.separator + "bin" + File.separator + jdkCmd;
+			osResult = OsUtils.executeProcess(jdkBinCommand);
+		} else {
+			throw new Snail4jException( m.javaHomeFolderDoesNotExistOrLackingPermissions(jdkHome.toFile()));
+		}
+		
+		return osResult;
+	}
 	public static class ProcessDescriptor {
-		public static ProcessDescriptor create(String pid, String commandLine) {
+		public static ProcessDescriptor create(long pid, String commandLine) {
 			ProcessDescriptor pd = new ProcessDescriptor();
 			pd.pid = pid;
 			pd.commandLine = commandLine;
@@ -29,22 +85,15 @@ public class JdkUtils {
 		public String toString() {
 			return String.format("pid=%s commandLine=%s", this.pid,this.commandLine);
 		}
-		public String pid = null;
+		public long pid = 0;
 		public String commandLine = null;
-	}
-	public static ProcessDescriptor[] getJavaProcesses() {
-		List<ProcessDescriptor> processDescriptors = new ArrayList<ProcessDescriptor>();
-        List<VirtualMachineDescriptor> vms = VirtualMachine.list();
-        for (VirtualMachineDescriptor virtualMachineDescriptor : vms) {
-        	processDescriptors.add(  ProcessDescriptor.create(virtualMachineDescriptor.id(), virtualMachineDescriptor.displayName()));
-//           System.out.println( String.format("============ Show JVM: pid = %s --> %s ", virtualMachineDescriptor.id(), virtualMachineDescriptor.displayName()) );
-        }
-        return processDescriptors.toArray( new ProcessDescriptor[processDescriptors.size()] );
 	}
 
 	/** Object Name of DiagnosticCommandMBean. */
 	   public final static String DIAGNOSTIC_COMMAND_MBEAN_NAME =
 	      "com.sun.management:type=DiagnosticCommand";
+
+	public static final String JCMD = "jcmd";
 	 
 	   /** My MBean Server. */
 	   private final MBeanServer server = ManagementFactory.getPlatformMBeanServer();

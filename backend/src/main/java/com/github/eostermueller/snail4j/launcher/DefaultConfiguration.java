@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.eostermueller.snail4j.DefaultFactory;
+import com.github.eostermueller.snail4j.JdkUtils;
 import com.github.eostermueller.snail4j.Snail4jException;
 
 /**
@@ -100,10 +101,9 @@ public class DefaultConfiguration implements Configuration {
 				throw new Snail4jException(e);
 			}
 		
-		
     		this.setUserHomeDir(		Paths.get( getUserHomeDirString() )	);
 
-			this.setJavaHome( 			Paths.get( System.getProperty("java.home")  ) );
+			this.setJavaHome( 			JdkUtils.get_JAVA_HOME() );
 			this.setSnail4jHome(		Paths.get( this.getUserHomeDirString(), ".snail4j" )			);
 			this.setGlowrootHome(			Paths.get( this.getSnail4jHome().toString() , "glowroot") );
 			this.setGlowrootZipFileName ("glowroot-0.13.6-dist.zip");
@@ -785,7 +785,7 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	}
 
 	@Override
-	public Path getJavaHome() {
+	public Path getJavaHome() throws Snail4jException {
 		return this.javaHome;
 	}
 

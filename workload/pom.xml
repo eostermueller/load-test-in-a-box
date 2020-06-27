@@ -51,23 +51,26 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
       <artifactId>spring-boot-starter-integration</artifactId>
     </dependency>
     <!-- start 0f library dependencies -->
+
+	<dependency>
+		<groupId>org.junit.jupiter</groupId>
+		<artifactId>junit-jupiter-api</artifactId>
+		<version>5.6.2</version>
+		<scope>test</scope>
+	</dependency>
+
+
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.3.2</version>
+      <version>5.6.2</version>
       <scope>test</scope>
     </dependency>
+
     <dependency>
       <groupId>io.github.classgraph</groupId>
       <artifactId>classgraph</artifactId>
       <version>4.8.77</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/junit/junit -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
     </dependency>
     <!-- end of traffic dependencies -->
   </dependencies>
@@ -75,11 +78,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
+	<artifactId>maven-failsafe-plugin</artifactId>
+	<version>2.22.2</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
+	<artifactId>maven-surefire-plugin</artifactId>
+	<version>2.22.2</version>
       </plugin>
 <!--  excutable jar will be built in the 'traffic' project, not here.
       <plugin>

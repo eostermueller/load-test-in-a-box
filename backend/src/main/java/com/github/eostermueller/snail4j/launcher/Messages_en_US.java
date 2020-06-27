@@ -123,7 +123,7 @@ public class Messages_en_US implements Messages {
 	}
 
 	@Override
-	public String javaHomeFolderDoesNotExist(File javaHomeFolder) {
+	public String javaHomeFolderDoesNotExistOrLackingPermissions(File javaHomeFolder) {
 		return String.format("JAVA_HOME env is set to [%s].  This path does not exist or you're lacking permissions to access it. Snail4j uses JAVA_HOME to locate java, jcmd and other tools.",javaHomeFolder.getAbsolutePath().toString());
 	}
 
@@ -141,5 +141,6 @@ public class Messages_en_US implements Messages {
 	public String failedInstallation() {
 		return "Snail4j Install Failed";
 	}
+
 
 }

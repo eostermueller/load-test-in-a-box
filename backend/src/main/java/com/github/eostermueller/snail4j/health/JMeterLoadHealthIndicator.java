@@ -1,7 +1,5 @@
 package com.github.eostermueller.snail4j.health;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
@@ -10,11 +8,9 @@ import org.springframework.stereotype.Component;
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.JdkUtils;
 import com.github.eostermueller.snail4j.JdkUtils.ProcessDescriptor;
-import com.github.eostermueller.snail4j.OsUtils;
+import com.github.eostermueller.snail4j.OsUtils.OsResult;
 import com.github.eostermueller.snail4j.Snail4jException;
-import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.Configuration;
-import com.github.eostermueller.snail4j.launcher.Messages;
 
 /**
  * @author eoste
@@ -25,14 +21,26 @@ public class JMeterLoadHealthIndicator implements HealthIndicator {
 
 	@Override
 	public Health health() {
+		
 		int countOfJMeterInstances = 0;
-		ProcessDescriptor[] processDescriptors = JdkUtils.getJavaProcesses();
-		for(ProcessDescriptor p : processDescriptors) {
-			if (p.commandLine.indexOf("ApacheJMeter.jar") > 0) {
-				if (p.commandLine.indexOf("snail4j.port")> 0) {
-					countOfJMeterInstances++;
-				}
+		Configuration cfg;
+		
+		
+		try {
+			cfg = DefaultFactory.getFactory().getConfiguration();
+			ProcessDescriptor[] processes = JdkUtils.getJavaProcesses( cfg.getJavaHome() );
+			
+			for(ProcessDescriptor desc : processes) {
+				
+				if (     desc.commandLine.indexOf("ApacheJMeter.jar") > 0
+						 &&  desc.commandLine.indexOf("snail4j.port") > 0      
+						 ) {
+								countOfJMeterInstances++;
+					}
 			}
+			
+		} catch (Snail4jException e) {
+			e.printStackTrace();
 		}
 		
 		if (countOfJMeterInstances==1)

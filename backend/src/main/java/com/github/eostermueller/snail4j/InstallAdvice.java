@@ -30,7 +30,7 @@ public class InstallAdvice {
 		} else {
 			File javaHomeFolder = Paths.get(javaHome).toFile();
 			if (!javaHomeFolder.exists() || !javaHomeFolder.isDirectory()) {
-				LOGGER.error( m.javaHomeFolderDoesNotExist(javaHomeFolder) );
+				LOGGER.error( m.javaHomeFolderDoesNotExistOrLackingPermissions(javaHomeFolder) );
 			} else {
 				rc = true;
 			}

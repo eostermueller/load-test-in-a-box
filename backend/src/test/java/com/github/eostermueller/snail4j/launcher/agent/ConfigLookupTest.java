@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.OS;
@@ -19,6 +21,8 @@ import com.github.eostermueller.snail4j.launcher.ConfigLookup;
 import com.github.eostermueller.snail4j.launcher.ConfigVariableNotFoundException;
 
 public class ConfigLookupTest {
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	
 	TestConfiguration cfg = null;
 	String expectedJavaHome = null;
 	 @Rule
@@ -27,13 +31,19 @@ public class ConfigLookupTest {
 	
 	@Before
 	public void setup() throws IOException, Snail4jException  {
+		LOGGER.debug("in ConfigLookupTest#setup() a");
     	this.tmpFolder = testFolder.newFolder();
+		LOGGER.debug("in ConfigLookupTest#setup() b");
     	this.expectedJavaHome = this.tmpFolder.getAbsolutePath().toString();
+		LOGGER.debug("in ConfigLookupTest#setup() c");
     	
     	Path p = Paths.get(this.expectedJavaHome);
+		LOGGER.debug("in ConfigLookupTest#setup() d");
     	    	
 		cfg = new TestConfiguration();
+		LOGGER.debug("in ConfigLookupTest#setup() e");
 		cfg.setJavaHome(p);
+		LOGGER.debug("in ConfigLookupTest#setup() f");
 
 	}
 	@Test
@@ -43,7 +53,6 @@ public class ConfigLookupTest {
 		configLookup.setConfiguration(cfg);
 		int actualMax = cfg.getMaxExceptionCountPerEvent();
 		String strActualMax = String.valueOf(actualMax);
-		
 		
 		String resolvedText = configLookup.getValue("maxExceptionCountPerEvent");
 		
