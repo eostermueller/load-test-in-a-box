@@ -88,6 +88,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <artifactId>spring-boot-autoconfigure</artifactId>
     <version>2.2.1.RELEASE</version>
 </dependency>
+<dependency>
+    <groupId>org.junit.platform</groupId>
+    <artifactId>junit-platform-launcher</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>
 -->
 <!-- start of launcher dependencies -->
 

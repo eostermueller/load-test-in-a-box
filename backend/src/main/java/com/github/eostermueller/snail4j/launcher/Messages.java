@@ -1,6 +1,7 @@
 package com.github.eostermueller.snail4j.launcher;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 
 public interface Messages {
@@ -54,6 +55,8 @@ public interface Messages {
 
 	String failedInstallation();
 
-	String unsupportedJavaVersion(String currentJavaSpecificationVersion, String[] listOfUnsupportedVersions);
+	String unsupportedJavaVersion(String currentJavaSpecificationVersion, Path javaLocation, String[] listOfUnsupportedVersions);
+
+	String jreIsNotEnough(Path currentJavaPath);
 
 }

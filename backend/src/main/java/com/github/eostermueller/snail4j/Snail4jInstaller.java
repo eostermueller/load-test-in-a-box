@@ -57,6 +57,9 @@ public class Snail4jInstaller {
 		if (!ia.isJavaHomeEnvVarOk() )
 			zeroErrorsMeansSuccess++;
 		
+		if (!ia.isJdk() )
+			zeroErrorsMeansSuccess++;
+		
 		return zeroErrorsMeansSuccess;
 	}
 	Configuration getConfiguration() throws Snail4jException {
