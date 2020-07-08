@@ -142,5 +142,15 @@ public class Messages_en_US implements Messages {
 		return "Snail4j Install Failed";
 	}
 
+	@Override
+	public String unsupportedJavaVersion(String currentJavaSpecificationVersion, String[] listOfUnsupportedVersions) {
+		
+		return String.format("Snail4j uber jar was launched with java.specification.version=%s, which is in this list of unsuported versions: %s",
+				currentJavaSpecificationVersion,
+				Arrays.toString(listOfUnsupportedVersions) 
+				);
+		
+	}
+
 
 }

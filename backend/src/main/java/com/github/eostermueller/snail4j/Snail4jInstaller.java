@@ -34,10 +34,25 @@ drwxr-xr-x  7 erikostermueller  staff        224 Sep 15 10:30 .
  *
  */
 public class Snail4jInstaller {
-	public int preinstallCheck() throws CannotFindSnail4jFactoryClass, MalformedURLException {
+	/**
+	 * Here is some research from the JDKs installed on my machine:
+	 * java -XshowSettings:properties -version
+	 * 
+     * java.specification.version = 14
+     * java.specification.version = 1.8
+     * java.specification.version = 9
+
+	 * @return
+	 * @throws Snail4jException 
+	 */
+		  
+	public int preinstallCheck() throws MalformedURLException, Snail4jException {
 		int zeroErrorsMeansSuccess = 0;
 		
 		InstallAdvice ia = new InstallAdvice();
+		
+		if (!ia.isJavaSpecificationVersionOk() )
+			zeroErrorsMeansSuccess++;
 		
 		if (!ia.isJavaHomeEnvVarOk() )
 			zeroErrorsMeansSuccess++;
