@@ -29,7 +29,7 @@ class StringUtilsTest {
 		String value = null;
 		try {
 			value = StringUtils.getNvpValue(nameValuePair);
-			fail("was expecting an exception triggered by poorly formatted name-value-pair (missing equal size)");
+			fail("was expecting an exception triggered by poorly formatted name-value-pair (missing equal sign)");
 		}catch (Snail4jWorkloadException e) {
 			
 		}

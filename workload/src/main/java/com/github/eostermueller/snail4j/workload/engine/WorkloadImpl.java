@@ -6,6 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class WorkloadImpl implements Workload {
 	List<MethodExecutor> methodExecutors = new CopyOnWriteArrayList<MethodExecutor>();
 	Object verboseState;
+	private boolean encrypted = false;
 
 	@Override
 	public void execute() throws WorkloadInvocationException {
@@ -30,6 +31,15 @@ public class WorkloadImpl implements Workload {
 	@Override
 	public Object getVerboseState() {
 		return this.verboseState;
+	}
+	
+	@Override
+	public void setEncrypted(boolean val) {
+		encrypted = val;
+	}
+	@Override
+	public boolean isEncrypted() {
+		return encrypted;
 	}
 
 }
