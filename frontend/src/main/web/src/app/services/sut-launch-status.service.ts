@@ -19,7 +19,7 @@ export class SutLaunchStatusService {
     this.statusChangeCount++;
     if (this.launchStatusSource.getValue() == LaunchStatus.Starting
       && status == LaunchStatus.Stopped) {
-        //do nothing.  Give the poo thing a chance to complete the startup!
+        //do nothing.  Give the poor thing a chance to complete the startup!
     } else if (this.launchStatusSource.getValue() == LaunchStatus.Stopping
       && status == LaunchStatus.Started) {
         //do nothing. Give the poor thing a chance to complete the shutdown!

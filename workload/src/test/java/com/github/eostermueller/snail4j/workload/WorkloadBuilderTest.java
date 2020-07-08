@@ -1,43 +1,40 @@
 package com.github.eostermueller.snail4j.workload;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import com.github.eostermueller.snail4j.workload.DefaultFactory;
-import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
-import com.github.eostermueller.snail4j.workload.annotations.Load;
-import com.github.eostermueller.snail4j.workload.engine.MethodExecutor;
-import com.github.eostermueller.snail4j.workload.engine.Workload;
-import com.github.eostermueller.snail4j.workload.engine.WorkloadBuilder;
-import com.github.eostermueller.snail4j.workload.engine.WorkloadImpl;
 import com.github.eostermueller.snail4j.workload.model.ProcessingUnitImpl;
 import com.github.eostermueller.snail4j.workload.model.UseCase;
 import com.github.eostermueller.snail4j.workload.model.UseCases;
-import com.github.eostermueller.snail4j.workload.model.WorkloadSpecRq;
 import com.github.eostermueller.snail4j.workload.model.json.SerializaionUtil;
 
-class WorkloadBuilderTest {
-	private final String USE_CASE_NAME = "busyOptimizedUuid";
-	UseCases rq = null;
-	@BeforeEach
-	void setUp() throws Exception {
-		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
+public class WorkloadBuilderTest {
+	private final String USE_CASE_NAME = "03_threads_sleep";
+	@Test
+	public void canValidateUseCase() throws Exception {
+		UseCases rq = getUseCases();
 		
-		//String js0n = "[{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"Reuse same Transformers from pool\"}]},\"useCaseName\":\"xsltTransform\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.xslt.XsltProcessor\",\"name\":\"pooledTransformerXslt\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"Reinstantiate Transformer every time\"}]},\"useCaseName\":\"xsltTransform\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.xslt.XsltProcessor\",\"name\":\"unPooledTransformerXslt\"},\"selected\":true}],\"name\":\"xsltTransform\"}]";
-
-		String js0n = "{\"useCases\":[{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - table-based Random - 10 items, 10 iterations\"}]},\"useCaseName\":\"busyOptimizedUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomTableInt_10_10_optimizedUuid\"},\"selected\":true},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - reuse Random - 10 items, 10 iterations\"}]},\"useCaseName\":\"busyOptimizedUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomNextInt_10_10_optimizedUuid\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - table-based Random - 1000 items, 1000 iterations\"}]},\"useCaseName\":\"busyOptimizedUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomTableInt_1000_1000_optimizedUuid\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - threadLocal Random - 1000 items, 1000 iterations\"}]},\"useCaseName\":\"busyOptimizedUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomThreadLocalInt_1000_1000_optimizedUuid\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - reuse Random - 1000 items, 1000 iterations\"}]},\"useCaseName\":\"busyOptimizedUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomNextInt_1000_1000_optimizedUuid\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - threadLocal Random - 10 items, 10 iterations\"}]},\"useCaseName\":\"busyOptimizedUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomThreadLocalInt_10_10_optimizedUuid\"},\"selected\":false}],\"name\":\"busyOptimizedUuid\"},{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - threadLocal Random - 10 items, 10 iterations\"}]},\"useCaseName\":\"busySlowUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomThreadLocalInt_10_10\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - threadLocal Random - 1000 items, 1000 iterations\"}]},\"useCaseName\":\"busySlowUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomThreadLocalInt_1000_1000\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - table-based Random - 10 items, 10 iterations\"}]},\"useCaseName\":\"busySlowUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomTableInt_10_10\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - reuse Random - 10 items, 10 iterations\"}]},\"useCaseName\":\"busySlowUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomNextInt_10_10\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - reuse Random - 1000 items, 1000 iterations\"}]},\"useCaseName\":\"busySlowUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomNextInt_1000_1000\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - table-based Random - 1000 items, 1000 iterations\"}]},\"useCaseName\":\"busySlowUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomTableInt_1000_1000\"},\"selected\":false}],\"name\":\"busySlowUuid\"},{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"every rq adds 10mb that stays in memory for no more than 60 seconds\"}]},\"useCaseName\":\"memStress\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.MemStress\",\"name\":\"memStress_10mb_lasts_60sec\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"every rq adds 100k that stays in memory for no more than 60 sec\"}]},\"useCaseName\":\"memStress\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.MemStress\",\"name\":\"memStress_100k_lasts_60sec\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"every rq adds 10k that stays in memory for no more than 5 min\"}]},\"useCaseName\":\"memStress\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.MemStress\",\"name\":\"memStress_10k_lasts_5min\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"every rq adds 1mb that stays in memory for no more than 60 seconds\"}]},\"useCaseName\":\"memStress\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.MemStress\",\"name\":\"memStress_1mb_lasts_60sec\"},\"selected\":false}],\"name\":\"memStress\"},{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"sleep ms 100\"}]},\"useCaseName\":\"sleep\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.SleepDelay\",\"name\":\"simulateSlowCode_sleepMilliseconds_100\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"sleep ms 1\"}]},\"useCaseName\":\"sleep\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.SleepDelay\",\"name\":\"simulateSlowCode_sleepMilliseconds_1\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"sync sleep ms 10\"}]},\"useCaseName\":\"sleep\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.SleepDelay\",\"name\":\"simulateSynchronizedSlowCode_sleepMilliseconds_10\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"sleep ms 10\"}]},\"useCaseName\":\"sleep\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.SleepDelay\",\"name\":\"simulateSlowCode_sleepMilliseconds_10\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"sleep ms 1000\"}]},\"useCaseName\":\"sleep\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.SleepDelay\",\"name\":\"simulateSlowCode_sleepMilliseconds_1000\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"sync sleep ms 1000\"}]},\"useCaseName\":\"sleep\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.SleepDelay\",\"name\":\"simulateSynchronizedSlowCode_sleepMilliseconds_1000\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"sync sleep ms 1\"}]},\"useCaseName\":\"sleep\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.SleepDelay\",\"name\":\"simulateSynchronizedSlowCode_sleepMilliseconds_1\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"sync sleep ms 100\"}]},\"useCaseName\":\"sleep\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.SleepDelay\",\"name\":\"simulateSynchronizedSlowCode_sleepMilliseconds_100\"},\"selected\":false}],\"name\":\"sleep\"},{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"Reuse same Transformers from pool\"}]},\"useCaseName\":\"xsltTransform\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.xslt.XsltProcessor\",\"name\":\"pooledTransformerXslt\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"Reinstantiate Transformer every time\"}]},\"useCaseName\":\"xsltTransform\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.xslt.XsltProcessor\",\"name\":\"unPooledTransformerXslt\"},\"selected\":false}],\"name\":\"xsltTransform\"}]}\n"; 
-				
-		rq = util.unmmarshalUseCases(js0n);
+		assertEquals(1,rq.getUseCases().size() );
+		
+		assertTrue( rq.validate() );
+		
+		
+	}
+	@Test
+	public void canCreateWorkloadFromRq() throws Exception {
+		UseCases rq = getUseCases();
 		
 		//This is tested elsewhere
-		assertEquals(5,rq.getUseCases().size() );
+		assertEquals(1,rq.getUseCases().size() );
 		
 		UseCase useCase = rq.getUseCase(this.USE_CASE_NAME);
 		assertEquals( this.USE_CASE_NAME, useCase.getName() );
 		
-		assertEquals( useCase.getProcessingUnits().size(),6);
+		assertEquals( 8,useCase.getProcessingUnits().size());
 		
 		ProcessingUnitImpl processingUnit = useCase.getSelectedProcessingUnit();
 		
@@ -47,9 +44,119 @@ class WorkloadBuilderTest {
 		
 		assertEquals( this.USE_CASE_NAME, processingUnit.getUseCaseName() );
 		
-		assertEquals( "randomTableInt_10_10_optimizedUuid", processingUnit.getMethodWrapper().getMethodName() );
+		assertEquals( "simulateSynchronizedSlowCode_sleepMilliseconds_1000", processingUnit.getMethodWrapper().getMethodName() );
 	
 		//only one of the above two is selected.
+	}
+	private UseCases getUseCases() throws Snail4jWorkloadException {
+		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
+		
+		String json2 = "{\r\n" + 
+				"    \"useCases\": [\r\n" + 
+				"      {\r\n" + 
+				"        \"processingUnits\": [\r\n" + 
+				"          {\r\n" + 
+				"            \"description\": {\r\n" + 
+				"              \"en_US\": \"sleep ms 100\"\r\n" + 
+				"            },\r\n" + 
+				"            \"useCaseName\": \"03_threads_sleep\",\r\n" + 
+				"            \"selected\": false,\r\n" + 
+				"            \"methodWrapper\": {\r\n" + 
+				"              \"parameters\": [],\r\n" + 
+				"              \"declaringClassName\": \"com.github.eostermueller.tjp2.misc.SleepDelay\",\r\n" + 
+				"              \"methodName\": \"simulateSlowCode_sleepMilliseconds_100\"\r\n" + 
+				"            }\r\n" + 
+				"          },\r\n" + 
+				"          {\r\n" + 
+				"            \"description\": {\r\n" + 
+				"              \"en_US\": \"sleep ms 1\"\r\n" + 
+				"            },\r\n" + 
+				"            \"useCaseName\": \"03_threads_sleep\",\r\n" + 
+				"            \"selected\": false,\r\n" + 
+				"            \"methodWrapper\": {\r\n" + 
+				"              \"parameters\": [],\r\n" + 
+				"              \"declaringClassName\": \"com.github.eostermueller.tjp2.misc.SleepDelay\",\r\n" + 
+				"              \"methodName\": \"simulateSlowCode_sleepMilliseconds_1\"\r\n" + 
+				"            }\r\n" + 
+				"          },\r\n" + 
+				"          {\r\n" + 
+				"            \"description\": {\r\n" + 
+				"              \"en_US\": \"sync sleep ms 10\"\r\n" + 
+				"            },\r\n" + 
+				"            \"useCaseName\": \"03_threads_sleep\",\r\n" + 
+				"            \"selected\": false,\r\n" + 
+				"            \"methodWrapper\": {\r\n" + 
+				"              \"parameters\": [],\r\n" + 
+				"              \"declaringClassName\": \"com.github.eostermueller.tjp2.misc.SleepDelay\",\r\n" + 
+				"              \"methodName\": \"simulateSynchronizedSlowCode_sleepMilliseconds_10\"\r\n" + 
+				"            }\r\n" + 
+				"          },\r\n" + 
+				"          {\r\n" + 
+				"            \"description\": {\r\n" + 
+				"              \"en_US\": \"sleep ms 10\"\r\n" + 
+				"            },\r\n" + 
+				"            \"useCaseName\": \"03_threads_sleep\",\r\n" + 
+				"            \"selected\": false,\r\n" + 
+				"            \"methodWrapper\": {\r\n" + 
+				"              \"parameters\": [],\r\n" + 
+				"              \"declaringClassName\": \"com.github.eostermueller.tjp2.misc.SleepDelay\",\r\n" + 
+				"              \"methodName\": \"simulateSlowCode_sleepMilliseconds_10\"\r\n" + 
+				"            }\r\n" + 
+				"          },\r\n" + 
+				"          {\r\n" + 
+				"            \"description\": {\r\n" + 
+				"              \"en_US\": \"sleep ms 1000\"\r\n" + 
+				"            },\r\n" + 
+				"            \"useCaseName\": \"03_threads_sleep\",\r\n" + 
+				"            \"selected\": false,\r\n" + 
+				"            \"methodWrapper\": {\r\n" + 
+				"              \"parameters\": [],\r\n" + 
+				"              \"declaringClassName\": \"com.github.eostermueller.tjp2.misc.SleepDelay\",\r\n" + 
+				"              \"methodName\": \"simulateSlowCode_sleepMilliseconds_1000\"\r\n" + 
+				"            }\r\n" + 
+				"          },\r\n" + 
+				"          {\r\n" + 
+				"            \"description\": {\r\n" + 
+				"              \"en_US\": \"sync sleep ms 1000\"\r\n" + 
+				"            },\r\n" + 
+				"            \"useCaseName\": \"03_threads_sleep\",\r\n" + 
+				"            \"selected\": true,\r\n" + 
+				"            \"methodWrapper\": {\r\n" + 
+				"              \"parameters\": [],\r\n" + 
+				"              \"declaringClassName\": \"com.github.eostermueller.tjp2.misc.SleepDelay\",\r\n" + 
+				"              \"methodName\": \"simulateSynchronizedSlowCode_sleepMilliseconds_1000\"\r\n" + 
+				"            }\r\n" + 
+				"          },\r\n" + 
+				"          {\r\n" + 
+				"            \"description\": {\r\n" + 
+				"              \"en_US\": \"sync sleep ms 1\"\r\n" + 
+				"            },\r\n" + 
+				"            \"useCaseName\": \"03_threads_sleep\",\r\n" + 
+				"            \"selected\": false,\r\n" + 
+				"            \"methodWrapper\": {\r\n" + 
+				"              \"parameters\": [],\r\n" + 
+				"              \"declaringClassName\": \"com.github.eostermueller.tjp2.misc.SleepDelay\",\r\n" + 
+				"              \"methodName\": \"simulateSynchronizedSlowCode_sleepMilliseconds_1\"\r\n" + 
+				"            }\r\n" + 
+				"          },\r\n" + 
+				"          {\r\n" + 
+				"            \"description\": {\r\n" + 
+				"              \"en_US\": \"sync sleep ms 100\"\r\n" + 
+				"            },\r\n" + 
+				"            \"useCaseName\": \"03_threads_sleep\",\r\n" + 
+				"            \"selected\": false,\r\n" + 
+				"            \"methodWrapper\": {\r\n" + 
+				"              \"parameters\": [],\r\n" + 
+				"              \"declaringClassName\": \"com.github.eostermueller.tjp2.misc.SleepDelay\",\r\n" + 
+				"              \"methodName\": \"simulateSynchronizedSlowCode_sleepMilliseconds_100\"\r\n" + 
+				"            }\r\n" + 
+				"          }\r\n" + 
+				"        ],\r\n" + 
+				"        \"name\": \"03_threads_sleep\"\r\n" + 
+				"      }\r\n" + 
+				"    ]\r\n" + 
+				"  }";		
+		return( util.unmmarshalUseCases(json2) );
 	}
 
 //	@Test
