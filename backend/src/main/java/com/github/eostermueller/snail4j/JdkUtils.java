@@ -19,7 +19,39 @@ import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.launcher.Messages;
 
 public class JdkUtils {
+	
+	static Path getCurrentJavaPath() throws Snail4jException {
+		String pathOfRunningJava = System.getProperty("sun.boot.library.path");
+		
+		Path p = Paths.get(pathOfRunningJava);
+		if (p==null || p.toFile().getAbsolutePath()==null) {
+			throw new Snail4jException("Bug. No Path returned from JdkUtils.getCurrentJavaPath() for 'sun.boot.library.path' path: " + pathOfRunningJava);
+		}
+		
+		return Paths.get(pathOfRunningJava);		
+	}
 
+	/*
+	 * @stolenFrom: https://stackoverflow.com/a/58737549/2377579
+	 */
+	public static boolean isJdk() {
+	    String path = System.getProperty("sun.boot.library.path");
+	    if(path != null) {
+	        String javacPath = "";
+	        if(path.endsWith(File.separator + "bin")) {
+	            javacPath = path;
+	        } else {
+	            int libIndex = path.lastIndexOf(File.separator + "lib");
+	            if(libIndex > 0) {
+	                javacPath = path.substring(0, libIndex) + File.separator + "bin";
+	            }
+	        }
+	        if(!javacPath.isEmpty()) {
+	            return new File(javacPath, "javac").exists() || new File(javacPath, "javac.exe").exists();
+	        }
+	    }
+	    return false;
+	}
 	public static Path get_JAVA_HOME() throws Snail4jException {
 		String javaHomeEnvVar = System.getenv("JAVA_HOME");
 		//String javaHomeEnvVar = "C:\\java\\java-1.8.0-openjdk-1.8.0.252-2.b09.ojdkbuild.windows.x86_64\\java-1.8.0-openjdk-1.8.0.252-2.b09.ojdkbuild.windows.x86_64";

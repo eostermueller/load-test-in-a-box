@@ -1,6 +1,8 @@
 package com.github.eostermueller.snail4j;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
@@ -13,6 +15,23 @@ import com.github.eostermueller.snail4j.launcher.agent.TestConfiguration;
 
 class JdkUtilsTest {
 	
+	
+	@Test
+	void canDetectActualJavaPath() throws Snail4jException {
+		
+		Path currentJavaPath = JdkUtils.getCurrentJavaPath();
+		assertNotNull(currentJavaPath);
+		assertTrue( currentJavaPath.toFile().exists() );
+
+	}
+	@Test
+	void jdkDetectionDoesNotThrowException() {
+		try {
+			JdkUtils.isJdk();
+		} catch (Exception e) {
+			fail();
+		}
+	}
 	@Test
 	/**
 	 * 

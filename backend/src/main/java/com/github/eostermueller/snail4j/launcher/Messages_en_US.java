@@ -1,6 +1,7 @@
 package com.github.eostermueller.snail4j.launcher;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
@@ -143,14 +144,19 @@ public class Messages_en_US implements Messages {
 	}
 
 	@Override
-	public String unsupportedJavaVersion(String currentJavaSpecificationVersion, String[] listOfUnsupportedVersions) {
+	public String unsupportedJavaVersion(String currentJavaSpecificationVersion, Path javaLocation, String[] listOfUnsupportedVersions) {
 		
-		return String.format("Snail4j uber jar was launched with java.specification.version=%s, which is in this list of unsuported versions: %s",
+		return String.format("Snail4j uber jar was launched with java.specification.version=%s in this path: %s. List of all unsuported versions: %s",
 				currentJavaSpecificationVersion,
+				javaLocation.toString(),
 				Arrays.toString(listOfUnsupportedVersions) 
 				);
 		
 	}
 
+	public String jreIsNotEnough(Path currentJavaPath) {
+		String path = currentJavaPath.toFile().getAbsolutePath();
+		return String.format("JRE was used to launch snail4j uber jar.  Snail4j instead requires a JDK.  Path to JRE that was used:: %s", path );
+	}
 
 }

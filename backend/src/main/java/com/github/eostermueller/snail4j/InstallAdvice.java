@@ -2,6 +2,7 @@ package com.github.eostermueller.snail4j;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.slf4j.Logger;
@@ -11,33 +12,65 @@ import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.Messages;
 
 /**
- * Each method here must invoke LOGGER.error(...) with internationalized text.
+ * Each method here must invoke LOGGER.error(...) with localized/internationalized text.
  * @author eoste
  *
  */
 public class InstallAdvice {
-	Messages m = null;
+	Messages messages = null;
 	private static String[] UNSUPPORTED_JAVA_SPECIFICATION_VERSIONS = new String[]{ "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7" };
 	public InstallAdvice() throws CannotFindSnail4jFactoryClass {
-		Messages m = DefaultFactory.getFactory().getMessages();
+		messages = DefaultFactory.getFactory().getMessages();
 	}
 
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
+	public boolean isJdk() throws Snail4jException {
+		boolean rc = true;
+
+		
+		rc = JdkUtils.isJdk();
+
+		Path pathOfJava = JdkUtils.getCurrentJavaPath();
+		
+		if (pathOfJava==null || pathOfJava.toFile().getAbsolutePath()==null) {
+			throw new Snail4jException("Unable to find sun.boot.library.path");
+		}
+		
+		String errorMsg = messages.jreIsNotEnough (pathOfJava );
+		if (errorMsg==null || "".equals(errorMsg)) {
+			throw new Snail4jException("Bug:  could not create error message showing location of java.");
+		}
+		if (!rc)
+			LOGGER.error( errorMsg );
+			
+		return !rc;
+	}
 	
 	public boolean isJavaSpecificationVersionOk() throws Snail4jException {
 		boolean rc = true;
 
 		String currentJavaSpecificationVersion = System.getProperty("java.specification.version");
 		
-		rc = JdkUtils.isJavaSpecificationInList(
+		if (currentJavaSpecificationVersion==null || "".equals(currentJavaSpecificationVersion)) {
+			throw new Snail4jException("Jdk Bug. System.getProperty is not returning a value for java.specification.version.");
+		}
+		
+		boolean ynOnTheUnsupportedList = JdkUtils.isJavaSpecificationInList(
 				currentJavaSpecificationVersion,
 				UNSUPPORTED_JAVA_SPECIFICATION_VERSIONS);
-
-		if (!rc)
-			LOGGER.error( m.unsupportedJavaVersion ( currentJavaSpecificationVersion, UNSUPPORTED_JAVA_SPECIFICATION_VERSIONS ) );
+		
+		Path p = JdkUtils.getCurrentJavaPath();
+		if (ynOnTheUnsupportedList)
+			LOGGER.error( 
+					messages.unsupportedJavaVersion ( 
+					currentJavaSpecificationVersion, 
+					p, 
+					UNSUPPORTED_JAVA_SPECIFICATION_VERSIONS 
+					)
+				);
 			
-		return !rc;
+		return !ynOnTheUnsupportedList;
 	}
 	/**
 	 * 
@@ -51,11 +84,11 @@ public class InstallAdvice {
 		
 		String javaHome = System.getenv("JAVA_HOME");
 		if (javaHome == null) {
-			LOGGER.error( m.javaHomeEnvVarNotSet() );
+			LOGGER.error( messages.javaHomeEnvVarNotSet() );
 		} else {
 			File javaHomeFolder = Paths.get(javaHome).toFile();
 			if (!javaHomeFolder.exists() || !javaHomeFolder.isDirectory()) {
-				LOGGER.error( m.javaHomeFolderDoesNotExistOrLackingPermissions(javaHomeFolder) );
+				LOGGER.error( messages.javaHomeFolderDoesNotExistOrLackingPermissions(javaHomeFolder) );
 			} else {
 				rc = true;
 			}
