@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
@@ -126,4 +127,28 @@ public class JdkUtils {
 	      }
 	      return result;
 	   }
+	   /**
+	    * @param criteria
+	    * @param listOfSpecifications
+	    * @return
+	    */
+	public static boolean isJavaSpecificationInList(String criteria,
+			String[] listOfSpecifications) throws Snail4jException {
+		
+		
+		if (criteria==null || criteria.length()==0)
+			throw new Snail4jException("Snail4j bug.  checking whether the java.specification.version is valid, and was passed a null/zero length string");
+		
+		if (listOfSpecifications==null || listOfSpecifications.length==0)
+			throw new Snail4jException("Snail4j bug.  checking whether the java.specification.version is valid, and was passed a null/zero array");
+		
+		boolean rc = false;
+		
+		for (String javaSpecification : listOfSpecifications) {
+			if (javaSpecification.equals(criteria))
+				rc = true;
+		}
+		
+		return rc;
+	}
 }

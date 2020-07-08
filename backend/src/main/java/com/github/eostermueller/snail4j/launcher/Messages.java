@@ -54,7 +54,6 @@ public interface Messages {
 
 	String failedInstallation();
 
-
-
+	String unsupportedJavaVersion(String currentJavaSpecificationVersion, String[] listOfUnsupportedVersions);
 
 }
