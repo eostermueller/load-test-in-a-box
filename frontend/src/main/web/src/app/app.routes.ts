@@ -1,4 +1,4 @@
-import {OneComponent} from './one/one.component';
+import {WorkloadSelectionComponent} from './workload-selection/workload-selection.component';
 import {TwoComponent} from './two/two.component';
 import {ThreeComponent} from './three/three.component';
 //import {WorkloadComponent} from './workload/workload.component';
@@ -6,7 +6,7 @@ import {ThreeComponent} from './three/three.component';
 import {Routes} from '@angular/router';
 
 export const routes: Routes = [
-  { path: 'one', component: OneComponent },
+  { path: 'one', component: WorkloadSelectionComponent },
   { path: 'two', component: TwoComponent },
   { path: 'three', component: ThreeComponent },
  // { path: 'workload', component: WorkloadComponent },

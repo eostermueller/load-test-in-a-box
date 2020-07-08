@@ -24,10 +24,10 @@ import { UseCasesComponent } from '../use-cases/use-cases.component';
 
 @Component({
   selector: 'app-one',
-  templateUrl: './one.component.html',
-  styleUrls: ['./one.component.scss']
+  templateUrl: './workload-selection.html',
+  styleUrls: ['./workload-selection.scss']
 })
-export class OneComponent implements OnInit {
+export class WorkloadSelectionComponent implements OnInit {
 
   @ViewChild('sutCheckbox',{static: false}) private sutCheckbox: MatCheckbox;
   @ViewChild('loadGeneratorCheckbox',{static: false}) private loadGeneratorCheckbox: MatCheckbox;

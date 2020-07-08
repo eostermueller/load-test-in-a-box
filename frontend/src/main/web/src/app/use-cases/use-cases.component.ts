@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, Input, AfterViewInit } from '@angular/core';
 import {UseCaseService} from './../use-case.service';
 
-
 /**
  * "ng update" to angular 9 (https://update.angular.io/#8.0:9.0l3) did not upgrade these imports
  * to include the component specific end to '@angular/material'
@@ -226,18 +225,12 @@ dispUseCases(ctx:string) {
 
       this.sutLaunchStatusService.currentStatus.subscribe(
         status => {
-              this.forceHttpWorkloadRq = true; //check whether there's new stuff on the classpath.
+              this.forceHttpWorkloadRq = true; //check whether there's new stuff on the classpath, 
+                                               //now that the SUT has been restarted
         }
     );
 
 
-    // this.useCaseService.getUseCases().subscribe(data=>{
-    //   console.log(data);
-    //   this.useCases= data.useCases;
-    //   this.length = this.useCases.length;
-    //   this.database=new Database(this.useCases);
-    //   this.dataSource = new MyDataSource(this.database, this.paginator);
-    // });
   }
 }
 

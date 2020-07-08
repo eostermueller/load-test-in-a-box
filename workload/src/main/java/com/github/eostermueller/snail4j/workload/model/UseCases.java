@@ -3,6 +3,7 @@ package com.github.eostermueller.snail4j.workload.model;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.BooleanSupplier;
 
 import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
 
@@ -47,5 +48,15 @@ public class UseCases {
 
 	public void setUseCases(List<UseCase> val) {
 		this.useCases = val;
+	}
+	/**
+	 * confirming that if isEncrypted(), then ecrypted data exists and is valid.
+	 * @return
+	 */
+	public boolean validate() {
+		boolean rc = true;
+		if (rc) 
+				throw new UnsupportedOperationException("not yet implemented");
+		return rc;
 	}
 }

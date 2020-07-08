@@ -38,12 +38,11 @@ import {  MatPaginatorModule } from '@angular/material/paginator';
 import {  MatTabsModule } from '@angular/material/tabs';
 import {  MatInputModule } from '@angular/material/input';
 
-import { OneComponent } from './one/one.component';
+import { WorkloadSelectionComponent } from './workload-selection/workload-selection.component';
 
 import { RouterModule, Routes } from '@angular/router';
 import { LoadGenMetricsComponent } from './load-gen-metrics/load-gen-metrics.component';
 import { TrafficJvmParametersComponent } from './traffic-jvm-parameters/traffic-jvm-parameters.component';
-import { WorkloadSelectionTypeComponent } from './workload-selection-type/workload-selection-type.component';
 import { DeploymentComponent } from './deployment/deployment.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
@@ -69,7 +68,7 @@ import { UseCaseService } from './use-case.service';
       redirectTo: "/snail4j",
       pathMatch: 'full'
     },
-    { path: 'snail4j', component: OneComponent },      
+    { path: 'snail4j', component: WorkloadSelectionComponent },      
     //{ path: 'workload', component: WorkloadComponent },
     { path: 'start-stop', component: StartStopComponent },
     { path: 'metrics', component: LoadGenMetricsComponent },
@@ -82,10 +81,9 @@ import { UseCaseService } from './use-case.service';
   declarations: [
     AppComponent,
     NavComponent,
-    OneComponent,
+    WorkloadSelectionComponent,
     LoadGenMetricsComponent,
     TrafficJvmParametersComponent,
-    WorkloadSelectionTypeComponent,
     UseCasesComponent,
     UseCaseCardComponent,
     DeploymentComponent,
