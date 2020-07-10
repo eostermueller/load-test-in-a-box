@@ -64,6 +64,7 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 			try {
 				ProcessModelSingleton.getInstance().setCauseOfSystemFailure(e);
 				DefaultFactory.getFactory().getEventHistory().addException("Exception during snail4j startup.", e);
+				
 			} catch (Snail4jException e1) {
 			}
 		}
@@ -140,31 +141,36 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 		if (path.contains(PathUtil.JAR_SUFFIX)) { //only install if launched using "java -jar".  Elsewise, installs happen with every "backend" build, because Spring Boot is launched during integration testing. 
 			try {
 				
-				dispInstallBanner(m.startInstallMessage() );
+				dispStartInstallBanner(m.startInstallMessage() );
 				DefaultFactory.getFactory().getEventHistory().getEvents().add(
 						Event.create(m.startInstallMessage()) );
 				
 				Snail4jInstaller snail4jInstaller = DefaultFactory.getFactory().createNewInstaller();
-				LOGGER.info("Maven online mode: " + cfg.isMavenOnline() );
-				LOGGER.info("snail4j maven repo location: " + cfg.isSnail4jMavenRepo() );
+				LOGGER.info(InstallAdvice.LOG_PREFIX+"Maven online mode: " + cfg.isMavenOnline() );
+				LOGGER.info(InstallAdvice.LOG_PREFIX+"snail4j maven repo location: " + cfg.isSnail4jMavenRepo() );
 				
 				int countOfFailedPreChecks = snail4jInstaller.preinstallCheck();
+				LOGGER.info(InstallAdvice.LOG_PREFIX+"Number if install issues: " + countOfFailedPreChecks );
+
 				if (countOfFailedPreChecks==0)
 					snail4jInstaller.install();
 				else
-					throw new Snail4jException(String.format("[%d] install prechecks failed.", countOfFailedPreChecks));
+					throw new Snail4jException(m.startupAborted(countOfFailedPreChecks) );
 				
-		    	LOGGER.info("Install finished.  Ready to load test!");
-		    	dispInstallBanner( m.successfulInstallation() );
+		    	LOGGER.info(InstallAdvice.LOG_PREFIX+"Install finished.  Ready to load test!");
+		    	dispEndInstallBanner( m.successfulInstallation() );
 				DefaultFactory.getFactory().getEventHistory().getEvents().add(
 						Event.create(m.successfulInstallation()) );
 			} catch (Snail4jException e) {
-		    	dispInstallBanner( m.failedInstallation() );
+		    	dispEndInstallBanner( m.failedInstallation() );
 				DefaultFactory.getFactory().getEventHistory().getEvents().add(
 						Event.create(m.failedInstallation()) );
-				e.printStackTrace();
+				LOGGER.error( e.getMessage() );
+				//e.printStackTrace();
 				if (ctx !=null) 
 					ctx.close();//Shut down spring boot
+				else 
+					LOGGER.error("Unable to find SpringBoot context, unable to abort startup.");
 			} 
 			
 		} else {
@@ -172,9 +178,16 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 		}
 	}
 
-	private void dispInstallBanner(String msg) {
+	private void dispStartInstallBanner(String msg) {
 		this.LOGGER.info("########################################" );
 		this.LOGGER.info("########################################" );
+		this.LOGGER.info("####                               #####" );
+		this.LOGGER.info("#### " + msg);
+		this.LOGGER.info("####                               #####" );
+		this.LOGGER.info("####                               #####" );
+	}
+	private void dispEndInstallBanner(String msg) {
+		this.LOGGER.info("####                               #####" );
 		this.LOGGER.info("####                               #####" );
 		this.LOGGER.info("#### " + msg);
 		this.LOGGER.info("####                               #####" );

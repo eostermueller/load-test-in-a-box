@@ -30,11 +30,43 @@ public class JdkUtils {
 		
 		return Paths.get(pathOfRunningJava);		
 	}
+	static boolean JAVA_HOME_pointsToCurrentJava() throws Snail4jException {
+		
+		Path currentJava = getCurrentJavaPath().normalize();
+		
+		Path javaHome = get_JAVA_HOME().normalize();
+		
+		if (currentJava.endsWith( Paths.get("bin") ))
+			currentJava = currentJava.getParent();
+
+		return currentJava.startsWith(javaHome);
+	}
 
 	/*
 	 * @stolenFrom: https://stackoverflow.com/a/58737549/2377579
+	 * 
+	 * Helpful for debugging:
+	 * java -XshowSettings:properties -version
+	 * 
+	 * OpenJDK "JRE+JDK" Packaging Scenario:
+	 * C:\java\java-1.8.0-openjdk-1.8.0.252-2.b09.ojdkbuild.windows.x86_64\java-1.8.0-openjdk-1.8.0.252-2.b09.ojdkbuild.windows.x86_64\jre\bin
+	 * --> ..\..\bin\javac.exe
+<pre>
+	 
+├───bin                <<<<======= javac.exe
+├───include
+│   └───win32
+│       └───bridge
+├───jre
+│   ├───bin            <<<<======= sun.boot.library.path
+│   │   └───server
+│   └───lib
+├───lib
+└───webstart	  
+</pre>
 	 */
 	public static boolean isJdk() {
+        boolean rc = false;
 	    String path = System.getProperty("sun.boot.library.path");
 	    if(path != null) {
 	        String javacPath = "";
@@ -47,10 +79,17 @@ public class JdkUtils {
 	            }
 	        }
 	        if(!javacPath.isEmpty()) {
-	            return new File(javacPath, "javac").exists() || new File(javacPath, "javac.exe").exists();
+	            rc = new File(javacPath, "javac").exists() || new File(javacPath, "javac.exe").exists();
+	            /**  The above will work most of the time.
+	             *  The following addresses the OpenJDK "JRE+JDK" Packaging Scenario, detailed in method comments.
+	             */
+	            if (!rc) {  
+	            	javacPath = javacPath + "/../../bin";
+		            rc = new File(javacPath, "javac").exists() || new File(javacPath, "javac.exe").exists();	            	
+	            }
 	        }
 	    }
-	    return false;
+	    return rc;
 	}
 	public static Path get_JAVA_HOME() throws Snail4jException {
 		String javaHomeEnvVar = System.getenv("JAVA_HOME");

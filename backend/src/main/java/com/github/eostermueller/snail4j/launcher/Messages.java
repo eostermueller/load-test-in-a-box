@@ -59,4 +59,8 @@ public interface Messages {
 
 	String jreIsNotEnough(Path currentJavaPath);
 
+	String startupAborted(int countOfFailedPreChecks);
+
+	String JAVA_HOME_mustPointToCurrentJava(Path get_JAVA_HOME, Path currentJavaPath);
+
 }

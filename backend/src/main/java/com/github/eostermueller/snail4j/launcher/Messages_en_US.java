@@ -159,4 +159,17 @@ public class Messages_en_US implements Messages {
 		return String.format("JRE was used to launch snail4j uber jar.  Snail4j instead requires a JDK.  Path to JRE that was used:: %s", path );
 	}
 
+	@Override
+	public String startupAborted(int countOfFailedPreChecks) {
+		return String.format("[%d] install prechecks failed.", countOfFailedPreChecks);
+	}
+
+	@Override
+	public String JAVA_HOME_mustPointToCurrentJava(Path JAVA_HOME, Path currentJavaPath) {
+		return String.format( "Mismatched JAVA_HOME error.  The java executable and JAVA_HOME environment variable are from different java installations.  \nJAVA_HOME=%s\nCurrent Java=%s",
+				JAVA_HOME.toFile().getAbsolutePath(),
+				currentJavaPath.toFile().getAbsolutePath() 
+				);
+	}
+
 }
