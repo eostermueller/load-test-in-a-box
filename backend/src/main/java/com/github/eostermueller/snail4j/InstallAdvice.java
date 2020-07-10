@@ -17,6 +17,7 @@ import com.github.eostermueller.snail4j.launcher.Messages;
  *
  */
 public class InstallAdvice {
+	public static final String LOG_PREFIX = "#### ";
 	Messages messages = null;
 	private static String[] UNSUPPORTED_JAVA_SPECIFICATION_VERSIONS = new String[]{ "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7" };
 	public InstallAdvice() throws CannotFindSnail4jFactoryClass {
@@ -42,9 +43,23 @@ public class InstallAdvice {
 			throw new Snail4jException("Bug:  could not create error message showing location of java.");
 		}
 		if (!rc)
-			LOGGER.error( errorMsg );
+			LOGGER.error( LOG_PREFIX+errorMsg );
 			
-		return !rc;
+		return rc;
+	}
+	public boolean JAVA_HOME_pointsToCurrentJava() throws Snail4jException {
+		
+		
+		boolean rc = false;
+		rc = JdkUtils.JAVA_HOME_pointsToCurrentJava();
+		
+		if (!rc)
+			LOGGER.error(LOG_PREFIX+
+					messages.JAVA_HOME_mustPointToCurrentJava(
+					JdkUtils.get_JAVA_HOME(),
+					JdkUtils.getCurrentJavaPath()
+					));
+		return rc;
 	}
 	
 	public boolean isJavaSpecificationVersionOk() throws Snail4jException {
@@ -63,6 +78,7 @@ public class InstallAdvice {
 		Path p = JdkUtils.getCurrentJavaPath();
 		if (ynOnTheUnsupportedList)
 			LOGGER.error( 
+					LOG_PREFIX+
 					messages.unsupportedJavaVersion ( 
 					currentJavaSpecificationVersion, 
 					p, 
@@ -84,18 +100,24 @@ public class InstallAdvice {
 		
 		String javaHome = System.getenv("JAVA_HOME");
 		if (javaHome == null) {
-			LOGGER.error( messages.javaHomeEnvVarNotSet() );
+			LOGGER.error( 
+					LOG_PREFIX+
+					messages.javaHomeEnvVarNotSet() );
 		} else {
 			File javaHomeFolder = Paths.get(javaHome).toFile();
 			if (!javaHomeFolder.exists() || !javaHomeFolder.isDirectory()) {
-				LOGGER.error( messages.javaHomeFolderDoesNotExistOrLackingPermissions(javaHomeFolder) );
+				LOGGER.error( 
+						LOG_PREFIX+
+						messages.javaHomeFolderDoesNotExistOrLackingPermissions(javaHomeFolder) );
 			} else {
 				rc = true;
 			}
 		}
 
 		if (!rc) {
-			LOGGER.error( new DocumentationLinks().getJdkInstallAdvice().toString() );
+			LOGGER.error( 
+					LOG_PREFIX+
+					new DocumentationLinks().getJdkInstallAdvice().toString() );
 		}
 		
 		return rc;

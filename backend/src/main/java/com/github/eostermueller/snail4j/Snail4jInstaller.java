@@ -42,25 +42,33 @@ public class Snail4jInstaller {
      * java.specification.version = 1.8
      * java.specification.version = 9
 
+	 * THe JAVA_HOME validation is a must for Mac because of the complicated folder structure of the distribution.
+	 * But regardless of the OS, snail4j uses JAVA_HOME to find jcmd and other jdk tools,
+	 * so JAVA_HOME is required for all platforms.
 	 * @return
 	 * @throws Snail4jException 
 	 */
 		  
 	public int preinstallCheck() throws MalformedURLException, Snail4jException {
-		int zeroErrorsMeansSuccess = 0;
+		int errorCount = 0;
 		
 		InstallAdvice ia = new InstallAdvice();
 		
 		if (!ia.isJavaSpecificationVersionOk() )
-			zeroErrorsMeansSuccess++;
+			errorCount++;
 		
 		if (!ia.isJavaHomeEnvVarOk() )
-			zeroErrorsMeansSuccess++;
+			errorCount++;
+		
+		if (!ia.JAVA_HOME_pointsToCurrentJava())
+			errorCount++;			
 		
 		if (!ia.isJdk() )
-			zeroErrorsMeansSuccess++;
+			errorCount++;
 		
-		return zeroErrorsMeansSuccess;
+		
+		LOGGER.debug(InstallAdvice.LOG_PREFIX+String.format("Detected [%d] install issues.",errorCount));
+		return errorCount;
 	}
 	Configuration getConfiguration() throws Snail4jException {
 		return DefaultFactory.getFactory().getConfiguration();
