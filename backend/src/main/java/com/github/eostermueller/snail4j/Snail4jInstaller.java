@@ -33,7 +33,9 @@ drwxr-xr-x  7 erikostermueller  staff        224 Sep 15 10:30 .
  * @author erikostermueller
  *
  */
-public class Snail4jInstaller {
+public class Snail4jInstaller implements InstallAdvice.StartupErrorLogger {
+	public static final String LOG_PREFIX = "#### ";
+
 	/**
 	 * Here is some research from the JDKs installed on my machine:
 	 * java -XshowSettings:properties -version
@@ -49,7 +51,7 @@ public class Snail4jInstaller {
 	 * @throws Snail4jException 
 	 */
 		  
-	public int preinstallCheck() throws MalformedURLException, Snail4jException {
+	public int preinstallCheck(Configuration cfg) throws MalformedURLException, Snail4jException {
 		int errorCount = 0;
 		
 		InstallAdvice ia = new InstallAdvice();
@@ -67,7 +69,7 @@ public class Snail4jInstaller {
 			errorCount++;
 		
 		
-		LOGGER.debug(InstallAdvice.LOG_PREFIX+String.format("Detected [%d] install issues.",errorCount));
+		LOGGER.debug(LOG_PREFIX+String.format("Detected [%d] install issues.",errorCount));
 		return errorCount;
 	}
 	Configuration getConfiguration() throws Snail4jException {
@@ -588,6 +590,14 @@ protected void installProcessManager() throws Snail4jException {
 //		}
 
 		
+	}
+	@Override
+	public void error(String msg) {
+		LOGGER.error(LOG_PREFIX + msg);		
+	}
+	@Override
+	public void info(String msg) {
+		LOGGER.info(LOG_PREFIX+msg);
 	}  
 
 }

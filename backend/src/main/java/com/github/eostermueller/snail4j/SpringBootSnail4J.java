@@ -31,13 +31,6 @@ import com.github.eostermueller.snail4j.processmodel.ProcessModelSingleton;
 public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEvent> {
 	@Autowired
 	private ConfigurableApplicationContext ctx;
-	private static final String WIREMOCK_PORT_PROPERTY = "wiremockPort";
-
-	private static final String H2_PORT_PROPERTY = "h2Port";
-
-	private static final String SUT_PORT_PROPERTY = "sutAppPort";
-
-	private static final String GLOWROOT_PORT_PROPERTY = "glowrootPort";
 
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
@@ -54,12 +47,12 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 	public void onApplicationEvent(ApplicationReadyEvent event) {
 
 		try {
-			Configuration cfg = DefaultFactory.getFactory().getConfiguration();						
-			
+			Configuration cfg = DefaultFactory.getFactory().getConfiguration();									
 			
 			install(cfg);
 			initProcessModel();
 			initPorts(cfg);
+			
 		} catch (Snail4jException | MalformedURLException e) {
 			try {
 				ProcessModelSingleton.getInstance().setCauseOfSystemFailure(e);
@@ -70,28 +63,6 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 		}
 	}
 
-	static class TcpTarget {
-		static TcpTarget create(String hostname, int port, String name, String snail4jPropertyName) {
-			TcpTarget t = new TcpTarget();
-			t.hostname = hostname;
-			t.port = port;
-			t.name = name;
-			t.snail4jPropertyName = snail4jPropertyName;
-			return t;
-		}
-		boolean active = false;
-		String hostname = null;
-		int port = -1;
-		String name = null;
-		String snail4jPropertyName = null;
-		public String toString() {
-			return String.format("Name=%s, Hostname=%s,Property=%s,port=%d\n", 
-					this.name,
-					this.hostname,
-					this.snail4jPropertyName,
-					this.port);
-		}
-	}
 	private void initPorts(Configuration cfg) throws Snail4jException {
 	
 		List<String> errors = new ArrayList<String>();
@@ -103,33 +74,6 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 			errors.add( DefaultFactory.getFactory().getMessages().getNoUdpPortsAvailableBetween((int)cfg.getStartJMeterNonGuiPort(), (int)cfg.getMaxJMeterNonGuiPort()));
 		}
 		LOGGER.info( String.format("JMeter non-gui port is [%d].  Start [%d] and max port [%d].", cfg.getJMeterNonGuiPort(), cfg.getStartJMeterNonGuiPort(), cfg.getMaxJMeterNonGuiPort() ) );
-
-		
-		int timeoutMs = 1000;
-		List<TcpTarget> targets = new ArrayList<TcpTarget>();
-		targets.add( TcpTarget.create(cfg.getWiremockHostname(), cfg.getWiremockPort(), "Wiremock", WIREMOCK_PORT_PROPERTY) );
-		targets.add( TcpTarget.create(cfg.getH2Hostname(),cfg.getH2Port(),"H2",H2_PORT_PROPERTY) );
-		targets.add( TcpTarget.create(cfg.getSutAppHostname(), cfg.getSutAppPort(), "SUT",SUT_PORT_PROPERTY) );
-		targets.add( TcpTarget.create(cfg.getSutAppHostname(), cfg.getGlowrootPort(), "Glowroot",GLOWROOT_PORT_PROPERTY) );
-		
-		for( TcpTarget t : targets ) {
-			if ( OsUtils.isTcpPortActive(t.hostname, t.port, timeoutMs) ) {
-				t.active = true;
-				String error = DefaultFactory.getFactory().getMessages()
-						.tcpPortConflict(t.name,t.hostname,t.port,t.snail4jPropertyName);
-				errors.add( error );
-			}
-			LOGGER.info( "Snail4j Port status: " + t.toString() );
-		}
-		String portInitStatus = DefaultFactory.getFactory().getMessages()
-				.portInitStatus(errors);
-		
-		DefaultFactory.getFactory().getEventHistory().getEvents().add(
-				Event.create(portInitStatus) );
-
-		if (errors.size() > 0) {
-			throw new Snail4jMultiException(errors);
-		}
 		
 	}
 	private void initProcessModel() throws ConfigVariableNotFoundException, Snail4jException {
@@ -138,7 +82,9 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 	private void install(Configuration cfg) throws CannotFindSnail4jFactoryClass, MalformedURLException {
 		String path = new PathUtil().getBaseClassspath();
 		Messages m = DefaultFactory.getFactory().getMessages();
-		if (path.contains(PathUtil.JAR_SUFFIX)) { //only install if launched using "java -jar".  Elsewise, installs happen with every "backend" build, because Spring Boot is launched during integration testing. 
+		if (path.contains(PathUtil.JAR_SUFFIX)
+			|| path.contains(PathUtil.ZIP_SUFFIX)
+				) { //only install if launched using "java -jar".  Elsewise, installs happen with every "backend" build, because Spring Boot is launched during integration testing. 
 			try {
 				
 				dispStartInstallBanner(m.startInstallMessage() );
@@ -149,7 +95,7 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 				LOGGER.info(InstallAdvice.LOG_PREFIX+"Maven online mode: " + cfg.isMavenOnline() );
 				LOGGER.info(InstallAdvice.LOG_PREFIX+"snail4j maven repo location: " + cfg.isSnail4jMavenRepo() );
 				
-				int countOfFailedPreChecks = snail4jInstaller.preinstallCheck();
+				int countOfFailedPreChecks = snail4jInstaller.preinstallCheck(cfg);
 				LOGGER.info(InstallAdvice.LOG_PREFIX+"Number if install issues: " + countOfFailedPreChecks );
 
 				if (countOfFailedPreChecks==0)
