@@ -22,6 +22,7 @@ import com.github.eostermueller.snail4j.launcher.Configuration;
 public class PathUtil {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	  public final static String JAR_SUFFIX = ".jar";
+	  public final static String ZIP_SUFFIX = ".zip";
 	  private final String FILE_PREFIX = "file:";
 	  
 	  /**
