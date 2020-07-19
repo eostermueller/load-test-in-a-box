@@ -68,7 +68,8 @@ public class Snail4jInstaller implements InstallAdvice.StartupLogger {
 		if (javac_dir!=null) {
 			cfg.setJavaHome(javac_dir);
 		} else {
-			info( messages.jreIsNotEnough( Paths.get(JdkUtils.getInstallPathOfThisJvm() ) ) );
+			Path pathOfThisJvm = Paths.get(JdkUtils.getInstallPathOfThisJvm() );
+			info( messages.jreIsNotEnough( pathOfThisJvm ) );
 			Path java_home_from_env = ia.get_JAVA_HOME();
 			info( messages.attemptingToUseJavaHomeToFindJavaCompiler( java_home_from_env ) );
 			
@@ -82,6 +83,7 @@ public class Snail4jInstaller implements InstallAdvice.StartupLogger {
 						errorCount++;
 					}
 				} else {
+					error( messages.JAVA_HOME_mustPointToCurrentJava(java_home_from_env, pathOfThisJvm));
 					errorCount++;
 				}
 			}
