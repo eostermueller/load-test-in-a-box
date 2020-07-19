@@ -1,8 +1,6 @@
 package com.github.eostermueller.snail4j;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.Configuration;
+import com.github.eostermueller.snail4j.launcher.Messages;
 
 /**
  * The SpringBootStartupInstaller will handle progress meter
@@ -33,8 +32,14 @@ drwxr-xr-x  7 erikostermueller  staff        224 Sep 15 10:30 .
  * @author erikostermueller
  *
  */
-public class Snail4jInstaller implements InstallAdvice.StartupErrorLogger {
+public class Snail4jInstaller implements InstallAdvice.StartupLogger {
 	public static final String LOG_PREFIX = "#### ";
+	
+	Messages messages = null;
+	public Snail4jInstaller() throws CannotFindSnail4jFactoryClass {
+		messages = DefaultFactory.getFactory().getMessages();
+
+	}
 
 	/**
 	 * Here is some research from the JDKs installed on my machine:
@@ -51,25 +56,49 @@ public class Snail4jInstaller implements InstallAdvice.StartupErrorLogger {
 	 * @throws Snail4jException 
 	 */
 		  
-	public int preinstallCheck(Configuration cfg) throws MalformedURLException, Snail4jException {
+	public int preInstallJavaValidation(Configuration cfg) throws MalformedURLException, Snail4jException {
 		int errorCount = 0;
 		
-		InstallAdvice ia = new InstallAdvice();
+		InstallAdvice ia = new InstallAdvice((InstallAdvice.StartupLogger)this);
 		
 		if (!ia.isJavaSpecificationVersionOk() )
-			errorCount++;
+			errorCount++;	//Unlikely this will happen, because 1.7 or before JDK won't run a 1.8 or higher jar file.
+
+		Path javac_dir = JdkUtils.getDirectoryOfJavaCompiler();
+		if (javac_dir!=null) {
+			cfg.setJavaHome(javac_dir);
+		} else {
+			info( messages.jreIsNotEnough( Paths.get(JdkUtils.getInstallPathOfThisJvm() ) ) );
+			Path java_home_from_env = ia.get_JAVA_HOME();
+			info( messages.attemptingToUseJavaHomeToFindJavaCompiler( java_home_from_env ) );
+			
+			if (!ia.isJavaHomeDirExists(java_home_from_env) )
+				errorCount++;
+			else {
+				if( JdkUtils.pointsToCurrentJava(java_home_from_env) ) {
+					cfg.setJavaHome(java_home_from_env);
+					if (JdkUtils.getDirectoryOfJavaCompiler(java_home_from_env)==null ) {
+						info( messages.jreIsNotEnough( java_home_from_env ) );
+						errorCount++;
+					}
+				} else {
+					errorCount++;
+				}
+			}
+		}
 		
-		if (!ia.isJavaHomeEnvVarOk() )
-			errorCount++;
+
+		LOGGER.debug(LOG_PREFIX+String.format("Detected [%d] JDK issues",errorCount));
+		return errorCount;
+	}
+	public int preInstallValidation(Configuration cfg) throws MalformedURLException, Snail4jException {
+		InstallAdvice ia = new InstallAdvice((InstallAdvice.StartupLogger)this);
+		int errorCount = 0;
 		
-		if (!ia.JAVA_HOME_pointsToCurrentJava())
-			errorCount++;			
-		
-		if (!ia.isJdk() )
-			errorCount++;
-		
-		
-		LOGGER.debug(LOG_PREFIX+String.format("Detected [%d] install issues.",errorCount));
+		errorCount += preInstallJavaValidation(cfg);
+		errorCount += ia.sutPortsAreAvailable(cfg);
+		info("Number if install issues: " + errorCount );
+
 		return errorCount;
 	}
 	Configuration getConfiguration() throws Snail4jException {
@@ -593,11 +622,16 @@ protected void installProcessManager() throws Snail4jException {
 	}
 	@Override
 	public void error(String msg) {
-		LOGGER.error(LOG_PREFIX + msg);		
+		System.out.println(LOG_PREFIX + "ERROR: " + msg);		
 	}
 	@Override
 	public void info(String msg) {
-		LOGGER.info(LOG_PREFIX+msg);
+		System.out.println(LOG_PREFIX+ "INFO:  " + msg);
+	}  
+	@Override
+	public void debug(String msg) {
+		if (LOGGER.isDebugEnabled())
+			System.out.println(LOG_PREFIX+"DEBUG: "+msg);
 	}  
 
 }

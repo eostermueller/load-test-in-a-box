@@ -63,4 +63,6 @@ public interface Messages {
 
 	String JAVA_HOME_mustPointToCurrentJava(Path get_JAVA_HOME, Path currentJavaPath);
 
+	String attemptingToUseJavaHomeToFindJavaCompiler(Path java_home_from_env);
+
 }

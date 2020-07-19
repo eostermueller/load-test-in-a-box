@@ -235,7 +235,7 @@ public class DefaultFactory implements Factory {
 	}
 	@Override
 	public
-	Snail4jInstaller createNewInstaller() {
+	Snail4jInstaller createNewInstaller() throws CannotFindSnail4jFactoryClass {
 		return new Snail4jInstaller();
 	}
 	@Override
