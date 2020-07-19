@@ -29,12 +29,14 @@ import com.github.eostermueller.snail4j.processmodel.ProcessModelSingleton;
  */
 @Component
 public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEvent> {
+	private String BLANK_SPACE = "\n\n\n";
 	@Autowired
 	private ConfigurableApplicationContext ctx;
 
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
 	private static ProcessModelSingleton PROCESS_MODEL_SINGLETON = null;
+
 	
 	public static ProcessModelSingleton getProcessModelSingleton() throws ConfigVariableNotFoundException, Snail4jException {
 		return PROCESS_MODEL_SINGLETON;
@@ -92,23 +94,24 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 						Event.create(m.startInstallMessage()) );
 				
 				Snail4jInstaller snail4jInstaller = DefaultFactory.getFactory().createNewInstaller();
-				LOGGER.info(InstallAdvice.LOG_PREFIX+"Maven online mode: " + cfg.isMavenOnline() );
-				LOGGER.info(InstallAdvice.LOG_PREFIX+"snail4j maven repo location: " + cfg.isSnail4jMavenRepo() );
+				LOGGER.debug(Snail4jInstaller.LOG_PREFIX+"Maven online mode: " + cfg.isMavenOnline() );
+				LOGGER.debug(Snail4jInstaller.LOG_PREFIX+"snail4j maven repo location: " + cfg.isSnail4jMavenRepo() );
 				
-				int countOfFailedPreChecks = snail4jInstaller.preinstallCheck(cfg);
-				LOGGER.info(InstallAdvice.LOG_PREFIX+"Number if install issues: " + countOfFailedPreChecks );
+				int countOfFailedPreChecks = snail4jInstaller.preInstallValidation(cfg);
 
-				if (countOfFailedPreChecks==0)
+				if (countOfFailedPreChecks==0 || Application.commandLineArguments.isForceLaunch() )
 					snail4jInstaller.install();
 				else
 					throw new Snail4jException(m.startupAborted(countOfFailedPreChecks) );
 				
-		    	LOGGER.info(InstallAdvice.LOG_PREFIX+"Install finished.  Ready to load test!");
+		    	LOGGER.info(Snail4jInstaller.LOG_PREFIX+"Install finished.  Ready to load test!");
 		    	dispEndInstallBanner( m.successfulInstallation() );
+		    	dispSuccessLargeLetters();
 				DefaultFactory.getFactory().getEventHistory().getEvents().add(
 						Event.create(m.successfulInstallation()) );
 			} catch (Snail4jException e) {
 		    	dispEndInstallBanner( m.failedInstallation() );
+		    	dispFailLargeLetters();
 				DefaultFactory.getFactory().getEventHistory().getEvents().add(
 						Event.create(m.failedInstallation()) );
 				LOGGER.error( e.getMessage() );
@@ -123,22 +126,41 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 			this.LOGGER.error("Install has been skipped!   It only runs when WindTunnel is launched with 'java -jar'. Startup: [" + path + "]" );
 		}
 	}
-
+	private void dispSuccessLargeLetters() {
+		System.out.println("     _______. __    __    ______   ______  _______     _______.     _______.");
+		System.out.println("    /       ||  |  |  |  /      | /      ||   ____|   /       |    /       |");
+		System.out.println("   |   (----`|  |  |  | |  ,----'|  ,----'|  |__     |   (----`   |   (----`");
+		System.out.println("    \\   \\    |  |  |  | |  |     |  |     |   __|     \\   \\        \\   \\    ");
+		System.out.println(".----)   |   |  `--'  | |  `----.|  `----.|  |____.----)   |   .----)   |   ");
+		System.out.println("|_______/     \\______/   \\______| \\______||_______|_______/    |_______/    ");
+	}
+	private void dispFailLargeLetters() {
+		System.out.println(" _______    ___       __   __      ");
+		System.out.println("|   ____|  /   \\     |  | |  |     ");
+		System.out.println("|  |__    /  ^  \\    |  | |  |     ");
+		System.out.println("|   __|  /  /_\\  \\   |  | |  |     ");
+		System.out.println("|  |    /  _____  \\  |  | |  `----.");
+		System.out.println("|__|   /__/     \\__\\ |__| |_______|");		
+	}
 	private void dispStartInstallBanner(String msg) {
-		this.LOGGER.info("########################################" );
-		this.LOGGER.info("########################################" );
-		this.LOGGER.info("####                               #####" );
-		this.LOGGER.info("#### " + msg);
-		this.LOGGER.info("####                               #####" );
-		this.LOGGER.info("####                               #####" );
+		
+		System.out.println(BLANK_SPACE);
+		System.out.println("########################################" );
+		System.out.println("########################################" );
+		System.out.println(Snail4jInstaller.LOG_PREFIX );
+		System.out.println(Snail4jInstaller.LOG_PREFIX + msg);
+		System.out.println(Snail4jInstaller.LOG_PREFIX );
+		System.out.println(Snail4jInstaller.LOG_PREFIX );
 	}
 	private void dispEndInstallBanner(String msg) {
-		this.LOGGER.info("####                               #####" );
-		this.LOGGER.info("####                               #####" );
-		this.LOGGER.info("#### " + msg);
-		this.LOGGER.info("####                               #####" );
-		this.LOGGER.info("########################################" );
-		this.LOGGER.info("########################################" );
+		System.out.println(Snail4jInstaller.LOG_PREFIX );
+		System.out.println(Snail4jInstaller.LOG_PREFIX );
+		System.out.println(Snail4jInstaller.LOG_PREFIX + msg);
+		System.out.println(Snail4jInstaller.LOG_PREFIX );
+		System.out.println(Snail4jInstaller.LOG_PREFIX );
+		System.out.println("########################################" );
+		System.out.println("########################################" );
+		System.out.println(BLANK_SPACE);
 	}
 
 }

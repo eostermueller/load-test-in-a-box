@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.EnvironmentVariables;
@@ -13,9 +15,12 @@ import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.api.condition.OS;
 
+import com.github.eostermueller.snail4j.InstallAdvice.StartupLogger;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
+import com.github.eostermueller.snail4j.launcher.Configuration;
+import com.github.eostermueller.snail4j.launcher.agent.TestConfiguration;
 
-class TestInstallAdvice {
+class TestInstallAdvice implements InstallAdvice.StartupLogger {
 	@TempDir
 	static File sharedTempDir;
 	 
@@ -30,18 +35,36 @@ class TestInstallAdvice {
 	 	environmentVariables.clear("JAVA_HOME");
 	 	assertNull(System.getenv("JAVA_HOME"));
 	 }
+	@Override
+	public void info(String msg) {
+		System.out.println(msg);
+	}
+	
+	@Override
+	public void error(String msg) {
+		System.out.println(msg);
+	}
+	@Override
+	public void debug(String msg) {
+		System.out.println(msg);
+	}
+	 
 	 @Test
 	 @EnabledOnOs({OS.LINUX, OS.MAC})
-	 public void canDetectWhen_JAVA_HOME_pointsToNonExistentFolder_nix() throws CannotFindSnail4jFactoryClass, MalformedURLException {
+	 public void canDetectWhen_JAVA_HOME_pointsToNonExistentFolder_nix() throws MalformedURLException, Snail4jException {
 		 //set JAVA_HOME to a folder that does not exist
 		environmentVariables.set("JAVA_HOME", File.separator + java.util.UUID.randomUUID().toString() );
-		InstallAdvice installAdvice = new InstallAdvice();
-		assertFalse( installAdvice.isJavaHomeEnvVarOk() );//detect that it doesn't exist
+		Configuration cfg = new TestConfiguration();
+		
+		InstallAdvice installAdvice = new InstallAdvice( this );
+		
+		Path p  = JdkUtils.getCurrentJavaPath();
+		assertFalse( installAdvice.isJavaHomeDirExists(p) );//detect that it doesn't exist
 		 
 	 }
 	 @Test
 	 @EnabledOnOs({OS.WINDOWS})
-	 public void canDetectWhen_JAVA_HOME_pointsToNonExistentFolder() throws CannotFindSnail4jFactoryClass, MalformedURLException {
+	 public void canDetectWhen_JAVA_HOME_pointsToNonExistentFolder() throws MalformedURLException, Snail4jException {
 
 		 //set JAVA_HOME to a folder that does not exist
 		 String folderThatDoesNotExist = "C:" + File.separator + java.util.UUID.randomUUID().toString();
@@ -49,26 +72,30 @@ class TestInstallAdvice {
 		String javaHome = System.getenv("JAVA_HOME");
 		assertEquals(folderThatDoesNotExist,javaHome);
 
-		InstallAdvice installAdvice = new InstallAdvice();
-		assertFalse( installAdvice.isJavaHomeEnvVarOk() );//Detect that that folder does not exist.
+		Path p = Paths.get(javaHome);
+		InstallAdvice installAdvice = new InstallAdvice(this);
+		assertFalse( installAdvice.isJavaHomeDirExists(p) );//Detect that that folder does not exist.
 		 
 	 }
 	 @Test
-	 public void canDetectWhen_JAVA_HOME_pointsToExistingFolder() throws CannotFindSnail4jFactoryClass, MalformedURLException {
+	 public void canDetectWhen_JAVA_HOME_pointsToExistingFolder() throws MalformedURLException, Snail4jException {
 			environmentVariables.set("JAVA_HOME",sharedTempDir.getAbsolutePath());
 			
-			InstallAdvice installAdvice = new InstallAdvice();
-			assertTrue( installAdvice.isJavaHomeEnvVarOk() );
+			Path p = JdkUtils.get_JAVA_HOME();
+			
+			InstallAdvice installAdvice = new InstallAdvice(this);
+			assertTrue( installAdvice.isJavaHomeDirExists(p) );
 			
 			
 	 }
 
 	 @Test
-	 public void canDetectWhen_JAVA_HOME_isNotSet() throws CannotFindSnail4jFactoryClass, MalformedURLException {
+	 public void canDetectWhen_JAVA_HOME_isNotSet() throws MalformedURLException, Snail4jException {
 			environmentVariables.clear("JAVA_HOME");
+			Path p = JdkUtils.get_JAVA_HOME();
 			
-			InstallAdvice installAdvice = new InstallAdvice();
-			assertFalse( installAdvice.isJavaHomeEnvVarOk() );
+			InstallAdvice installAdvice = new InstallAdvice(this);
+			assertFalse( installAdvice.isJavaHomeDirExists(p) );
 			
 			
 	 }

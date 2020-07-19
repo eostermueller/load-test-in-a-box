@@ -1,6 +1,5 @@
 package com.github.eostermueller.snail4j.launcher;
 
-import java.io.File;
 
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.Snail4jInstaller;
@@ -31,7 +30,7 @@ public interface Factory {
 
 	ProcessModelBuilder createProcessModelBuilder() throws Snail4jException;
 
-	Snail4jInstaller createNewInstaller();
+	Snail4jInstaller createNewInstaller() throws CannotFindSnail4jFactoryClass;
 
 	ConfigLookup createConfigLookup() throws Snail4jException;
 

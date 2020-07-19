@@ -18,15 +18,17 @@ import com.github.eostermueller.snail4j.launcher.Messages;
  *
  */
 public class InstallAdvice {
-	private StartupErrorLogger startupErrorLogger;
-	public InstallAdvice(StartupErrorLogger val) throws Snail4jException {
-		this.startupErrorLogger = val;
-		if (this.startupErrorLogger==null)
-			throw new Snail4jException("Bug.  expectied logger object");
+	private StartupLogger startupLogger;
+	public InstallAdvice(StartupLogger val) throws Snail4jException {
+		messages = DefaultFactory.getFactory().getMessages();
+		this.startupLogger = val;
+		if (this.startupLogger==null)
+			throw new Snail4jException("Bug.  expectied StartupErrorLogger object");
 	}
-	interface StartupErrorLogger {
+	interface StartupLogger {
 		public void error(String msg);
 		public void info(String msg);
+		public void debug(String msg);
 	}
 	private static final String WIREMOCK_PORT_PROPERTY = "wiremockPort";
 
@@ -38,9 +40,6 @@ public class InstallAdvice {
 	
 	Messages messages = null;
 	private static String[] UNSUPPORTED_JAVA_SPECIFICATION_VERSIONS = new String[]{ "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7" };
-	public InstallAdvice() throws CannotFindSnail4jFactoryClass {
-		messages = DefaultFactory.getFactory().getMessages();
-	}
 	static class TcpTarget {
 		static TcpTarget create(String hostname, int port, String name, String snail4jPropertyName) {
 			TcpTarget t = new TcpTarget();
@@ -64,7 +63,7 @@ public class InstallAdvice {
 		}
 	}
 	
-	public void sutPortsAreAvailable(Configuration cfg) throws CannotFindSnail4jFactoryClass, Snail4jMultiException {
+	public int sutPortsAreAvailable(Configuration cfg) throws CannotFindSnail4jFactoryClass, Snail4jMultiException {
 		List<String> errors = new ArrayList<String>();
 		int timeoutMs = 1000;
 		List<TcpTarget> targets = new ArrayList<TcpTarget>();
@@ -78,9 +77,10 @@ public class InstallAdvice {
 				t.active = true;
 				String error = DefaultFactory.getFactory().getMessages()
 						.tcpPortConflict(t.name,t.hostname,t.port,t.snail4jPropertyName);
-				errors.add( error );
+				this.startupLogger.error(error);
+				errors.add(error);
 			}
-			startupErrorLogger.info( "Snail4j Port status: " + t.toString() );
+			startupLogger.debug( "Snail4j Port status: " + t.toString() );
 		}
 		String portInitStatus = DefaultFactory.getFactory().getMessages()
 				.portInitStatus(errors);
@@ -88,16 +88,17 @@ public class InstallAdvice {
 		DefaultFactory.getFactory().getEventHistory().getEvents().add(
 				Event.create(portInitStatus) );
 
-		if (errors.size() > 0) {
-			throw new Snail4jMultiException(errors);
-		}
-		
+		if (errors.size() > 0)
+			this.startupLogger.error(portInitStatus);
+		else
+			this.startupLogger.debug(portInitStatus);
+
+		return errors.size();
 	}
 
 
 	public boolean isJdk() throws Snail4jException {
 		boolean rc = true;
-
 		
 		rc = JdkUtils.isJdk();
 
@@ -112,28 +113,12 @@ public class InstallAdvice {
 			throw new Snail4jException("Bug:  could not create error message showing location of java.");
 		}
 		if (!rc)
-			startupErrorLogger.error( LOG_PREFIX+errorMsg );
+			startupLogger.error( errorMsg );
 			
-		return rc;
-	}
-	public boolean JAVA_HOME_pointsToCurrentJava() throws Snail4jException {
-		
-		
-		boolean rc = false;
-		rc = JdkUtils.JAVA_HOME_pointsToCurrentJava();
-		
-		if (!rc)
-			startupErrorLogger.error(LOG_PREFIX+
-					messages.JAVA_HOME_mustPointToCurrentJava(
-					JdkUtils.get_JAVA_HOME(),
-					JdkUtils.getCurrentJavaPath()
-					));
 		return rc;
 	}
 	
 	public boolean isJavaSpecificationVersionOk() throws Snail4jException {
-		boolean rc = true;
-
 		String currentJavaSpecificationVersion = System.getProperty("java.specification.version");
 		
 		if (currentJavaSpecificationVersion==null || "".equals(currentJavaSpecificationVersion)) {
@@ -146,8 +131,8 @@ public class InstallAdvice {
 		
 		Path p = JdkUtils.getCurrentJavaPath();
 		if (ynOnTheUnsupportedList)
-			startupErrorLogger.error( 
-					LOG_PREFIX+
+			startupLogger.error( 
+					
 					messages.unsupportedJavaVersion ( 
 					currentJavaSpecificationVersion, 
 					p, 
@@ -157,35 +142,34 @@ public class InstallAdvice {
 			
 		return !ynOnTheUnsupportedList;
 	}
+	public Path get_JAVA_HOME() {
+		Path java_home = null;
+		String javaHomeString = System.getenv("JAVA_HOME");
+		if (javaHomeString != null)
+			java_home = Paths.get(javaHomeString);
+			
+		return java_home;
+	}
 	/**
 	 * 
 	 * @return
 	 * @throws CannotFindSnail4jFactoryClass 
 	 * @throws MalformedURLException 
 	 */
-	public boolean isJavaHomeEnvVarOk() throws CannotFindSnail4jFactoryClass, MalformedURLException {
+	public boolean isJavaHomeDirExists(Path java_home) throws CannotFindSnail4jFactoryClass, MalformedURLException {
 		boolean rc = false;
 		
 		
-		String javaHome = System.getenv("JAVA_HOME");
-		if (javaHome == null) {
-			startupErrorLogger.error( 
-					LOG_PREFIX+
-					messages.javaHomeEnvVarNotSet() );
+		File javaHomeFolder = java_home.toFile();
+		if (!javaHomeFolder.exists() || !javaHomeFolder.isDirectory()) {
+			startupLogger.error( 
+					messages.javaHomeFolderDoesNotExistOrLackingPermissions(javaHomeFolder) );
 		} else {
-			File javaHomeFolder = Paths.get(javaHome).toFile();
-			if (!javaHomeFolder.exists() || !javaHomeFolder.isDirectory()) {
-				startupErrorLogger.error( 
-						LOG_PREFIX+
-						messages.javaHomeFolderDoesNotExistOrLackingPermissions(javaHomeFolder) );
-			} else {
-				rc = true;
-			}
+			rc = true;
 		}
 
 		if (!rc) {
-			startupErrorLogger.error( 
-					LOG_PREFIX+
+			startupLogger.error( 
 					new DocumentationLinks().getJdkInstallAdvice().toString() );
 		}
 		
