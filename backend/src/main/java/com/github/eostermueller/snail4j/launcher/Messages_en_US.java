@@ -156,7 +156,7 @@ public class Messages_en_US implements Messages {
 
 	public String jreIsNotEnough(Path currentJavaPath) {
 		String path = currentJavaPath.toFile().getAbsolutePath();
-		return String.format("Is this a JRE?  Snail4j instead requires a JDK.  Path to JRE that was used:: \n#### \t\t\t%s", path );
+		return String.format("Sure looks like you launched a JRE.  Snail4j requires a JDK.  Path to JRE that was used:: \n#### \t\t\t%s", path );
 	}
 
 	@Override
@@ -176,5 +176,4 @@ public class Messages_en_US implements Messages {
 	public String attemptingToUseJavaHomeToFindJavaCompiler(Path java_home_from_env) {
 		return String.format("Attempting to use JAVA_HOME value to locate Java Compiler executable. \n####\t\t\t JAVA_HOME=%s", java_home_from_env.toAbsolutePath().toString() );
 	}
-
 }
