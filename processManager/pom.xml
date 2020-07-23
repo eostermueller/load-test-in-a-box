@@ -7,8 +7,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
   <artifactId>systemUnderTest</artifactId>
   <version>0.0.1</version>
   <properties>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.compiler.source>1.8</maven.compiler.source>
     <maven.failsafe.version>2.22.2</maven.failsafe.version>
     <slf4jVersion>1.6.1</slf4jVersion>
     <h2.maven.plugin.version>0.1_1.4.191</h2.maven.plugin.version>
