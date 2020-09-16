@@ -7,12 +7,12 @@ import { Workload } from '../model/workload';
 })
 export class WorkloadChangeService {
 
-  private newWorkloadSource = new BehaviorSubject(Workload);
+  private newWorkloadSource = new BehaviorSubject( new Workload () );
   currentWorkload = this.newWorkloadSource.asObservable();
 
   constructor() { }
 
   changeLaunchStatus(newWorkload: Workload) {
-      this.newWorkloadSource.next(status)
+      this.newWorkloadSource.next(newWorkload);
   }
 }
