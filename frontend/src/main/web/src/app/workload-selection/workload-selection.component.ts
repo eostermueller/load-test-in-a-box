@@ -44,7 +44,7 @@ export class WorkloadSelectionComponent implements OnInit {
     private sutLaunchStatusService: SutLaunchStatusService,
     private sutLauncherService: SutLauncherService,
     private loadGeneratorLaunchStatusService: LoadGeneratorLaunchStatusService,
-    private loadGeneratorLauncherService: LoadGeneratorLauncherService
+    private loadGeneratorLauncherService: LoadGeneratorLauncherService,
     ) {
 
     } 
@@ -207,9 +207,5 @@ export class WorkloadSelectionComponent implements OnInit {
       this.updateTabStatus();
     }
   );
-
-
-
   }
-
 }

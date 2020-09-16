@@ -57,6 +57,7 @@ import { UseCaseCardComponent } from './use-case-card/use-case-card.component';
 import { StartStopComponent } from './start-stop/start-stop.component';
 import { HealthChecksComponent } from './health-checks/health-checks.component';
 import { UseCaseService } from './use-case.service';
+import { WorkloadKeyComponent } from './workload-key/workload-key.component';
 
   const appRoutes: Routes = [
     /**
@@ -91,6 +92,7 @@ import { UseCaseService } from './use-case.service';
     DemoCardComponent,
     StartStopComponent,
     HealthChecksComponent,
+    WorkloadKeyComponent,
   ],
   imports: [
     HttpClientModule,
@@ -131,8 +133,9 @@ import { UseCaseService } from './use-case.service';
   //   }    
   // ],
 //  entryComponents: [UseCaseService],
-  bootstrap: [AppComponent, UseCasesComponent],
-  providers: [ConfigService,
+//  bootstrap: [AppComponent, UseCasesComponent],
+  bootstrap: [AppComponent], // https://github.com/angular/components/issues/5899
+providers: [ConfigService,
     {
       provide: APP_INITIALIZER,
       // useFactory: (configService: ConfigService) => function () { return configService.load(); },

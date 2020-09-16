@@ -49,12 +49,13 @@ export class Database { // {{{
   templateUrl: './use-cases.component.html',
   styleUrls: ['./use-cases.component.scss']
 })
-export class UseCasesComponent implements OnInit, AfterViewInit {
+export class UseCasesComponent implements OnInit {
   config: ConfigModel = this.configService.config;
 
-  ngAfterViewInit(): void {
-    throw new Error("Method not implemented.");
-  }
+  // implements , AfterViewInit
+  // ngAfterViewInit(): void {
+  //   throw new Error("Method not implemented.");
+  // }
   @ViewChildren('useCaseCard') 
   useCaseCards: QueryList<UseCaseCardComponent>; 
 
@@ -87,7 +88,8 @@ constructor(
   private useCaseService : UseCaseService, 
   private sutLaunchStatusService: SutLaunchStatusService,
   private cdRef:ChangeDetectorRef,
-  private configService: ConfigService) { 
+  private configService: ConfigService,
+  ) { 
 //  debugger
  }
 
@@ -203,11 +205,13 @@ dispUseCases(ctx:string) {
     console.log("after ary");
   }
   reSetUseCaseSelection(selectedUseCases:any) {
-    for( var i:number = 0; i < selectedUseCases.result.useCases.length;i++) {
-      var selectedUseCase = selectedUseCases.result.useCases[i];
-      console.log('re-selecting useCase:' + selectedUseCase.name);
-      this.reSelectUseCase(selectedUseCase);
-    }
+    if (selectedUseCases != null && selectedUseCases.result != null && selectedUseCases.result.useCases != null) {
+      for( var i:number = 0; i < selectedUseCases.result.useCases.length;i++) {
+        var selectedUseCase = selectedUseCases.result.useCases[i];
+        console.log('re-selecting useCase:' + selectedUseCase.name);
+        this.reSelectUseCase(selectedUseCase);
+      }
+      }
   }
   public getSelectedWorkload() {
     console.log("UseCasesComponents.getWorkLoad()");

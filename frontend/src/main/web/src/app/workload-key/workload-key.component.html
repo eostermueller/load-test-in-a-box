@@ -1,0 +1,32 @@
+<p>workload-key works!</p>
+
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+<mat-card>
+    <mat-form-field class="example-full-width">
+        <button type="submit" mat-raised-button color="accent" [disabled]="!form.valid">
+            Submit
+        </button>
+
+        <mat-label>Workload Key</mat-label>
+        <p></p>
+        <textarea 
+            matInput 
+            placeholder="(snail4j workload json, plaintext or encrypted)" 
+            formControlName="workloadKey"
+            >
+            {{ this.getWorkloadKeyJson() }}
+        </textarea>
+  
+        <mat-error *ngIf="form.get('workloadKey').hasError('required')">
+  
+          Snail4j workload key is required
+  
+        </mat-error>
+  
+    </mat-form-field>
+  
+    
+
+</mat-card>
+</form>
