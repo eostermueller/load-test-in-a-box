@@ -5,11 +5,15 @@ import { Observable } from 'rxjs';
 import {ApiResponse} from './model/api.response';
 import {Workload} from './model/workload';
 import { ApiResponseInterface } from './model/api.response.interface';
+import { WorkloadChangeService }  from './services/workload-change.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UseCaseService {
+  private newWorkloadSource = new BehaviorSubject( new Workload () );
+  currentWorkload = this.newWorkloadSource.asObservable();
 
   constructor(private http: HttpClient) {
   }
@@ -44,6 +48,12 @@ export class UseCaseService {
 
       updateWorkload(host:string,port:number,workload:Workload): Observable<ApiResponseInterface> {
         console.log( '... 01 updateWorkload oct 20: ' + JSON.stringify(workload));
+        this.fireWorkloadChangeEvent(workload);
         return this.http.put<ApiResponseInterface>(this.getBaseUrl(host,port) + '/traffic/workload', workload);        
       }
+
+      fireWorkloadChangeEvent(newWorkload: Workload) {
+          this.newWorkloadSource.next(newWorkload);
+      }
+    
 }
