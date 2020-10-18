@@ -227,6 +227,26 @@ dispUseCases(ctx:string) {
   }  
     ngOnInit() {
 
+      this.useCaseService.currentWorkload.subscribe(workloadObj => {
+
+        /** The following works......however.
+         * when checkboxes are changed, then the following executes UNNECESSARILY.
+         * Without this load() call, the new workload paints/renders/displays just fine.
+         * 
+         * THis line is required to update/correct/display the workload when TEXT is pasted into the workloadKey screen.
+         * One way around this:  perhaps start a timer when any workload checkboxes change.
+         * If we're about to execute this load() w/o 5 ms of the timer, DON'T CALL THIS load()!!!!!
+         * 
+         * ....or perhaps share a variable between the two screens, and share a 'dirty' variable.
+         * when the workloadKey(aka text) changes, set the dirty flag.....
+         * and only execute this load() when the dirty flag is set.
+         * .....and of course reset the dirty() flag when it is detected.
+         */
+        this.load();
+      }
+      );
+
+
       this.sutLaunchStatusService.currentStatus.subscribe(
         status => {
               this.forceHttpWorkloadRq = true; //check whether there's new stuff on the classpath, 
