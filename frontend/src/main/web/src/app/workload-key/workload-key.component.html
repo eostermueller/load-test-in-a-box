@@ -11,11 +11,12 @@
         <mat-label>Workload Key</mat-label>
         <p></p>
         <textarea 
+            name="workloadKey"
             matInput 
             placeholder="(snail4j workload json, plaintext or encrypted)" 
             formControlName="workloadKey"
+            required
             >
-            {{ this.getWorkloadKeyJson() }}
         </textarea>
   
         <mat-error *ngIf="form.get('workloadKey').hasError('required')">
