@@ -8,7 +8,15 @@ import java.util.function.BooleanSupplier;
 import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
 
 public class UseCases {
+	int origin = 0;
+	
 
+	public int getOrigin() {
+		return origin;
+	}
+	public void setOrigin(int origin) {
+		this.origin = origin;
+	}
 	public UseCases sort(Comparator<UseCase> c) {
 		useCases.sort(c);
 		return this;

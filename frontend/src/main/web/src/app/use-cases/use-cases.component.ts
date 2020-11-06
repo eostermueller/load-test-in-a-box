@@ -199,7 +199,7 @@ dispUseCases(ctx:string) {
         useCaseCardComponent.setSelectionState(true,selectedIndex);
         console.log('Found card 0 ' + useCaseCardsAry[i].constructor.name);
         console.log('Found card: ' + i + ' : ' + useCaseCardsAry[i].getName() );
-        break;
+        //2020-11-06 break;
         }
     }
     console.log("after ary");
@@ -229,7 +229,10 @@ dispUseCases(ctx:string) {
 
       this.useCaseService.currentWorkload.subscribe(workloadObj => {
 
-        /** The following works......however.
+        /** 
+         * Refresh the checkbox/combobox selection with the newly applied WorkloadKey -- a text one.
+         * 
+         * The following works......however.
          * when checkboxes are changed, then the following executes UNNECESSARILY.
          * Without this load() call, the new workload paints/renders/displays just fine.
          * 
@@ -241,8 +244,17 @@ dispUseCases(ctx:string) {
          * when the workloadKey(aka text) changes, set the dirty flag.....
          * and only execute this load() when the dirty flag is set.
          * .....and of course reset the dirty() flag when it is detected.
+         * 
+         * ....or perhaps (and of course this is the right way) make a custom service specifically for:
+         * - clearTextWorkloadChange()
+         * - encryptedTextWorkloadChange()
+         * 
          */
-        this.load();
+        if (workloadObj.origin==1) 
+          //calling load() with origin==0 causes unnecessary and irritating page reload
+          this.load();
+          //this.reSetUseCaseSelection(workloadObj);            
+
       }
       );
 
