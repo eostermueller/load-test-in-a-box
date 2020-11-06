@@ -10,12 +10,20 @@
 
         <mat-label>Workload Key</mat-label>
         <p></p>
+        <!--
+            Autosize parms @stolenFrom:  https://stackoverflow.com/a/56694453/2377579
+        -->
         <textarea 
+            class="overflow:auto"
             name="workloadKey"
             matInput 
             placeholder="(snail4j workload json, plaintext or encrypted)" 
             formControlName="workloadKey"
             required
+            cdkTextareaAutosize 
+			#autosize="cdkTextareaAutosize"
+			cdkAutosizeMinRows="1" 
+			cdkAutosizeMaxRows="5"            
             >
         </textarea>
   

@@ -41,6 +41,7 @@ export class WorkloadKeyComponent implements OnInit {
   private updateWorkload() {
     console.log("nnnnn about to parse selected workload:" + this.workloadKeyString);
     var workload:Workload = JSON.parse(this.workloadKeyString);
+    workload.origin = 1;
     this.useCaseService.updateWorkload(
       this.config.sutAppHostname,
       this.config.sutAppPort,

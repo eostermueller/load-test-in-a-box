@@ -4,6 +4,7 @@ package com.github.eostermueller.snail4j.workload.model.json;
 import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
 import com.github.eostermueller.snail4j.workload.model.UseCases;
@@ -45,8 +46,10 @@ public class DefaultSerializationUtil implements SerializaionUtil {
 		UseCases useCases = null;
 		try {
 			useCases = this.getMapper()			      
+				.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
 				.readerFor(UseCases.class)
 				.readValue(json);
+
 		} catch (IOException e) {
 			Snail4jWorkloadException he = new Snail4jWorkloadException(e,"Unable to unmarshal UseCases");
 			throw he;

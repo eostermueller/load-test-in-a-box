@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import {ApiResponse} from './model/api.response';
 import {Workload} from './model/workload';
 import { ApiResponseInterface } from './model/api.response.interface';
-import { WorkloadChangeService }  from './services/workload-change.service';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({

@@ -16,7 +16,7 @@ import com.github.eostermueller.snail4j.workload.model.UseCases;
 import com.github.eostermueller.snail4j.workload.model.WorkloadSpecRq;
 import com.github.eostermueller.snail4j.workload.model.json.SerializaionUtil;
 
-class JsonSerializationTest {
+public class JsonSerializationTest {
 
 	private static final String USE_CASE_NAME = "Sorting";
 	private static final String BINARY_SORT_METHOD_NAME = "binarySort";
@@ -63,12 +63,35 @@ class JsonSerializationTest {
 //		assertEquals( DECLARING_CLASS, m.getDeclaringClassName() );
 //	}
 
-	//@Test
-	void canUnmarallUseCases() throws Snail4jWorkloadException {
-		String js0n = "{\"useCases\":[{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - table-based Random - 10 items, 10 iterations\"}]},\"useCaseName\":\"busyOptimizedUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomTableInt_10_10_optimizedUuid\"},\"selected\":true},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - reuse Random - 10 items, 10 iterations\"}]},\"useCaseName\":\"busyOptimizedUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomNextInt_10_10_optimizedUuid\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - table-based Random - 1000 items, 1000 iterations\"}]},\"useCaseName\":\"busyOptimizedUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomTableInt_1000_1000_optimizedUuid\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - threadLocal Random - 1000 items, 1000 iterations\"}]},\"useCaseName\":\"busyOptimizedUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomThreadLocalInt_1000_1000_optimizedUuid\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - reuse Random - 1000 items, 1000 iterations\"}]},\"useCaseName\":\"busyOptimizedUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomNextInt_1000_1000_optimizedUuid\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - threadLocal Random - 10 items, 10 iterations\"}]},\"useCaseName\":\"busyOptimizedUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomThreadLocalInt_10_10_optimizedUuid\"},\"selected\":false}],\"name\":\"busyOptimizedUuid\"},{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - threadLocal Random - 10 items, 10 iterations\"}]},\"useCaseName\":\"busySlowUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomThreadLocalInt_10_10\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - threadLocal Random - 1000 items, 1000 iterations\"}]},\"useCaseName\":\"busySlowUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomThreadLocalInt_1000_1000\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - table-based Random - 10 items, 10 iterations\"}]},\"useCaseName\":\"busySlowUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomTableInt_10_10\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - reuse Random - 10 items, 10 iterations\"}]},\"useCaseName\":\"busySlowUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomNextInt_10_10\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - reuse Random - 1000 items, 1000 iterations\"}]},\"useCaseName\":\"busySlowUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomNextInt_1000_1000\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"busy - table-based Random - 1000 items, 1000 iterations\"}]},\"useCaseName\":\"busySlowUuid\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.BusyProcessor\",\"name\":\"randomTableInt_1000_1000\"},\"selected\":false}],\"name\":\"busySlowUuid\"},{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"every rq adds 10mb that stays in memory for no more than 60 seconds\"}]},\"useCaseName\":\"memStress\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.MemStress\",\"name\":\"memStress_10mb_lasts_60sec\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"every rq adds 100k that stays in memory for no more than 60 sec\"}]},\"useCaseName\":\"memStress\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.MemStress\",\"name\":\"memStress_100k_lasts_60sec\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"every rq adds 10k that stays in memory for no more than 5 min\"}]},\"useCaseName\":\"memStress\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.MemStress\",\"name\":\"memStress_10k_lasts_5min\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"every rq adds 1mb that stays in memory for no more than 60 seconds\"}]},\"useCaseName\":\"memStress\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.MemStress\",\"name\":\"memStress_1mb_lasts_60sec\"},\"selected\":false}],\"name\":\"memStress\"},{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"sleep ms 100\"}]},\"useCaseName\":\"sleep\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.SleepDelay\",\"name\":\"simulateSlowCode_sleepMilliseconds_100\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"sleep ms 1\"}]},\"useCaseName\":\"sleep\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.SleepDelay\",\"name\":\"simulateSlowCode_sleepMilliseconds_1\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"sync sleep ms 10\"}]},\"useCaseName\":\"sleep\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.SleepDelay\",\"name\":\"simulateSynchronizedSlowCode_sleepMilliseconds_10\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"sleep ms 10\"}]},\"useCaseName\":\"sleep\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.SleepDelay\",\"name\":\"simulateSlowCode_sleepMilliseconds_10\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"sleep ms 1000\"}]},\"useCaseName\":\"sleep\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.SleepDelay\",\"name\":\"simulateSlowCode_sleepMilliseconds_1000\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"sync sleep ms 1000\"}]},\"useCaseName\":\"sleep\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.SleepDelay\",\"name\":\"simulateSynchronizedSlowCode_sleepMilliseconds_1000\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"sync sleep ms 1\"}]},\"useCaseName\":\"sleep\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.SleepDelay\",\"name\":\"simulateSynchronizedSlowCode_sleepMilliseconds_1\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"sync sleep ms 100\"}]},\"useCaseName\":\"sleep\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.SleepDelay\",\"name\":\"simulateSynchronizedSlowCode_sleepMilliseconds_100\"},\"selected\":false}],\"name\":\"sleep\"},{\"processingUnits\":[{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"Reuse same Transformers from pool\"}]},\"useCaseName\":\"xsltTransform\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.xslt.XsltProcessor\",\"name\":\"pooledTransformerXslt\"},\"selected\":false},{\"descriptor\":{\"messages\":[{\"locale\":\"en_US\",\"message\":\"Reinstantiate Transformer every time\"}]},\"useCaseName\":\"xsltTransform\",\"method\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.xslt.XsltProcessor\",\"name\":\"unPooledTransformerXslt\"},\"selected\":false}],\"name\":\"xsltTransform\"}]}";
+	@Test
+	public void canUnmarshallUseCase_real() throws Snail4jWorkloadException {
+		String js0n = "{\"useCases\":[{\"processingUnits\":[{\"description\":{\"en_US\":\"sleep ms 100\"},\"useCaseName\":\"03_threads_sleep\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.misc.SleepDelay\",\"methodName\":\"simulateSlowCode_sleepMilliseconds_100\"}},{\"description\":{\"en_US\":\"sleep ms 1\"},\"useCaseName\":\"03_threads_sleep\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.misc.SleepDelay\",\"methodName\":\"simulateSlowCode_sleepMilliseconds_1\"}},{\"description\":{\"en_US\":\"sync sleep ms 10\"},\"useCaseName\":\"03_threads_sleep\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.misc.SleepDelay\",\"methodName\":\"simulateSynchronizedSlowCode_sleepMilliseconds_10\"}},{\"description\":{\"en_US\":\"sleep ms 10\"},\"useCaseName\":\"03_threads_sleep\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.misc.SleepDelay\",\"methodName\":\"simulateSlowCode_sleepMilliseconds_10\"}},{\"description\":{\"en_US\":\"sleep ms 1000\"},\"useCaseName\":\"03_threads_sleep\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.misc.SleepDelay\",\"methodName\":\"simulateSlowCode_sleepMilliseconds_1000\"}},{\"description\":{\"en_US\":\"sync sleep ms 1000\"},\"useCaseName\":\"03_threads_sleep\",\"selected\":true,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.misc.SleepDelay\",\"methodName\":\"simulateSynchronizedSlowCode_sleepMilliseconds_1000\"}},{\"description\":{\"en_US\":\"sync sleep ms 1\"},\"useCaseName\":\"03_threads_sleep\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.misc.SleepDelay\",\"methodName\":\"simulateSynchronizedSlowCode_sleepMilliseconds_1\"}},{\"description\":{\"en_US\":\"sync sleep ms 100\"},\"useCaseName\":\"03_threads_sleep\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.tjp2.misc.SleepDelay\",\"methodName\":\"simulateSynchronizedSlowCode_sleepMilliseconds_100\"}}],\"name\":\"03_threads_sleep\"}],\"origin\":2}";
 		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
 		UseCases rq = util.unmmarshalUseCases(js0n);
-		assertEquals(5,rq.getUseCases().size() );
+		assertEquals(1,rq.getUseCases().size() );
+		assertEquals(8,rq.getUseCases().get(0).getProcessingUnits().size() );
+		assertEquals( 2,rq.getOrigin());
+	}
+
+	@Test
+	void canUnmarallUseCases() throws Snail4jWorkloadException {
+		String js0n = "{\"origin\":2,\"useCases\":[{\"processingUnits\":[{\"description\":{\"en_US\":\"MyMessage\"},\"useCaseName\":\"Sorting\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.snail4j.workload.model.json.Sorting\",\"methodName\":\"binarySort\"}},{\"description\":{\"en_US\":\"MyMessage\"},\"useCaseName\":\"Sorting\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.snail4j.workload.model.json.Sorting\",\"methodName\":\"selectionSort\"}}],\"name\":\"Sorting\"}]}";
+		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
+		UseCases rq = util.unmmarshalUseCases(js0n);
+		assertEquals(1,rq.getUseCases().size() );
+		assertEquals(2,rq.getUseCases().get(0).getProcessingUnits().size() );
+		assertEquals( 2,rq.getOrigin());
+		
+	}
+	@Test
+	void canUnmarallUseCasesWithDifferentOrder() throws Snail4jWorkloadException {
+		String js0n = "{\"useCases\":[{\"processingUnits\":[{\"description\":{\"en_US\":\"MyMessage\"},\"useCaseName\":\"Sorting\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.snail4j.workload.model.json.Sorting\",\"methodName\":\"binarySort\"}},{\"description\":{\"en_US\":\"MyMessage\"},\"useCaseName\":\"Sorting\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.snail4j.workload.model.json.Sorting\",\"methodName\":\"selectionSort\"}}],\"name\":\"Sorting\"}],\"origin\":2}";
+		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
+		UseCases rq = util.unmmarshalUseCases(js0n);
+		assertEquals(1,rq.getUseCases().size() );
+		assertEquals(2,rq.getUseCases().get(0).getProcessingUnits().size() );
+		assertEquals( 2,rq.getOrigin());
+		
 	}
 	//@Test
 	void canUnmarallUseCasesRoundTrip() throws Snail4jWorkloadException {
@@ -82,7 +105,7 @@ class JsonSerializationTest {
 		
 	}
 	@Test
-	void canDoRoundTripSerialization() throws Snail4jWorkloadException {
+	public void canDoRoundTripSerialization() throws Snail4jWorkloadException {
 		UseCases useCases = new UseCases();
 		
 		useCases.addProcessingUnit(  this.createTestProcessingUnit_Binary() );
@@ -175,7 +198,7 @@ class JsonSerializationTest {
 		
 	}
 	@Test
-	void canMarshallWorkloadRequestToJson() throws Snail4jWorkloadException {
+	public void canMarshallWorkloadRequestToJson() throws Snail4jWorkloadException {
 		WorkloadSpecRq rq = new WorkloadSpecRq();
 		
 		
@@ -191,7 +214,7 @@ class JsonSerializationTest {
 	
 	
 	@Test
-	void canSerializeUseCasesToJson() throws Snail4jWorkloadException {
+	public void canSerializeUseCasesToJson() throws Snail4jWorkloadException {
 		UseCases useCases = new UseCases();
 		
 		useCases.addProcessingUnit(  this.createTestProcessingUnit_Binary() );
@@ -200,7 +223,7 @@ class JsonSerializationTest {
 		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
 		String actualJson = util.marshalUseCases(useCases);
 		System.out.println(actualJson);
-		String expectedJs0n = "{\"useCases\":[{\"processingUnits\":[{\"description\":{\"en_US\":\"MyMessage\"},\"useCaseName\":\"Sorting\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.snail4j.workload.model.json.Sorting\",\"methodName\":\"binarySort\"}},{\"description\":{\"en_US\":\"MyMessage\"},\"useCaseName\":\"Sorting\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.snail4j.workload.model.json.Sorting\",\"methodName\":\"selectionSort\"}}],\"name\":\"Sorting\"}]}";
+		String expectedJs0n = "{\"origin\":0,\"useCases\":[{\"processingUnits\":[{\"description\":{\"en_US\":\"MyMessage\"},\"useCaseName\":\"Sorting\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.snail4j.workload.model.json.Sorting\",\"methodName\":\"binarySort\"}},{\"description\":{\"en_US\":\"MyMessage\"},\"useCaseName\":\"Sorting\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.snail4j.workload.model.json.Sorting\",\"methodName\":\"selectionSort\"}}],\"name\":\"Sorting\"}]}";
 		
 		assertEquals(expectedJs0n, actualJson);
 		
