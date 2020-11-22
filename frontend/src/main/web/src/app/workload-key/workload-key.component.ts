@@ -46,8 +46,7 @@ export class WorkloadKeyComponent implements OnInit {
       this.config.sutAppHostname,
       this.config.sutAppPort,
       workload).subscribe();
-
-  }
+  }o
 
   public getWorkloadKeyJson() : string {
     return JSON.stringify(this.workloadKey);

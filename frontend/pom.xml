@@ -54,6 +54,15 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>test</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run-script test</arguments>
+						</configuration>
+					</execution>
+					<execution>
 						<id>prod</id>
 						<goals>
 							<goal>npm</goal>
