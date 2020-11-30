@@ -10,7 +10,15 @@ import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
 public class UseCases {
 	int origin = 0;
 	
+	private String encryptedKey;
+	
 
+	public String getEncryptedKey() {
+		return encryptedKey;
+	}
+	public void setEncryptedKey(String encryptedKey) {
+		this.encryptedKey = encryptedKey;
+	}
 	public int getOrigin() {
 		return origin;
 	}

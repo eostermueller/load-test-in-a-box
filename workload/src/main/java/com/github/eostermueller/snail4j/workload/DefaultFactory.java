@@ -21,7 +21,15 @@ public class DefaultFactory implements Factory {
     public static final String DEFAULT_FACTORY = "com.github.eostermueller.snail4j.workload.DefaultFactory";
 	private static Factory factory;
 
-    public static Factory getFactory() throws Snail4jWorkloadException {
+    public static String getConfigLocation() {
+		return configLocation;
+	}
+
+	public static void setConfigLocation(String configLocation) {
+		DefaultFactory.configLocation = configLocation;
+	}
+
+	public static Factory getFactory() throws Snail4jWorkloadException {
             if (factory==null) {
                     String factoryClassName = System.getProperty(FACTORY_SYSTEM_PROPTERY, DEFAULT_FACTORY);
                     Class<?> clazz;
@@ -41,7 +49,13 @@ public class DefaultFactory implements Factory {
     }
 
 	private static Workload WORKLOAD_INSTANCE = null;
+	private static String configLocation = "snaIl3j";
 	private java.util.concurrent.locks.ReadWriteLock workloadReadWriteLock = new ReentrantReadWriteLock();  
+
+	@Override
+	public WorkloadDecryptor getWorkloadDecryptor() {
+		return new DefaultWorkloadDecryptor();
+	}
 
 	@Override
 	public SerializaionUtil createSerializationUtil() {

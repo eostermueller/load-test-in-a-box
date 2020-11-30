@@ -223,7 +223,7 @@ public class JsonSerializationTest {
 		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
 		String actualJson = util.marshalUseCases(useCases);
 		System.out.println(actualJson);
-		String expectedJs0n = "{\"origin\":0,\"useCases\":[{\"processingUnits\":[{\"description\":{\"en_US\":\"MyMessage\"},\"useCaseName\":\"Sorting\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.snail4j.workload.model.json.Sorting\",\"methodName\":\"binarySort\"}},{\"description\":{\"en_US\":\"MyMessage\"},\"useCaseName\":\"Sorting\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.snail4j.workload.model.json.Sorting\",\"methodName\":\"selectionSort\"}}],\"name\":\"Sorting\"}]}";
+		String expectedJs0n = "{\"origin\":0,\"encryptedKey\":null,\"useCases\":[{\"processingUnits\":[{\"description\":{\"en_US\":\"MyMessage\"},\"useCaseName\":\"Sorting\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.snail4j.workload.model.json.Sorting\",\"methodName\":\"binarySort\"}},{\"description\":{\"en_US\":\"MyMessage\"},\"useCaseName\":\"Sorting\",\"selected\":false,\"methodWrapper\":{\"parameters\":[],\"declaringClassName\":\"com.github.eostermueller.snail4j.workload.model.json.Sorting\",\"methodName\":\"selectionSort\"}}],\"name\":\"Sorting\"}]}";
 		
 		assertEquals(expectedJs0n, actualJson);
 		
