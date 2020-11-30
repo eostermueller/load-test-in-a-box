@@ -15,7 +15,7 @@ pushd $JAVA_PERF_TROUB_DIR
 ./init.sh
 popd
 
-echo "Here is the freshly built H2 DB (perfSandboxDb.mv.db).  It should be about 705294336 bytes
+echo "Here is the freshly built H2 DB (perfSandboxDb.mv.db).  It should be about 705294336 bytes"
 ls -lart $H2_DB/perfSandboxDb.mv.db
 
 

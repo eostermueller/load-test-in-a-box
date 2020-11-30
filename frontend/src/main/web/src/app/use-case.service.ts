@@ -50,6 +50,11 @@ export class UseCaseService {
         this.fireWorkloadChangeEvent(workload);
         return this.http.put<ApiResponseInterface>(this.getBaseUrl(host,port) + '/traffic/workload', workload);        
       }
+      updateEncryptedWorkload(host:string,port:number,workload:Workload): Observable<ApiResponseInterface> {
+        console.log( '... 01 updateWorkload oct 20: ' + JSON.stringify(workload));
+        this.fireWorkloadChangeEvent(workload);
+        return this.http.put<ApiResponseInterface>(this.getBaseUrl(host,port) + '/traffic/workload', workload);        
+      }
 
       fireWorkloadChangeEvent(newWorkload: Workload) {
           this.newWorkloadSource.next(newWorkload);

@@ -26,6 +26,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
     <snail4j.maven.offline.passthru>-V</snail4j.maven.offline.passthru>
     <snail4j.maven.repo.passthru>-V</snail4j.maven.repo.passthru>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
   </properties>
   <dependencies>
     <dependency>

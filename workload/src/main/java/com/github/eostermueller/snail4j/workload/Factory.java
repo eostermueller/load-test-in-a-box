@@ -17,5 +17,6 @@ public interface Factory {
 	Workload createEmptyWorkload();
 	MethodExecutor createMethodExecutor(MethodWrapper methodWrapper);
 	WorkloadBuilder createWorkloadBuilder();
+	WorkloadDecryptor getWorkloadDecryptor();
 
 }

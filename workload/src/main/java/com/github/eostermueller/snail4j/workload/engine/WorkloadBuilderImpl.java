@@ -9,6 +9,8 @@ import com.github.eostermueller.snail4j.workload.model.WorkloadSpecRq;
 
 public class WorkloadBuilderImpl implements WorkloadBuilder {
 
+	private String configLocation;
+
 	@Override
 	public Workload createWorkload(UseCases useCases) throws Snail4jWorkloadException {
 		
