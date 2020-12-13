@@ -58,6 +58,7 @@ import { StartStopComponent } from './start-stop/start-stop.component';
 import { HealthChecksComponent } from './health-checks/health-checks.component';
 import { UseCaseService } from './use-case.service';
 import { WorkloadKeyComponent } from './workload-key/workload-key.component';
+import { EncryptedWorkloadComponent } from './encrypted-workload/encrypted-workload.component';
 
   const appRoutes: Routes = [
     /**
@@ -93,6 +94,7 @@ import { WorkloadKeyComponent } from './workload-key/workload-key.component';
     StartStopComponent,
     HealthChecksComponent,
     WorkloadKeyComponent,
+    EncryptedWorkloadComponent,
   ],
   imports: [
     HttpClientModule,

@@ -63,7 +63,13 @@ export class UseCasesComponent implements OnInit {
   private sutLaunchStatus:LaunchStatus = LaunchStatus.Stopped;
 
   private useCaseInquiryInProgress : boolean = false;
-
+  private encryptedWorkload : boolean = false;
+  public isWorkloadEncrypted() : boolean {
+    return this.encryptedWorkload;
+  }
+  public setWorkloadEncrypted(myVal : boolean) {
+    this.encryptedWorkload = myVal;
+  }
   useCases : any[];
   length = 0;
   pageIndex = 0;
@@ -250,10 +256,20 @@ dispUseCases(ctx:string) {
          * - encryptedTextWorkloadChange()
          * 
          */
-        if (workloadObj.origin==1) 
-          //calling load() with origin==0 causes unnecessary and irritating page reload
+
+         var workloadTyped : Workload = Workload.halfAssedDeserialize(workloadObj);
+        if (workloadTyped.origin==1) {
+
+          
+          console.log('use-cases.components.  encrypted workload (a): ' + this.isWorkloadEncrypted() )
+      
+          this.setWorkloadEncrypted(workloadTyped.isEncrypted() );
+          console.log('use-cases.components.  encrypted workload (a): ' + this.isWorkloadEncrypted() )
           this.load();
-          //this.reSetUseCaseSelection(workloadObj);            
+        } else {
+          this.setWorkloadEncrypted( false );
+          console.log('use-cases.components.  encrypted workload (b): ' + this.isWorkloadEncrypted() )
+        }
 
       }
       );

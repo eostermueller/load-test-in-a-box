@@ -41,7 +41,7 @@ export class WorkloadKeyComponent implements OnInit {
   private updateWorkload() {
     console.log("nnnnn about to parse selected workload:" + this.workloadKeyString);
     var workload:Workload = new Workload();
-    if (workload.isBase64Ish(this.workloadKeyString)) {
+    if (workload.isBase64Ish_(this.workloadKeyString)) {
       workload.encryptedKey = this.workloadKeyString;
     } else {
       workload = JSON.parse(this.workloadKeyString);

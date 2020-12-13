@@ -1,28 +1,23 @@
-  <H3>UseCases
-    <div *ngIf="useCaseInquiryInProgress">
-      <mat-spinner></mat-spinner>
-    </div>
-  </H3>
+<H3>UseCases
+  <div *ngIf="useCaseInquiryInProgress">
+    <mat-spinner></mat-spinner>
+  </div>
+</H3>
 
-  <div>
-    <div height="400px" >
-        <ul class="list" style="list-style: none; ">
-            <li *ngFor="let useCase of dataSource?.connect() |  async">
-            <app-use-case-card 
-              #useCaseCard
-              [useCase]="useCase" 
-              (useCaseSelect)="useCaseSelectionListener($event)"
-              (useCaseDeSelect)="useCaseDeSelectionListener($event)"
-              ></app-use-case-card>
-            </li>
-        </ul>
-      </div>  
-      <div class="footer"></div>
-        <mat-paginator   #paginator class="mat-elevation-z8"
-          [length]="length"
-          [pageIndex]="pageIndex"
-          [pageSize]="pageSize"
-          [pageSizeOptions]="[200, 500, 1000]"
-          (page)="pageEvent = $event; pageChange($event)"        
-        ></mat-paginator>
-      </div>
+
+<div *ngIf="this.isWorkloadEncrypted();">Workload is Encrypted!</div>
+
+
+  <div [ngClass]="this.isWorkloadEncrypted() ? 'hidden': ''">
+    <div height="400px">
+      <ul class="list" style="list-style: none; ">
+        <li *ngFor="let useCase of dataSource?.connect() |  async">
+          <app-use-case-card #useCaseCard [useCase]="useCase" (useCaseSelect)="useCaseSelectionListener($event)"
+            (useCaseDeSelect)="useCaseDeSelectionListener($event)"></app-use-case-card>
+        </li>
+      </ul>
+    </div>
+    <div class="footer"></div>
+    <mat-paginator #paginator class="mat-elevation-z8" [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize"
+      [pageSizeOptions]="[200, 500, 1000]" (page)="pageEvent = $event; pageChange($event)"></mat-paginator>
+  </div>
