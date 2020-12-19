@@ -1,4 +1,4 @@
-package com.github.eostermueller.snail4j.workload;
+package com.github.eostermueller.snail4j.workload.crypto;
 
 
 import java.io.ByteArrayInputStream;

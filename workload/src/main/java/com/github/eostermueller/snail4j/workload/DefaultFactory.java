@@ -6,6 +6,8 @@ import java.util.Locale;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import com.github.eostermueller.snail4j.workload.crypto.DefaultWorkloadCrypto;
+import com.github.eostermueller.snail4j.workload.crypto.WorkloadCrypto;
 import com.github.eostermueller.snail4j.workload.engine.MethodExecutor;
 import com.github.eostermueller.snail4j.workload.engine.MethodExecutorImpl;
 import com.github.eostermueller.snail4j.workload.engine.Workload;
@@ -21,13 +23,6 @@ public class DefaultFactory implements Factory {
     public static final String DEFAULT_FACTORY = "com.github.eostermueller.snail4j.workload.DefaultFactory";
 	private static Factory factory;
 
-    public static String getConfigLocation() {
-		return configLocation;
-	}
-
-	public static void setConfigLocation(String configLocation) {
-		DefaultFactory.configLocation = configLocation;
-	}
 
 	public static Factory getFactory() throws Snail4jWorkloadException {
             if (factory==null) {
@@ -53,8 +48,8 @@ public class DefaultFactory implements Factory {
 	private java.util.concurrent.locks.ReadWriteLock workloadReadWriteLock = new ReentrantReadWriteLock();  
 
 	@Override
-	public WorkloadDecryptor getWorkloadDecryptor() {
-		return new DefaultWorkloadDecryptor();
+	public WorkloadCrypto getWorkloadCrypto() {
+		return new DefaultWorkloadCrypto();
 	}
 
 	@Override
@@ -81,6 +76,13 @@ public class DefaultFactory implements Factory {
 		        writeLock.unlock();
 		    }	
 		
+	}
+    public static String getConfigLocation() {
+		return configLocation;
+	}
+
+	public static void setConfigLocation(String configLocation) {
+		DefaultFactory.configLocation = configLocation;
 	}
 	public WorkloadBuilder createWorkloadBuilder() {
 		return new WorkloadBuilderImpl();
