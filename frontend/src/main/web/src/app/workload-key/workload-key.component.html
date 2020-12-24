@@ -1,14 +1,12 @@
-<p>workload-key works!</p>
-
+<mat-card>
+<button mat-raised-button (click)="this.copyClearTextWorkloadToClipboard()" color="primary" >Copy to Clipboard ( Current Workload / Clear Text )</button>
+<p></p>
+<button mat-raised-button (click)="this.copyEncryptedWorkloadToClipboard()" color="accent" >Copy to Clipboard ( Current Workload / Encrypted )</button>
+</mat-card>
 
 <form [formGroup]="form" (ngSubmit)="submit()">
 <mat-card>
     <mat-form-field class="example-full-width">
-        <button type="submit" mat-raised-button color="accent" [disabled]="!form.valid">
-            Submit
-        </button>
-
-        <mat-label>Workload Key</mat-label>
         <p></p>
         <!--
             Autosize parms @stolenFrom:  https://stackoverflow.com/a/56694453/2377579
@@ -17,7 +15,7 @@
             class="overflow:auto"
             name="workloadKey"
             matInput 
-            placeholder="(snail4j workload json, plaintext or encrypted)" 
+            placeholder="(snail4j workload json. plaintext, alias or encrypted)" 
             formControlName="workloadKey"
             required
             cdkTextareaAutosize 
@@ -26,6 +24,11 @@
 			cdkAutosizeMaxRows="5"            
             >
         </textarea>
+        <mat-label>Workload Key</mat-label>
+        <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">
+            Submit
+        </button>
+
   
         <mat-error *ngIf="form.get('workloadKey').hasError('required')">
   

@@ -4,6 +4,7 @@ import { Workload } from '../model/workload';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ConfigService} from '../services/config.service';
 import {ConfigModel} from '../services/config.model';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-workload-key',
@@ -13,13 +14,34 @@ import {ConfigModel} from '../services/config.model';
 export class WorkloadKeyComponent implements OnInit {
   config: ConfigModel = this.configService.config;
   form: FormGroup = new FormGroup({});
-  
   workloadKey:Workload = null;
-  workloadKeyString:string = null;
+  workloadKeyString:string = null;  
+
+  
+  copyClearTextWorkloadToClipboard() {
+    this.useCaseService.getWorkload(
+      this.config.sutAppHostname,
+      this.config.sutAppPort,
+    ).subscribe(data=>{
+            this.clipboard.copy(JSON.stringify(data.result) );
+    });
+  }
+
+  copyEncryptedWorkloadToClipboard() {
+    this.useCaseService.getEncryptedWorkload(
+        this.config.sutAppHostname,
+        this.config.sutAppPort,
+      ).subscribe(data=>{
+              this.clipboard.copy(data.result);
+      });
+  }
+
+
   constructor(
     private useCaseService : UseCaseService, 
     private configService: ConfigService,
-    private fb: FormBuilder    
+    private clipboard: Clipboard,
+    private fb: FormBuilder
   ) { 
     console.log("ctor for workload-key.components.tx");
     this.form = fb.group({
@@ -27,8 +49,10 @@ export class WorkloadKeyComponent implements OnInit {
       workloadKey: ['', [Validators.required] ]
 
 
-    })
+    });
   }
+
+
   private onFormValueChange(data) {
     this.workloadKeyString = this.form.get("workloadKey").value;
     console.log("in workload-key form, found changed data:" + this.workloadKeyString)
@@ -37,6 +61,10 @@ export class WorkloadKeyComponent implements OnInit {
   submit() {
     console.log("Submit!");
     this.updateWorkload();
+
+    /** TODO:  add error checking to confirm new workload key was successfully applied  */
+    this.form.controls['workloadKey'].setValue( 'Applied workload key.' );
+  
   }
   private updateWorkload() {
     console.log("nnnnn about to parse selected workload:" + this.workloadKeyString);
@@ -52,7 +80,7 @@ export class WorkloadKeyComponent implements OnInit {
       this.config.sutAppHostname,
       this.config.sutAppPort,
       workload).subscribe();
-  }o
+  }
 
   public getWorkloadKeyJson() : string {
     return JSON.stringify(this.workloadKey);
@@ -63,14 +91,9 @@ export class WorkloadKeyComponent implements OnInit {
     console.log("top of ngOnInit workload-key.component.ts [" + this.getWorkloadKeyJson()  + "]"); // prints 'object Object' without stringify
 
     this.useCaseService.currentWorkload.subscribe(workloadObj => {
-      //this.workloadKey = workloadObj;
-      this.workloadKeyString = JSON.stringify(workloadObj);
-      console.log("nnnnn workloadKey form valid?" + this.form.valid);
-      console.log("nnnnn xGot new workload [" + this.workloadKeyString  + "]"); // prints 'object Object' without stringify
-      //this.updateWorkload();
+//      this.workloadKeyString = JSON.stringify(workloadObj);
 
-      this.form.controls['workloadKey'].setValue( this.workloadKeyString );
-      //this.form.setValue([ this.workloadKeyString ]);
+//      this.form.controls['workloadKey'].setValue( this.workloadKeyString );
       
     }
     );

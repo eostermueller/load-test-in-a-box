@@ -44,6 +44,9 @@ export class UseCaseService {
       getWorkload(host:string,port:number) :Observable<any> {
         return this.http.get(this.getBaseUrl(host,port) + '/traffic/workload');
       }
+      getEncryptedWorkload(host:string,port:number) :Observable<any> {
+        return this.http.get(this.getBaseUrl(host,port) + '/traffic/encryptedWorkload');
+      }
 
       updateWorkload(host:string,port:number,workload:Workload): Observable<ApiResponseInterface> {
         console.log( '... 01 updateWorkload oct 20: ' + JSON.stringify(workload));
