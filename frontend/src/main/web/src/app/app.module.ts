@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -120,6 +121,7 @@ import { WorkloadKeyComponent } from './workload-key/workload-key.component';
     MatSlideToggleModule,    
     MatTooltipModule,
     MatProgressSpinnerModule,
+    ClipboardModule,
     // ErrorHandler,
     // GlobalErrorHandler,
     // Injectable
