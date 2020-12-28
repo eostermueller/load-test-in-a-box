@@ -11,8 +11,15 @@ public class UseCases {
 	int origin = 0;
 	
 	private String encryptedKey;
+	private String alias;
 	
 
+	public String getAlias() {
+		return alias;
+	}
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
 	public String getEncryptedKey() {
 		return encryptedKey;
 	}

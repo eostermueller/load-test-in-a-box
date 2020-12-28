@@ -55,7 +55,6 @@ public class Snail4jInstaller implements InstallAdvice.StartupLogger {
 	 * @return
 	 * @throws Snail4jException 
 	 */
-		  
 	public int preInstallJavaValidation(Configuration cfg) throws MalformedURLException, Snail4jException {
 		int errorCount = 0;
 		

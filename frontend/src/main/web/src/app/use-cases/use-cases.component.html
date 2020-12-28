@@ -7,6 +7,9 @@
 <div *ngIf="this.isWorkloadEncrypted();">Workload is Encrypted!</div>
 
 
+  <div [ngClass]="!this.isWorkloadEncrypted() ? 'hidden': ''">
+    <button mat-raised-button (click)="this.setDefaultWorkload()" color="primary" >Discard encrypted workload, restore default Workload</button>
+  </div>
 
   <div [ngClass]="this.isWorkloadEncrypted() ? 'hidden': ''">
     <div height="400px">

@@ -218,6 +218,11 @@ dispUseCases(ctx:string) {
       }
       }
   }
+  public setDefaultWorkload() {
+    this.useCaseService.setDefaultWorkload(
+      this.config.sutAppHostname,
+      this.config.sutAppPort);  
+  }
   public getSelectedWorkload() {
     console.log("UseCasesComponents.getWorkLoad()");
   /**
