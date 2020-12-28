@@ -89,4 +89,131 @@ export class Workload {
     return this.isBase64Ish_(this.encryptedKey);
   }
 
+  public static createUntypedWorkload():any {
+    var untypedWorkload = {
+      "origin": 0,
+      "encryptedKey": null,
+      "useCases": [
+        {
+          "processingUnits": [
+            {
+              "description": {
+                "en_US": "http-response_delay_25ms"
+              },
+              "useCaseName": "02_AlienSystems",
+              "selected": false,
+              "methodWrapper": {
+                "parameters": [],
+                "declaringClassName": "com.github.eostermueller.tjp2.alien.BackendHttpRequest",
+                "methodName": "getBackendData_delay_25ms"
+              }
+            },
+            {
+              "description": {
+                "en_US": "http-response_delay_10s"
+              },
+              "useCaseName": "02_AlienSystems",
+              "selected": true,
+              "methodWrapper": {
+                "parameters": [],
+                "declaringClassName": "com.github.eostermueller.tjp2.alien.BackendHttpRequest",
+                "methodName": "getBackendData_delay_10s"
+              }
+            },
+            {
+              "description": {
+                "en_US": "http-response_delay_1s"
+              },
+              "useCaseName": "02_AlienSystems",
+              "selected": false,
+              "methodWrapper": {
+                "parameters": [],
+                "declaringClassName": "com.github.eostermueller.tjp2.alien.BackendHttpRequest",
+                "methodName": "getBackendData_delay_1s"
+              }
+            },
+            {
+              "description": {
+                "en_US": "http-response_noWait"
+              },
+              "useCaseName": "02_AlienSystems",
+              "selected": false,
+              "methodWrapper": {
+                "parameters": [],
+                "declaringClassName": "com.github.eostermueller.tjp2.alien.BackendHttpRequest",
+                "methodName": "getBackendData_noWait"
+              }
+            }
+          ],
+          "name": "02_AlienSystems"
+        }
+      ]
+    };
+ 
+  }
+  public static createDefaultWorkload() : Workload {
+
+    var untypedWorkload:Object = Workload.createUntypedWorkload();
+
+    var typedWorkload:Workload = new Workload();
+    typedWorkload.useCases.push(
+      {
+        "processingUnits": [
+          {
+            "description": {
+              "en_US": "http-response_delay_25ms"
+            },
+            "useCaseName": "02_AlienSystems",
+            "selected": false,
+            "methodWrapper": {
+              "parameters": [],
+              "declaringClassName": "com.github.eostermueller.tjp2.alien.BackendHttpRequest",
+              "methodName": "getBackendData_delay_25ms"
+            }
+          },
+          {
+            "description": {
+              "en_US": "http-response_delay_10s"
+            },
+            "useCaseName": "02_AlienSystems",
+            "selected": true,
+            "methodWrapper": {
+              "parameters": [],
+              "declaringClassName": "com.github.eostermueller.tjp2.alien.BackendHttpRequest",
+              "methodName": "getBackendData_delay_10s"
+            }
+          },
+          {
+            "description": {
+              "en_US": "http-response_delay_1s"
+            },
+            "useCaseName": "02_AlienSystems",
+            "selected": false,
+            "methodWrapper": {
+              "parameters": [],
+              "declaringClassName": "com.github.eostermueller.tjp2.alien.BackendHttpRequest",
+              "methodName": "getBackendData_delay_1s"
+            }
+          },
+          {
+            "description": {
+              "en_US": "http-response_noWait"
+            },
+            "useCaseName": "02_AlienSystems",
+            "selected": false,
+            "methodWrapper": {
+              "parameters": [],
+              "declaringClassName": "com.github.eostermueller.tjp2.alien.BackendHttpRequest",
+              "methodName": "getBackendData_noWait"
+            }
+          }
+        ],
+        "name": "02_AlienSystems"
+      }
+  
+    );
+   return typedWorkload;
+
+  }
+
 }
