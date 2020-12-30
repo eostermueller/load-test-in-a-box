@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BooleanSupplier;
 
+import com.github.eostermueller.snail4j.workload.AliasManager;
+import com.github.eostermueller.snail4j.workload.DefaultFactory;
 import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
 
 public class UseCases {
@@ -19,6 +21,15 @@ public class UseCases {
 	}
 	public void setAlias(String alias) {
 		this.alias = alias;
+	}
+	
+	public void resolveAlias() throws Snail4jWorkloadException {
+	
+		AliasManager aliasManager = DefaultFactory.getFactory().getAliasManager();
+		String encryptedKey = aliasManager.resolve(this.getAlias());
+		if (encryptedKey!=null && encryptedKey.length() > 0) {
+			this.setEncryptedKey(encryptedKey);
+		}
 	}
 	public String getEncryptedKey() {
 		return encryptedKey;

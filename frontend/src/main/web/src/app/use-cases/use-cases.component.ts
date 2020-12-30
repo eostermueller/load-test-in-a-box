@@ -267,7 +267,8 @@ dispUseCases(ctx:string) {
           
           console.log('use-cases.components.  encrypted workload (a): ' + this.isWorkloadEncrypted() )
       
-          this.setWorkloadEncrypted(workloadTyped.isEncrypted() );
+          if (workloadTyped.isEncrypted() || workloadTyped.alias.length >0)
+            this.setWorkloadEncrypted( true );
           console.log('use-cases.components.  encrypted workload (a): ' + this.isWorkloadEncrypted() )
           this.load();
         } else {

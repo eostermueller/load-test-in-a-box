@@ -22,6 +22,7 @@ public class DefaultFactory implements Factory {
     public static final String FACTORY_SYSTEM_PROPTERY = "com.github.eostermueller.snail4j.workload.factory.classname";
     public static final String DEFAULT_FACTORY = "com.github.eostermueller.snail4j.workload.DefaultFactory";
 	private static Factory factory;
+	private static AliasManager aliasManager = null;
 
 
 	public static Factory getFactory() throws Snail4jWorkloadException {
@@ -112,6 +113,16 @@ public class DefaultFactory implements Factory {
 	@Override
 	public Workload createEmptyWorkload() {
 		return new WorkloadImpl();
+	}
+
+	@Override
+	public AliasManager getAliasManager() {
+		if (this.aliasManager==null) {
+			this.aliasManager= new DefaultAliasManager();
+			this.aliasManager.load();
+		}
+		
+		return this.aliasManager;
 	}
 
 }
