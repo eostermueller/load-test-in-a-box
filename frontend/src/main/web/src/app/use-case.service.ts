@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {ApiResponse} from './model/api.response';
-import {Workload} from './model/workload';
+import { ApiResponse } from './model/api.response';
+import { Workload } from './model/workload';
 import { ApiResponseInterface } from './model/api.response.interface';
 import { BehaviorSubject } from 'rxjs';
 
@@ -55,7 +55,6 @@ export class UseCaseService {
       }
       setDefaultWorkload(host:string,port:number): Observable<ApiResponseInterface> {
         return this.updateWorkload(host,port,Workload.createDefaultWorkload() );
-//        return this.http.get<ApiResponseInterface>(this.getBaseUrl(host,port) + '/traffic/defaultWorkload');        
       }
 
       updateEncryptedWorkload(host:string,port:number,workload:Workload): Observable<ApiResponseInterface> {

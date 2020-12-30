@@ -69,13 +69,21 @@ export class WorkloadKeyComponent implements OnInit {
   private updateWorkload() {
     console.log("nnnnn about to parse selected workload:" + this.workloadKeyString);
     var workload:Workload = new Workload();
-    if (workload.isBase64Ish_(this.workloadKeyString)) {
+
+
+    if (this.workloadKeyString.length < 20) {
+      workload.alias = this.workloadKeyString;
+      console.log("#Workload alias = " + workload.alias);
+    } else if (workload.isBase64Ish_(this.workloadKeyString)) {
+
       workload.encryptedKey = this.workloadKeyString;
+      console.log("#Workload encrypted string = " + workload.encryptedKey);
     } else {
       workload = JSON.parse(this.workloadKeyString);
+      console.log("#Workload clearText.  Use case count: = " + workload.useCases.length);
     }
-
     workload.origin = 1;
+
     this.useCaseService.updateWorkload(
       this.config.sutAppHostname,
       this.config.sutAppPort,

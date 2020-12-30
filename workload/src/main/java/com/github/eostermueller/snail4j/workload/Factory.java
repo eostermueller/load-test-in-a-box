@@ -19,5 +19,6 @@ public interface Factory {
 	MethodExecutor createMethodExecutor(MethodWrapper methodWrapper);
 	WorkloadBuilder createWorkloadBuilder();
 	WorkloadCrypto getWorkloadCrypto();
+	AliasManager getAliasManager();
 
 }
