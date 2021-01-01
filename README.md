@@ -5,11 +5,11 @@ The Performance Analysis Workbench is a load-test-in-a-box that aims to educate 
 # Performance Analysis Workbench Intro
 
 
-[Download/Install/Run doc](https://github.com/eostermueller/snail4j/wiki/Snail4j-Quickstart) - the "Quickstart"
+[Download/Install/Run doc](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Quickstart) - the "Quickstart"
 
-[Build wiki](https://github.com/eostermueller/snail4j/wiki/Build)
+[Build wiki](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Build)
 
-[Contribute](https://github.com/eostermueller/snail4j/wiki/Contributing).
+[Contribute](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Contributing).
 
 # Motivation
 This project challenges end users (java developers) to [solicit predictions](https://blog.upperlinecode.com/stop-teaching-code-a1039983b39) on software performance experiments with main types of software defects:  
