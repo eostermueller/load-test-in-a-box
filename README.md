@@ -5,13 +5,17 @@ The Performance Analysis Workbench is a load-test-in-a-box that aims to educate 
 # Performance Analysis Workbench Intro
 
 
-The [Quickstart]((https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Quickstart). Download/install/run.
+The [Quickstart](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Quickstart). Download/install/run.
 
-[Build wiki](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Build)
+[Run your own code](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/RunYourOwnCode) inside the Performance Analysis Toolkit.
+
+[Architecture](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Architecture)
+
+[Build](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Build)
 
 [Contribute](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Contributing).
 
-[Architecture](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Architecture)
+
 
 # Motivation
 This project challenges end users (java developers) to [solicit predictions](https://blog.upperlinecode.com/stop-teaching-code-a1039983b39) on software performance experiments with main types of software defects:  
