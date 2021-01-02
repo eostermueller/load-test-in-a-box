@@ -7,14 +7,15 @@ The Performance Analysis Workbench (PAW) is a load-test-in-a-box that aims to ed
 
 The [Quickstart](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Quickstart). Download/install/run to run the pre-packaged java code showing performance defects and fixes.
 
-[Run your own code](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/RunYourOwnCode) inside the Performance Analysis Toolkit.
+[Run your own code](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/RunYourOwnCode) inside PAW.
 
-[Architecture](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Architecture) to have a look under the covers.
+[Architecture of PAW](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Architecture) to have a look under the covers.
 
-[Build](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Build) to re-build the PAW's uber jar.
+[Build](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Build) PAW's uber jar.
 
-[Contribute](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Contributing).  
+[Contribute](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Contributing) enhancements/fixes to PAW.
 
+[Road Map](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Road-Map) shows the general direction.
 
 
 # Motivation
