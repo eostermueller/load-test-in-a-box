@@ -97,7 +97,7 @@ import { WorkloadKeyComponent } from './workload-key/workload-key.component';
   ],
   imports: [
     HttpClientModule,
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes, { relativeLinkResolution: 'legacy' }),
     CoreModule,
     BrowserModule,
     BrowserAnimationsModule,
