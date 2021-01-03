@@ -28,8 +28,8 @@
     "fsevents": "^2.2.1",
     "hammerjs": "^2.0.8",
     "node-gyp": "^6.1.0",
-    "rxjs": "^6.5.3",
-    "rxjs-compat": "^6.5.2",
+    "rxjs": "^6.6.3",
+    "rxjs-compat": "^6.6.3",
     "tslib": "^1.10.0",
     "webpack": "^4.42.0",
     "zone.js": "^0.10.2"
