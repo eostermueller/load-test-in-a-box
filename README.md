@@ -1,18 +1,25 @@
 Re-live datacenter performance firefights on your own desktop, installs in <5 minutes.
 What’s the problem?  What’s the cause?  The fix?  Click click click. Done.
-Snail4j is a load-test-in-a-box that aims to educate all Java developers on software performance.
+The Performance Analysis Workbench (PAW) is a load-test-in-a-box that aims to educate all Java developers on software performance.
 
-# Snail4j Intro
+# Performance Analysis Workbench Intro
 
 
-[Download/Install/Run doc](https://github.com/eostermueller/snail4j/wiki/Snail4j-Quickstart) - the "Quickstart"
+The [Quickstart](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Quickstart). Download/install/run to run the pre-packaged java code showing performance defects and fixes.
 
-[Build wiki](https://github.com/eostermueller/snail4j/wiki/Build)
+[Run your own code](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Run-Your-Own-Code) inside PAW.
 
-[Contribute](https://github.com/eostermueller/snail4j/wiki/Contributing).
+[Architecture of PAW](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Architecture) to have a look under the covers.
+
+[Build](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Build) PAW's uber jar.
+
+[Contribute](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Contributing) enhancements/fixes to PAW.
+
+[Road Map](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Road-Map) shows the general direction.
+
 
 # Motivation
-Snail4j challenges the end user to [solicit predictions](https://blog.upperlinecode.com/stop-teaching-code-a1039983b39) on software performance experiments with main types of software defects:  
+This project challenges end users (java developers) to [solicit predictions](https://blog.upperlinecode.com/stop-teaching-code-a1039983b39) on software performance experiments with main types of software defects:  
  * Persistence
  * Alien systems
  * Threads
