@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ConfigService} from '../services/config.service';
 import {ConfigModel} from '../services/config.model';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-workload-key',
@@ -16,7 +17,7 @@ export class WorkloadKeyComponent implements OnInit {
   form: FormGroup = new FormGroup({});
   workloadKey:Workload = null;
   workloadKeyString:string = null;  
-
+  notificationMessage:string=null;
   
   copyClearTextWorkloadToClipboard() {
     this.useCaseService.getWorkload(
@@ -41,7 +42,8 @@ export class WorkloadKeyComponent implements OnInit {
     private useCaseService : UseCaseService, 
     private configService: ConfigService,
     private clipboard: Clipboard,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private notificationService : NotificationService, 
   ) { 
     console.log("ctor for workload-key.components.tx");
     this.form = fb.group({
@@ -62,32 +64,64 @@ export class WorkloadKeyComponent implements OnInit {
     console.log("Submit!");
     this.updateWorkload();
 
-    /** TODO:  add error checking to confirm new workload key was successfully applied  */
-    this.form.controls['workloadKey'].setValue( 'Applied workload key.' );
+    //to show it has been applied successfully, zero out data that the user entered.
+    this.form.controls['workloadKey'].setValue( '' );
   
   }
+  replacerFunc = () => {
+    const visited = new WeakSet();
+    return (key, value) => {
+      if (typeof value === "object" && value !== null) {
+        if (visited.has(value)) {
+          return;
+        }
+        visited.add(value);
+      }
+      return value;
+    };
+  };
+  
   private updateWorkload() {
     console.log("nnnnn about to parse selected workload:" + this.workloadKeyString);
     var workload:Workload = new Workload();
 
-
+    this.notificationMessage = '';
     if (this.workloadKeyString.length < 20) {
       workload.alias = this.workloadKeyString;
       console.log("#Workload alias = " + workload.alias);
+      this.notificationMessage = 'Alias [' + workload.alias + '] successfully applied.  Workload is now encrypted.';
     } else if (workload.isBase64Ish_(this.workloadKeyString)) {
 
       workload.encryptedKey = this.workloadKeyString;
+      this.notificationMessage = 'Encrypted workload [' + workload.getAbbreviatedEncryptedKey() + '] has been applied.';
       console.log("#Workload encrypted string = " + workload.encryptedKey);
     } else {
       workload = JSON.parse(this.workloadKeyString);
       console.log("#Workload clearText.  Use case count: = " + workload.useCases.length);
+      this.notificationMessage = 'An unencrypted workload has been applied.';
     }
     workload.origin = 1;
 
     this.useCaseService.updateWorkload(
       this.config.sutAppHostname,
       this.config.sutAppPort,
-      workload).subscribe();
+      workload).subscribe(
+        restResp => {
+          console.log("@@## return from updateWorkload: " + JSON.stringify(restResp, this.replacerFunc() ) );
+          if (restResp.status===100) {
+              this.notificationService.showSuccess(this.notificationMessage, 'Performance Analysis Workbench');
+          } else {
+            this.notificationService.showError('Error changing Workload.  Check browser developer tools console for details.', 'Performance Analysis Workbench');
+          }
+        },
+        err => {
+          console.error('@@## Oops:', err.message);
+        },
+        () => {
+          console.log(`@@## We're done here!`);
+        }         
+
+      );
   }
 
   public getWorkloadKeyJson() : string {

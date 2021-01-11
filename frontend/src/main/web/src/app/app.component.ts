@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import { NotificationService } from './services/notification.service'
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,10 @@ export class AppComponent {
     { path: 'three', name: 'Three' }
   ];
 */
-  constructor() {
+  constructor(private notifyService : NotificationService) {
+  }
+  showToastrSuccess(){
+    this.notifyService.showSuccess("Data shown successfully !!", "Performance Analysis Workbench")
   }
 
 }

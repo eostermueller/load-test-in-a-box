@@ -23,14 +23,6 @@ public class UseCases {
 		this.alias = alias;
 	}
 	
-	public void resolveAlias() throws Snail4jWorkloadException {
-	
-		AliasManager aliasManager = DefaultFactory.getFactory().getAliasManager();
-		String encryptedKey = aliasManager.resolve(this.getAlias());
-		if (encryptedKey!=null && encryptedKey.length() > 0) {
-			this.setEncryptedKey(encryptedKey);
-		}
-	}
 	public String getEncryptedKey() {
 		return encryptedKey;
 	}

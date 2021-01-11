@@ -27,6 +27,7 @@
     "ajv-keywords": "^3.4.1",
     "core-js": "^3.6.4",
     "fsevents": "^2.2.1",
+    "ngx-toastr": "^13.2.0",
     "node-gyp": "^6.1.0",
     "rxjs": "^6.6.3",
     "rxjs-compat": "^6.6.3",
