@@ -59,19 +59,48 @@ export class HealthChecksComponent implements OnInit {
                   this.h2Health       = data['h2'        ].status === "UP" ? true : false;
                   this.jmeterLoad     = data['JMeterLoad'].status === "UP" ? true : false;
 
-                  if (this.sutAppHealth && /* this.wiremockHealth && */ this.h2Health)
-                    this.sutLaunchStatusService.changeLaunchStatus(LaunchStatus.Started)
-                  else if (!this.sutAppHealth /* && !this.wiremockHealth */ && !this.h2Health)
-                    this.sutLaunchStatusService.changeLaunchStatus(LaunchStatus.Stopped)
+                  if (this.sutLaunchStatus!=LaunchStatus.Stopping) {
+                        /* Sometimes after initiating a stop, there is zero progress for multiple seconds.  Unfortnately slow, but true.
+                           So we we're stopping, skip the check for started status....because we know it will stop in just a few seconds :-D
+                         **/
 
-                  if (this.jmeterLoad)
-                    this.loadGeneratorLaunchStatusService.changeLaunchStatus(LaunchStatus.Started);
-                  else if (!this.jmeterLoad)
-                    this.loadGeneratorLaunchStatusService.changeLaunchStatus(LaunchStatus.Stopped);
+                    if (this.sutAppHealth && this.wiremockHealth && this.h2Health) {
+                      console.log('before health-check setting to started date:' + new Date() );
+                      this.sutLaunchStatusService.changeLaunchStatus(LaunchStatus.Started);
+                      console.log('after health-check setting to started date:' + new Date() );
+                    }
+                  } 
+
+                  if (this.sutLaunchStatus!=LaunchStatus.Starting) {  
+                        /* Sometimes after initiating a start, there is zero progress for multiple seconds.  Unfortnately slow, but true.
+                           So if we're starting, skip the check for stopped status....because we know it will start in just a few seconds :-D
+                         **/
+                      if (!this.sutAppHealth && !this.wiremockHealth && !this.h2Health) {
+                        console.log('before HC setting to stopped date:' + new Date() );
+                        this.sutLaunchStatusService.changeLaunchStatus(LaunchStatus.Stopped)
+                        console.log('after HC setting to stopped date:' + new Date() );
+                      }                    
+                  }
+
+                  if (this.loadGeneratorLaunchStatus != LaunchStatus.Stopping) {
+                        /* Sometimes after initiating a stop, there is zero progress for multiple seconds.  Unfortnately slow, but true.
+                           So we we're stopping, skip the check for started status....because we know it will stop in just a few seconds :-D
+                         **/
+                        if (this.jmeterLoad)
+                      this.loadGeneratorLaunchStatusService.changeLaunchStatus(LaunchStatus.Started);
+                  }
+
+                  if (this.loadGeneratorLaunchStatus != LaunchStatus.Starting) {
+                        /* Sometimes after initiating a start, there is zero progress for multiple seconds.  Unfortnately slow, but true.
+                           So if we're starting, skip the check for stopped status....because we know it will start in just a few seconds :-D
+                         **/
+                        if (!this.jmeterLoad)
+                          this.loadGeneratorLaunchStatusService.changeLaunchStatus(LaunchStatus.Stopped);
+                  }
+
 
 
                   let neverUsed: string[] = [];
-//                  console.log("after health check parse");
                   return neverUsed;
                 } 
             ),

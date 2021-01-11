@@ -6,6 +6,7 @@ import { ApiResponse } from './model/api.response';
 import { Workload } from './model/workload';
 import { ApiResponseInterface } from './model/api.response.interface';
 import { BehaviorSubject } from 'rxjs';
+import { NotificationService } from './services/notification.service'
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,10 @@ export class UseCaseService {
   private newWorkloadSource = new BehaviorSubject( new Workload () );
   currentWorkload = this.newWorkloadSource.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private notifyService : NotificationService
+    ) {
   }
   /**
    * Alternative approach.  See how the Race class

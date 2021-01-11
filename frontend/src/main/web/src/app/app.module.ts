@@ -8,6 +8,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 import { CoreModule } from './core/core.module';
 import { NavComponent } from './nav/nav.component';
@@ -23,7 +24,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ConfigService } from './services/config.service';
 import { APP_INITIALIZER } from '@angular/core';
 
-//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 /**
  * "ng update" to angular 9 (https://update.angular.io/#8.0:9.0l3) did not upgrade these imports
@@ -101,6 +101,7 @@ import { WorkloadKeyComponent } from './workload-key/workload-key.component';
     CoreModule,
     BrowserModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     HttpClientModule,
     LayoutModule,
     MatCardModule,

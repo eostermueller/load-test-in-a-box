@@ -7,6 +7,9 @@ import { SutLaunchStatusService } from '../services/sut-launch-status.service';
 import { SutLauncherService }     from '../services/sut-launcher.service';
 
 import { LaunchStatus }           from '../services/LaunchStatus';
+import { NotificationService }    from '../services/notification.service';
+import {ConfigService} from '../services/config.service';
+import {ConfigModel} from '../services/config.model';
 
 /**
  * "ng update" to angular 9 (https://update.angular.io/#8.0:9.0l3) did not upgrade these imports
@@ -21,6 +24,7 @@ import { ApiResponseInterface } from '../model/api.response.interface';
 import { stringify } from 'querystring';
 import { refCount } from 'rxjs/operators';
 import { UseCasesComponent } from '../use-cases/use-cases.component';
+import { UseCaseService } from '../use-case.service';
 
 @Component({
   selector: 'app-one',
@@ -28,6 +32,7 @@ import { UseCasesComponent } from '../use-cases/use-cases.component';
   styleUrls: ['./workload-selection.scss']
 })
 export class WorkloadSelectionComponent implements OnInit {
+  config: ConfigModel = this.configService.config;
 
   @ViewChild('sutCheckbox',{static: false}) private sutCheckbox: MatCheckbox;
   @ViewChild('loadGeneratorCheckbox',{static: false}) private loadGeneratorCheckbox: MatCheckbox;
@@ -45,6 +50,9 @@ export class WorkloadSelectionComponent implements OnInit {
     private sutLauncherService: SutLauncherService,
     private loadGeneratorLaunchStatusService: LoadGeneratorLaunchStatusService,
     private loadGeneratorLauncherService: LoadGeneratorLauncherService,
+    private notificationService: NotificationService,
+    private useCaseService: UseCaseService,
+    private configService: ConfigService,   
     ) {
 
     } 
@@ -105,7 +113,7 @@ export class WorkloadSelectionComponent implements OnInit {
    */
   public getLoadGeneratorTextStatus() : string {
     var rc : string = "<unknown>";
-    switch(this.loadGeneratorLaunchStatus) {
+    switch (this.loadGeneratorLaunchStatus) {
       case LaunchStatus.Started:
         rc = "Applying Load";
         break;
@@ -158,12 +166,54 @@ export class WorkloadSelectionComponent implements OnInit {
       console.log("useCases.load():" + timeSpent);
     }
   }
+  public setDefaultWorkload() {
+    this.useCaseService.setDefaultWorkload(
+      this.config.sutAppHostname,
+      this.config.sutAppPort).subscribe(
+        restResp => {
+          console.log("@@## return from setDefaultWorkload(): " + JSON.stringify(restResp, this.replacerFunc() ) );
+          if (restResp.status===100) {
+              //this.notificationService.showSuccess('Default Java Workload now running.', 'Performance Analysis Workbench');
+          } else {
+            this.notificationService.showError('Error setting Default Workload.  Check browser developer tools console for details.', 'Performance Analysis Workbench');
+          }
+        },
+        err => {
+          console.error('@@## Oops:', err.message);
+        },
+        () => {
+          console.log(`@@## We're done here!`);
+        }         
+
+      );  
+  }
+ 
+  public updateLoadGenStatus():void {
+
+
+    switch (this.loadGeneratorLaunchStatus) {
+      case LaunchStatus.Stopped:
+        this.notificationService.showSuccess('Relax, the SUT is not under load.', 'Performance Analysis Workbench');
+        break;
+      case LaunchStatus.Started:
+        this.notificationService.showSuccess('Attention: SUT is now under load!', 'Performance Analysis Workbench');
+        break;
+      }
+
+
+    if (this.loadGeneratorLaunchStatusService.uiRecentlyLaunched() ) {
+      if (this.loadGeneratorLaunchStatus == LaunchStatus.Started) {
+        this.loadGeneratorCheckbox.checked = true;
+      }
+    }
+
+  }
   /**
    * If the JVM where the workload is running is unavailable,
    * then keep the user from changing the workload selection by disabling the workload tab
    * when the JVM is down.
    */
-  public updateTabStatus() {
+  public updateSutStatus() {
 //    console.log('updateTabStatus this.sutLaunchStatusService.statusChangeCount:' + this.sutLaunchStatusService.statusChangeCount + ' this.sutLaunchStatus: ' + this.sutLaunchStatus);
     switch(this.sutLaunchStatus) {
       case LaunchStatus.Started:
@@ -174,6 +224,17 @@ export class WorkloadSelectionComponent implements OnInit {
         break;
     }
 
+//    if (!this.sutLaunchStatusService.sutHasBeenStartedRecently() ) {
+      if (this.sutLaunchStatus == LaunchStatus.Started) {
+        this.notificationService.showSuccess('Java SUT started.', 'Performance Analysis Workbench');
+        this.setDefaultWorkload();//Now that SUT is started, set the default workload.
+      }
+//    }
+//    if (!this.sutLaunchStatusService.sutHasBeenStoppedRecently() ) {
+      if (this.sutLaunchStatus == LaunchStatus.Stopped) {
+        this.notificationService.showSuccess('Java SUT stopped.', 'Performance Analysis Workbench');
+      }
+//    }
 
       /**
        *  If you shut down your browser and navigate to snail4j,
@@ -186,25 +247,33 @@ export class WorkloadSelectionComponent implements OnInit {
         }
       }
 
-      if (this.loadGeneratorLaunchStatusService.uiRecentlyLaunched() ) {
-          if (this.loadGeneratorLaunchStatus == LaunchStatus.Started) {
-            this.loadGeneratorCheckbox.checked = true;
-          }
-        }
   }
+  replacerFunc = () => {
+    const visited = new WeakSet();
+    return (key, value) => {
+      if (typeof value === "object" && value !== null) {
+        if (visited.has(value)) {
+          return;
+        }
+        visited.add(value);
+      }
+      return value;
+    };
+  };
+  
   ngOnInit() {
-//    console.log('ngOnInit this.sutLaunchStatusService.statusChangeCount:' + this.sutLaunchStatusService.statusChangeCount);
+    console.log('ngOnInit this.sutLaunchStatusService.statusChangeCount:' + this.sutLaunchStatusService.statusChangeCount);
     this.sutLaunchStatusService.currentStatus.subscribe(status => {
         this.sutLaunchStatus = status;
-//        console.log('sutLaunchStatusService.currentStatus.subscribe:' + this.sutLaunchStatusService.statusChangeCount);
-
-        this.updateTabStatus();
+        console.log('workload-selection.component.ts: sutLaunchStatusService.currentStatus.subscribe status: ' + status + ' change count:' + this.sutLaunchStatusService.statusChangeCount);
+        this.updateSutStatus();
         }
     );
     this.loadGeneratorLaunchStatusService.currentStatus.subscribe(status => {
       this.loadGeneratorLaunchStatus = status;
+
   //    console.log('loadGeneratorLaunchStatusService.currentStatus.subscribe this.sutLaunchStatusService.statusChangeCount:' + this.sutLaunchStatusService.statusChangeCount);
-      this.updateTabStatus();
+      this.updateLoadGenStatus();
     }
   );
   }

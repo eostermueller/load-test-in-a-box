@@ -5,6 +5,13 @@ public class ApiResponse {
 	private long nanoStop = 0L;
 	private int status = 0;
 
+	public boolean isFailure() {
+		boolean rc = false;
+		if (this.getStatus() >= Status.FAILURE.getValue())
+			rc = true;
+		
+		return rc;
+	}
 	public long getNanoStart() {
 		return nanoStart;
 	}
@@ -27,10 +34,10 @@ public class ApiResponse {
 		this.setNanoStop(System.nanoTime() );
 		this.status = val.getValue();
 	}
-	public int getMessage() {
+	public String getMessage() {
 		return message;
 	}
-	public void setMessage(int message) {
+	public void setMessage(String message) {
 		this.message = message;
 	}
 	public Object getResult() {
@@ -39,6 +46,6 @@ public class ApiResponse {
 	public void setResult(Object result) {
 		this.result = result;
 	}
-	public int message = 0;
+	public String message = null;
 	public Object result = null;
 }

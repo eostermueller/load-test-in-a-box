@@ -4,6 +4,13 @@ export class Workload {
     encryptedKey : string;
     alias : string;
 
+    public getAbbreviatedEncryptedKey():string {
+      var rc:string = '<Unabled to created abbreviation for encrypted workload key>';
+      if (this.encryptedKey!=null) {
+        rc = this.encryptedKey.substr(0,3) + '...' + this.encryptedKey.substr( this.encryptedKey.length-3,3)
+      }
+      return rc;
+    }
 
     /**
      * This class can be used for either an encrypted key or clear text key unmarshalled into the useCases object,
@@ -94,6 +101,7 @@ export class Workload {
   public static createDefaultWorkload() : Workload {
 
     var typedWorkload:Workload = new Workload();
+    typedWorkload.origin = 0;
     typedWorkload.useCases.push(
       {
         "processingUnits": [

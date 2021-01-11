@@ -19,7 +19,7 @@ export class SutLauncherService {
       console.log("before http call to startSut");
       result = this.http.get<ApiResponseInterface>('/snail4j/startSut');
       console.log("after http call to startSut");
-      console.log('after startSut');
+      console.log('after startSut date:' + new Date() );
     } catch(e) {
       if(e instanceof Error) {
           // IDE type hinting now available

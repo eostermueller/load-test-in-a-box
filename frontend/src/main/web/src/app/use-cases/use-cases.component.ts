@@ -1,5 +1,9 @@
 import { Component, OnInit, ViewChild, Input, AfterViewInit } from '@angular/core';
-import {UseCaseService} from './../use-case.service';
+import { UseCaseService } from './../use-case.service';
+import { NotificationService } from '../services/notification.service';
+import { ApiResponse } from '../model/api.response';
+import { ApiResponseInterface } from '../model/api.response.interface';
+
 /**
  * "ng update" to angular 9 (https://update.angular.io/#8.0:9.0l3) did not upgrade these imports
  * to include the component specific end to '@angular/material'
@@ -64,6 +68,7 @@ export class UseCasesComponent implements OnInit {
   private useCaseInquiryInProgress : boolean = false;
   private encryptedWorkload : boolean = false;
   public isWorkloadEncrypted() : boolean {
+    //console.log('inside isWorkloadEncrypted: ' + this.encryptedWorkload);
     return this.encryptedWorkload;
   }
   public setWorkloadEncrypted(myVal : boolean) {
@@ -94,6 +99,7 @@ constructor(
   private sutLaunchStatusService: SutLaunchStatusService,
   private cdRef:ChangeDetectorRef,
   private configService: ConfigService,
+  private notificationService : NotificationService,
   ) { 
 //  debugger
  }
@@ -132,12 +138,43 @@ public updateWorkload() {
      for (let entry of myArray) {
         workload.useCases.push( entry[1] )
      }
+//     var rc : Observable<ApiResponseInterface> = null;
+
      this.useCaseService.updateWorkload(
        this.config.sutAppHostname,
        this.config.sutAppPort,
-       workload).subscribe();
-   
+       workload).subscribe(
+        restResp => {
+          console.log("@@## return from updateWorkload: " + JSON.stringify(restResp, this.replacerFunc() ) );
+          if (restResp.status===100) {
+              this.notificationService.showSuccess('Workload successfully changed.', 'Performance Analysis Workbench');
+          } else {
+            this.notificationService.showError('Error changing Workload.  Check browser developer tools console for details.', 'Performance Analysis Workbench');
+          }
+        },
+        err => {
+          console.error('@@## Oops:', err.message);
+        },
+        () => {
+          console.log(`@@## We're done here!`);
+        }         
+       );
+
+  //    console.log("Output of updateWorkload (raw): " + foo + " (JSON) :" + JSON.stringify(foo) );
+
 }
+replacerFunc = () => {
+  const visited = new WeakSet();
+  return (key, value) => {
+    if (typeof value === "object" && value !== null) {
+      if (visited.has(value)) {
+        return;
+      }
+      visited.add(value);
+    }
+    return value;
+  };
+};
 public useCaseDeSelectionListener($event:string) {
   const myKey:string = this.getKey($event);
   this.useCaseSelection.delete( myKey );
@@ -154,7 +191,7 @@ dispUseCases(ctx:string) {
   public load() {
     console.log("Use_Cases_Components.load()");
     this.removeAll();
-    if( this.forceHttpWorkloadRq == true) {
+//    if( this.forceHttpWorkloadRq == true) {
 
       var _me = this;
       _me.useCaseInquiryInProgress = true;
@@ -176,7 +213,7 @@ dispUseCases(ctx:string) {
             this.getSelectedWorkload();
             this.forceHttpWorkloadRq = false;
           });
-      }
+  //    }
   }
 
 
@@ -219,9 +256,26 @@ dispUseCases(ctx:string) {
       }
   }
   public setDefaultWorkload() {
+    this.forceHttpWorkloadRq = true;//reload the screen after the response comes back.
     this.useCaseService.setDefaultWorkload(
       this.config.sutAppHostname,
-      this.config.sutAppPort);  
+      this.config.sutAppPort).subscribe(
+        restResp => {
+          console.log("@@## return from setDefaultWorkload(): " + JSON.stringify(restResp, this.replacerFunc() ) );
+          if (restResp.status===100) {
+              this.notificationService.showSuccess('Default Java Workload now running.', 'Performance Analysis Workbench');
+          } else {
+            this.notificationService.showError('Error setting Default Workload.  Check browser developer tools console for details.', 'Performance Analysis Workbench');
+          }
+        },
+        err => {
+          console.error('@@## Oops:', err.message);
+        },
+        () => {
+          console.log(`@@## We're done here!`);
+        }         
+
+      );  
   }
   public getSelectedWorkload() {
     console.log("UseCasesComponents.getWorkLoad()");
@@ -270,11 +324,12 @@ dispUseCases(ctx:string) {
           if (workloadTyped.isEncrypted() || workloadTyped.alias.length >0)
             this.setWorkloadEncrypted( true );
           console.log('use-cases.components.  encrypted workload (a): ' + this.isWorkloadEncrypted() )
-          this.load();
         } else {
           this.setWorkloadEncrypted( false );
           console.log('use-cases.components.  encrypted workload (b): ' + this.isWorkloadEncrypted() )
         }
+
+        this.load();
 
       }
       );
