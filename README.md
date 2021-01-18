@@ -1,19 +1,19 @@
-Re-live datacenter performance firefights on your own desktop, installs in <5 minutes.
+Re-live datacenter performance firefights on your own desktop. An uber jar (zip actually) that installs in <5 minutes.
 What’s the problem?  What’s the cause?  The fix?  Click click click. Done.
-The Performance Analysis Workbench (PAW) is a load-test-in-a-box that aims to educate all Java developers on software performance.
+The Performance Analysis Workbench (PAwb) is a load-test-in-a-box that aims to educate all Java developers on software performance.
 
 # Performance Analysis Workbench Intro
 
 
 The [Quickstart](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Quickstart). Download/install/run to run the pre-packaged java code showing performance defects and fixes.
 
-[Run your own code](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Run-Your-Own-Code) inside PAW.
+[Run your own code](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Run-Your-Own-Code) inside PAwb.
 
-[Architecture of PAW](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Architecture) to have a look under the covers.
+[Architecture of PAwb](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Architecture) to have a look under the covers.
 
-[Build](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Build) PAW's uber jar.
+[Build](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Build) PAwb's uber jar.
 
-[Contribute](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Contributing) enhancements/fixes to PAW.
+[Contribute](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Contributing) enhancements/fixes to PAwb.
 
 [Road Map](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Road-Map) shows the general direction.
 
