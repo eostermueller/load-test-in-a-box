@@ -1,5 +1,5 @@
-The Performance Analysis Workbench (PAwb) is a load-test-in-a-box that (gulp) aims to educate all Java developers on software performance.
-You can re-live datacenter performance firefights on your own desktop.  It is packaged as an uber jar (zip actually).  The download takes forever, but it installs in less than a minute.
+The Performance Analysis Workbench (PAwb) is a Java load-test-in-a-box that (gulp) aims to educate all Java developers on software performance.
+Packaged as a Spring Boot uber jar (zip actually), it enables you to re-live datacenter performance firefights on your own desktop.  The download takes forever, but it installs in less than a minute or so.
 
 # Performance Analysis Workbench Intro
 
