@@ -8,7 +8,7 @@ The [Quickstart](https://github.com/eostermueller/performanceAnalysisWorkbench/w
 
 [Run your own code](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Run-Your-Own-Code) inside the Workbench.
 
-[Architecture of PAwb](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Architecture) to have a look under the covers.
+[Architecture](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Architecture).
 
 [Build](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Build) the Workbench's uber jar.
 
