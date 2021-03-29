@@ -22,7 +22,6 @@ $DIR/overwriteCopy.sh $SNAIL4J_SRC/processManager $SNAIL4J_USER_HOME processMana
 $DIR/overwriteCopy.sh $SNAIL4J_SRC/jmeterFiles $SNAIL4J_USER_HOME jmeterFiles
 $DIR/overwriteCopy.sh $SNAIL4J_SRC/wiremock $SNAIL4J_USER_HOME wiremock
 
-echo Creating sutApp.zip
 
 #A weird "logs " folder with a space is getting creating, not sure why.
 #th snail4j java-based unzipper pukes when encountering this folder with a space in it, so delete it.
@@ -42,6 +41,9 @@ fi
 mkdir -p $TARGET_DIR
 
 cp -r -t $SNAIL4J_USER_HOME/sutApp $TJP2_DIR/*
+
+#Force recompile
+rm -rf $TARGET_DIR/target
 
 SRC_COUNT=$(find $TJP2_DIR | wc -l)
 TARGET_COUNT=$(find $TARGET_DIR | wc -l)
