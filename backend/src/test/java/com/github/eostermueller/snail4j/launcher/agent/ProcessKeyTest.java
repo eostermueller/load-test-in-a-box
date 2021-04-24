@@ -1,8 +1,8 @@
 package com.github.eostermueller.snail4j.launcher.agent;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;

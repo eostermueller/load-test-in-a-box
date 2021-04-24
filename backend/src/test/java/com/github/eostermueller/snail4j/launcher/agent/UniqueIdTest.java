@@ -1,6 +1,7 @@
 package com.github.eostermueller.snail4j.launcher.agent;
 
-import static org.junit.Assert.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +14,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
@@ -39,7 +41,7 @@ public class UniqueIdTest {
 		listOfUniqueIds.put(String.valueOf(two.intValue()).trim(), two);
 		listOfUniqueIds.put(String.valueOf(three.intValue()).trim(), three);
 		
-		assertEquals("i added 3 unique ids, so they should all be here", 3, listOfUniqueIds.size() );
+		Assertions.assertEquals( 3, listOfUniqueIds.size(), "i added 3 unique ids, so they should all be here" );
 	}
 	@Test
 	public void canCreateUniqueIdsFromMultipleFactoryInstances() throws CannotFindSnail4jFactoryClass {
@@ -53,7 +55,7 @@ public class UniqueIdTest {
 		listOfUniqueIds.put( String.valueOf(two.intValue()), two);
 		listOfUniqueIds.put( String.valueOf(three.intValue()), three);
 		
-		assertEquals("i added 3 unique ids, so they should all be here", 3, listOfUniqueIds.size() );
+		Assertions.assertEquals( 3, listOfUniqueIds.size(), "i added 3 unique ids, so they should all be here" );
 	}
 	@Test
     public void test01() throws InterruptedException, ExecutionException, CannotFindSnail4jFactoryClass {

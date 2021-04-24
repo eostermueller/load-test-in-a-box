@@ -76,7 +76,7 @@ public class UseCases {
 		this.useCases = val;
 	}
 	/**
-	 * confirming that if isEncrypted(), then ecrypted data exists and is valid.
+	 * confirming that if isEncrypted(), then encrypted data exists and is valid.
 	 * @return
 	 */
 	public boolean validate() {

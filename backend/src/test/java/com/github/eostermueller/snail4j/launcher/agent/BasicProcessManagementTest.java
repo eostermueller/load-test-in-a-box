@@ -1,33 +1,7 @@
 package com.github.eostermueller.snail4j.launcher.agent;
 
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
-//import org.junit.jupiter.api.Test;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.condition.DisabledOnOs;
-import org.junit.jupiter.api.condition.OS;
-import org.junit.rules.TemporaryFolder;
-
-import com.github.eostermueller.snail4j.Snail4jException;
-import com.github.eostermueller.snail4j.launcher.AbstractStdoutStateChanger;
-import com.github.eostermueller.snail4j.launcher.Level;
-import com.github.eostermueller.snail4j.launcher.ProcessKey;
-import com.github.eostermueller.snail4j.launcher.State;
-import com.github.eostermueller.snail4j.launcher.StateChangeListener;
-import com.github.eostermueller.snail4j.launcher.StdoutProcessRunner;
-import com.github.eostermueller.snail4j.launcher.StdoutProcessRunnerJdk8;
-import com.github.eostermueller.snail4j.launcher.StdoutStateChanger;
 
 
 /**
@@ -39,13 +13,6 @@ import com.github.eostermueller.snail4j.launcher.StdoutStateChanger;
 public class BasicProcessManagementTest {
 	boolean ynStateChanged = false;
 	
-	 @Rule
-	    public TemporaryFolder testFolder = new TemporaryFolder();
-	 File tmpFolder = null;
-	 @Before
-	 public void setup() throws IOException {
-		 this.tmpFolder = testFolder.newFolder();
-	 }
 //		/**
 //		 * The @Disabled annotation is causing problem: https://stackoverflow.com/a/58421650/2377579
 //		 * ...so using the unbecoming "@DisabledOnOs" below.

@@ -1,9 +1,8 @@
 package com.github.eostermueller.snail4j.launcher.agent;
 
-import static org.junit.Assert.*;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.Level;
@@ -27,15 +26,15 @@ public class LoadTestLifecycleTest {
 		StateMachine loadTest =  new DoNothingProcessRunner(key); //Factory.createLittleMockLoadTest(true,true);
 		
 		try {
-			Assert.assertEquals( State.STOPPED, loadTest.getState());
+			Assertions.assertEquals( State.STOPPED, loadTest.getState());
 			loadTest.start();
 			
 			ProcessKey processKey = loadTest.getProcessKey();
-			Assert.assertEquals( State.START_IN_PROGRESS, loadTest.getState() );
-			Assert.assertTrue( processKey.getKey().length() > 15 );
+			Assertions.assertEquals( State.START_IN_PROGRESS, loadTest.getState() );
+			Assertions.assertTrue( processKey.getKey().length() > 15 );
 			
 		} catch (TjpIllegalStateException e) {
-			Assert.fail("Received illegal state exception, test should have started when asked to.");
+			Assertions.fail("Received illegal state exception, test should have started when asked to.");
 		}
 	}
 	@Test
@@ -54,10 +53,10 @@ public class LoadTestLifecycleTest {
 		try {
 			loadTest.stop();
 			
-			Assert.assertEquals( State.STOP_IN_PROGRESS, loadTest.getState() );
+			Assertions.assertEquals( State.STOP_IN_PROGRESS, loadTest.getState() );
 			
 		} catch (TjpIllegalStateException e) {
-			Assert.fail("Received illegal state exception, test should have started when asked to.");
+			Assertions.fail("Received illegal state exception, test should have started when asked to.");
 		}
 	}
 	
@@ -72,7 +71,7 @@ public class LoadTestLifecycleTest {
 		
 		try {
 			loadTest.start();
-			Assert.fail("Should have received an exception -- must not start a test that is already started.");
+			Assertions.fail("Should have received an exception -- must not start a test that is already started.");
 		} catch (TjpIllegalStateException e) {
 			//success -- got the exception we were expecting
 		}
@@ -89,11 +88,11 @@ public class LoadTestLifecycleTest {
 				"testingStateReStop");
 		
 		StateMachine loadTest =  new DoNothingProcessRunner(key); //Factory.createLittleMockLoadTest(true,true);
-		Assert.assertEquals( State.STOPPED, loadTest.getState() );
+		Assertions.assertEquals( State.STOPPED, loadTest.getState() );
 		
 		try {
 			loadTest.stop();
-			Assert.fail("Should have received an exception -- must not start a test that is already started.");
+			Assertions.fail("Should have received an exception -- must not start a test that is already started.");
 		} catch (TjpIllegalStateException e) {
 			//success -- got the exception we were expecting
 		}

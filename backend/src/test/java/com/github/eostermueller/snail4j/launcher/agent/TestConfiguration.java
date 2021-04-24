@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.eostermueller.snail4j.JdkUtils;
+import com.github.eostermueller.snail4j.NonStaticOsUtils;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.DefaultConfiguration;
@@ -36,7 +37,7 @@ public class TestConfiguration extends DefaultConfiguration implements Configura
 	
 	public TestConfiguration() throws Snail4jException {
 		LOGGER.debug("start of TestConfiguration ctor 1");
-		this.setJavaHome( 			JdkUtils.get_JAVA_HOME()  );
+		this.setJavaHome( new NonStaticOsUtils().get_JAVA_HOME()  );
 		
 		LOGGER.debug("stop of TestConfiguration ctor 1");
 	}

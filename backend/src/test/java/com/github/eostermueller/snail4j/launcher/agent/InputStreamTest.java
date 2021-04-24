@@ -1,12 +1,11 @@
 package com.github.eostermueller.snail4j.launcher.agent;
 
-import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import com.github.eostermueller.snail4j.launcher.AbstractStdoutStateChanger;
 import com.github.eostermueller.snail4j.launcher.InputStreamWatcher;
@@ -37,6 +36,6 @@ public class InputStreamTest {
 				is,sse);
 		isw.start();
 		Thread.sleep(100);
-		Assert.assertTrue(this.foundThird);
+		Assertions.assertTrue(this.foundThird);
 	}
 }

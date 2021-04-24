@@ -1,16 +1,15 @@
 package com.github.eostermueller.snail4j.launcher.agent;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,16 +24,12 @@ public class ConfigLookupTest {
 	
 	TestConfiguration cfg = null;
 	String expectedJavaHome = null;
-	 @Rule
-	    public TemporaryFolder testFolder = new TemporaryFolder();
-	 File tmpFolder = null;
-	
-	@Before
-	public void setup() throws IOException, Snail4jException  {
-		LOGGER.debug("in ConfigLookupTest#setup() a");
-    	this.tmpFolder = testFolder.newFolder();
+	@TempDir File tmpFolder;
+
+	 @BeforeEach
+	public void setup(@TempDir File tmpFolder) throws IOException, Snail4jException  {
 		LOGGER.debug("in ConfigLookupTest#setup() b");
-    	this.expectedJavaHome = this.tmpFolder.getAbsolutePath().toString();
+    	this.expectedJavaHome = tmpFolder.getAbsolutePath().toString();
 		LOGGER.debug("in ConfigLookupTest#setup() c");
     	
     	Path p = Paths.get(this.expectedJavaHome);
@@ -45,6 +40,18 @@ public class ConfigLookupTest {
 		cfg.setJavaHome(p);
 		LOGGER.debug("in ConfigLookupTest#setup() f");
 
+	}
+	@Test
+	public void canResolveLoadGenThreadCount() throws ConfigVariableNotFoundException, Snail4jException {
+		
+		ConfigLookup configLookup = DefaultFactory.getFactory().createConfigLookup();
+		configLookup.setConfiguration(cfg);
+		long threadCount = cfg.getLoadGenerationThreads();
+		String strActualLoadGenThreadCount = String.valueOf(threadCount);
+		
+		String resolvedText = configLookup.getValue("loadGenerationThreads");
+		
+		assertEquals(strActualLoadGenThreadCount, resolvedText);
 	}
 	@Test
 	public void canResolveIntVariable() throws ConfigVariableNotFoundException, Snail4jException {

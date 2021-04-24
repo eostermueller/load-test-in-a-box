@@ -3,7 +3,6 @@ package com.github.eostermueller.snail4j;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -142,14 +141,6 @@ public class InstallAdvice {
 			
 		return !ynOnTheUnsupportedList;
 	}
-	public Path get_JAVA_HOME() {
-		Path java_home = null;
-		String javaHomeString = System.getenv("JAVA_HOME");
-		if (javaHomeString != null)
-			java_home = Paths.get(javaHomeString);
-			
-		return java_home;
-	}
 	/**
 	 * 
 	 * @return
@@ -159,18 +150,20 @@ public class InstallAdvice {
 	public boolean isJavaHomeDirExists(Path java_home) throws CannotFindSnail4jFactoryClass, MalformedURLException {
 		boolean rc = false;
 		
-		
-		File javaHomeFolder = java_home.toFile();
-		if (!javaHomeFolder.exists() || !javaHomeFolder.isDirectory()) {
-			startupLogger.error( 
-					messages.javaHomeFolderDoesNotExistOrLackingPermissions(javaHomeFolder) );
-		} else {
-			rc = true;
-		}
+		if (java_home!=null) {
+			File javaHomeFolder = java_home.toFile();
+			if (!javaHomeFolder.exists() || !javaHomeFolder.isDirectory()) {
+				startupLogger.error( 
+						messages.javaHomeFolderDoesNotExistOrLackingPermissions(javaHomeFolder) );
+			} else {
+				rc = true;
+			}
 
-		if (!rc) {
-			startupLogger.error( 
-					new DocumentationLinks().getJdkInstallAdvice().toString() );
+			if (!rc) {
+				startupLogger.error( 
+						new DocumentationLinks().getJdkInstallAdvice().toString() );
+			}
+			
 		}
 		
 		return rc;

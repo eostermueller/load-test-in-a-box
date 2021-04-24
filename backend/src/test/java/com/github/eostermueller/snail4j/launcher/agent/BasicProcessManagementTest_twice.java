@@ -1,14 +1,11 @@
 package com.github.eostermueller.snail4j.launcher.agent;
 
 
-import java.io.File;
-import java.io.IOException;
+import java.nio.file.Path;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.AbstractStdoutStateChanger;
@@ -30,29 +27,22 @@ import com.github.eostermueller.snail4j.launcher.StdoutStateChanger;
 public class BasicProcessManagementTest_twice {
 	boolean ynStateChanged = false;
 	
-	 @Rule
-	    public TemporaryFolder testFolder = new TemporaryFolder();
-	 File tmpFolder = null;
-	 @Before
-	 public void before() throws IOException {
-		tmpFolder = testFolder.getRoot();
-	 }
 	 
 	@Test
-	public void canRunJavaProgramAndReadStdout_twice() throws Exception {
+	public void canRunJavaProgramAndReadStdout_twice(@TempDir Path tmpDir) throws Exception {
 	
 		this.ynStateChanged = false;
-		runJavaProgramAndReadStdout();
+		runJavaProgramAndReadStdout(tmpDir);
 		this.ynStateChanged = false;
-		runJavaProgramAndReadStdout();
+		runJavaProgramAndReadStdout(tmpDir);
 		
 	}
-	public void runJavaProgramAndReadStdout() throws Exception {
+	public void runJavaProgramAndReadStdout(Path tmpDir) throws Exception {
 		ProcessKey key = ProcessKey.create(this.getClass().getCanonicalName(), Level.CHILD, "executingJavaClass");
 		
 		TestConfiguration t = new TestConfiguration();
 		
-		MockServerProcess testOne = new MockServerProcess(this.tmpFolder,t.getJavaHome(),key.getTinyId());
+		MockServerProcess testOne = new MockServerProcess(tmpDir.toFile(),t.getJavaHome(),key.getTinyId());
 		testOne.setSleepMsAfterStartup(0);
 		testOne.setSleepMsBeforeStartup(0);
 		testOne.compile();
@@ -80,7 +70,7 @@ public class BasicProcessManagementTest_twice {
 		p.setStdoutStateChanger(ssc);
 		p.start();
 		Thread.sleep(1000);
-		Assert.assertTrue(this.ynStateChanged);
+		Assertions.assertTrue(this.ynStateChanged);
 		
 	}
 

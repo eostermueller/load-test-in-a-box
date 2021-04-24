@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.aspectj.weaver.NewConstructorTypeMunger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,7 +70,7 @@ public class Snail4jInstaller implements InstallAdvice.StartupLogger {
 		} else {
 			Path pathOfThisJvm = Paths.get(JdkUtils.getInstallPathOfThisJvm() );
 			info( messages.jreIsNotEnough( pathOfThisJvm ) );
-			Path java_home_from_env = ia.get_JAVA_HOME();
+			Path java_home_from_env = new NonStaticOsUtils().get_JAVA_HOME();
 			info( messages.attemptingToUseJavaHomeToFindJavaCompiler( java_home_from_env ) );
 			
 			if (!ia.isJavaHomeDirExists(java_home_from_env) )

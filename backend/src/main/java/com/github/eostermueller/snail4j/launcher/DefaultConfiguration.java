@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.JdkUtils;
+import com.github.eostermueller.snail4j.NonStaticOsUtils;
 import com.github.eostermueller.snail4j.Snail4jException;
 
 /**
@@ -88,6 +89,7 @@ public class DefaultConfiguration implements Configuration {
 	
 	/**
 	 * This is the most important constructor in the project :-)
+	 * It sets default values, many of which are required for basic operation.
 	 * @throws Snail4jException 
 	 */
 	public DefaultConfiguration() throws Snail4jException {
@@ -103,7 +105,7 @@ public class DefaultConfiguration implements Configuration {
 		
     		this.setUserHomeDir(		Paths.get( getUserHomeDirString() )	);
 
-			this.setJavaHome( 			JdkUtils.get_JAVA_HOME() );
+			this.setJavaHome( 			new NonStaticOsUtils().get_JAVA_HOME() );
 			this.setSnail4jHome(		Paths.get( this.getUserHomeDirString(), ".snail4j" )			);
 			this.setGlowrootHome(			Paths.get( this.getSnail4jHome().toString() , "glowroot") );
 			this.setGlowrootZipFileName ("glowroot-0.13.6-dist.zip");
@@ -156,10 +158,6 @@ public class DefaultConfiguration implements Configuration {
 //			this.setJMeterNonGuiPort(4455);
 
 			/**
-			 * https://jmeteronthefly.blogspot.com/2018/12/pass-parameters-from-jmeter-maven-plugin.html
-			 *
-			 * The variables/names detailed below must stay in sync with variables in these two files:
-			 * snail4j/jmeterFiles/pom-load.xml
 			 * snail4j/jmeterFiles/load.jmx
 			 */
 			StringBuilder sb = new StringBuilder();
