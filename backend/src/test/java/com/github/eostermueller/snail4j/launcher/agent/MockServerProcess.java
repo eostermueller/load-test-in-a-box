@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.OS;
@@ -123,7 +123,7 @@ public class MockServerProcess {
 		
 		Path javaHome = DefaultFactory.getFactory().getConfiguration().getJavaHome();
 		
-		Assert.assertNotNull( javaHome );
+		Assertions.assertNotNull( javaHome );
 		
 		String fileExtension = "";
 		if (OS.getOs().getOsFamily() == OS.OsFamily.Windows) {

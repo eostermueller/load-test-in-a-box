@@ -1,11 +1,12 @@
 package com.github.eostermueller.snail4j.launcher.agent;
 
-import static org.junit.Assert.*;
 
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 import org.assertj.core.util.Arrays;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -13,11 +14,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
-import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.CommandLine;
 import com.github.eostermueller.snail4j.launcher.ConfigLookup;
 import com.github.eostermueller.snail4j.launcher.ConfigVariableNotFoundException;
-import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.DefaultConfigLookup;
 
 /**
@@ -84,7 +83,7 @@ public class CommandLineTester {
 		
 		String[] actual = cmdLine.getProcessedCommandLine();
 		String actualDebug = Arrays.asList(actual).toString();
-		assertArrayEquals(actualDebug,expectedProcessed, actual );
+		assertArrayEquals(expectedProcessed, actual, actualDebug );
 		
 
 	}
@@ -108,7 +107,7 @@ public class CommandLineTester {
 		String[] expectedProcessed = { "/java 1.8/java", "-classpath", ".", "YourClass" };
 		String[] actual = cmdLine.getProcessedCommandLine();
 		String actualDebug = Arrays.asList(actual).toString();
-		assertArrayEquals(actualDebug,expectedProcessed, actual   );
+		assertArrayEquals(expectedProcessed, actual ,actualDebug  );
 		
 
 	}

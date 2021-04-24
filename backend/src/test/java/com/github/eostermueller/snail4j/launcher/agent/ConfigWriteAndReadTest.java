@@ -1,17 +1,14 @@
 package com.github.eostermueller.snail4j.launcher.agent;
 
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import com.github.eostermueller.snail4j.OS;
 import com.github.eostermueller.snail4j.launcher.ConfigReaderWriter;
@@ -28,21 +25,19 @@ import com.github.eostermueller.snail4j.launcher.DefaultConfiguration;
 public class ConfigWriteAndReadTest {
 	boolean ynStateChanged = false;
 	
-	 @Rule
-	    public TemporaryFolder testFolder = new TemporaryFolder();
-	 File tmpFolder = null;
-	 @Before
-	 public void setup() throws IOException {
-		 this.tmpFolder = testFolder.newFolder();
-	 }
+//	 @TempDir
+//	    public Path testFolder = new TemporaryFolder();
+//	 File tmpFolder = null;
+//	 @Before
+//	 public void setup() throws IOException {
+//		 this.tmpFolder = testFolder.newFolder();
+//	 }
 	@Test
-	public void canWriteAndReadPropertyFile() throws Exception {
+	public void canWriteAndReadPropertyFile(@TempDir Path tmpFolder) throws Exception {
 		//Configuration cfg = DefaultFactory.getFactory().getConfiguration();
 		Configuration cfg = new DefaultConfiguration();
 		
 		String somePath = null;
-		String os = OS.getOs().getPlatformName();
-		OS myos = OS.getOs();
 		switch( OS.getOs().getOsFamily() ) {
 			case Windows:
 				somePath = "C:\\foo";
@@ -68,7 +63,7 @@ public class ConfigWriteAndReadTest {
 		if (tmpFolder!=null) {
 			ConfigReaderWriter configWriter = new DefaultConfigReaderWriter();
 			
-			File cfgFile = new File(tmpFolder, "snail4j.json");
+			File cfgFile = new File(tmpFolder.toFile(), "snail4j.json");
 			configWriter.write(cfgFile,cfg);
 			
 			cfg = configWriter.read(cfgFile,DefaultConfiguration.class);
@@ -87,13 +82,10 @@ public class ConfigWriteAndReadTest {
 		
 	}
 	@Test
-	public void canWriteAndReadBooleansPropertyFile() throws Exception {
+	public void canWriteAndReadBooleansPropertyFile(@TempDir Path tmpFolder) throws Exception {
 		//Configuration cfg = DefaultFactory.getFactory().getConfiguration();
 		Configuration cfg = new DefaultConfiguration();
 		
-		String name="/foo";
-		int c0unt = 8675309;
-		Path path = Paths.get(name);
 		
 		cfg.setSnail4jMavenRepo(false);
 		
@@ -102,7 +94,7 @@ public class ConfigWriteAndReadTest {
 		if (tmpFolder!=null) {
 			ConfigReaderWriter configWriter = new DefaultConfigReaderWriter();
 			
-			File cfgFile = new File(tmpFolder,"snail4j.json");
+			File cfgFile = new File(tmpFolder.toFile(),"snail4j.json");
 			configWriter.write(cfgFile,cfg);
 			
 			cfg = configWriter.read(cfgFile, DefaultConfiguration.class);

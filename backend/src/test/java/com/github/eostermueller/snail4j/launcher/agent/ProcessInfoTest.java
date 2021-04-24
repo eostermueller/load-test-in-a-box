@@ -1,9 +1,8 @@
 package com.github.eostermueller.snail4j.launcher.agent;
 
-import static org.junit.Assert.*;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.Level;
@@ -23,14 +22,15 @@ public class ProcessInfoTest {
 		
 		ProcessKey processInfo = ProcessKey.create(suite,Level.CHILD,processType,myHostName,tinyId, processIdentifier);
 		
-		Assert.assertEquals("Unable to find hostname and pid",
+		Assertions.assertEquals(
 				suite 
 				+ DELIMITER + Level.CHILD 
 				+ DELIMITER + processType 
 				+ DELIMITER + myHostName 
 				+ DELIMITER + String.valueOf(tinyId).trim() 
 				+ DELIMITER + String.valueOf(processIdentifier).trim(), 
-				processInfo.getKey());
+				processInfo.getKey(),
+				"Unable to find hostname and pid");
 		
 	}
 
