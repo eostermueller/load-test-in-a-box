@@ -189,8 +189,6 @@ export class WorkloadSelectionComponent implements OnInit {
   }
  
   public updateLoadGenStatus():void {
-
-
     switch (this.loadGeneratorLaunchStatus) {
       case LaunchStatus.Stopped:
         this.notificationService.showSuccess('Relax, the SUT is not under load.', 'Performance Analysis Workbench');

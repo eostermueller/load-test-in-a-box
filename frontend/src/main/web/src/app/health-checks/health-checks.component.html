@@ -15,10 +15,10 @@
                          <tr>
                              <td align=right>
                                     <mat-slide-toggle labelPosition='before' disabled=true aria-label='sutApp' [checked]="sutAppHealth">SUT</mat-slide-toggle>
-                            </td>
+                             </td>
                              <td align=right>
                                 <mat-slide-toggle labelPosition='before' disabled=true aria-label='JMeter' [checked]="jmeterLoad">JMeter</mat-slide-toggle>
-                        </td>
+                             </td>
                         </tr>
                         <tr>
                                 <td align=right>
@@ -42,7 +42,10 @@
                 </div>
                 <div class="horizontal_spacer"></div>
                 <div class="horizontal_content">
-
+                        <p></p>
+                                <p style="text-indent: 25px;">
+                                        <a style="color:whitesmoke;"  href="{{ this.sutGlowrootUrl }}" target="_blank"> glowroot </a> from  <a style="color:whitesmoke;" href="https://glowroot.org" target="_blank">glowroot.org</a>
+                                </p>
                  </div>
 
                  <div class="horizontal_spacer"></div>

@@ -5,6 +5,7 @@ export interface ConfigModel {
     email: string;
     sutAppZipFileName : string;
     sutAppPort : number;
+    glowrootPort : number;
     loadGenerationThreads : number;
     loadGenerationRampupTimeInSeconds : number;
     loadGenerationDurationInSeconds : number;
