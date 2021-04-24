@@ -294,7 +294,7 @@ dispUseCases(ctx:string) {
       this.useCaseService.currentWorkload.subscribe(workloadObj => {
 
         /** 
-         * Refresh the checkbox/combobox selection with the newly applied WorkloadKey -- a text one.
+         * Refresh the checkbox and combobox selection with the newly applied WorkloadKey -- a text one.
          * 
          * The following works......however.
          * when checkboxes are changed, then the following executes UNNECESSARILY.
@@ -323,15 +323,15 @@ dispUseCases(ctx:string) {
       
           if (workloadTyped.isEncrypted() || workloadTyped.alias.length >0)
             this.setWorkloadEncrypted( true );
-          console.log('use-cases.components.  encrypted workload (a): ' + this.isWorkloadEncrypted() )
-        } else {
-          this.setWorkloadEncrypted( false );
-          console.log('use-cases.components.  encrypted workload (b): ' + this.isWorkloadEncrypted() )
+            console.log('use-cases.components.  encrypted workload (a): ' + this.isWorkloadEncrypted() )
+          } else {
+            this.setWorkloadEncrypted( false );
+            console.log('use-cases.components.  encrypted workload (b): ' + this.isWorkloadEncrypted() )
+          }
+
+          this.load();
+
         }
-
-        this.load();
-
-      }
       );
 
 

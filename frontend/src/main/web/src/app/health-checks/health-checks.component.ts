@@ -11,6 +11,9 @@ import { LoadGeneratorLaunchStatusService } from '../services/load-generator-lau
 import { LaunchStatus }           from '../services/LaunchStatus';
 import { LoadGeneratorLauncherService } from '../services/load-generator-launcher.service';
 
+import {ConfigService} from '../services/config.service';
+import {ConfigModel} from '../services/config.model';
+
 
 @Component({
   selector: 'app-health-checks',
@@ -18,6 +21,8 @@ import { LoadGeneratorLauncherService } from '../services/load-generator-launche
   styleUrls: ['./health-checks.component.scss']
 })
 export class HealthChecksComponent implements OnInit {
+  config: ConfigModel = this.configService.config;
+
   sutLaunchStatus: LaunchStatus;
   loadGeneratorLaunchStatus: LaunchStatus;
   actuatorHealthCheck$: Observable<string[]>;
@@ -27,11 +32,13 @@ export class HealthChecksComponent implements OnInit {
   jmeterLoad : boolean = false;
   polledBitcoin$ : Observable<number>;
   theAnswer : number = -1;
+  sutGlowrootUrl : String;
 
   constructor(
     private http: HttpClient, 
     private sutLaunchStatusService: SutLaunchStatusService,
-    private loadGeneratorLaunchStatusService: LoadGeneratorLaunchStatusService
+    private loadGeneratorLaunchStatusService: LoadGeneratorLaunchStatusService,
+    private configService: ConfigService
     ) {      
   }
 
@@ -40,6 +47,27 @@ export class HealthChecksComponent implements OnInit {
    * @stolenFrom: https://stackblitz.com/edit/angular-abcqen
    */
   ngOnInit() {
+    //set a 3 minute timerange, because
+    //locating perf changes in longer timeframes (like default 30 minutes) is really difficult
+    this.sutGlowrootUrl = 'http://localhost:' + this.config.glowrootPort + '/transaction/average?transaction-type=Web&last=180000';
+
+    //The above is nice, but the glowroot link on the snail4j UI won't be correct 
+    //if your browser is on a separate machine from the SUT :-(
+    //To Fix that, use this line instead:
+//    this.sutGlowrootUrl = 'http://' + this.config.sutAppHostname + ':' + this.config.glowrootPort + '/transaction/average?transaction-type=Web&last=180000';
+     // Then the install should edit the following file:
+    // $HOME/.snail4j/glowroot/glowroot/admin.json
+    ///to have   "web": {
+    //"port": 12675,
+    //"bindAddress": "0.0.0.0",
+
+    //instead of 
+    //"web": {
+    //  "port": 12675,
+    //  "bindAddress": "127.0.0.1",
+    // also see the folling link for more context:
+    // https://github.com/glowroot/glowroot/issues/100
+
     this.sutLaunchStatusService.currentStatus.subscribe(sutLaunchStatus => this.sutLaunchStatus = sutLaunchStatus);
     this.loadGeneratorLaunchStatusService.currentStatus.subscribe(loadGeneratorLaunchStatus => this.loadGeneratorLaunchStatus = loadGeneratorLaunchStatus);
 
