@@ -315,24 +315,23 @@ dispUseCases(ctx:string) {
          * 
          */
 
-         var workloadTyped : Workload = Workload.halfAssedDeserialize(workloadObj);
-        if (workloadTyped.origin==1) {
-
-          
+        var workloadTyped : Workload = Workload.halfAssedDeserialize(workloadObj);
+        console.log('use-cases.components.  encrypted workload (a): ' + this.isWorkloadEncrypted() )
+        console.log('origin: ' + workloadTyped.origin )
+        if (workloadTyped.isEncrypted() || workloadTyped.alias.length >0) {
+          this.setWorkloadEncrypted( true );
           console.log('use-cases.components.  encrypted workload (a): ' + this.isWorkloadEncrypted() )
-      
-          if (workloadTyped.isEncrypted() || workloadTyped.alias.length >0)
-            this.setWorkloadEncrypted( true );
-            console.log('use-cases.components.  encrypted workload (a): ' + this.isWorkloadEncrypted() )
-          } else {
-            this.setWorkloadEncrypted( false );
-            console.log('use-cases.components.  encrypted workload (b): ' + this.isWorkloadEncrypted() )
-          }
-
-          this.load();
-
+        } else {
+          this.setWorkloadEncrypted( false );
+          console.log('use-cases.components.  encrypted workload (b): ' + this.isWorkloadEncrypted() )
         }
-      );
+
+        if (workloadTyped.origin==1) {  //User specified alias or full text of key, encrypted or not.
+          this.load();
+        }
+
+      }
+    );
 
 
       this.sutLaunchStatusService.currentStatus.subscribe(
