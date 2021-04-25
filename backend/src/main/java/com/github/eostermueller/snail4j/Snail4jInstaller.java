@@ -4,10 +4,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.aspectj.weaver.NewConstructorTypeMunger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -145,7 +141,7 @@ public class Snail4jInstaller implements InstallAdvice.StartupLogger {
 		String jmeterDistZip = this.getConfiguration().getJMeterZipFileNameWithoutExtension() + ".zip";
 		try {
 			Path targetJMeterZipFile = Paths.get( this.getConfiguration().getSnail4jHome().toString(), jmeterDistZip );
-			if (path.contains(PathUtil.JAR_SUFFIX)) {
+			if (pathUtil.isUberJar()) {
 				
 				/**
 				 * jmeter zip needs to be extracted from executable jar file
@@ -220,7 +216,7 @@ public class Snail4jInstaller implements InstallAdvice.StartupLogger {
 		String cleansedPath;
 		try {
 			Path targetGlowrootZipFile = Paths.get( this.getConfiguration().getSnail4jHome().toString(), this.getConfiguration().getGlowrootZipFileName() );
-			if (path.contains(PathUtil.JAR_SUFFIX)) {
+			if (pathUtil.isUberJar()) {
 				
 				/**
 				 * glowroot agent jar needs to be extracted from zip
@@ -267,7 +263,7 @@ protected void installProcessManager() throws Snail4jException {
 				this.getConfiguration().getProcessManagerHome().toFile().mkdirs();
 			}
 			
-			if (path.contains(PathUtil.JAR_SUFFIX)) {
+			if (pathUtil.isUberJar()) {
 				
 				/**
 				 * processManager files must be extracted from a zip.
@@ -320,7 +316,7 @@ protected void installProcessManager() throws Snail4jException {
 				this.getConfiguration().getJMeterFilesHome().toFile().mkdirs();
 			}
 			
-			if (path.contains(PathUtil.JAR_SUFFIX)) {
+			if (pathUtil.isUberJar()) {
 				
 				/**
 				 * jmeter files must be extracted from a zip.
@@ -378,7 +374,7 @@ protected void installProcessManager() throws Snail4jException {
 				this.getConfiguration().getWiremockFilesHome().toFile().mkdirs();
 			}
 			
-			if (path.contains(PathUtil.JAR_SUFFIX)) {
+			if (pathUtil.isUberJar()) {
 				
 				/**
 				 * wiremock files must be extracted from a zip.
@@ -432,7 +428,7 @@ protected void installProcessManager() throws Snail4jException {
 		
 		try {
 			Path targetMavenRepositoryZipFile = Paths.get( this.getConfiguration().getSnail4jHome().toString(), zipName );
-			if (path.contains(PathUtil.JAR_SUFFIX)) {
+			if (pathUtil.isUberJar()) {
 				
 				/**
 				 * maven repository zip needs to be extracted from executable jar file
@@ -476,7 +472,7 @@ protected void installProcessManager() throws Snail4jException {
 				this.getConfiguration().getH2DataFileHome().toFile().mkdirs();
 			}
 			
-			if (path.contains(PathUtil.JAR_SUFFIX)) {
+			if (pathUtil.isUberJar()) {
 				
 				cleansedPath = pathUtil.cleanPath(path);
 				
@@ -511,7 +507,7 @@ protected void installProcessManager() throws Snail4jException {
 		String cleansedPath;
 		try {
 			Path targetMavenZipFile = Paths.get( this.getConfiguration().getSnail4jHome().toString(), this.getConfiguration().getMavenZipFileName() );
-			if (path.contains(PathUtil.JAR_SUFFIX)) {
+			if (pathUtil.isUberJar()) {
 				
 				/**
 				 * maven zip needs to be extracted from executable jar file
@@ -562,7 +558,7 @@ protected void installProcessManager() throws Snail4jException {
 				this.getConfiguration().getSutAppHome().toFile().mkdirs();
 			}
 			
-			if (path.contains(PathUtil.JAR_SUFFIX)) {
+			if (pathUtil.isUberJar()) {
 				
 				/**
 				 * sutApp files must be extracted from a zip.

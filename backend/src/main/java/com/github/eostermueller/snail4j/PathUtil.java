@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Enumeration;
@@ -34,6 +35,28 @@ public class PathUtil {
 	  public String getBaseClassspath() {
 		  return Application.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 	  }
+	  
+	  /**
+	   * If this code is currently running inside an uber jar, return true.
+	   * 
+	   * The Performance Analysis Workbench is currently distributed from (for example): 
+	   * https://github.com/eostermueller/snail4j/releases/download/ALPHA.0.0.1/snail4j.ALPHA.0.0.1.zip
+	   *  
+	   * https://stackoverflow.com/questions/11947037/what-is-an-uber-jar
+	   * 
+	   * 
+	   * @return
+	   */
+	  boolean isUberJar() {
+		  boolean rc = false;
+		  String baseClasspath = this.getBaseClassspath();
+		  if (baseClasspath.contains(PathUtil.JAR_SUFFIX)
+			  || baseClasspath.contains(PathUtil.ZIP_SUFFIX) ) {
+			  rc = true;
+		  }
+		  return rc;
+	  }
+	  
 	  
 	  /**
 	   * Given the path to a zip file, locate a different zip file inside and extract it to the targetPath.
@@ -73,8 +96,12 @@ public class PathUtil {
 	      }
 		  
 		  int myEndIndex = basePath.toLowerCase().indexOf(JAR_SUFFIX);
+		  
+		  if (myEndIndex < 0)
+			  myEndIndex = basePath.toLowerCase().indexOf(ZIP_SUFFIX);
+		  
 		  if (myEndIndex <0) {
-			  throw new Exception("could not find [" + JAR_SUFFIX + "] in  [" + basePath + "]");
+			  throw new Exception("could find neither [" + JAR_SUFFIX + "] nor [" + ZIP_SUFFIX + "] in  [" + basePath + "]");
 		  }
 		  String newPath = basePath.substring(beginIndex, myEndIndex+JAR_SUFFIX.length() );
 		  return newPath;
