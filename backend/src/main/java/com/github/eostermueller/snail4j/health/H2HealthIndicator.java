@@ -18,7 +18,6 @@ public class H2HealthIndicator extends AbstractTcpHealthIndicator {
 				Configuration cfg = getConfiguration();
 				String hostname = cfg.getH2Hostname();
 				InetAddress addr = InetAddress.getByName(hostname);
-				
 				this.setInetAddress(addr);
 				this.setPort( cfg.getH2Port() );
 			} catch (UnknownHostException | Snail4jException e) {

@@ -13,29 +13,31 @@
                         <div class="horizontal_spacer"></div>
                         <table>
                          <tr>
-                             <td align=right>
-                                    <mat-slide-toggle labelPosition='before' disabled=true aria-label='sutApp' [checked]="sutAppHealth">SUT</mat-slide-toggle>
-                             </td>
-                             <td align=right>
-                                <mat-slide-toggle labelPosition='before' disabled=true aria-label='JMeter' [checked]="jmeterLoad">JMeter</mat-slide-toggle>
-                             </td>
+                                <td align=right>
+                                        <mat-slide-toggle labelPosition='before' disabled=true aria-label='sutApp' [checked]="sutAppHealth">SUT</mat-slide-toggle>
+                                </td>
+                                <td align=right>
+                                        <mat-slide-toggle labelPosition='before' disabled=true aria-label='JMeter' [checked]="jmeterLoad">JMeter</mat-slide-toggle>
+                                </td>
                         </tr>
                         <tr>
                                 <td align=right>
                                         <mat-slide-toggle labelPosition='before' disabled=true aria-label='h2' [checked]="h2Health">H2</mat-slide-toggle>
-   
+
                                 </td>
                                 <td align=right>
+                                        <mat-slide-toggle labelPosition='before' disabled=true aria-label='glowroot' [checked]="glowrootHealth">glowroot</mat-slide-toggle>
+                                </td>
    
-                               </td>
                            </tr>
                            <tr>
-                                <td align=right>
-                                        <mat-slide-toggle labelPosition='before' disabled=true aria-label='wiremock' [checked]="wiremockHealth">Wiremock</mat-slide-toggle>
-                                </td>
-                                <td align=right>
-   
-                               </td>
+                                        <td align=right>
+                                                <mat-slide-toggle labelPosition='before' disabled=true aria-label='wiremock' [checked]="wiremockHealth">Wiremock</mat-slide-toggle>
+                                        </td>
+                                        <td align=right>
+                                                <mat-slide-toggle labelPosition='before' disabled=true aria-label='workbenchAgent' [checked]="workbenchAgentHealth">Workbench Agent</mat-slide-toggle>
+                                        </td>
+           
                            </tr>
                            </table>
                         <p></p>
@@ -44,7 +46,7 @@
                 <div class="horizontal_content">
                         <p></p>
                                 <p style="text-indent: 25px;">
-                                        <a style="color:whitesmoke;"  href="{{ this.sutGlowrootUrl }}" target="_blank"> glowroot </a> from  <a style="color:whitesmoke;" href="https://glowroot.org" target="_blank">glowroot.org</a>
+                                        <a style="color:whitesmoke;"  href="{{ this.sutGlowrootUrl }}" target="_blank"> glowroot monitoring</a> 
                                 </p>
                  </div>
 

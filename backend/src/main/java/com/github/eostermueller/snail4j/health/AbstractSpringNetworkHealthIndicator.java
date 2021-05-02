@@ -15,8 +15,9 @@ import com.github.eostermueller.snail4j.launcher.Configuration;
 
 abstract public class AbstractSpringNetworkHealthIndicator implements HealthIndicator {
 	protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	protected static final int UNINITIALIZED_PORT = -1;
 
-	protected final static Long TIMEOUT = TimeUnit.SECONDS.toMillis(10);
+	protected final static Long TIMEOUT = TimeUnit.SECONDS.toMillis(100);
 
 	public InetAddress getInetAddress() {
 		return inetAddress;
@@ -27,7 +28,7 @@ abstract public class AbstractSpringNetworkHealthIndicator implements HealthIndi
 	}
 
 	private InetAddress inetAddress;
-	private int port;
+	private int port = UNINITIALIZED_PORT;
 
 	public int getPort() {
 		return port;

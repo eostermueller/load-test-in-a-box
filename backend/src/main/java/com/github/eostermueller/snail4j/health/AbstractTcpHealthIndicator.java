@@ -20,12 +20,16 @@ import com.github.eostermueller.snail4j.OsUtils;
 
 
 public abstract class AbstractTcpHealthIndicator extends AbstractSpringNetworkHealthIndicator {
+
 	/**
-	 *  	@st0lenFr0m: http://jdpgrailsdev.github.io/blog/2014/11/11/spring_boot_health_indicators_auto_config.html
+	 *  	@stolenFr0m: http://jdpgrailsdev.github.io/blog/2014/11/11/spring_boot_health_indicators_auto_config.html
 	 */
 	@Override
     public Health health() {
-		if (OsUtils.isTcpPortActive(
+		
+		if (this.getPort()==UNINITIALIZED_PORT)
+			return Health.down().build();
+		else if (OsUtils.isTcpPortActive(
 				this.getInetAddress().getHostAddress(), 
 				this.getPort(), 
 				TIMEOUT.intValue()))

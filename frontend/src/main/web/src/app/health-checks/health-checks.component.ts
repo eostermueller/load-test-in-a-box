@@ -29,6 +29,8 @@ export class HealthChecksComponent implements OnInit {
   h2Health : boolean = false;
   sutAppHealth : boolean = false;
   wiremockHealth : boolean = false;
+  workbenchHealth : boolean = false;
+  glowrootHealth : boolean = false;
   jmeterLoad : boolean = false;
   polledBitcoin$ : Observable<number>;
   theAnswer : number = -1;
@@ -85,6 +87,12 @@ export class HealthChecksComponent implements OnInit {
                   this.sutAppHealth   = data['sutApp'    ].status === "UP" ? true : false;
                   this.wiremockHealth = data['wiremock'  ].status === "UP" ? true : false;
                   this.h2Health       = data['h2'        ].status === "UP" ? true : false;
+                  
+                  if (data['workbench' ])
+                    this.workbenchHealth= data['workbench' ].status === "UP" ? true : false;
+
+                  if (data['glowroot'  ])    
+                    this.glowrootHealth = data['glowroot'  ].status === "UP" ? true : false;
                   this.jmeterLoad     = data['JMeterLoad'].status === "UP" ? true : false;
 
                   if (this.sutLaunchStatus!=LaunchStatus.Stopping) {

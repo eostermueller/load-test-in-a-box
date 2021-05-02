@@ -318,7 +318,7 @@ dispUseCases(ctx:string) {
         var workloadTyped : Workload = Workload.halfAssedDeserialize(workloadObj);
         console.log('use-cases.components.  encrypted workload (a): ' + this.isWorkloadEncrypted() )
         console.log('origin: ' + workloadTyped.origin )
-        if (workloadTyped.isEncrypted() || workloadTyped.alias.length >0) {
+        if (workloadTyped.isEncrypted() || ( workloadTyped.alias && workloadTyped.alias.length >0)  ) {
           this.setWorkloadEncrypted( true );
           console.log('use-cases.components.  encrypted workload (a): ' + this.isWorkloadEncrypted() )
         } else {

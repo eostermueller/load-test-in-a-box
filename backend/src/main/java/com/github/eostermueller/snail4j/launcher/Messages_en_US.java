@@ -176,4 +176,14 @@ public class Messages_en_US implements Messages {
 	public String attemptingToUseJavaHomeToFindJavaCompiler(Path java_home_from_env) {
 		return String.format("Attempting to use JAVA_HOME value to locate Java Compiler executable. \n####\t\t\t JAVA_HOME=%s", java_home_from_env.toAbsolutePath().toString() );
 	}
+
+	@Override
+	public String unableToFindGlowrootHostAndPort() {
+		return "Verify that 'sutAppHostname' and 'glowrootPort' in the .snail4j/snail4j.json have correct values.";
+	}
+
+	@Override
+	public String unableToFindWorkbenchAgentHostAndPort() {
+		return "Verify that 'sutAppHostname' in the .snail4j/snail4j.json have correct values.";
+	}
 }
