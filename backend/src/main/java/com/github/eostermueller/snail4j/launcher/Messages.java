@@ -28,6 +28,8 @@ public interface Messages {
 	String unableToFindWiremockHostAndPort();
 
 	String unableToFindH2HostAndPort();
+	String unableToFindGlowrootHostAndPort();
+	String unableToFindWorkbenchAgentHostAndPort();
 
 	String unableToFindSutHostAndPort();
 

@@ -222,17 +222,34 @@ export class WorkloadSelectionComponent implements OnInit {
         break;
     }
 
-//    if (!this.sutLaunchStatusService.sutHasBeenStartedRecently() ) {
       if (this.sutLaunchStatus == LaunchStatus.Started) {
         this.notificationService.showSuccess('Java SUT started.', 'Performance Analysis Workbench');
-        this.setDefaultWorkload();//Now that SUT is started, set the default workload.
+
+        this.useCaseService.getWorkload(
+          this.config.sutAppHostname,
+          this.config.sutAppPort,
+        ).subscribe(data=>{
+                var zeroUseCasesSetAtBrowserStartup:boolean = true; //an assumption
+                if ( (data.result) &&(data.result.useCases) && data.result.useCases[0]) {
+                  zeroUseCasesSetAtBrowserStartup = false; //1 or more use cases are set.
+                }
+
+                if (zeroUseCasesSetAtBrowserStartup) {
+                  //Set the default workload (one with 10 second wait time) so any load generation doesn't
+                  //make a massive number of 1-ish-ms requests to tjp2, and thus eating up
+                  //all the end user's CPU.
+                  this.setDefaultWorkload();
+                }
+                  
+
+        });
+    
+
+        
       }
-//    }
-//    if (!this.sutLaunchStatusService.sutHasBeenStoppedRecently() ) {
       if (this.sutLaunchStatus == LaunchStatus.Stopped) {
         this.notificationService.showSuccess('Java SUT stopped.', 'Performance Analysis Workbench');
       }
-//    }
 
       /**
        *  If you shut down your browser and navigate to snail4j,

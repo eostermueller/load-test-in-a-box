@@ -86,7 +86,7 @@ export class WorkloadKeyComponent implements OnInit {
     var workload:Workload = new Workload();
 
     this.notificationMessage = '';
-    if (this.workloadKeyString.length < 20) {
+    if (this.workloadKeyString.length &&  this.workloadKeyString.length < 20) {
       workload.alias = this.workloadKeyString;
       console.log("#Workload alias = " + workload.alias);
       this.notificationMessage = 'Alias [' + workload.alias + '] successfully applied.  Workload is now encrypted.';
