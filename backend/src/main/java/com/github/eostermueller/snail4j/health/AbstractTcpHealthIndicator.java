@@ -32,9 +32,12 @@ public abstract class AbstractTcpHealthIndicator extends AbstractSpringNetworkHe
 		else if (OsUtils.isTcpPortActive(
 				this.getInetAddress().getHostAddress(), 
 				this.getPort(), 
-				TIMEOUT.intValue()))
+				getTimeout() ))
             return Health.up().build();
 		else 
             return Health.down().build();
+	}
+	public int getTimeout() {
+		return TIMEOUT.intValue();
 	}
 }

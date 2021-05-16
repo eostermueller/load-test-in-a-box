@@ -7,6 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -33,6 +34,9 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 	@Autowired
 	private ConfigurableApplicationContext ctx;
 
+	@Autowired
+	private ServerProperties serverProperties;
+	
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
 	private static ProcessModelSingleton PROCESS_MODEL_SINGLETON = null;
@@ -76,6 +80,16 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 			errors.add( DefaultFactory.getFactory().getMessages().getNoUdpPortsAvailableBetween((int)cfg.getStartJMeterNonGuiPort(), (int)cfg.getMaxJMeterNonGuiPort()));
 		}
 		LOGGER.info( String.format("JMeter non-gui port is [%d].  Start [%d] and max port [%d].", cfg.getJMeterNonGuiPort(), cfg.getStartJMeterNonGuiPort(), cfg.getMaxJMeterNonGuiPort() ) );
+		
+		cfg.setWorkbenchAgentPort( this.serverProperties.getPort() );
+		
+		LOGGER.info( String.format("Workbench Agent listening on tcp port [%d].", cfg.getWorkbenchAgentPort() ) );
+		
+		
+		
+		Configuration cfg2 = DefaultFactory.getFactory().getConfiguration();
+		LOGGER.info( String.format("TAKE 2: Workbench Agent listening on tcp port [%d].", cfg2.getWorkbenchAgentPort() ) );
+		
 		
 	}
 	private void initProcessModel() throws ConfigVariableNotFoundException, Snail4jException {

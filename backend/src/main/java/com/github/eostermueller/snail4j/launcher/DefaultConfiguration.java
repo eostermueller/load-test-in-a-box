@@ -38,6 +38,17 @@ public class DefaultConfiguration implements Configuration {
 	private String sutAppZipFileName;
 	private int sutAppPort;
 	
+	private int workbenchAgentPort = -1;
+	
+	@JsonIgnore
+	public int getWorkbenchAgentPort() {
+		return workbenchAgentPort;
+	}
+	@JsonIgnore
+	public void setWorkbenchAgentPort(int workbenchAgentPort) {
+		this.workbenchAgentPort = workbenchAgentPort;
+	}
+
 	private long loadGenerationThreads;
 	private long loadGenerationRampupTimeInSeconds;
 	private long loadGenerationDurationInSeconds;
@@ -57,6 +68,8 @@ public class DefaultConfiguration implements Configuration {
 	private String loadGeneratorShutdownCmd;
 	private String jmeterShutdownExePath;
 	private String useCaseSearchCriteria;
+
+
 	
 	/**
 	 * A space-delimited set of JVM parameters that gets passed into 

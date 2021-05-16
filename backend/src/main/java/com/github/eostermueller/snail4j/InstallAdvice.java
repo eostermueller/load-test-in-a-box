@@ -40,14 +40,20 @@ public class InstallAdvice {
 	Messages messages = null;
 	private static String[] UNSUPPORTED_JAVA_SPECIFICATION_VERSIONS = new String[]{ "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7" };
 	static class TcpTarget {
-		static TcpTarget create(String hostname, int port, String name, String snail4jPropertyName) {
+		static TcpTarget create(String hostname, int port, String name, String snail4jPropertyName, boolean alsoCheckLocalhost) {
 			TcpTarget t = new TcpTarget();
 			t.hostname = hostname;
 			t.port = port;
 			t.name = name;
 			t.snail4jPropertyName = snail4jPropertyName;
+			t.alsoCheckLocalhost = alsoCheckLocalhost;
 			return t;
 		}
+		static TcpTarget create(String hostname, int port, String name, String snail4jPropertyName) {
+			return create(hostname, port, name, snail4jPropertyName, false);
+		}
+		
+		boolean alsoCheckLocalhost = false;
 		boolean active = false;
 		String hostname = null;
 		int port = -1;
@@ -64,18 +70,26 @@ public class InstallAdvice {
 	
 	public int sutPortsAreAvailable(Configuration cfg) throws CannotFindSnail4jFactoryClass, Snail4jMultiException {
 		List<String> errors = new ArrayList<String>();
-		int timeoutMs = 1000;
+		int timeoutMs = 20000;
 		List<TcpTarget> targets = new ArrayList<TcpTarget>();
 		targets.add( TcpTarget.create(cfg.getWiremockHostname(), cfg.getWiremockPort(), "Wiremock", WIREMOCK_PORT_PROPERTY) );
 		targets.add( TcpTarget.create(cfg.getH2Hostname(),cfg.getH2Port(),"H2",H2_PORT_PROPERTY) );
 		targets.add( TcpTarget.create(cfg.getSutAppHostname(), cfg.getSutAppPort(), "SUT",SUT_PORT_PROPERTY) );
-		targets.add( TcpTarget.create(cfg.getSutAppHostname(), cfg.getGlowrootPort(), "Glowroot",GLOWROOT_PORT_PROPERTY) );
+		targets.add( TcpTarget.create(cfg.getSutAppHostname(), cfg.getGlowrootPort(), "Glowroot",GLOWROOT_PORT_PROPERTY,true) );
 		
 		for( TcpTarget t : targets ) {
-			if ( OsUtils.isTcpPortActive(t.hostname, t.port, timeoutMs) ) {
+			String hostname = t.hostname;
+			if ( OsUtils.isTcpPortActive(hostname, t.port, timeoutMs) ) {
 				t.active = true;
+			} else if (t.alsoCheckLocalhost) {
+				hostname = "localhost";
+				if ( OsUtils.isTcpPortActive(hostname, t.port, timeoutMs) )
+					t.active = true;
+			}
+			
+			if (t.active) {
 				String error = DefaultFactory.getFactory().getMessages()
-						.tcpPortConflict(t.name,t.hostname,t.port,t.snail4jPropertyName);
+						.tcpPortConflict(t.name,hostname,t.port,t.snail4jPropertyName);
 				this.startupLogger.error(error);
 				errors.add(error);
 			}
