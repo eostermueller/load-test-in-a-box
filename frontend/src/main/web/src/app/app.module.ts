@@ -24,6 +24,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ConfigService } from './services/config.service';
 import { APP_INITIALIZER } from '@angular/core';
 
+import { MarkdownModule } from 'ngx-markdown';
 
 /**
  * "ng update" to angular 9 (https://update.angular.io/#8.0:9.0l3) did not upgrade these imports
@@ -123,6 +124,7 @@ import { WorkloadKeyComponent } from './workload-key/workload-key.component';
     MatTooltipModule,
     MatProgressSpinnerModule,
     ClipboardModule,
+    MarkdownModule.forRoot(),
     // ErrorHandler,
     // GlobalErrorHandler,
     // Injectable
