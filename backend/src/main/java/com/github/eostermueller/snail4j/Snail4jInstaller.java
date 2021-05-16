@@ -47,8 +47,7 @@ public class Snail4jInstaller implements InstallAdvice.StartupLogger {
      * java.specification.version = 9
 
 	 * THe JAVA_HOME validation is a must for Mac because of the complicated folder structure of the distribution.
-	 * But regardless of the OS, snail4j uses JAVA_HOME to find jcmd and other jdk tools,
-	 * so JAVA_HOME is required for all platforms.
+	 * But regardless of the OS, snail4j can't find jcmd and other tools in the path, it uses JAVA_HOME to location them.
 	 * @return
 	 * @throws Snail4jException 
 	 */
@@ -98,7 +97,26 @@ public class Snail4jInstaller implements InstallAdvice.StartupLogger {
 		int errorCount = 0;
 		
 		errorCount += preInstallJavaValidation(cfg);
-		errorCount += ia.sutPortsAreAvailable(cfg);
+		//errorCount += ia.sutPortsAreAvailable(cfg);
+		
+		int countOfUnavailablePorts = ia.sutPortsAreAvailable(cfg);
+		switch(countOfUnavailablePorts) {
+		case 0:
+			//zero problems
+			break;
+		case 4:;
+			info("Found processes listening on all 4 SUT ports -- assuming the SUT is up."); //not an error
+			break;
+			default:
+				/**
+				 * assuming that either:
+				 * a) SUT is only partially up, and end user will have to force it down.
+				 * b) the ports in use are actually collisions, non-Workbench processes are using same ports at Workbench.
+				 */
+				errorCount += 1;
+			
+		}
+		
 		info("Number if install issues: " + errorCount );
 
 		return errorCount;

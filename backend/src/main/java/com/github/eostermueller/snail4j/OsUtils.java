@@ -63,6 +63,8 @@ public class OsUtils {
 		return active;
 	}
 	public static boolean isTcpPortActive(String hostname, int tcpPort, int timeoutMs) {
+        LOGGER.debug( String.format("Testing host %s port %d with timeout %d", hostname,tcpPort,timeoutMs));
+		
 		boolean active = false;
 	     Socket socket = null;
 	     String target = hostname + ":" + tcpPort;
