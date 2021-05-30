@@ -10,6 +10,7 @@ import { LaunchStatus }           from '../services/LaunchStatus';
 import { NotificationService }    from '../services/notification.service';
 import {ConfigService} from '../services/config.service';
 import {ConfigModel} from '../services/config.model';
+import { Workload } from '../model/workload';
 
 /**
  * "ng update" to angular 9 (https://update.angular.io/#8.0:9.0l3) did not upgrade these imports
@@ -165,6 +166,39 @@ export class WorkloadSelectionComponent implements OnInit {
       var timeSpent=(end-begin)/1000+"secs";
       console.log("useCases.load():" + timeSpent);
     }
+  }
+  public setWorkloadAlias(alias:string) {
+    console.log("nnnnn about to parse selected workload:" + alias);
+    var workload:Workload = new Workload();
+
+    var notificationMessage:string = '';
+    workload.alias = alias;
+    console.log("#Workload alias = " + workload.alias);
+    notificationMessage = 'Alias [' + workload.alias + '] successfully applied.  Workload is now encrypted.';
+
+    workload.origin = 1;
+
+    this.useCaseService.updateWorkload(
+      this.config.sutAppHostname,
+      this.config.sutAppPort,
+      workload).subscribe(
+        restResp => {
+          console.log("@@## return from updateWorkload: " + JSON.stringify(restResp, this.replacerFunc() ) );
+          if (restResp.status===100) {
+              this.notificationService.showSuccess(notificationMessage, 'Performance Analysis Workbench');
+          } else {
+            this.notificationService.showError('Error changing Workload.  Check browser developer tools console for details.', 'Performance Analysis Workbench');
+          }
+        },
+        err => {
+          console.error('@@## Oops:', err.message);
+        },
+        () => {
+          console.log(`@@## We're done here!`);
+        }         
+
+      );
+    
   }
   public setDefaultWorkload() {
     this.useCaseService.setDefaultWorkload(
