@@ -3,18 +3,25 @@ package com.github.eostermueller.snail4j.workload.model.json;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Method;
-import java.util.Locale;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import com.github.eostermueller.snail4j.workload.DefaultFactory;
 import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
+import com.github.eostermueller.snail4j.workload.markdown.MarkdownLoader;
+import com.github.eostermueller.snail4j.workload.markdown.MarkdownLocator;
+import com.github.eostermueller.snail4j.workload.markdown.ParentMarkdownFile;
 import com.github.eostermueller.snail4j.workload.model.MethodWrapper;
 import com.github.eostermueller.snail4j.workload.model.ProcessingUnitImpl;
 import com.github.eostermueller.snail4j.workload.model.UseCases;
 import com.github.eostermueller.snail4j.workload.model.WorkloadSpecRq;
-import com.github.eostermueller.snail4j.workload.model.json.SerializaionUtil;
 
 public class JsonSerializationTest {
 
@@ -105,7 +112,7 @@ public class JsonSerializationTest {
 		
 	}
 	@Test
-	public void canDoRoundTripSerialization() throws Snail4jWorkloadException {
+	public void canDoRoundTripSerialization_processingUnit() throws Snail4jWorkloadException {
 		UseCases useCases = new UseCases();
 		
 		useCases.addProcessingUnit(  this.createTestProcessingUnit_Binary() );
@@ -127,20 +134,117 @@ public class JsonSerializationTest {
 		assertEquals( BINARY_SORT_METHOD_NAME, m.getMethodName() );
 		
 		
-		Locale locale = Locale.forLanguageTag("en_US");
+//		Locale locale = Locale.forLanguageTag("en_US");
 		
 		assertEquals( "MyMessage", processingUnit
 									.getDescription("en_US") );
 		
 		assertEquals( DECLARING_CLASS, m.getDeclaringClassName() );
 	}
-//	@Test
-//	void canUnmarshallEmptyWorkloadRequestToJson() throws snail4jException {
-//		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
-//		String js0n = "{\"useCases\":[]}";
-//		WorkloadSpecRq rq = util.unmmarshalWorkloadUpdateRq(js0n);
-//		assertEquals(0,rq.getProcessingUnits().size() );
-//	}
+	
+	protected static final String PATH_1 = "com/github/eostermueller/tjp2/md1";
+	protected static final String PARENT_1 = PATH_1 + "/index.md";
+	protected static final String PARENT_1_CONTENT = "H1 Hello Parent World!";
+	protected static final String CHILD_1 = PATH_1 + "/child.md";
+	protected static final String CHILD_1_CONTENT = "H1 Hello Child World!";
+	Map<String,String> mapOfExpectedFileNames = new Hashtable<String,String>();
+	
+
+	private MarkdownLocator getTrivialMarkdownLocator() {
+		return new MarkdownLocator() {
+
+			@Override
+			public void loadParentFiles(MarkdownLoader loader) throws Snail4jWorkloadException {
+				loader.loadMarkdownFile( Paths.get(PARENT_1), PARENT_1_CONTENT);
+			}
+
+			@Override
+			public void loadChildFiles(MarkdownLoader loader) throws Snail4jWorkloadException {
+				loader.loadMarkdownFile( Paths.get(CHILD_1), CHILD_1_CONTENT);
+			}
+			
+		};
+	}
+
+	
+	@Test
+	public void canDoRoundTripSerializationOfCms(@TempDir Path tmpFolder) throws Exception {
+		
+		
+		MarkdownLoader loader = DefaultFactory.getFactory().createMarkdownLoader();
+		
+		loader.setLocator( getTrivialMarkdownLocator() );
+		List<ParentMarkdownFile> parentFiles = loader.getMarkdownFiles();
+		
+		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
+		String json = util.marshalMarkdownFileGroups(parentFiles);
+
+		
+		parentFiles=null;
+		parentFiles = util.unMarshalMarkdownFileGroups(json);
+		
+		assertEquals(1,parentFiles.size());
+		assertEquals(1,parentFiles.get(0).getChildMarkdownFiles().size());
+		
+	}
+	
+	@Test
+	public void canMarshallCmsFiles(@TempDir Path tmpFolder) throws Exception {
+		
+		MarkdownLoader loader = DefaultFactory.getFactory().createMarkdownLoader();
+		
+		loader.setLocator( getTrivialMarkdownLocator() );
+		List<ParentMarkdownFile> parentFiles = loader.getMarkdownFiles();
+		
+		SerializaionUtil util = DefaultFactory.getFactory().createSerializationUtil();
+		String json = util.marshalMarkdownFileGroups(parentFiles);
+		assertTrue( json.length() > 200);
+		assertEquals( 1, countInstances( 		"index.md",json) );
+		assertEquals( 1, countInstances( 		"child.md"        ,json) );
+		assertEquals( 0, countInstances( 		"foo",json) );
+		
+		
+	}	
+
+	@Test
+	public void canCountInstancesInString()  {
+		
+		assertEquals( 0, countInstances( "foo", "bar"				)	);
+		assertEquals( 1, countInstances( "foo", "foo"				)	);
+		assertEquals( 2, countInstances( "foo", "foo foo"			)	);
+		assertEquals( 2, countInstances( "foo", "foofoo"			)	);
+
+		//edge cases     countInstances( 		                    )   );
+		assertEquals( 0, countInstances( "foo", ""					)	);
+		assertEquals( 0, countInstances( "", ""						)	);
+		assertEquals( 0, countInstances( "", "foo"					)	);
+		assertEquals( 0, countInstances( "foo", (String)null		)	);
+		assertEquals( 0, countInstances( (String)null, "bar"		)	);
+		assertEquals( 0, countInstances( (String)null, (String)null	)	);
+		assertEquals( 0, countInstances( "foo", "bar"				)	);
+		
+	}
+	int countInstances(String criteria, String src) {
+		
+		if (  criteria==null
+			||src==null
+			||criteria.length() > src.length()
+			||criteria.length()==0
+			||src.length()==0)
+			return 0;
+		
+		int count = 0;
+		
+		int startIndex = 0;
+		while(startIndex != -1) {
+			startIndex = src.indexOf(criteria, startIndex);
+			if (startIndex>-1) {
+				count++;
+				startIndex = startIndex+criteria.length();
+			}
+		}
+		return count;
+	}
 	
 	/**
 	 This json test case came from my very first updateWorkload request generated/created by 

@@ -124,6 +124,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                     <scope>runtime</scope>
                 </dependency>
 
+<!--
     <dependency>
       <groupId>com.sun</groupId>
       <artifactId>tools</artifactId>
@@ -131,7 +132,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
       <scope>system</scope>
       <systemPath>${toolsjar}</systemPath>
     </dependency>
+-->
 
+    <dependency>
+	      <groupId>com.github.olivergondza</groupId>
+        <artifactId>maven-jdk-tools-wrapper</artifactId>
+	  <version>0.1</version>
+  </dependency>
         <dependency>
          <groupId>com.github.stefanbirkner</groupId>
          <artifactId>system-rules</artifactId>

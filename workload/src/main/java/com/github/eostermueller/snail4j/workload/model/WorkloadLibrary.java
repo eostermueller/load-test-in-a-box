@@ -14,7 +14,7 @@ import io.github.classgraph.MethodInfo;
 import io.github.classgraph.MethodInfoList;
 import io.github.classgraph.ScanResult;
 
-public class Snail4jLibrary {
+public class WorkloadLibrary {
 
 
 	public static UseCases scan(String whiteList) throws Snail4jWorkloadException, OnlyStringAndLongAndIntAreAllowedParameterTypes {

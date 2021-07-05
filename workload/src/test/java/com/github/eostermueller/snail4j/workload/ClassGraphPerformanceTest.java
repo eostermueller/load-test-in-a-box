@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import com.github.eostermueller.snail4j.workload.annotations.basic.Sorting;
 import com.github.eostermueller.snail4j.workload.model.ProcessingUnitImpl;
-import com.github.eostermueller.snail4j.workload.model.Snail4jLibrary;
+import com.github.eostermueller.snail4j.workload.model.WorkloadLibrary;
 import com.github.eostermueller.snail4j.workload.model.UseCase;
 import com.github.eostermueller.snail4j.workload.model.UseCases;
 
@@ -23,7 +23,7 @@ class ClassGraphPerformanceTest {
 	@Test
 	public void canQueryAllAnnotations() throws Snail4jWorkloadException, OnlyStringAndLongAndIntAreAllowedParameterTypes {
 		
-		UseCases scanResult = Snail4jLibrary.scan();  
+		UseCases scanResult = WorkloadLibrary.scan();  
 		
 		assertEquals(scanResult.getUseCases().size(),1);
 		

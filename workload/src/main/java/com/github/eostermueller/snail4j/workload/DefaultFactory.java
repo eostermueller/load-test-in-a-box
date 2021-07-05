@@ -14,6 +14,14 @@ import com.github.eostermueller.snail4j.workload.engine.Workload;
 import com.github.eostermueller.snail4j.workload.engine.WorkloadBuilder;
 import com.github.eostermueller.snail4j.workload.engine.WorkloadBuilderImpl;
 import com.github.eostermueller.snail4j.workload.engine.WorkloadImpl;
+import com.github.eostermueller.snail4j.workload.markdown.DefaultLoader;
+import com.github.eostermueller.snail4j.workload.markdown.DefaultLocator;
+import com.github.eostermueller.snail4j.workload.markdown.MarkdownLoader;
+import com.github.eostermueller.snail4j.workload.markdown.MarkdownLocator;
+import com.github.eostermueller.snail4j.workload.markdown.reader.DefaultMarkdownReader;
+import com.github.eostermueller.snail4j.workload.markdown.reader.MarkdownReader;
+import com.github.eostermueller.snail4j.workload.markdown.reader.MarkdownReaderFilter;
+import com.github.eostermueller.snail4j.workload.markdown.reader.DefaultMetadataFilter;
 import com.github.eostermueller.snail4j.workload.model.MethodWrapper;
 import com.github.eostermueller.snail4j.workload.model.json.DefaultSerializationUtil;
 import com.github.eostermueller.snail4j.workload.model.json.SerializaionUtil;
@@ -124,5 +132,33 @@ public class DefaultFactory implements Factory {
 		
 		return this.aliasManager;
 	}
+
+
+	@Override
+	public MarkdownReader createMarkdownReader() {
+		return new DefaultMarkdownReader();
+	}
+
+	@Override
+	public MarkdownLocator createMarkdownLocator() {
+		return new DefaultLocator();
+	}
+
+	@Override
+	public MarkdownLoader createMarkdownLoader() throws Snail4jWorkloadException {
+		return new DefaultLoader();
+	}
+	@Override
+	public MarkdownReaderFilter createMetadataFilter() throws Snail4jWorkloadException {
+		return new DefaultMetadataFilter();
+	}
+	@Override
+	public MarkdownReaderFilter createClickToFailFilter() throws Snail4jWorkloadException {
+		return new DefaultMetadataFilter();
+	}
+
+
+
+
 
 }
