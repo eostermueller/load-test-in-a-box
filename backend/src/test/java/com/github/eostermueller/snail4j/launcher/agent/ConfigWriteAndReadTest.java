@@ -25,16 +25,8 @@ import com.github.eostermueller.snail4j.launcher.DefaultConfiguration;
 public class ConfigWriteAndReadTest {
 	boolean ynStateChanged = false;
 	
-//	 @TempDir
-//	    public Path testFolder = new TemporaryFolder();
-//	 File tmpFolder = null;
-//	 @Before
-//	 public void setup() throws IOException {
-//		 this.tmpFolder = testFolder.newFolder();
-//	 }
 	@Test
 	public void canWriteAndReadPropertyFile(@TempDir Path tmpFolder) throws Exception {
-		//Configuration cfg = DefaultFactory.getFactory().getConfiguration();
 		Configuration cfg = new DefaultConfiguration();
 		
 		String somePath = null;
@@ -77,6 +69,9 @@ public class ConfigWriteAndReadTest {
 			assertEquals( somePath + "-bin.zip",cfg.getMavenZipFileName() );
 			assertEquals( c0unt, cfg.getMaxExceptionCountPerEvent() );
 			assertEquals( loadGenDuration, cfg.getLoadGenerationDurationInSeconds() );
+		} else {
+			String msg = "JUnit 5 @TempDir annotation did not pass this test a non-null Path.";
+			throw new Exception(msg);
 		}
 		
 		

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
 import com.github.eostermueller.snail4j.workload.OnlyStringAndLongAndIntAreAllowedParameterTypes;
-import com.github.eostermueller.snail4j.workload.model.Snail4jLibrary;
+import com.github.eostermueller.snail4j.workload.model.WorkloadLibrary;
 import com.github.eostermueller.snail4j.workload.model.Message;
 import com.github.eostermueller.snail4j.workload.model.MethodParameter;
 import com.github.eostermueller.snail4j.workload.model.ProcessingUnitImpl;
@@ -27,7 +27,7 @@ class ProcessingUnitParameterDetectionTest {
 	@Test
 	public void canIdentifyProcessingUnits_twoParameters() throws Snail4jWorkloadException, OnlyStringAndLongAndIntAreAllowedParameterTypes {
 		
-		UseCases scanResult = Snail4jLibrary
+		UseCases scanResult = WorkloadLibrary
 						.scan("com.github.eostermueller.snail4j.workload.annotation.parameters");  //limit to package of this test case.
 		
 		assertEquals(1,scanResult.getUseCases().size());

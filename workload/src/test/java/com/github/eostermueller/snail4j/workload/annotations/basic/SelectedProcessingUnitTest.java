@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
 import com.github.eostermueller.snail4j.workload.OnlyStringAndLongAndIntAreAllowedParameterTypes;
-import com.github.eostermueller.snail4j.workload.model.Snail4jLibrary;
+import com.github.eostermueller.snail4j.workload.model.WorkloadLibrary;
 import com.github.eostermueller.snail4j.workload.model.Message;
 import com.github.eostermueller.snail4j.workload.model.ProcessingUnitImpl;
 import com.github.eostermueller.snail4j.workload.model.UseCase;
@@ -21,7 +21,7 @@ class SelectedProcessingUnitTest {
 	@Test
 	void canDetectSelctedProcessingUnit() throws Snail4jWorkloadException, OnlyStringAndLongAndIntAreAllowedParameterTypes {
 		
-		UseCases scanResult = Snail4jLibrary
+		UseCases scanResult = WorkloadLibrary
 				.scan("com.github.eostermueller.snail4j.workload.annotation.samples.defaultselection");  //limit to package used in this test case.
 
 		assertEquals(scanResult.getUseCases().size(),1);
