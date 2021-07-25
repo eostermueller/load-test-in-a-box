@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -51,13 +50,6 @@ class ListMarkdownFilesTest {
 		List<ParentMarkdownFile> allParentMdFiles = loader.getMarkdownFiles();
 		
 		assertEquals(2,allParentMdFiles.size());
-		Comparator<MarkdownFile> c = new Comparator<MarkdownFile>() {
-			@Override
-			public int compare(MarkdownFile o1, MarkdownFile o2) {
-				return o1.getPath().toString().compareTo(o2.getPath().toString());
-			}
-		};
-		allParentMdFiles.sort(c);
 		
 		valdiateParent1( allParentMdFiles.get(0) );
 		valdiateParent2( allParentMdFiles.get(1) );
@@ -79,13 +71,6 @@ class ListMarkdownFilesTest {
 		assertEquals(normalizePath(parentMarkdownFile.getPath().getParent().toString()), PATH_2);
 		assertEquals(parentMarkdownFile.getChildMarkdownFiles().size(),3);
 		
-		Comparator<MarkdownFile> c = new Comparator<MarkdownFile>() {
-			@Override
-			public int compare(MarkdownFile o1, MarkdownFile o2) {
-				return o1.getFileName().compareTo(o2.getFileName() );
-			}
-		};
-		parentMarkdownFile.getChildMarkdownFiles().sort(c);
 		
 		assertEquals(parentMarkdownFile.getChildMarkdownFiles().get(0).getFileName().toString(),"child21.md");
 		assertEquals(parentMarkdownFile.getChildMarkdownFiles().get(1).getFileName().toString(),"child22.md");

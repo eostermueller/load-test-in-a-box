@@ -2,7 +2,6 @@ package com.github.eostermueller.snail4j.workload.model.json;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -112,6 +111,7 @@ public class DefaultSerializationUtil implements SerializaionUtil {
 		List<ParentMarkdownFile> groups = null;
 		try {
 			 ObjectMapper mapper = new ObjectMapper();
+
 
 		    CollectionType javaType = mapper.getTypeFactory()
 		    	      .constructCollectionType(List.class, ParentMarkdownFile.class);

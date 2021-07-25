@@ -1,6 +1,7 @@
 package com.github.eostermueller.snail4j.workload.markdown.reader;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
 
 import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;

@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -94,15 +93,15 @@ class ListSortedMarkdownFilesTest {
 			@Override
 			public void loadParentFiles(MarkdownLoader loader) throws Snail4jWorkloadException {
 				//will our SUT sort these correctly?  I put them out of order -- very sneaky!!!
-				loader.loadMarkdownFile( Paths.get(PARENT_2), PARENT_2_CONTENT);
-				loader.loadMarkdownFile( Paths.get(PARENT_1), PARENT_1_CONTENT);
+				loader.loadMarkdownFile(Paths.get(PARENT_2), PARENT_2_CONTENT);
+				loader.loadMarkdownFile(Paths.get(PARENT_1), PARENT_1_CONTENT);
 			}
 			@Override
 			public void loadChildFiles(MarkdownLoader loader) throws Snail4jWorkloadException {
-				loader.loadMarkdownFile( Paths.get(CHILD_1), CHILD_1_CONTENT);
-				loader.loadMarkdownFile( Paths.get(CHILD_22), CHILD_22_CONTENT);
-				loader.loadMarkdownFile( Paths.get(CHILD_23), CHILD_23_CONTENT);  // <<<<<  inserted this one out of order
-				loader.loadMarkdownFile( Paths.get(CHILD_21), CHILD_21_CONTENT);
+				loader.loadMarkdownFile(Paths.get(CHILD_1), CHILD_1_CONTENT);
+				loader.loadMarkdownFile(Paths.get(CHILD_22), CHILD_22_CONTENT);
+				loader.loadMarkdownFile(Paths.get(CHILD_23), CHILD_23_CONTENT);  // <<<<<  inserted this one out of order
+				loader.loadMarkdownFile(Paths.get(CHILD_21), CHILD_21_CONTENT);
 			}
 		};
 	}

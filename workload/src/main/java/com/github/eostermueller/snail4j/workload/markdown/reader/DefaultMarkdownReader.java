@@ -1,13 +1,18 @@
 package com.github.eostermueller.snail4j.workload.markdown.reader;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.github.eostermueller.snail4j.workload.Snail4jWorkloadException;
 import com.github.eostermueller.snail4j.workload.markdown.MarkdownFile;
 import com.github.eostermueller.snail4j.workload.markdown.ParentMarkdownFile;
 
 public class DefaultMarkdownReader implements MarkdownReader {
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
 
 	@Override
@@ -29,6 +34,7 @@ public class DefaultMarkdownReader implements MarkdownReader {
 		} catch (IOException e) {
 			throw new Snail4jWorkloadException(e);
 		}  
+		LOGGER.warn( String.format("just created %s", markdownFile.humanReadable() ));
 		return markdownFile;
 	}
 
