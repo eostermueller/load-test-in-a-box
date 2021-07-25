@@ -47,11 +47,11 @@ public interface SerializaionUtil {
        ]
     }
 ]
-	 * @param groups
+	 * @param parentFiles
 	 * @return
 	 * @throws Snail4jWorkloadException
 	 */
-	String marshalMarkdownFileGroups(List<ParentMarkdownFile> groups) throws Snail4jWorkloadException;
+	String marshalMarkdownFileGroups(List<ParentMarkdownFile> parentFiles) throws Snail4jWorkloadException;
 	List<ParentMarkdownFile> unMarshalMarkdownFileGroups(String json) throws Snail4jWorkloadException;
 
 }

@@ -5,6 +5,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class WorkloadImpl implements Workload {
 	List<MethodExecutor> methodExecutors = new CopyOnWriteArrayList<MethodExecutor>();
+	
+	/**
+	 * Actual type used here?
+	 * com.github.eostermueller.snail4j.workload.model.UseCases
+	 * Why have I left this as object?  Not sure!!!! Need to try it. 
+	 * 
+	 */
 	Object verboseState;
 	private boolean encrypted = false;
 

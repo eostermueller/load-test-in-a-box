@@ -1,0 +1,67 @@
+{
+    "nanoStart": 292563883680500,
+    "nanoStop": 292563883698500,
+    "status": 100,
+    "message": null,
+    "result": {
+        "origin": 0,
+        "encryptedKey": null,
+        "alias": null,
+        "useCases": [
+            {
+                "processingUnits": [
+                    {
+                        "description": {
+                            "en_US": "http-response_delay_25ms"
+                        },
+                        "useCaseName": "02_AlienSystems",
+                        "selected": false,
+                        "methodWrapper": {
+                            "parameters": [],
+                            "declaringClassName": "com.github.eostermueller.tjp2.alien.BackendHttpRequest",
+                            "methodName": "getBackendData_delay_25ms"
+                        }
+                    },
+                    {
+                        "description": {
+                            "en_US": "http-response_delay_10s"
+                        },
+                        "useCaseName": "02_AlienSystems",
+                        "selected": true,
+                        "methodWrapper": {
+                            "parameters": [],
+                            "declaringClassName": "com.github.eostermueller.tjp2.alien.BackendHttpRequest",
+                            "methodName": "getBackendData_delay_10s"
+                        }
+                    },
+                    {
+                        "description": {
+                            "en_US": "http-response_delay_1s"
+                        },
+                        "useCaseName": "02_AlienSystems",
+                        "selected": false,
+                        "methodWrapper": {
+                            "parameters": [],
+                            "declaringClassName": "com.github.eostermueller.tjp2.alien.BackendHttpRequest",
+                            "methodName": "getBackendData_delay_1s"
+                        }
+                    },
+                    {
+                        "description": {
+                            "en_US": "http-response_noWait"
+                        },
+                        "useCaseName": "02_AlienSystems",
+                        "selected": false,
+                        "methodWrapper": {
+                            "parameters": [],
+                            "declaringClassName": "com.github.eostermueller.tjp2.alien.BackendHttpRequest",
+                            "methodName": "getBackendData_noWait"
+                        }
+                    }
+                ],
+                "name": "02_AlienSystems"
+            }
+        ]
+    },
+    "failure": false
+}

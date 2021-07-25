@@ -56,12 +56,12 @@ class ListTrivialMarkdownFilesTest {
 
 			@Override
 			public void loadParentFiles(MarkdownLoader loader) throws Snail4jWorkloadException {
-				loader.loadMarkdownFile( Paths.get(PARENT_1), PARENT_1_CONTENT);
+				loader.loadMarkdownFile(Paths.get(PARENT_1), PARENT_1_CONTENT);
 			}
 
 			@Override
 			public void loadChildFiles(MarkdownLoader loader) throws Snail4jWorkloadException {
-				loader.loadMarkdownFile( Paths.get(CHILD_1), CHILD_1_CONTENT);
+				loader.loadMarkdownFile(Paths.get(CHILD_1), CHILD_1_CONTENT);
 			}
 			
 		};

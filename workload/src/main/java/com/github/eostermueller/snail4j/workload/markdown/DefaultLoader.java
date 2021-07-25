@@ -2,7 +2,6 @@ package com.github.eostermueller.snail4j.workload.markdown;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -50,29 +49,34 @@ public class DefaultLoader implements MarkdownLoader {
 		
 		
 		getLocator().loadParentFiles(this);
-		parents.sort( new SortOrderComparator() );
-		
-
 		getLocator().loadChildFiles(this);
-		for(ParentMarkdownFile pmf : parents ) {
-			pmf.getChildMarkdownFiles().sort( new SortOrderComparator() );
-		}
+		
+		
+		parents.sort( new MarkdownFileComparator() );
+		
+		sortChildren();
 		
 		return parents;
 	}
 
+
+	private void sortChildren() {
+		for(ParentMarkdownFile parent : parents)
+			parent.sort();
+	}
 
 	@Override
 	public void loadMarkdownFile(Path path, String rawFileContent) throws Snail4jWorkloadException  {
 		
 		MarkdownFile markdownFile = getReader().createMarkdownFile(path, rawFileContent);
 		
-		if (markdownFile instanceof ParentMarkdownFile)
+		if (markdownFile instanceof ParentMarkdownFile) {
 			parents.add((ParentMarkdownFile) markdownFile);
-		else {
+			LOGGER.debug(String.format("Just added parent to collection: %s", markdownFile.humanReadable() ));
+		} else {
 			ParentMarkdownFile parent = findParent(markdownFile);
 			if (parent!=null)
-				parent.getChildMarkdownFiles().add(markdownFile);
+				parent.add(markdownFile);
 			else {
 				LOGGER.warn(String.format("Ignoing markdown file [%s] path [%s].  To fix, put this file in a path with an index.md file.", 
 						markdownFile.getFileName(),
@@ -83,22 +87,22 @@ public class DefaultLoader implements MarkdownLoader {
 
 	/**
 	 * Find the parent that has the same path as the given markdown file.
-	 * @param markdownFile
+	 * @param possibleChild
 	 * @return
 	 */
-	private ParentMarkdownFile findParent(MarkdownFile markdownFile) {
+	public ParentMarkdownFile findParent(MarkdownFile possibleChild) {
 		ParentMarkdownFile rc = null;
 		
 		for(ParentMarkdownFile parent : this.parents) {
-			if (parent.getPath().getParent().toString().equals(markdownFile.getPath().getParent().toString()))
+			LOGGER.debug( String.format("Who is parent of %s? Is it %s?", 
+					possibleChild.getPath().toString(), 
+					parent.getPath().toString() ) );
+			if (parent.getPath().getParent().toString().equals(possibleChild.getPath().getParent().toString())) {
 				rc = parent;
+				LOGGER.debug("YES!!!");
+				break;
+			}
 		}
 		return rc;
-	}
-}
-class SortOrderComparator implements Comparator<MarkdownFile> {
-	@Override
-	public int compare(MarkdownFile o1, MarkdownFile o2) {
-		return (o1.getSortOrder() - o2.getSortOrder() );
 	}
 }

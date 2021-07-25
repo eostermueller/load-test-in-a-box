@@ -40,7 +40,7 @@ public class DefaultLocator implements MarkdownLocator {
 		          	/** exclude parents, b/c they've been loaded using loadParentFiles()
 		          	 * 
 		          	 */
-		          		if (!markdownFilePath.getFileName().equals(MarkdownReader.INDEX_MD))
+		          		if (!markdownFilePath.getFileName().toString().equals(MarkdownReader.INDEX_MD))
 							try {
 								loader.loadMarkdownFile(markdownFilePath, new String(content, StandardCharsets.UTF_8));
 							} catch (Snail4jWorkloadException e) {
