@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --liveReload --open --proxy-config proxy.conf.json",
+    "start": "ng serve --live-reload --open --proxy-config proxy.conf.json",
     "build": "ng build",
     "test": "ng test --watch=false",
     "lint": "ng lint",
@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-devkit/build-optimizer": "^0.1100.5",
+    "@angular-devkit/build-optimizer": "^0.1202.11",
     "@angular-devkit/core": "^12.0.0",
     "@angular-devkit/schematics": "^12.0.0",
     "@angular/animations": "^12.0.0",
@@ -23,8 +23,9 @@
     "@angular/platform-browser-dynamic": "^12.0.0",
     "@angular/router": "^12.0.0",
     "@schematics/angular": "^12.0.0",
-    "@schematics/update": "^0.1100.5",
+    "@schematics/update": "^0.1102.14",
     "ajv-keywords": "^3.4.1",
+    "angular-split": "^5.0.0",
     "core-js": "^3.6.4",
     "ngx-markdown": "^12.0.0",
     "ngx-toastr": "^13.2.0",

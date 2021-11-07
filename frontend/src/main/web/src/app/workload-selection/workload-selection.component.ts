@@ -63,9 +63,16 @@ export class WorkloadSelectionComponent implements OnInit {
       this.sutLaunchStatusService.changeLaunchStatus(LaunchStatus.Starting);
       this.sutLauncherService.startSut().subscribe();
     } else {
+      this.stopLoadGenerator();
       this.sutLaunchStatusService.changeLaunchStatus(LaunchStatus.Stopping);
       this.sutLauncherService.stopSut().subscribe();
     }
+  }
+  stopLoadGenerator() {
+    this.loadGeneratorCheckbox.checked = false;
+    this.loadGeneratorLaunchStatusService.changeLaunchStatus(LaunchStatus.Stopping);
+    this.loadGeneratorLauncherService.stopLg().subscribe();
+
   }
   launchLoadGeneratorCheckboxChange(cbEvent: MatCheckboxChange) {
     console.log( "launchLoadGeneratorCheckboxChange:"+ cbEvent.checked );

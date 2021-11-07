@@ -17,7 +17,6 @@ import {DataSource} from '@angular/cdk/collections';
 import {BehaviorSubject} from 'rxjs';
 import {Observable} from 'rxjs';
 import {merge} from 'rxjs'
-//import 'rxjs/add/observable/merge';
 import { map } from 'rxjs/operators';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { stringify } from '@angular/compiler/src/util';

@@ -9,6 +9,5 @@ export const routes: Routes = [
   { path: 'one', component: WorkloadSelectionComponent },
   { path: 'two', component: TwoComponent },
   { path: 'three', component: ThreeComponent },
- // { path: 'workload', component: WorkloadComponent },
   { path: '', redirectTo: '/', pathMatch: 'full' },
 ];

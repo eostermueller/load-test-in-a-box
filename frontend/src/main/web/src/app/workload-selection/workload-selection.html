@@ -1,79 +1,46 @@
-
-<mat-card class="info-card">
-
+<div class="sut-div">
   <mat-tab-group (selectedIndexChange)="tabSelectionChanged($event)"> 
-    <mat-tab label="Step 1:  Start/Stop">
-      <mat-card class="info-card">
+
+    <mat-tab label="Main">
+      <p></p>
+      <div>
         <mat-checkbox 
         #sutCheckbox
         [disabled]="isSutInProcess()"
         matTooltip="Check to start the System Under Test"
         matTooltipPosition="after"
         (change)="launchSutCheckboxChange($event)" >System Under Test</mat-checkbox>
+    
+        <div>
+      Status: {{ getSutTextStatus() }}
+    </div>
 
-        <mat-card-title>
-            Status: {{ getSutTextStatus() }}
-        </mat-card-title>
-        <mat-card-actions>
-            <div class="vertical_box">
+      </div>
+        <mat-card class="info-card">
+            <mat-checkbox id="loadGeneratorCheckbox"
+            #loadGeneratorCheckbox
+            [disabled]="isLoadGeneratorInProcess() || workloadTabDisabled"
+            matTooltip="Check to apply load"
+            matTooltipPosition="after"
+            (change)="launchLoadGeneratorCheckboxChange($event)" >Load Generator</mat-checkbox>
+            <mat-card-header>     
+              Status: {{ getLoadGeneratorTextStatus() }}
+            </mat-card-header>     
+        </mat-card>
+        <mat-card class="info-card">
+          <mat-expansion-panel width="50%" [disabled]="workloadTabDisabled" >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Markdown Content - Java Performance
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+              <app-markdown></app-markdown>         
+          </mat-expansion-panel>
+      
 
-                <div class="vertical_spacer">      
-                  <p> </p>
-                </div>
-            
-                <div class="vertical_content">
-                  <div class="horizontal_box">
-            
-                    <div class="horizontal_spacer"></div>
-            
-                    <div class="horizontal_content">
-                        <div class="horizontal_spacer">
-
-                        </div>
-
-                        <mat-card-header>
-                            <div class="horizontal_spacer">
-
-                                <mat-checkbox 
-                                #loadGeneratorCheckbox
-                                [disabled]="isLoadGeneratorInProcess()"
-                                matTooltip="Check to apply load"
-                                matTooltipPosition="after"
-                                (change)="launchLoadGeneratorCheckboxChange($event)" >Load Generator</mat-checkbox>
-                        
-                                <p></p>
-                                <p>Status: {{ getLoadGeneratorTextStatus() }}</p>
-                            </div>
-                            
-                        </mat-card-header>        
-                    <p></p>
-                    <p></p>
-                    <p></p>
-                  </div>
-              <div class="horizontal_spacer"></div>
-              <div class="horizontal_spacer"></div>
-              <div class="horizontal_spacer"></div>
-              <div class="horizontal_spacer"></div>
-              <div class="horizontal_spacer"></div>
-              <div class="horizontal_spacer"></div>
-                <p>
-            
-            </div>
-            
-                </div>
-            
-                <div class="vertical_spacer">
-                  <p> </p>
-                </div>
-                
-            
-            </div>
-            
-        </mat-card-actions>
-      </mat-card>
-
+        </mat-card>
     </mat-tab>
-    <mat-tab [disabled]="workloadTabDisabled"  label="Step 2:  Choose Workload">
+  <mat-tab [disabled]="workloadTabDisabled"  label="Advanced">
             <mat-tab-group mat-align-tabs="start">
                     <mat-tab label="@Load Annotations">
                           <app-use-cases></app-use-cases>   
@@ -84,5 +51,5 @@
                 </mat-tab-group>        
     </mat-tab>
   </mat-tab-group>
-  
-</mat-card>
+</div>
+

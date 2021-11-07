@@ -8,7 +8,21 @@ export interface ParentMarkdownFile extends MarkdownFile {
     childMarkdownFiles : MarkdownFile[];
 }
 export class ParentMarkdownFileJsonUtil  {
-    public static halfAssedDeserializeApiResponseMarkdown(apiResponseMarkdownJson : string) : ApiResponse {
+    public static halfAssedParentFileDeserializeMarkdown(parentObj) : ParentMarkdownFile[] {
+        let typedParentAry : ParentMarkdownFile[] = [];
+        for(var i = 0; i < parentObj.length; i++) {
+
+            /**
+             * transform these from untyped outputs of JSON.parse() to 
+             * interface-typed outputs from JSON.parse().
+             */
+            var parentJson : string = JSON.stringify(parentObj[i]);
+            var parent : ParentMarkdownFile = JSON.parse(parentJson);
+            typedParentAry.push(parent);
+        }
+        return typedParentAry;
+    }
+        public static halfAssedDeserializeApiResponseMarkdown(apiResponseMarkdownJson : string) : ApiResponse {
         let apiResponseTyped : ApiResponse = JSON.parse(apiResponseMarkdownJson);
   
         let typedParentAry : ParentMarkdownFile[] = [];

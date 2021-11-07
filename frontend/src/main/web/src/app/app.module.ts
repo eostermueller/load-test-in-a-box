@@ -25,7 +25,7 @@ import { ConfigService } from './services/config.service';
 import { APP_INITIALIZER } from '@angular/core';
 
 import { MarkdownModule } from 'ngx-markdown';
-
+import { AngularSplitModule } from 'angular-split';
 /**
  * "ng update" to angular 9 (https://update.angular.io/#8.0:9.0l3) did not upgrade these imports
  * to include the component specific end to '@angular/material'
@@ -60,6 +60,8 @@ import { StartStopComponent } from './start-stop/start-stop.component';
 import { HealthChecksComponent } from './health-checks/health-checks.component';
 import { UseCaseService } from './use-case.service';
 import { WorkloadKeyComponent } from './workload-key/workload-key.component';
+import { MarkdownComponent } from './markdown/markdown.component';
+//import { MatSelectionListChange } from '@angular/material/list';
 
   const appRoutes: Routes = [
     /**
@@ -95,6 +97,7 @@ import { WorkloadKeyComponent } from './workload-key/workload-key.component';
     StartStopComponent,
     HealthChecksComponent,
     WorkloadKeyComponent,
+    MarkdownComponent,
   ],
   imports: [
     HttpClientModule,
@@ -125,6 +128,8 @@ import { WorkloadKeyComponent } from './workload-key/workload-key.component';
     MatProgressSpinnerModule,
     ClipboardModule,
     MarkdownModule.forRoot(),
+    AngularSplitModule,
+//    MatSelectionListChange
     // ErrorHandler,
     // GlobalErrorHandler,
     // Injectable
