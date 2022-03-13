@@ -20,6 +20,7 @@ node/
 target/
 *.zip
 *.jar
+.angular/
 
 # IDEs and editors
 /.idea
