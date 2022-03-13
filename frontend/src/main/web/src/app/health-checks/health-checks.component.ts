@@ -101,9 +101,9 @@ export class HealthChecksComponent implements OnInit {
                          **/
 
                     if (this.sutAppHealth && this.wiremockHealth && this.h2Health) {
-                      console.log('before health-check setting to started date:' + new Date() );
+                      //console.log('before health-check setting to started date:' + new Date() );
                       this.sutLaunchStatusService.changeLaunchStatus(LaunchStatus.Started);
-                      console.log('after health-check setting to started date:' + new Date() );
+                      //console.log('after health-check setting to started date:' + new Date() );
                     }
                   } 
 

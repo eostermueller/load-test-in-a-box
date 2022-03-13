@@ -64,7 +64,7 @@ export class UseCasesComponent implements OnInit {
   private forceHttpWorkloadRq : boolean = true;
   private sutLaunchStatus:LaunchStatus = LaunchStatus.Stopped;
 
-  private useCaseInquiryInProgress : boolean = false;
+  public useCaseInquiryInProgress : boolean = false;
   private encryptedWorkload : boolean = false;
   public isWorkloadEncrypted() : boolean {
     //console.log('inside isWorkloadEncrypted: ' + this.encryptedWorkload);
@@ -116,6 +116,9 @@ public getKey(useCase: any): string {
       this.useCases.pop();
     }    
   }
+ }
+ public pageChange($event:string) {
+   console.log("Page change event: " + $event);
  }
 /**
  * 

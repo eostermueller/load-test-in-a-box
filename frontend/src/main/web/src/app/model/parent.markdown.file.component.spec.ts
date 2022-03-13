@@ -29,6 +29,29 @@ describe("deserialize markdown testing", function() {
 
 });
 
+describe("deserialize single markdown node testing", function() {
+  it("can deserialize jscmdon to ts objects", function() {
+
+    var markdownFile : ParentMarkdownFile = ParentMarkdownFileJsonUtil.halfAssedSingleNodeDeserialize( getSingleMarkdownString() );
+    expect( markdownFile.displayName ).toBe('First Page');
+    expect( markdownFile.sortOrder ).toBe(1);
+    expect( markdownFile.path).toBe("file:///C:/Users/eoste/.snail4j/sutApp/com/github/eostermueller/tjp2/markdown/part01/firstPage.md");
+    expect( markdownFile.content).toBe("[meta]: # (sortOrder=1)\n[meta]: # (displayName=First Page)\n# First Problem\n\nTry <a href=\"javascript:void(0);\" (click)=\"setWorkloadAlias('katrina')\">katrina</a>\n\n# Second Problem\n\nTry <a href=\"javascript:void(0);\" (click)=\"setWorkloadAlias('julio')\">julio</a>\n");
+  });
+
+
+});
+
+function getSingleMarkdownString(): string {
+  let markdownFile  = {
+                      "path": "file:///C:/Users/eoste/.snail4j/sutApp/com/github/eostermueller/tjp2/markdown/part01/firstPage.md",
+                      "sortOrder": 1,
+                      "displayName": "First Page",
+                      "content": "[meta]: # (sortOrder=1)\n[meta]: # (displayName=First Page)\n# First Problem\n\nTry <a href=\"javascript:void(0);\" (click)=\"setWorkloadAlias('katrina')\">katrina</a>\n\n# Second Problem\n\nTry <a href=\"javascript:void(0);\" (click)=\"setWorkloadAlias('julio')\">julio</a>\n"
+                  };
+  return JSON.stringify(markdownFile);
+}
+
 function getTestMarkdownString(): string {
     let parentMarkdownFile  = {
       "path": "file:///C:/Users/eoste/.snail4j/sutApp/com/github/eostermueller/tjp2/markdown/part01/index.md",

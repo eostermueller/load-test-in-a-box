@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ParentMarkdownFile, ParentMarkdownFileJsonUtil } from '../model/parent.markdown.file';
 import { MarkdownFile } from '../model/markdown.file';
 import { MarkdownService } from '../services/markdown-service';
@@ -9,14 +9,15 @@ import { SutLaunchStatusService } from '../services/sut-launch-status.service';
 import { LaunchStatus }           from '../services/LaunchStatus';
 import { ApiResponse } from '../model/api.response';
 import { MatSelectionListChange } from '@angular/material/list';
+import { ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-markdown',
   templateUrl: './markdown.component.html',
   styleUrls: ['./markdown.component.css']
 })
-export class MarkdownComponent implements OnInit {
-//  @ViewChild("userHtml", { static: false }) userHtml;
+export class MarkdownComponent implements OnInit, AfterViewInit {
+  @ViewChild("userHtml", { static: false }) userHtml;
 childMarkdownFileChanged(ob: MatSelectionListChange) {
   console.log("Child Selected Item: " + ob.source.selectedOptions.selected.length);
   console.log("Child Selected item2: " + ob.source );
@@ -27,7 +28,7 @@ parentMarkdownFileChanged(ob: MatSelectionListChange) {
 }
   config: ConfigModel; 
   public visible: boolean = false;
-  public markdownFiles: ParentMarkdownFile[] = [];
+  public markdownFiles_parent: ParentMarkdownFile[] = [];
   public notificationMessage:string = 'SUT Markdown Loaded';
   sutLaunchStatus:LaunchStatus;
 
@@ -38,6 +39,9 @@ parentMarkdownFileChanged(ob: MatSelectionListChange) {
     private sutLaunchStatusService: SutLaunchStatusService,
 
   ) { }
+  ngAfterViewInit(): void {
+    console.log('Method not implemented.');
+  }
   replacerFunc = () => {
     const visited = new WeakSet();
     return (key, value) => {
@@ -54,6 +58,7 @@ parentMarkdownFileChanged(ob: MatSelectionListChange) {
   ngOnInit(): void {
 
     this.sutLaunchStatusService.currentStatus.subscribe(status => {
+      debugger
       this.sutLaunchStatus = status;
       switch(this.sutLaunchStatus) {
         case LaunchStatus.Started:
@@ -86,8 +91,9 @@ parentMarkdownFileChanged(ob: MatSelectionListChange) {
         restResp => {
           console.log("@@## return from getMarkdown(): " + JSON.stringify(restResp, this.replacerFunc() ) );
           if (restResp.status===100) {
-              this.notificationService.showSuccess(this.notificationMessage, 'Performance Analysis Workbench');
-              this.markdownFiles = ParentMarkdownFileJsonUtil.halfAssedParentFileDeserializeMarkdown( restResp.result );
+//              this.notificationService.showSuccess(this.notificationMessage, 'Performance Analysis Workbench');
+              this.markdownFiles_parent = ParentMarkdownFileJsonUtil.halfAssedParentFileDeserializeMarkdown( restResp.result );
+//              this.markdownTree.displayMarkdown(this.markdownFiles_parent);
           } else {
             this.notificationService.showError('Error loading SUT markdown.  Check browser developer tools console for details.', 'Performance Analysis Workbench');
           }
@@ -96,7 +102,7 @@ parentMarkdownFileChanged(ob: MatSelectionListChange) {
           console.error('@@## Oops:', err.message);
         },
         () => {
-          console.log(`@@## We're done here!`);
+          console.log(`@@## markdown is done here!`);
         }         
 
       );

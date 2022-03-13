@@ -30,7 +30,7 @@ export class LoadGeneratorLaunchStatusService {
       
     } else {  //throw duplicate notifications away.
       if (status==this.previousStatus) {
-        console.log('load-generator-launch-status-service:  throwing away dup: ' + status);
+        //console.log('load-generator-launch-status-service:  throwing away dup: ' + status);
         return;
       }
     }

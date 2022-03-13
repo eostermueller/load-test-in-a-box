@@ -8,9 +8,8 @@ import { ParentMarkdownFile, ParentMarkdownFileJsonUtil } from '../model/parent.
   providedIn: 'root'
 })
 export class MarkdownService {
-  constructor(
-    private http: HttpClient,
-    ) {
+  constructor(private http: HttpClient,) 
+  {
   }
   apiResponse : ApiResponse = null;
     getBaseUrl(host:string, port:number) :string{

@@ -1,24 +1,9 @@
-<div style="width: 500px; height: 500px; background: yellow;">
+<div style="width: 500px; height: 500px; ">
   <as-split direction="horizontal">
     <as-split-area [size]="40">
 
-      <div *ngIf="visible">
-        <mat-selection-list #parentMarkdownFileList (selectionChange)="parentMarkdownFileChanged($event)"  *ngFor="let myParent of markdownFiles">
-          <div mat-subheader>{{myParent.displayName}}</div>
-          <mat-list-item 
-            #childMarkdownFileList 
-            (selectionChange)="childMarkdownFileChanged($event)" 
-            *ngFor="let child of myParent.childMarkdownFiles"
-            [value]="child"
-            >
-            {{JSON.stringify(child)}}
-            <div mat-line>{{child.displayName}}</div>
-            <div mat-line> {{child.sortOrder}} </div>
-          </mat-list-item>
-<!--          <mat-divider></mat-divider>  -->
-        </mat-selection-list>
-      </div>
-
+<!--      <app-tree [markdownFiles_child]=markdownFiles_parent></app-tree> -->
+<tree-nested-overview-example></tree-nested-overview-example>
 
     </as-split-area>
     <as-split-area [size]="60">

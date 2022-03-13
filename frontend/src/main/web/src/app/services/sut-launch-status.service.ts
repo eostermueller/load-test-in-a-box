@@ -136,7 +136,7 @@ export class SutLaunchStatusService {
       this.launchStatusSource.next(status);
     } else {  //throw duplicate notifications away.
       if (status==this.previousStatus) {
-        console.log('sut-launch-status-service:  throwing away dup: ' + status);
+        //console.log('sut-launch-status-service:  throwing away dup: ' + status);
         return;
       }
     }

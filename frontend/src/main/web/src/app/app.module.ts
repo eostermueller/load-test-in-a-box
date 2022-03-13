@@ -1,7 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
 
-//import { ErrorHandler, Injectable} from '@angular/core';
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ClipboardModule } from '@angular/cdk/clipboard';
@@ -61,6 +59,12 @@ import { HealthChecksComponent } from './health-checks/health-checks.component';
 import { UseCaseService } from './use-case.service';
 import { WorkloadKeyComponent } from './workload-key/workload-key.component';
 import { MarkdownComponent } from './markdown/markdown.component';
+import { TreeNestedOverviewExample } from './markdown-tree/tree-nested-overview-example';
+//import { TreeComponent } from './tree/tree.component';
+//import { TreeComponent } from './src/app/tree/tree.component';
+
+import { MatTreeModule } from '@angular/material/tree';
+//import { TreeComponent } from './tree/tree.component';
 //import { MatSelectionListChange } from '@angular/material/list';
 
   const appRoutes: Routes = [
@@ -98,6 +102,7 @@ import { MarkdownComponent } from './markdown/markdown.component';
     HealthChecksComponent,
     WorkloadKeyComponent,
     MarkdownComponent,
+    TreeNestedOverviewExample
   ],
   imports: [
     HttpClientModule,
@@ -129,6 +134,8 @@ import { MarkdownComponent } from './markdown/markdown.component';
     ClipboardModule,
     MarkdownModule.forRoot(),
     AngularSplitModule,
+    MatTreeModule,
+//    TreeNestedOverviewExample
 //    MatSelectionListChange
     // ErrorHandler,
     // GlobalErrorHandler,
