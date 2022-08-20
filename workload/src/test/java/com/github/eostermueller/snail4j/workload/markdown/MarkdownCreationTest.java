@@ -21,8 +21,14 @@ class MarkdownCreationTest {
 	private static final String PARENT_1_CONTENT = "H1 Hello Parent World!\n";
 	private static final String CLICK_TO_FAIL_MARKDOWN = "FOO !{katrina} BAR\n";
 	private static final String TWO_CLICK_TO_FAIL_LINKS = "FOO !{katrina} BAR HELLO !{betty} WORLD\n";
-	private static final String CLICK_TO_FAIL_HTML =  "FOO <a href=\"javascript:void(0);\" (click)=\"setWorkloadAlias('katrina')\">katrina</a> BAR\n";
-	private static final String CLICK_TO_FAIL_HTML2 = "FOO <a href=\"javascript:void(0);\" (click)=\"setWorkloadAlias('katrina')\">katrina</a> BAR HELLO <a href=\"javascript:void(0);\" (click)=\"setWorkloadAlias('betty')\">betty</a> WORLD\n";
+	
+	
+//	private static final String EXPECTED_CLICK_TO_FAIL_HTML =  "FOO \n<p><a href=\"javascript:void(0);\" (click)=\"this.setWorkloadAlias('katrina')\">katrina</a></p>\n BAR\n";
+//	private static final String EXPECTED_CLICK_TO_FAIL_HTML2 = "FOO \n<p><a href=\"javascript:void(0);\" (click)=\"this.setWorkloadAlias('katrina')\">katrina</a></p>\n BAR HELLO \n<p><a href=\"javascript:void(0);\" (click)=\"this.setWorkloadAlias('betty')\">betty</a></p>\n WORLD\n";
+
+//	private static final String EXPECTED_CLICK_TO_FAIL_HTML =  "FOO \n<p><a href=\"javascript:setWorkloadAlias('katrina');\">katrina</a></p>\n BAR\n";
+	private static final String EXPECTED_CLICK_TO_FAIL_HTML =  "FOO \n<p><a href=\"javascript:globalThis.markdownComponent.setWorkloadAlias('katrina');\">katrina</a></p>\n BAR\n";
+	private static final String EXPECTED_CLICK_TO_FAIL_HTML2 = "FOO \n<p><a href=\"javascript:globalThis.markdownComponent.setWorkloadAlias('katrina');\">katrina</a></p>\n BAR HELLO \n<p><a href=\"javascript:globalThis.markdownComponent.setWorkloadAlias('betty');\">betty</a></p>\n WORLD\n";
 	
 	@Test
 	void canCreateTrivialFile() throws IOException, Snail4jWorkloadException {
@@ -77,7 +83,7 @@ class MarkdownCreationTest {
 		
 		MarkdownFile markdownFile = reader.createMarkdownFile(path, CLICK_TO_FAIL_MARKDOWN);
 		
-		assertEquals( CLICK_TO_FAIL_HTML, markdownFile.getContent() );
+		assertEquals( EXPECTED_CLICK_TO_FAIL_HTML, markdownFile.getContent() );
 	}
 
 	@Test
@@ -89,7 +95,7 @@ class MarkdownCreationTest {
 		
 		MarkdownFile markdownFile = reader.createMarkdownFile(path, TWO_CLICK_TO_FAIL_LINKS);
 		
-		assertEquals( CLICK_TO_FAIL_HTML2, markdownFile.getContent() );
+		assertEquals( EXPECTED_CLICK_TO_FAIL_HTML2, markdownFile.getContent() );
 	}
 
 

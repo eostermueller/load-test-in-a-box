@@ -1,8 +1,10 @@
 import { HttpClientModule } from '@angular/common/http';
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+
+import { SanitizeHtml } from './markdown/sanitize-html'
+import { SecurityContext } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,6 +25,8 @@ import { ConfigService } from './services/config.service';
 import { APP_INITIALIZER } from '@angular/core';
 
 import { MarkdownModule } from 'ngx-markdown';
+import { SafeHtmlPipe } from './markdown/markdown.component';
+import { SafeUrlPipe } from './markdown/markdown.component';
 import { AngularSplitModule } from 'angular-split';
 /**
  * "ng update" to angular 9 (https://update.angular.io/#8.0:9.0l3) did not upgrade these imports
@@ -59,7 +63,7 @@ import { HealthChecksComponent } from './health-checks/health-checks.component';
 import { UseCaseService } from './use-case.service';
 import { WorkloadKeyComponent } from './workload-key/workload-key.component';
 import { MarkdownComponent } from './markdown/markdown.component';
-import { TreeNestedOverviewExample } from './markdown-tree/tree-nested-overview-example';
+import { MarkdownTree } from './markdown-tree/markdown-tree';
 //import { TreeComponent } from './tree/tree.component';
 //import { TreeComponent } from './src/app/tree/tree.component';
 
@@ -102,7 +106,10 @@ import { MatTreeModule } from '@angular/material/tree';
     HealthChecksComponent,
     WorkloadKeyComponent,
     MarkdownComponent,
-    TreeNestedOverviewExample
+    MarkdownTree,
+    SanitizeHtml,
+    SafeHtmlPipe,
+    SafeUrlPipe,
   ],
   imports: [
     HttpClientModule,
@@ -132,7 +139,12 @@ import { MatTreeModule } from '@angular/material/tree';
     MatTooltipModule,
     MatProgressSpinnerModule,
     ClipboardModule,
-    MarkdownModule.forRoot(),
+//    // enable default sanitization
+//    MarkdownModule.forRoot(),
+// turn off sanitization
+    MarkdownModule.forRoot({
+      sanitize: SecurityContext.NONE
+    }),
     AngularSplitModule,
     MatTreeModule,
 //    TreeNestedOverviewExample

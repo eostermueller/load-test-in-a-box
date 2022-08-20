@@ -4,13 +4,28 @@ import { Observable } from 'rxjs';
 import { ApiResponse } from '../model/api.response';
 import { ApiResponseInterface } from '../model/api.response.interface';
 import { ParentMarkdownFile, ParentMarkdownFileJsonUtil } from '../model/parent.markdown.file';
+import { MarkdownService } from 'ngx-markdown';
 @Injectable({
   providedIn: 'root'
 })
-export class MarkdownService {
-  constructor(private http: HttpClient,) 
+export class MarkdownServiceWrapper {
+  constructor(private http: HttpClient,private markdownService:MarkdownService) 
   {
+    console.log('ctor of MarkdownServiceWrapper');
   }
+  /**
+   * https://github.com/jfcere/ngx-markdown#renderer
+   * https://javadoc.io/doc/io.laminext/markdown_sjs1_3/0.13.1/api/io/laminext/markdown/markedjs/MarkedRenderer.html
+   * https://o10if.github.io/guido-backend/interfaces/_node_modules__types_marked_index_d_.markedrenderer.html#link
+   */
+   ngOnInit() {
+    
+    this.markdownService.renderer.html = (html: string) => {
+      console.log ("from MarkdownService, html event passed ####: " + html)
+      //return html;
+      return "<h1>Surprise!</h1>"
+    };
+  }  
   apiResponse : ApiResponse = null;
     getBaseUrl(host:string, port:number) :string{
       var baseUrl:string = 'http://' + host + ':' + port;
@@ -18,6 +33,10 @@ export class MarkdownService {
       return baseUrl;
     }
 
+    public convertMarkdownToHtml(markdown:string) {
+      //https://www.npmjs.com/package/ngx-markdown#usage
+      return this.markdownService.compile(markdown);
+    }
     public getMarkdown(host:string, port:number) : Observable<ApiResponseInterface> {
   var result : Observable<ApiResponseInterface>;
   console.log('b4 try block to call http startLg');
