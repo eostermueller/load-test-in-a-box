@@ -6,8 +6,13 @@ export interface MarkdownFile {
 }
 export class MarkdownFileJsonUtil  {
 
-    public static halfAssedDeserialize(markdownFileJson : string) : MarkdownFile {
-      let markdownFileTyped : MarkdownFile = JSON.parse(markdownFileJson);
+    public static createFromJson(markdownFileJson : string) : MarkdownFile {
+        let markdownFileTyped : MarkdownFile = JSON.parse(markdownFileJson);
+        return markdownFileTyped;
+        }
+  
+    public static assignJsonTo(markdownFileTyped : MarkdownFile, markdownFileJson : string) : MarkdownFile {
+      markdownFileTyped = JSON.parse(markdownFileJson);
 
       return markdownFileTyped;
       }

@@ -1,0 +1,19 @@
+<div style="width: 500px; height: 500px; ">
+  
+  <as-split direction="horizontal">
+    <as-split-area [size]="60">
+
+         <markdown-tree (selectedHtmlEvent)="selectHtml($event)"></markdown-tree>
+
+    </as-split-area>
+    <as-split-area [size]="40">
+      <!-- Markdown will be displayed here:-->
+      <div id="parent-md-content">
+        <div [innerHTML]="fooStuff | safeHtml "></div>
+    </div>  
+      <div #dataContainer></div>
+    </as-split-area>
+  </as-split>
+</div>
+
+

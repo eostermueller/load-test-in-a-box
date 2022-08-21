@@ -1,10 +1,10 @@
 import { HttpClientModule } from '@angular/common/http';
-
-//import { ErrorHandler, Injectable} from '@angular/core';
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+
+import { SanitizeHtml } from './markdown/sanitize-html'
+import { SecurityContext } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,7 +25,9 @@ import { ConfigService } from './services/config.service';
 import { APP_INITIALIZER } from '@angular/core';
 
 import { MarkdownModule } from 'ngx-markdown';
-
+import { SafeHtmlPipe } from './markdown/markdown.component';
+import { SafeUrlPipe } from './markdown/markdown.component';
+import { AngularSplitModule } from 'angular-split';
 /**
  * "ng update" to angular 9 (https://update.angular.io/#8.0:9.0l3) did not upgrade these imports
  * to include the component specific end to '@angular/material'
@@ -60,6 +62,14 @@ import { StartStopComponent } from './start-stop/start-stop.component';
 import { HealthChecksComponent } from './health-checks/health-checks.component';
 import { UseCaseService } from './use-case.service';
 import { WorkloadKeyComponent } from './workload-key/workload-key.component';
+import { MarkdownComponent } from './markdown/markdown.component';
+import { MarkdownTree } from './markdown-tree/markdown-tree';
+//import { TreeComponent } from './tree/tree.component';
+//import { TreeComponent } from './src/app/tree/tree.component';
+
+import { MatTreeModule } from '@angular/material/tree';
+//import { TreeComponent } from './tree/tree.component';
+//import { MatSelectionListChange } from '@angular/material/list';
 
   const appRoutes: Routes = [
     /**
@@ -95,6 +105,11 @@ import { WorkloadKeyComponent } from './workload-key/workload-key.component';
     StartStopComponent,
     HealthChecksComponent,
     WorkloadKeyComponent,
+    MarkdownComponent,
+    MarkdownTree,
+    SanitizeHtml,
+    SafeHtmlPipe,
+    SafeUrlPipe,
   ],
   imports: [
     HttpClientModule,
@@ -124,7 +139,16 @@ import { WorkloadKeyComponent } from './workload-key/workload-key.component';
     MatTooltipModule,
     MatProgressSpinnerModule,
     ClipboardModule,
-    MarkdownModule.forRoot(),
+//    // enable default sanitization
+//    MarkdownModule.forRoot(),
+// turn off sanitization
+    MarkdownModule.forRoot({
+      sanitize: SecurityContext.NONE
+    }),
+    AngularSplitModule,
+    MatTreeModule,
+//    TreeNestedOverviewExample
+//    MatSelectionListChange
     // ErrorHandler,
     // GlobalErrorHandler,
     // Injectable
