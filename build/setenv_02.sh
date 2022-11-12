@@ -45,7 +45,7 @@ H2_MAVEN_PLUGIN_DIR=$SRC_DIR/h2_maven_plugin
 #The following version change must be updated and recompiled:
 #  			this.setGlowrootZipFileName ("glowroot-0.13.6-dist.zip");
 # ../backend/src/main/java/com/github/eostermueller/snail4j/launcher/DefaultConfiguration.java
-GLOWROOT_VERSION=0.13.6
+GLOWROOT_VERSION=0.14.0-beta.3
 GLOWROOT_DIST_ZIP=glowroot-${GLOWROOT_VERSION}-dist.zip
 GLOWROOT_BIN=https://github.com/glowroot/glowroot/releases/download/v${GLOWROOT_VERSION}/${GLOWROOT_DIST_ZIP}
 
