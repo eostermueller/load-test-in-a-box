@@ -33,13 +33,13 @@ H2_DB=$SRC_DIR/javaPerformanceTroubleshooting/db/data
 # local location of this repo: https://github.com/eostermueller/tjp2
 # b4 running this script, you must:
 # a) cd $TJP2_DIR / git clone https://github.com/eostermueller/tjp2 
-TJP2_GIT=https://github.com/eostermueller/tjp2
-TJP2_DIR=$SRC_DIR/tjp2
+TJP2_GIT=https://github.com/eostermueller/load-test-in-a-box_sut_sample
+TJP2_DIR=$SRC_DIR/load-test-in-a-box_sut_sample
 
 
 
-H2_MAVEN_PLUGIN_GIT=https://github.com/eostermueller/h2-maven-plugin
-H2_MAVEN_PLUGIN_DIR=$SRC_DIR/h2_maven_plugin
+H2_MAVEN_PLUGIN_GIT=https://github.com/eostermueller/load-test-in-a-box_m2-plugin_h2
+H2_MAVEN_PLUGIN_DIR=$SRC_DIR/load-test-in-a-box_m2-plugin_h2
 
 
 #The following version change must be updated and recompiled:

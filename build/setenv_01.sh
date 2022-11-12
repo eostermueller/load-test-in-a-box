@@ -27,10 +27,10 @@ SRC_DIR=$DIR/../..
 if [ "$USERPROFILE" == "" ]
 then
   MAVEN_LOCAL_REPO=~/.m2
-  SNAIL4j_USER_HOME=~/.snail4j
+  SNAIL4j_USER_HOME=~/.load-test-in-a-box
 else
   MAVEN_LOCAL_REPO=$USERPROFILE/.m2
-  SNAIL4J_USER_HOME=$USERPROFILE/.snail4j
+  SNAIL4J_USER_HOME=$USERPROFILE/.load-test-in-a-box
 fi
 
 # On MS-Win, the avlue looks like this, with mixed slashes:  C:\Users\eoste/.m2/repository
