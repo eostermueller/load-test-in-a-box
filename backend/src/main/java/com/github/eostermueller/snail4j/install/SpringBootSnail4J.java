@@ -1,4 +1,4 @@
-package com.github.eostermueller.snail4j;
+package com.github.eostermueller.snail4j.install;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -13,12 +13,17 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
+import com.github.eostermueller.snail4j.Application;
+import com.github.eostermueller.snail4j.DefaultFactory;
+import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.ConfigVariableNotFoundException;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.Event;
 import com.github.eostermueller.snail4j.launcher.Messages;
 import com.github.eostermueller.snail4j.processmodel.ProcessModelSingleton;
+import com.github.eostermueller.snail4j.util.OsUtils;
+import com.github.eostermueller.snail4j.util.PathUtil;
 
 /**
  * Placeholder class to handle progress meter for browser UI, because this could take a few minutes.

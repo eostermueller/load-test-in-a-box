@@ -1,4 +1,4 @@
-package com.github.eostermueller.snail4j;
+package com.github.eostermueller.snail4j.install;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -6,25 +6,30 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import com.github.eostermueller.snail4j.DefaultFactory;
+import com.github.eostermueller.snail4j.DocumentationLinks;
+import com.github.eostermueller.snail4j.Snail4jException;
+import com.github.eostermueller.snail4j.Snail4jMultiException;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.Event;
 import com.github.eostermueller.snail4j.launcher.Messages;
+import com.github.eostermueller.snail4j.util.JdkUtils;
+import com.github.eostermueller.snail4j.util.OsUtils;
 
 /**
  * @author eoste
  *
  */
 public class InstallAdvice {
-	private StartupLogger startupLogger;
+	public StartupLogger startupLogger;
 	public InstallAdvice(StartupLogger val) throws Snail4jException {
 		messages = DefaultFactory.getFactory().getMessages();
 		this.startupLogger = val;
 		if (this.startupLogger==null)
 			throw new Snail4jException("Bug.  expectied StartupErrorLogger object");
 	}
-	interface StartupLogger {
+	public interface StartupLogger {
 		public void error(String msg);
 		public void info(String msg);
 		public void debug(String msg);

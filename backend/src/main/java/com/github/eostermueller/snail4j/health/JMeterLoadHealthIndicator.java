@@ -6,11 +6,11 @@ import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.stereotype.Component;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
-import com.github.eostermueller.snail4j.JdkUtils;
-import com.github.eostermueller.snail4j.JdkUtils.ProcessDescriptor;
-import com.github.eostermueller.snail4j.OsUtils.OsResult;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.Configuration;
+import com.github.eostermueller.snail4j.util.JdkUtils;
+import com.github.eostermueller.snail4j.util.JdkUtils.ProcessDescriptor;
+import com.github.eostermueller.snail4j.util.OsUtils.OsResult;
 
 /**
  * @author eoste

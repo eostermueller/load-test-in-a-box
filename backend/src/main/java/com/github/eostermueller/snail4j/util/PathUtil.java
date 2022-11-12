@@ -1,8 +1,9 @@
-package com.github.eostermueller.snail4j;
+package com.github.eostermueller.snail4j.util;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,6 +18,7 @@ import java.util.zip.ZipInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.eostermueller.snail4j.Application;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 
@@ -47,7 +49,7 @@ public class PathUtil {
 	   * 
 	   * @return
 	   */
-	  boolean isUberJar() {
+	  public boolean isUberJar() {
 		  boolean rc = false;
 		  String baseClasspath = this.getBaseClassspath();
 		  if (baseClasspath.contains(PathUtil.JAR_SUFFIX)
@@ -152,6 +154,13 @@ public class PathUtil {
 		            entry = zis.getNextEntry();
 		        }
 		    }
-		}	
-
-}
+		}
+	  public void delete(File f) throws IOException {
+		   if (f.isDirectory()) {
+		     for (File c : f.listFiles())
+		       delete(c);
+		   }
+		   if (!f.delete())
+		     throw new FileNotFoundException("Failed to delete file: " + f);
+		 }
+	  }

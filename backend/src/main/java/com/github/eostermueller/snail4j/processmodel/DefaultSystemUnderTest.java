@@ -17,8 +17,6 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.LoggerFactory;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
-import com.github.eostermueller.snail4j.OS;
-import com.github.eostermueller.snail4j.OsUtils;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.CommandLine;
@@ -33,6 +31,8 @@ import com.github.eostermueller.snail4j.launcher.SimpleStdoutProcessRunner;
 import com.github.eostermueller.snail4j.launcher.SimpleStdoutProcessRunnerJdk8;
 import com.github.eostermueller.snail4j.launcher.StdoutProcessRunner;
 import com.github.eostermueller.snail4j.launcher.StdoutProcessRunnerJdk8;
+import com.github.eostermueller.snail4j.util.OS;
+import com.github.eostermueller.snail4j.util.OsUtils;
 import com.sun.tools.attach.VirtualMachine;
 import com.sun.tools.attach.VirtualMachineDescriptor;
 

@@ -95,6 +95,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
       <version>${project.version}</version>
       <scope>runtime</scope>
     </dependency>
+	<dependency>
+		<groupId>org.eclipse.jgit</groupId>
+		<artifactId>org.eclipse.jgit</artifactId>
+		<version>6.2.0.202206071550-r</version>
+	</dependency>
+    
 <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-autoconfigure
 <dependency>
     <groupId>org.springframework.boot</groupId>

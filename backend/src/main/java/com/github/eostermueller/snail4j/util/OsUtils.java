@@ -1,4 +1,4 @@
-package com.github.eostermueller.snail4j;
+package com.github.eostermueller.snail4j.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,15 +16,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.health.Health;
 
-import com.github.eostermueller.snail4j.OsUtils.OsResult;
+import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.DefaultConfiguration;
 import com.github.eostermueller.snail4j.launcher.Messages;
+import com.github.eostermueller.snail4j.util.OsUtils.OsResult;
 
 public class OsUtils {
 	static final Logger LOGGER = LoggerFactory.getLogger(OsUtils.class);
 	public static class OsResult {
-		int exitCode = UNINITIALIZED;
+		public int exitCode = UNINITIALIZED;
 		public String stdout;
 	}
 

@@ -6,11 +6,11 @@ import java.nio.file.Paths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.eostermueller.snail4j.JdkUtils;
-import com.github.eostermueller.snail4j.NonStaticOsUtils;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.DefaultConfiguration;
+import com.github.eostermueller.snail4j.util.JdkUtils;
+import com.github.eostermueller.snail4j.util.NonStaticOsUtils;
 
 /**
  *  Defines structure of some dependent folders, as detailed here:

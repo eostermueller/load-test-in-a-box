@@ -67,4 +67,10 @@ public interface Messages {
 
 	String attemptingToUseJavaHomeToFindJavaCompiler(Path java_home_from_env);
 
+	String unableToCloneSutRepo(String repoUrl, String targetFolder);
+
+	String pleaseManuallyDeleteFolderAndAllContents(String absolutePath);
+
+	String unableToRecursivelyDeleteFolder(String strSutAppFolder);
+
 }

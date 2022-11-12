@@ -1,8 +1,10 @@
-package com.github.eostermueller.snail4j;
+package com.github.eostermueller.snail4j.util;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.github.eostermueller.snail4j.DefaultFactory;
+import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.Messages;
 
 /**

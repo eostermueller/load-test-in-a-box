@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import com.github.eostermueller.snail4j.PathUtil;
+import com.github.eostermueller.snail4j.util.PathUtil;
 
 public class PathUtilsTest {
 	

@@ -1,8 +1,10 @@
 package com.github.eostermueller.snail4j.launcher;
 
 
+import com.github.eostermueller.snail4j.NonPersistentParameters;
 import com.github.eostermueller.snail4j.Snail4jException;
-import com.github.eostermueller.snail4j.Snail4jInstaller;
+import com.github.eostermueller.snail4j.install.Installer;
+import com.github.eostermueller.snail4j.install.Snail4jInstaller;
 import com.github.eostermueller.snail4j.processmodel.LoadGenerator;
 import com.github.eostermueller.snail4j.processmodel.ProcessModelBuilder;
 import com.github.eostermueller.snail4j.processmodel.SystemUnderTest;
@@ -47,6 +49,10 @@ public interface Factory {
 	Configuration getConfiguration(BootstrapConfig bootstrapConfig) throws Snail4jException;
 
 	String getConfigurationClassName();
+
+	Installer createSutInstaller() throws Snail4jException;
+
+	NonPersistentParameters getNonPersistentParameters();
 	
 
 }

@@ -9,7 +9,8 @@ import org.junit.jupiter.api.condition.OS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.eostermueller.snail4j.OsUtils.OsResult;
+import com.github.eostermueller.snail4j.util.OsUtils;
+import com.github.eostermueller.snail4j.util.OsUtils.OsResult;
 
 class OsUtilsTest {
 

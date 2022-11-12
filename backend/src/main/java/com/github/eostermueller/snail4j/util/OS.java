@@ -1,4 +1,4 @@
-package com.github.eostermueller.snail4j;
+package com.github.eostermueller.snail4j.util;
 
 /*
  * Copyright 2014 Aurélien Broszniowski

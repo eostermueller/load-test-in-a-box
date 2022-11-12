@@ -7,10 +7,10 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.stereotype.Component;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
-import com.github.eostermueller.snail4j.OsUtils;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.Messages;
+import com.github.eostermueller.snail4j.util.OsUtils;
 
 @Component
 public class GlowrootHealthIndicator extends AbstractTcpHealthIndicator {

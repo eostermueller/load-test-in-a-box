@@ -6,6 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.github.eostermueller.snail4j.install.DefaultSutInstaller;
+import com.github.eostermueller.snail4j.install.Installer;
+import com.github.eostermueller.snail4j.install.Snail4jInstaller;
 import com.github.eostermueller.snail4j.launcher.BootstrapConfig;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.CommandLine;
@@ -54,7 +57,7 @@ public class DefaultFactory implements Factory {
 	static Factory FACTORY_INSTANCE = null;
 	
 	/**
-	 * @st0lenFr0m: https://stackoverflow.com/questions/7855700/why-is-volatile-used-in-double-checked-locking
+	 * @stolenFrom: https://stackoverflow.com/questions/7855700/why-is-volatile-used-in-double-checked-locking
 	 */
 	private volatile Configuration configuration;
 	
@@ -261,6 +264,14 @@ public class DefaultFactory implements Factory {
 		return new DefaultLoadGenerator((Configuration)this.getConfiguration() );
 	}
 	
+	@Override
+	public Installer createSutInstaller() throws Snail4jException {
+		return new DefaultSutInstaller();
+	}
+	@Override
+	public NonPersistentParameters getNonPersistentParameters() {
+		return new DefaultNonPersistentParameters();
+	}
 	
 
 }

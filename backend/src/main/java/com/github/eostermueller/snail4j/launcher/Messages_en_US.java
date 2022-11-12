@@ -186,4 +186,17 @@ public class Messages_en_US implements Messages {
 	public String unableToFindWorkbenchAgentHostAndPort() {
 		return "Verify that 'sutAppHostname' in the .snail4j/snail4j.json have correct values.";
 	}
+	@Override
+	public String unableToCloneSutRepo(String repoUrl, String targetFolder) {
+		return String.format("Unable to clone repo [%s] to target directory [%s]", repoUrl, targetFolder);
+	}
+	@Override
+	public String pleaseManuallyDeleteFolderAndAllContents(String absolutePath) {
+		return String.format("Please manually delete this folder and all its child file/folder contents: [%s] ", absolutePath);
+	}
+
+	@Override
+	public String unableToRecursivelyDeleteFolder(String strSutAppFolder) {
+		return String.format("Unable to recursively delete Snail4j sutApp folder: [%s] ", strSutAppFolder);
+	}
 }

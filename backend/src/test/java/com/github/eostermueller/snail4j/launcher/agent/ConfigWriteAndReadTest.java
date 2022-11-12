@@ -10,11 +10,11 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import com.github.eostermueller.snail4j.OS;
 import com.github.eostermueller.snail4j.launcher.ConfigReaderWriter;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.DefaultConfigReaderWriter;
 import com.github.eostermueller.snail4j.launcher.DefaultConfiguration;
+import com.github.eostermueller.snail4j.util.OS;
 
 
 

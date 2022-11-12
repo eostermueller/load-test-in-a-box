@@ -2,6 +2,8 @@ package com.github.eostermueller.snail4j;
 
 import java.util.Arrays;
 
+import com.github.eostermueller.snail4j.util.FixedLengthQueue;
+
 public class Snail4jException extends Exception {
 	long timestamp = -1;
 	/**

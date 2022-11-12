@@ -10,6 +10,11 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.io.TempDir;
+
+import com.github.eostermueller.snail4j.install.InstallAdvice;
+import com.github.eostermueller.snail4j.util.JdkUtils;
+import com.github.eostermueller.snail4j.util.NonStaticOsUtils;
+
 import org.junit.jupiter.api.condition.OS;
 
 

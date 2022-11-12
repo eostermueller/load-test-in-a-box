@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
 
-
-
-import com.github.eostermueller.snail4j.JdkUtils.ProcessDescriptor;
-import com.github.eostermueller.snail4j.OsUtils.OsResult;
+import com.github.eostermueller.snail4j.util.JdkUtils;
+import com.github.eostermueller.snail4j.util.NonStaticOsUtils;
+import com.github.eostermueller.snail4j.util.JdkUtils.ProcessDescriptor;
+import com.github.eostermueller.snail4j.util.OsUtils.OsResult;
 
 
 class JdkUtilsTest {

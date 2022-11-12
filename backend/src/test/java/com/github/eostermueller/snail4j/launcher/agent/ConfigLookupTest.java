@@ -14,10 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
-import com.github.eostermueller.snail4j.OS;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.ConfigLookup;
 import com.github.eostermueller.snail4j.launcher.ConfigVariableNotFoundException;
+import com.github.eostermueller.snail4j.util.OS;
 
 public class ConfigLookupTest {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());

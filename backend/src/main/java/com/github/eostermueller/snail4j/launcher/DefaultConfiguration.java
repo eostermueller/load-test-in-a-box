@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.eostermueller.snail4j.DefaultFactory;
-import com.github.eostermueller.snail4j.JdkUtils;
-import com.github.eostermueller.snail4j.NonStaticOsUtils;
 import com.github.eostermueller.snail4j.Snail4jException;
+import com.github.eostermueller.snail4j.util.JdkUtils;
+import com.github.eostermueller.snail4j.util.NonStaticOsUtils;
 
 /**
  * @author erikostermueller
@@ -121,7 +121,7 @@ public class DefaultConfiguration implements Configuration {
 			this.setJavaHome( 			new NonStaticOsUtils().get_JAVA_HOME() );
 			this.setSnail4jHome(		Paths.get( this.getUserHomeDirString(), ".snail4j" )			);
 			this.setGlowrootHome(			Paths.get( this.getSnail4jHome().toString() , "glowroot") );
-			this.setGlowrootZipFileName ("glowroot-0.13.6-dist.zip");
+			this.setGlowrootZipFileName ("glowroot-0.14.0-beta.3-dist.zip");
 
 			this.setMavenHome(			Paths.get( this.getSnail4jHome().toString() , this.getMavenZipFileNameWithoutExtension() )		);
 			this.setSnail4jMavenRepo(true);

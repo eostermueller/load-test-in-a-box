@@ -16,7 +16,7 @@ import org.springframework.boot.actuate.health.Health.Builder;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.stereotype.Component;
 
-import com.github.eostermueller.snail4j.OsUtils;
+import com.github.eostermueller.snail4j.util.OsUtils;
 
 
 public abstract class AbstractTcpHealthIndicator extends AbstractSpringNetworkHealthIndicator {

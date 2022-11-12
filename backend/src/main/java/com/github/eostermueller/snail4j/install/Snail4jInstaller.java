@@ -1,4 +1,4 @@
-package com.github.eostermueller.snail4j;
+package com.github.eostermueller.snail4j.install;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -7,9 +7,16 @@ import java.nio.file.Paths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.eostermueller.snail4j.DefaultFactory;
+import com.github.eostermueller.snail4j.Snail4jException;
+import com.github.eostermueller.snail4j.install.InstallAdvice.StartupLogger;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.Messages;
+import com.github.eostermueller.snail4j.util.JdkUtils;
+import com.github.eostermueller.snail4j.util.NonStaticOsUtils;
+import com.github.eostermueller.snail4j.util.OsUtils;
+import com.github.eostermueller.snail4j.util.PathUtil;
 
 /**
  * The SpringBootStartupInstaller will handle progress meter
@@ -136,7 +143,10 @@ public class Snail4jInstaller implements InstallAdvice.StartupLogger {
     	
     	installMaven();
     	installMavenRepository();
-    	installSutApp();
+    	DefaultFactory
+    		.getFactory()
+    		.createSutInstaller()
+    		.install();
     	installWiremock();
     	installH2DbData();
     	installJMeterFiles();
@@ -561,85 +571,6 @@ protected void installProcessManager() throws Snail4jException {
 
 		
 	}  
-	protected void installSutApp() throws Snail4jException {
-		  PathUtil pathUtil = new PathUtil();
-		String path = pathUtil.getBaseClassspath();
-		String cleansedPath;
-		
-		try {
-			Path targetSutAppZipFile = Paths.get( this.getConfiguration().getSutAppHome().toString(), this.getConfiguration().getSutAppZipFileName() );
-			
-			if (this.getConfiguration().getSutAppHome().toFile().exists()) {
-				LOGGER.info("dir for sutApp files already exists.");
-			} else {
-				LOGGER.info("Creating dir for sut java app.");
-				this.getConfiguration().getSutAppHome().toFile().mkdirs();
-			}
-			
-			if (pathUtil.isUberJar()) {
-				
-				/**
-				 * sutApp files must be extracted from a zip.
-				 */
-				cleansedPath = pathUtil.cleanPath(path);
-				
-		    	if ( targetSutAppZipFile.toFile().exists() ) {
-		    		LOGGER.info(targetSutAppZipFile.toFile().toString() + " exists. will not overwrite it.");
-		    	} else {
-		    		LOGGER.info("About to unzip [" + targetSutAppZipFile.toString() + "] from [" + cleansedPath + "] to [" + targetSutAppZipFile.toString() + "]");
-		    		pathUtil.extractZipFromZip(cleansedPath, this.getConfiguration().getSutAppZipFileName(), targetSutAppZipFile.toString() );
-		    	}
-		    	
-		    	String[] fileNames=this.getConfiguration().getSutAppHome().toFile().list();
-		    	
-	    		LOGGER.info("[" + fileNames.length  + "] file(s) exist(s) in [" + this.getConfiguration().getSutAppHome() + "]");
-	    		
-	    		if (fileNames.length<1) {
-	    			throw new Snail4jException("Install failed.  Tried to unzip [" + this.getConfiguration().getSutAppZipFileName() + "] to [" + this.getConfiguration().getSutAppHome() + "] but [" + targetSutAppZipFile.toString() + "] does not exist." );
-	    		} else if (fileNames.length==1 && fileNames[0].equals(this.getConfiguration().getSutAppZipFileName()) ) {
-	        		pathUtil.unzip(targetSutAppZipFile.toFile(), this.getConfiguration().getSutAppHome().toString() );
-	        		targetSutAppZipFile.toFile().delete(); // don't need anymore because we just unzipped its contents.
-	    		} else {
-	        		LOGGER.info("Will not unzip [" + this.getConfiguration().getSutAppZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in " + this.getConfiguration().getSutAppHome() + " and restart snail4j executable jar");
-	    		}
-				
-			} else {
-				LOGGER.error("launch as 'java -jar <snail4j.jar> to get maven to install");
-			}
-			
-		} catch (Exception e) {
-			throw new Snail4jException(e);
-		}		
-		
-		
-//		String zipName = this.getConfiguration().getSutAppZipFileName();
-//		try {
-//			Path targetSutZipFile = Paths.get( this.getConfiguration().getSnail4jHome().toString(), zipName );
-//			if (path.contains(PathUtil.JAR_SUFFIX)) {
-//				
-//				/**
-//				 * SUT (system under test) zip needs to be extracted from executable jar file
-//				 */
-//				cleansedPath = pathUtil.cleanPath(path);
-//		    	if ( !this.getConfiguration().getSutAppHome().toFile().exists() ) {
-//		    		LOGGER.info("About to unzip [" + zipName + "] from [" + cleansedPath + "] to [" + targetSutZipFile + "]");
-//		    		pathUtil.extractZipFromZip(cleansedPath, zipName, targetSutZipFile.toString() );
-//		    		
-//		    		LOGGER.info("does [" + targetSutZipFile.toFile().getAbsolutePath().toString() + "] exist? [" + targetSutZipFile.toFile().exists() + "]" );
-//		    		
-//		    		pathUtil.unzip(targetSutZipFile.toFile(), this.getConfiguration().getSnail4jHome().toString() );
-//		    		targetSutZipFile.toFile().delete();
-//		    	}
-//				
-//			} else {
-//				LOGGER.error("launch as 'java -jar <snail4j.jar> to get maven to install");
-//			}
-//		} catch (Exception e) {
-//			throw new Snail4jException(e);
-//		}
-
-		
-	}
 	@Override
 	public void error(String msg) {
 		System.out.println(LOG_PREFIX + "ERROR: " + msg);		

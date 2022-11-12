@@ -1,8 +1,8 @@
 package com.github.eostermueller.snail4j.launcher;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
-import com.github.eostermueller.snail4j.FixedLengthQueue;
 import com.github.eostermueller.snail4j.Snail4jException;
+import com.github.eostermueller.snail4j.util.FixedLengthQueue;
 
 public class EventHistory {
 	private static int maxEventCount = 1000;

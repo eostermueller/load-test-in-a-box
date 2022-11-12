@@ -1,4 +1,4 @@
-package com.github.eostermueller.snail4j;
+package com.github.eostermueller.snail4j.util;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
@@ -16,13 +16,15 @@ import javax.management.ReflectionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.eostermueller.snail4j.OsUtils.OsResult;
+import com.github.eostermueller.snail4j.DefaultFactory;
+import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.Messages;
+import com.github.eostermueller.snail4j.util.OsUtils.OsResult;
 
 public class JdkUtils {
 	private static final Logger LOGGER = LoggerFactory.getLogger(JdkUtils.class);
 	
-	static Path getCurrentJavaPath() throws Snail4jException {
+	public static Path getCurrentJavaPath() throws Snail4jException {
 		String pathOfRunningJava = System.getProperty("sun.boot.library.path");
 		
 		Path p = Paths.get(pathOfRunningJava);
@@ -32,7 +34,7 @@ public class JdkUtils {
 		
 		return Paths.get(pathOfRunningJava);		
 	}
-	static boolean pointsToCurrentJava(Path javaHome) throws Snail4jException {
+	public static boolean pointsToCurrentJava(Path javaHome) throws Snail4jException {
 
 		javaHome = javaHome.normalize();
 		

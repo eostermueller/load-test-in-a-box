@@ -12,8 +12,8 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
-import com.github.eostermueller.snail4j.OS;
 import com.github.eostermueller.snail4j.Snail4jException;
+import com.github.eostermueller.snail4j.util.OS;
 
 
 /**
