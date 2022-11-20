@@ -119,7 +119,7 @@ public class DefaultConfiguration implements Configuration {
     		this.setUserHomeDir(		Paths.get( getUserHomeDirString() )	);
 
 			this.setJavaHome( 			new NonStaticOsUtils().get_JAVA_HOME() );
-			this.setSnail4jHome(		Paths.get( this.getUserHomeDirString(), ".snail4j" )			);
+			this.setSnail4jHome(		Paths.get( this.getUserHomeDirString(), ".load-test-in-a-box" )			);
 			this.setGlowrootHome(			Paths.get( this.getSnail4jHome().toString() , "glowroot") );
 			this.setGlowrootZipFileName ("glowroot-0.14.0-beta.3-dist.zip");
 

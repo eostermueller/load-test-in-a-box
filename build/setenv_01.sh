@@ -4,7 +4,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 
 
-# This file downloads with https://github.com/eostermueller/snail4j
+# This file downloads with https://github.com/eostermueller/load-test-in-a-box
 # If this setenv_01.sh is in 
 #
 # 	/path/to/my/snail4j/build

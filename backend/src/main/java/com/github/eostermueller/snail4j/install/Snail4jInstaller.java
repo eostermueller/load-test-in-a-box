@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.install.InstallAdvice.StartupLogger;
+import com.github.eostermueller.snail4j.install.Installer;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.Messages;
@@ -315,7 +316,7 @@ protected void installProcessManager() throws Snail4jException {
 	        		pathUtil.unzip(targetProcessManagerZipFile.toFile(), this.getConfiguration().getProcessManagerHome().toString() );
 	        		targetProcessManagerZipFile.toFile().delete(); // don't need anymore because we just unzipped its contents.
 	    		} else {
-	        		LOGGER.info("Will not unzip [" + this.getConfiguration().getProcessManagerZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.snail4j/processManager and restart snail4j executable jar");
+	        		LOGGER.info("Will not unzip [" + this.getConfiguration().getProcessManagerZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/" + Installer.INSTALL_ROOT  + "/processManager and restart snail4j executable jar");
 	    		}
 		    	
 				
@@ -368,7 +369,7 @@ protected void installProcessManager() throws Snail4jException {
 	        		pathUtil.unzip(targetJMeterFilesZipFile.toFile(), this.getConfiguration().getJMeterFilesHome().toString() );
 	        		targetJMeterFilesZipFile.toFile().delete(); // don't need anymore because we just unzipped its contents.
 	    		} else {
-	        		LOGGER.info("Will not unzip [" + this.getConfiguration().getJMeterFilesZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.snail4j/jmeterFiles and restart snail4j executable jar");
+	        		LOGGER.info("Will not unzip [" + this.getConfiguration().getJMeterFilesZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/" + Installer.INSTALL_ROOT  +"/jmeterFiles and restart snail4j executable jar");
 	    		}
 		    	
 				
@@ -426,7 +427,7 @@ protected void installProcessManager() throws Snail4jException {
 	        		pathUtil.unzip(targetWiremockFilesZipFile.toFile(), this.getConfiguration().getWiremockFilesHome().toString() );
 	        		targetWiremockFilesZipFile.toFile().delete(); // don't need anymore because we just unzipped its contents.
 	    		} else {
-	        		LOGGER.info("Will not unzip [" + this.getConfiguration().getWiremockFilesZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/.snail4j/wiremockFiles and restart snail4j executable jar");
+	        		LOGGER.info("Will not unzip [" + this.getConfiguration().getWiremockFilesZipFileName() + "] to avoid overwriting local changes to unzipped files. Delete all files in USER_HOME/." + Installer.INSTALL_ROOT  + "/wiremockFiles and restart snail4j executable jar");
 	    		}
 		    	
 				

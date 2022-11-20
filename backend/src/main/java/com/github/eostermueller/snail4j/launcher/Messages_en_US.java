@@ -1,5 +1,7 @@
 package com.github.eostermueller.snail4j.launcher;
 
+import com.github.eostermueller.snail4j.install.Installer;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -63,17 +65,17 @@ public class Messages_en_US implements Messages {
 
 	@Override
 	public String unableToFindWiremockHostAndPort() {
-		return "Verify that 'wiremockHostname' and 'wiremockPort' in the .snail4j/snail4j.json have correct values.";
+		return "Verify that 'wiremockHostname' and 'wiremockPort' in the " + Installer.INSTALL_ROOT + "/snail4j.json have correct values.";
 	}
 
 	@Override
 	public String unableToFindH2HostAndPort() {
-		return "Verify that 'h2Hostname' and 'h2Port' in the .snail4j/snail4j.json have correct values.";
+		return "Verify that 'h2Hostname' and 'h2Port' in the " + Installer.INSTALL_ROOT + "/snail4j.json have correct values.";
 	}
 
 	@Override
 	public String unableToFindSutHostAndPort() {
-		return "Verify that 'sutAppHostname' and 'sutAppPort' in the .snail4j/snail4j.json have correct values.";
+		return "Verify that 'sutAppHostname' and 'sutAppPort' in the " + Installer.INSTALL_ROOT  + "/snail4j.json have correct values.";
 	}
 
 	@Override
@@ -93,7 +95,7 @@ public class Messages_en_US implements Messages {
 
 	@Override
 	public String tcpPortConflict(String name, String hostname, int port, String snail4jProperty) {
-		return String.format("Port [%d] on [%s] is in use.  This is a port conflict for [%s]; . Configure an availabe/unused port in property [%s] in $HOME or %%USERPROFILE%% /.snail4j/snail4j.json.",
+		return String.format("Port [%d] on [%s] is in use.  This is a port conflict for [%s]; . Configure an availabe/unused port in property [%s] in $HOME or %%USERPROFILE%% /" + Installer.INSTALL_ROOT  + "/snail4j.json.",
 				port,
 				hostname,
 				name,
@@ -179,12 +181,12 @@ public class Messages_en_US implements Messages {
 
 	@Override
 	public String unableToFindGlowrootHostAndPort() {
-		return "Verify that 'sutAppHostname' and 'glowrootPort' in the .snail4j/snail4j.json have correct values.";
+		return "Verify that 'sutAppHostname' and 'glowrootPort' in the " + Installer.INSTALL_ROOT + "/snail4j.json have correct values.";
 	}
 
 	@Override
 	public String unableToFindWorkbenchAgentHostAndPort() {
-		return "Verify that 'sutAppHostname' in the .snail4j/snail4j.json have correct values.";
+		return "Verify that 'sutAppHostname' in the " + Installer.INSTALL_ROOT + "/snail4j.json have correct values.";
 	}
 	@Override
 	public String unableToCloneSutRepo(String repoUrl, String targetFolder) {

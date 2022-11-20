@@ -27,7 +27,7 @@ public interface Configuration {
 	String getUserHomeDirString();
 
 	/*
-	 * Examples:  /home/betty/.snail4j or C:\Users\betty\.snail4j
+	 * Examples:  /home/betty/load-test-in-a-box or C:\Users\betty\.load-test-in-a-box
 	 */
 	Path getSnail4jHome();
 

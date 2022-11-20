@@ -1,14 +1,16 @@
 package com.github.eostermueller.snail4j.launcher;
 
+
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
+import com.github.eostermueller.snail4j.install.Installer;
 
 /**
  * just the bare minimum required to find and read the snail4j.json config file.
- * Currently, user cannot change any of these settings, like ".snail4j" folder and "snail4j.json" config file name.
+ * Currently, user cannot change any of these settings, like ".load-test-i-a-box" folder and "snail4j.json" config file name.
  * @author erikostermueller
  *
  */
@@ -20,7 +22,7 @@ public class BootstrapConfig {
 	public BootstrapConfig() {
 		
 		this(
-				".snail4j",
+				Installer.INSTALL_ROOT,
 				"snail4j.json");
 	}
 	  public void createSnail4jHomeIfNotExist() throws CannotFindSnail4jFactoryClass {

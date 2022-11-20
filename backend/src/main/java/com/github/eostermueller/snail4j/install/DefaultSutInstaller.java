@@ -35,7 +35,7 @@ public class DefaultSutInstaller implements Installer {
 			try {
 				strSutAppFolder = sutAppFolder.getCanonicalPath().toString();
 			} catch (IOException e1) {
-				throw new Snail4jException(e1,"Unable to format the .snail4j/sutApp folder");
+				throw new Snail4jException(e1,"Unable to format the " + INSTALL_ROOT + "/sutApp folder");
 			}
 			if (this.getContext().getConfiguration().getSutAppHome().toFile().exists()) {
 				if (thisIsDefaultSnail4jSutAppPath(sutAppFolder) ) {
@@ -77,7 +77,7 @@ public class DefaultSutInstaller implements Installer {
 		this.getContext().getLogger().debug("@@@ sutAppFolder.getName().toString() [" + sutAppFolder.getName().toString() + "] ");
 		this.getContext().getLogger().debug("@@@ sutAppFolder.getParentFile().getName() [" + sutAppFolder.getParentFile().getName() + "] ");
 		if (sutAppFolder.getName().toString().equals("sutApp") 
-				&& sutAppFolder.getParentFile().getName().equals(".snail4j") ) {
+				&& sutAppFolder.getParentFile().getName().equals(INSTALL_ROOT) ) {
 			rc = true;
 		}
 		try {

@@ -84,7 +84,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 				<sutApp.cmd.08>/E:ON</sutApp.cmd.08> <!-- benign filler arg -->
 				<sutApp.cmd.09>/E:ON</sutApp.cmd.09> <!-- benign filler arg -->
 				<sutApp.cmd.10>/C</sutApp.cmd.10>
-				<sutApp.cmd.11>..${file.separator}apache-maven-3.6.3${file.separator}bin${file.separator}mvn${script.extension} -e -X ${snail4j.maven.offline.passthru} ${snail4j.maven.repo.passthru} -Dspring-boot.run.fork=true -Dspring-boot.run.jvmArguments="-Dsnail4j.wiremock.hostname=${snail4j.wiremock.hostname} -Dsnail4j.h2.port=${snail4j.h2.port} -Dsnail4j.h2.hostname=${snail4j.h2.hostname} -Dsnail4j.wiremock.port=${snail4j.wiremock.port} -Dglowroot.agent.port=${snail4j.glowroot.port} ${snail4j.sut.jvmArguments}" -Dspring-boot.run.agents=${user.home}/.snail4j/glowroot/glowroot/glowroot.jar -Dspring-boot.run.arguments=--server.port=${snail4j.sut.port} spring-boot:run</sutApp.cmd.11>
+				<sutApp.cmd.11>..${file.separator}apache-maven-3.6.3${file.separator}bin${file.separator}mvn${script.extension} -e -X ${snail4j.maven.offline.passthru} ${snail4j.maven.repo.passthru} -Dspring-boot.run.fork=true -Dspring-boot.run.jvmArguments="-Dsnail4j.wiremock.hostname=${snail4j.wiremock.hostname} -Dsnail4j.h2.port=${snail4j.h2.port} -Dsnail4j.h2.hostname=${snail4j.h2.hostname} -Dsnail4j.wiremock.port=${snail4j.wiremock.port} -Dglowroot.agent.port=${snail4j.glowroot.port} ${snail4j.sut.jvmArguments}" -Dspring-boot.run.agents=${user.home}/.load-test-in-a-box/glowroot/glowroot/glowroot.jar -Dspring-boot.run.arguments=--server.port=${snail4j.sut.port} spring-boot:run</sutApp.cmd.11>
 			</properties>
 		</profile>
 		<profile>
@@ -113,7 +113,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 						https://github.com/eostermueller/mac-and-windows-processes
 					-->
 				<sutApp.cmd.08>-Dspring-boot.run.jvmArguments=-Dsnail4j.wiremock.hostname=${snail4j.wiremock.hostname} -Dsnail4j.h2.port=${snail4j.h2.port} -Dsnail4j.h2.hostname=${snail4j.h2.hostname} -Dsnail4j.wiremock.port=${snail4j.wiremock.port} -Dglowroot.agent.port=${snail4j.glowroot.port} ${snail4j.sut.jvmArguments}</sutApp.cmd.08>
-				<sutApp.cmd.09>-Dspring-boot.run.agents=${user.home}/.snail4j/glowroot/glowroot/glowroot.jar</sutApp.cmd.09>
+				<sutApp.cmd.09>-Dspring-boot.run.agents=${user.home}/.load-test-in-a-box/glowroot/glowroot/glowroot.jar</sutApp.cmd.09>
 				<sutApp.cmd.10>-Dspring-boot.run.arguments=--server.port=${snail4j.sut.port}</sutApp.cmd.10>
 				<sutApp.cmd.11>spring-boot:run</sutApp.cmd.11>
 			</properties>
@@ -134,7 +134,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
         <configuration>
           <systemPropertyVariables>
             <com.github.eostermueller.snail4j.kill.file>
-            ${user.home}/.snail4j/deleteMeToStopSnail4jSut.txt</com.github.eostermueller.snail4j.kill.file>
+            ${user.home}/.load-test-in-a-box/deleteMeToStopSnail4jSut.txt</com.github.eostermueller.snail4j.kill.file>
           </systemPropertyVariables>
         </configuration>
         <artifactId>maven-failsafe-plugin</artifactId>
@@ -164,10 +164,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <configuration>
               <name>wiremock</name>
               <workingDir>
-              ${user.home}/.snail4j/wiremock</workingDir>
+              ${user.home}/.load-test-in-a-box/wiremock</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
               <waitAfterLaunch>4</waitAfterLaunch>
-              <processLogFile>${user.home}/.snail4j/log/wiremock.log</processLogFile>
+              <processLogFile>${user.home}/.load-test-in-a-box/log/wiremock.log</processLogFile>
 <!--              <tcpHealthcheckHostname>
               localhost</tcpHealthcheckHostname>
               <tcpHealthcheckPort>8081</tcpHealthcheckPort>
@@ -192,9 +192,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <configuration>
               <name>h2</name>
               <workingDir>
-              ${user.home}/.snail4j/data</workingDir>
+              ${user.home}/.load-test-in-a-box/data</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
-              <processLogFile>${user.home}/.snail4j/log/h2.log</processLogFile>
+              <processLogFile>${user.home}/.load-test-in-a-box/log/h2.log</processLogFile>
               <waitAfterLaunch>4</waitAfterLaunch>
 <!--              <tcpHealthcheckHostname>
               localhost</tcpHealthcheckHostname>
@@ -207,8 +207,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                 <argument>${snail4j.maven.offline.passthru}</argument>
                 <argument>${snail4j.maven.repo.passthru}</argument>
                 <argument>-Dh2.port=${snail4j.h2.port}</argument>
-			<!-- <argument>-Dh2.baseDirectory=${user.home}/.snail4j/data</argument> -->
-				<!--	<argument>-Dh2.baseDirectory=C:/Users/eoste/.snail4j/data</argument> -->
+			<!-- <argument>-Dh2.baseDirectory=${user.home}/.load-test-in-a-box/data</argument> -->
+				<!--	<argument>-Dh2.baseDirectory=C:/Users/eoste/.load-test-in-a-box/data</argument> -->
                 <argument>com.github.eostermueller:h2-maven-plugin:${h2.maven.plugin.version}:spawn</argument>
               </arguments>
             </configuration>
@@ -222,9 +222,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <configuration>
               <name>sutApp</name>
               <workingDir>
-              ${user.home}/.snail4j/sutApp</workingDir>
+              ${user.home}/.load-test-in-a-box/sutApp</workingDir>
               <waitForInterrupt>false</waitForInterrupt>
-              <processLogFile>${user.home}/.snail4j/log/sutApp.log</processLogFile>
+              <processLogFile>${user.home}/.load-test-in-a-box/log/sutApp.log</processLogFile>
               <waitAfterLaunch>4</waitAfterLaunch>
 <!--              <tcpHealthcheckHostname>
               localhost</tcpHealthcheckHostname>
@@ -244,7 +244,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 				 <argument>${sutApp.cmd.11}</argument>
 			<!-- @stolenFrom: https://stackoverflow.com/a/46628861/2377579 -->
 			<!-- @stolenFrom: http://myjavaadventures.com/blog/2018/07/21/spring-boot-pass-arguments/ -->
-			<!-- <argument>-Dspring-boot.run.jvmArguments="-javaagent:${user.home}/.snail4j/glowroot/glowroot/glowroot.jar,-Dglowroot.agent.port=${snail4j.glowroot.port}"</argument> -->
+			<!-- <argument>-Dspring-boot.run.jvmArguments="-javaagent:${user.home}/.load-test-in-a-box/glowroot/glowroot/glowroot.jar,-Dglowroot.agent.port=${snail4j.glowroot.port}"</argument> -->
               </arguments>
             </configuration>
           </execution>

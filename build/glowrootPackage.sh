@@ -10,7 +10,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 #zips up and places zip files in backend/src/main/resources,
 #so that the backend maven build will include them in the spring boot uber jar.
 #When spring boot starts, Snail4jInstaller.java will unzip those files into the
-# .snail4j folder in the user's home folder.  Jenkins uses this approach.
+# .load-test-in-a-box folder in the user's home folder.  Jenkins uses this approach.
 
 #set machine-specific variables.
 . $DIR/setenv_01.sh
@@ -18,7 +18,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 SNAIL4J_SRC=$DIR/..
 
-#These are part of snail4j distribution
+#These are part of load-test-in-a-box distribution
 PM_HOME=$SNAIL4J_SRC/processManager
 JM_HOME=$SNAIL4J_SRC/jmeterFiles
 WM_HOME=$SNAIL4J_SRC/wiremock

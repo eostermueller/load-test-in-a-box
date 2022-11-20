@@ -8,13 +8,13 @@ package com.github.eostermueller.snail4j;
 public class DefaultNonPersistentParameters implements NonPersistentParameters {
 
 	/**
-	 * Deletes the entire $HOME/.snail4j/sutApp or %USERPROFILE%\.snail4j\sutApp folder, depending on operating system.
+	 * Deletes the entire $HOME/.load-test-in-a-box/sutApp or %USERPROFILE%\.load-test-in-a-box\sutApp folder, depending on operating system.
 	 */
 	public static final String DELETE_SUT_DASH_D_PARAMETER 					= "com.github.eostermueller.snail4j.deleteSut";
 	
 	/**
 	 * Requires internet access.
-	 * At snail4j uber jar startup, clones the git repo at the given link into $HOME/.snail4j/sutApp or %USERPROFILE%\.snail4j\sutApp folder, depending on operating system.
+	 * At snail4j uber jar startup, clones the git repo at the given link into $HOME/.load-test-in-a-box/sutApp or %USERPROFILE%\.load-test-in-a-box\sutApp folder, depending on operating system.
 	 * The target sutApp folder must be deleted for this to work.
 	 * Sample value:  https://github.com/eostermueller/tjp2.git
 	 */

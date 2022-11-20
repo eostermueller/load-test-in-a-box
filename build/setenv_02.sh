@@ -54,5 +54,6 @@ MVN_ZIP_NAME=apache-maven-${MVN_VERSION}-bin.zip
 MVN_URL=https://downloads.apache.org/maven/maven-3/${MVN_VERSION}/binaries/${MVN_ZIP_NAME}
 
 JMETER_ZIP_NAME=apache-jmeter-5.2.1.zip
-JMETER_URL=https://downloads.apache.org//jmeter/binaries/${JMETER_ZIP_NAME}
+JMETER_URL=https://archive.apache.org/dist/jmeter/binaries/${JMETER_ZIP_NAME}
+
 
