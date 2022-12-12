@@ -40,7 +40,7 @@ import ch.qos.logback.classic.Logger;
 
 public class DefaultSystemUnderTest implements SystemUnderTest {
 	private final Logger LOGGER = (Logger) LoggerFactory.getLogger(this.getClass());
-	private String THREAD_NAME = "snail4j-sut";
+	//private String THREAD_NAME = "sut_load-test-in-a-box";
 	private Configuration cfg;
 	private SimpleStdoutProcessRunner runner = null;
 	private static String OS = System.getProperty("os.name").toLowerCase();
@@ -54,7 +54,6 @@ public class DefaultSystemUnderTest implements SystemUnderTest {
 
 		runner.setProcessBuilder( getProcessBuilder() );
 		runner.setWorkingDirectory(val.getProcessManagerHome().toFile());
-
 
 		//TODO: refactor to be more elegant than create another Process (runner), maybe not leaving it here, but call directly to DefaultProcessModelBuilder:
 		runnerStop = new SimpleStdoutProcessRunnerJdk8(key);
@@ -115,7 +114,8 @@ public class DefaultSystemUnderTest implements SystemUnderTest {
 		runner.start();
 		Messages m = DefaultFactory.getFactory().createMessages();
 		String d = m.getSutStartMessage( runner.toHumanReadableString() );
-
+		
+		
 		DefaultFactory.getFactory().getEventHistory().getEvents().add( Event.create(d) );
 
 	}

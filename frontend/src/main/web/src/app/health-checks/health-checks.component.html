@@ -13,8 +13,19 @@
                         <div class="horizontal_spacer"></div>
                         <table>
                          <tr>
-                                <td align=right>
-                                        <mat-slide-toggle labelPosition='before' disabled=true aria-label='sutApp' [checked]="sutAppHealth">SUT</mat-slide-toggle>
+                                <td  align=right>
+                                        <div id="sut">
+                                                <mat-slide-toggle  
+                                                        labelPosition='before' 
+                                                        disabled=true 
+                                                        aria-label='sutApp' 
+                                                        [checked]="sutAppHealth"
+                                                        #tooltip="matTooltip"
+                                                        matTooltip="SUT pid: {{this.sutPid}} (helpful for jstack, jmap, etc...)"
+                                                        matTooltipPosition="above"
+                                                        matTooltipHideDelay="100000"
+                                                        >SUT</mat-slide-toggle>
+                                        </div>
                                 </td>
                                 <td align=right>
                                         <mat-slide-toggle labelPosition='before' disabled=true aria-label='JMeter' [checked]="jmeterLoad">JMeter</mat-slide-toggle>

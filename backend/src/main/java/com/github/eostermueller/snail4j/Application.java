@@ -20,6 +20,11 @@ import org.springframework.boot.ApplicationRunner;
  */
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
+	public static String APP_NAME = "load-test-in-a-box";
+	public static String INSTALL_ROOT = "." + APP_NAME;
+	public static String CONFIG_FILE_NAME = APP_NAME + ".json";
+	public static String PID_FILE_NAME = APP_NAME + ".pid";
+	
 	public static CommandLineArgs commandLineArguments = null;
 //public class Application implements ApplicationRunner {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -28,7 +33,7 @@ public class Application extends SpringBootServletInitializer {
 	public static void main(String[] args) {
 		SpringApplication application = new SpringApplication(Application.class);
 		Application.commandLineArguments = CommandLineArgs.create(args);
-		application.addListeners(new ApplicationPidFileWriter("snail4j.pid"));
+		application.addListeners(new ApplicationPidFileWriter(PID_FILE_NAME));
 		application.run(args);
 	}
 

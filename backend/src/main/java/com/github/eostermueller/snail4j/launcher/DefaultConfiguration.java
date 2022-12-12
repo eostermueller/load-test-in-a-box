@@ -10,9 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.eostermueller.snail4j.Application;
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
-import com.github.eostermueller.snail4j.util.JdkUtils;
 import com.github.eostermueller.snail4j.util.NonStaticOsUtils;
 
 /**
@@ -119,7 +119,7 @@ public class DefaultConfiguration implements Configuration {
     		this.setUserHomeDir(		Paths.get( getUserHomeDirString() )	);
 
 			this.setJavaHome( 			new NonStaticOsUtils().get_JAVA_HOME() );
-			this.setSnail4jHome(		Paths.get( this.getUserHomeDirString(), ".load-test-in-a-box" )			);
+			this.setSnail4jHome(		Paths.get( this.getUserHomeDirString(), Application.INSTALL_ROOT));
 			this.setGlowrootHome(			Paths.get( this.getSnail4jHome().toString() , "glowroot") );
 			this.setGlowrootZipFileName ("glowroot-0.14.0-beta.3-dist.zip");
 
@@ -242,6 +242,7 @@ public class DefaultConfiguration implements Configuration {
 			this.setMavenExePath( createMavenExePath() );
 			this.setUseCaseSearchCriteria("com.github.eostermueller.tjp2");
 			
+			
 			//-Xloggc:gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=128K
 			sb3 = new StringBuilder();
 			                  sb3.append("-Xmx1024m");
@@ -256,6 +257,10 @@ public class DefaultConfiguration implements Configuration {
 //			sb3.append(SPACE);sb3.append("-XX:NumberOfGCLogFiles=5");
 //			sb3.append(SPACE);sb3.append("-XX:GCLogFileSize=1m");
 			this.setSutJvmArguments( sb3.toString() );
+			
+			this.setSutClassName("com.github.eostermueller.tjp2.PerformanceSandboxApp");
+	//		
+			
 
 	}
 	/*
@@ -684,6 +689,14 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	private String jmeterZipFileNameWithoutExtension;
 	private Path jmeterDistHome;
 
+	/**
+	 * The classname that shows up in the JDK's jcmd output which is used to detect the SUT's pid, which is needed for jstack capture
+	 * and other troubleshooting.  Here at the end of 2022, the default value for this is 
+	 * the class annotated with @SpringBootApplication in 
+	 * https://github.com/eostermueller/load-test-in-a-box_sut_sample 
+	 */
+	private String sutClassName;
+
 
 	@Override
 	public String getWindowsKillerProcess() {
@@ -1072,6 +1085,14 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	@Override
 	public String getSutAppHostname() {
 		return this.sutAppHostname;
+	}
+	@Override
+	public String getSutClassName() {
+		return this.sutClassName;
+	}
+	@Override
+	public void setSutClassName(String className) {
+		this.sutClassName = className;
 	}
 
 }

@@ -14,10 +14,13 @@ import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.Messages;
 @Component
 public class SutAppHealthIndicator extends AbstractTcpHealthIndicator {
-
+	
 	public SutAppHealthIndicator() {
 		try {
 			Configuration cfg = DefaultFactory.getFactory().getConfiguration();
+			
+			this.setJcmdClassName(cfg.getSutClassName()); //used to query jcmd to located pid
+			
 			String hostname = cfg.getSutAppHostname();
 			InetAddress addr = InetAddress.getByName(hostname);
 			

@@ -34,38 +34,23 @@ public class ProcessModelSingleton {
 	/**
 	 * @st0lenFr0m: https://stackoverflow.com/questions/7855700/why-is-volatile-used-in-double-checked-locking
 	 */
-	   private volatile static ProcessModelSingleton instance;
-	   
-	   private ProcessModelSingleton(SystemUnderTest sut, LoadGenerator lg) {
-	    	this.systemUnderTest = sut;
-	    	this.loadGenerator = lg;
-	   }
-	   public static ProcessModelSingleton getInstance() throws ConfigVariableNotFoundException, Snail4jException {
-	        if (instance == null) {
-	            synchronized (ProcessModelSingleton.class) {
-	                if (instance == null) {
-	        			SystemUnderTest systemUnderTest = DefaultFactory.getFactory().createSystemUnderTest();
-	        			LoadGenerator loadGenerator = DefaultFactory.getFactory().createLoadGenerator();
-	        			
-	                    instance = new ProcessModelSingleton(systemUnderTest, loadGenerator);
-	                }
-	            }
-	        }
-	        return instance;
-	    }	
-//	private Suite suite;
-//	private FixedLengthQueue<StateChange> stateChangeHistory = new FixedLengthQueue<StateChange>();
-//	
-//	public Suite getProcessModel() {
-//		return suite;
-//	}
-//	public void setProcessModel(Suite suite) {
-//		this.suite = suite;
-//	}
-//	public FixedLengthQueue<StateChange> getStateChangeHistory() {
-//		return stateChangeHistory;
-//	}
-//	public void setStateChangeHistory(FixedLengthQueue<StateChange> stateChangeHistory) {
-//		this.stateChangeHistory = stateChangeHistory;
-//	}
+   private volatile static ProcessModelSingleton instance;
+   
+   private ProcessModelSingleton(SystemUnderTest sut, LoadGenerator lg) {
+    	this.systemUnderTest = sut;
+    	this.loadGenerator = lg;
+   }
+   public static ProcessModelSingleton getInstance() throws ConfigVariableNotFoundException, Snail4jException {
+        if (instance == null) {
+            synchronized (ProcessModelSingleton.class) {
+                if (instance == null) {
+        			SystemUnderTest systemUnderTest = DefaultFactory.getFactory().createSystemUnderTest();
+        			LoadGenerator loadGenerator = DefaultFactory.getFactory().createLoadGenerator();
+        			
+                    instance = new ProcessModelSingleton(systemUnderTest, loadGenerator);
+                }
+            }
+        }
+        return instance;
+    }	
 }

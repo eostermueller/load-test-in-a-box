@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.nio.file.Path;
 
 import com.github.eostermueller.snail4j.util.JdkUtils;
-import com.github.eostermueller.snail4j.util.NonStaticOsUtils;
 import com.github.eostermueller.snail4j.util.JdkUtils.ProcessDescriptor;
 import com.github.eostermueller.snail4j.util.OsUtils.OsResult;
 
@@ -39,7 +38,7 @@ class JdkUtilsTest {
 	 */
 	void canLocateJdkBinExeAndExe() throws Snail4jException {
 
-		OsResult jcmd = JdkUtils.executeJdkBinCmd( new NonStaticOsUtils().get_JAVA_HOME(),"jcmd");
+		OsResult jcmd = JdkUtils.executeJdkBinCmd( "jcmd");
 		System.out.println("jcmd command: " + jcmd.stdout);
 		String somePartOfPackageOrClassNameOfTestRunnerWillSurelyIncludeThis = "jcmd";
 		assertTrue( jcmd.stdout.toLowerCase().indexOf( somePartOfPackageOrClassNameOfTestRunnerWillSurelyIncludeThis ) >0 );
@@ -84,7 +83,7 @@ class JdkUtilsTest {
 	}
 	@Test
 	void canParseJCmdOutput() throws Snail4jException {
-		ProcessDescriptor[] processes = JdkUtils.getJavaProcesses( new NonStaticOsUtils().get_JAVA_HOME() );
+		ProcessDescriptor[] processes = JdkUtils.getJavaProcesses( );
 		boolean ynFoundJCmd = false;
 		
 		for(ProcessDescriptor desc : processes) {

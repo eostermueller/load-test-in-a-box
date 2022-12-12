@@ -14,6 +14,7 @@ import { LoadGeneratorLauncherService } from '../services/load-generator-launche
 import {ConfigService} from '../services/config.service';
 import {ConfigModel} from '../services/config.model';
 
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-health-checks',
@@ -22,7 +23,6 @@ import {ConfigModel} from '../services/config.model';
 })
 export class HealthChecksComponent implements OnInit {
   config: ConfigModel = this.configService.config;
-
   sutLaunchStatus: LaunchStatus;
   loadGeneratorLaunchStatus: LaunchStatus;
   actuatorHealthCheck$: Observable<string[]>;
@@ -34,6 +34,7 @@ export class HealthChecksComponent implements OnInit {
   jmeterLoad : boolean = false;
   polledBitcoin$ : Observable<number>;
   theAnswer : number = -1;
+  sutPid : number = -1;
   sutGlowrootUrl : String;
 
   constructor(
@@ -85,6 +86,7 @@ export class HealthChecksComponent implements OnInit {
 //                  console.log("b4 health check parse");
                   const data = response.components;
                   this.sutAppHealth   = data['sutApp'    ].status === "UP" ? true : false;
+                  this.sutPid         = data['sutApp'    ].details.pid;
                   this.wiremockHealth = data['wiremock'  ].status === "UP" ? true : false;
                   this.h2Health       = data['h2'        ].status === "UP" ? true : false;
                   

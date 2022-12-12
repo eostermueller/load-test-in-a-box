@@ -106,7 +106,7 @@ public class Snail4jAgentApiController {
 	public AgentApiResponse startLoadGenerator() throws Snail4jException, ConfigVariableNotFoundException, IOException {
 		AgentApiResponse apiResponse = new AgentApiResponse( System.nanoTime() );
 
-		LOGGER.info("About to start the wind tunnel!");
+		LOGGER.info("About to start load generator for load-test-in-a-box");
 		ProcessModelSingleton.getInstance().getLoadGenerator().start();
 		LOGGER.info(" started!!");
 		apiResponse.setStatus(AgentStatus.SUCCESS);
@@ -116,7 +116,7 @@ public class Snail4jAgentApiController {
 	public AgentApiResponse stopLoadGenerator() throws Snail4jException, ConfigVariableNotFoundException, IOException {
 		AgentApiResponse apiResponse = new AgentApiResponse( System.nanoTime() );
 
-		LOGGER.info("About to stop the load generator!");
+		LOGGER.info("About to stop the load generator for load-test-in-a-box");
 		ProcessModelSingleton.getInstance().getLoadGenerator().shutdown();
 		LOGGER.info(" stopped!!");
 		

@@ -1,5 +1,8 @@
 package com.github.eostermueller.snail4j.launcher;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.util.FixedLengthQueue;
@@ -22,7 +25,16 @@ public class EventHistory {
 				maxEventCount
 				);
 
+	private void sortDecendingByTimestamp() {
+		 Collections.sort(events, new Comparator<Event>() {
+		     @Override
+		     public int compare(Event o1, Event o2) {
+		         return Long.compare(o2.getTimestamp(), o1.getTimestamp());
+		     }
+		 });		
+	}
 	public FixedLengthQueue<Event> getEvents() {
+		sortDecendingByTimestamp();
 		return events;
 	}
 

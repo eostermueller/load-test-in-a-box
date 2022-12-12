@@ -5,8 +5,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.github.eostermueller.snail4j.DefaultFactory;
-import com.github.eostermueller.snail4j.install.Installer;
+import com.github.eostermueller.snail4j.Application;
 
 /**
  * just the bare minimum required to find and read the snail4j.json config file.
@@ -22,7 +21,7 @@ public class BootstrapConfig {
 	public BootstrapConfig() {
 		
 		this(
-				Installer.INSTALL_ROOT,
+				Application.INSTALL_ROOT,
 				"snail4j.json");
 	}
 	  public void createSnail4jHomeIfNotExist() throws CannotFindSnail4jFactoryClass {

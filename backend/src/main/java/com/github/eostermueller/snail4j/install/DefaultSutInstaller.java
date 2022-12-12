@@ -11,6 +11,7 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
 
+import com.github.eostermueller.snail4j.Application;
 import com.github.eostermueller.snail4j.Context;
 import com.github.eostermueller.snail4j.DefaultContext;
 import com.github.eostermueller.snail4j.DefaultNonPersistentParameters;
@@ -35,7 +36,7 @@ public class DefaultSutInstaller implements Installer {
 			try {
 				strSutAppFolder = sutAppFolder.getCanonicalPath().toString();
 			} catch (IOException e1) {
-				throw new Snail4jException(e1,"Unable to format the " + INSTALL_ROOT + "/sutApp folder");
+				throw new Snail4jException(e1,"Unable to format the " + Application.INSTALL_ROOT + "/sutApp folder");
 			}
 			if (this.getContext().getConfiguration().getSutAppHome().toFile().exists()) {
 				if (thisIsDefaultSnail4jSutAppPath(sutAppFolder) ) {
@@ -77,7 +78,7 @@ public class DefaultSutInstaller implements Installer {
 		this.getContext().getLogger().debug("@@@ sutAppFolder.getName().toString() [" + sutAppFolder.getName().toString() + "] ");
 		this.getContext().getLogger().debug("@@@ sutAppFolder.getParentFile().getName() [" + sutAppFolder.getParentFile().getName() + "] ");
 		if (sutAppFolder.getName().toString().equals("sutApp") 
-				&& sutAppFolder.getParentFile().getName().equals(INSTALL_ROOT) ) {
+				&& sutAppFolder.getParentFile().getName().equals(Application.INSTALL_ROOT) ) {
 			rc = true;
 		}
 		try {

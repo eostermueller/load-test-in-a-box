@@ -12,7 +12,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
   <parent>
     <groupId>com.github.eostermueller</groupId>
     <artifactId>SpringBootAngularApp</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3</version>
   </parent>
 	  
   <profiles>
@@ -42,8 +42,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     </profile>
   </profiles>
 
-  <artifactId>backend</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <artifactId>load-test-in-a-box_agent</artifactId>
+  <version>0.0.3</version>
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>

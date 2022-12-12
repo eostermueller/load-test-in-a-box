@@ -34,6 +34,7 @@
     "karma-coverage-istanbul-reporter": "^3.0.3",
     "karma-jasmine": "^4.0.1",
     "karma-jasmine-html-reporter": "^1.7.0",
+    "ng2-tooltip-directive": "^2.10.3",
     "ngx-markdown": "^13.1.0",
     "ngx-toastr": "^13.2.0",
     "node-gyp": "^6.1.0",

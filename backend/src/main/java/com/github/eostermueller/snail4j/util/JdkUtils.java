@@ -78,7 +78,7 @@ public class JdkUtils {
 		String path = getInstallPathOfThisJvm();
 	    if(path != null) {
 	        String javacPath = "";
-	        if(path.endsWith(File.separator + "bin")) {
+	        if(path.endsWith(File.separator + "bin") || path.endsWith(File.separator + "bin" + File.separator) ) {
 	            javacPath = path;
 	        } else {
 	            int libIndex = path.lastIndexOf(File.separator + "lib");
@@ -113,7 +113,7 @@ public class JdkUtils {
 	            /**  The above will work most of the time.
 	             *  The following addresses the OpenJDK "JRE+JDK" Packaging Scenario, detailed in method comments.
 	             */
-            	possiblePathToCompiler = possiblePathToCompiler + "/../../bin";
+            	possiblePathToCompiler = possiblePathToCompiler + File.separator + ".." + File.separator + ".." + File.separator + "bin";
 	    	    LOGGER.debug(String.format("looking for javac executable in %s", possiblePathToCompiler));
 	            if ( new File(possiblePathToCompiler, "javac").exists() || new File(possiblePathToCompiler, "javac.exe").exists() )
 	            	pathToJavaCompiler = Paths.get(possiblePathToCompiler);
@@ -121,12 +121,38 @@ public class JdkUtils {
         }
         return pathToJavaCompiler;
 	}
-	public static ProcessDescriptor[] getJavaProcesses(Path jdkHome) throws Snail4jException {
-		OsResult osResult = executeJdkBinCmd(jdkHome,JCMD);
+	
+	public static long getPidForProcessNameContains(String processNameCriteria) {
+		long rc = -1;
+		ProcessDescriptor[] processDescriptors;
+		try {
+			processDescriptors = getJavaProcesses();
+			LOGGER.debug("Found [" + processDescriptors.length + "] running processes");
+			for(ProcessDescriptor processDescriptor : processDescriptors ) {
+				LOGGER.debug("Does cmd line [" + processDescriptor.commandLine + "] contain [" + processNameCriteria + "]?");
+				if ( processDescriptor.commandLine.contains(processNameCriteria)) {
+					rc = processDescriptor.pid;
+					LOGGER.debug("Does cmd line [" + processDescriptor.commandLine + "] contain [" + processNameCriteria + "]? YES!!!!!");
+					break;
+				}
+			}
+		} catch (Snail4jException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		LOGGER.debug("pid = [" + Long.toString(rc) + "] for cmd line containing [" + processNameCriteria + "]");
+		
+		return rc;
+	}
+	public static ProcessDescriptor[] getJavaProcesses() throws Snail4jException {
+		OsResult osResult = executeJdkBinCmd( JCMD);
 		List<ProcessDescriptor> processes = new ArrayList<ProcessDescriptor>();
 		
 		String[] javaProcesses = osResult.stdout.split("\\r?\\n");
+		LOGGER.debug("Count of text lines in jcmd output:  [" + javaProcesses.length + "]");
 		for(String oneLine : javaProcesses) {
+			LOGGER.debug("Found this one line of text in jcmd output::  [" + oneLine + "]");
 			int indexOfSpace = oneLine.indexOf(' ');
 			if (indexOfSpace > 1) {
 				
@@ -144,18 +170,20 @@ public class JdkUtils {
 						) );
 			}
 		}
+		LOGGER.debug("Count of processes in jcmd output:  [" + processes.size() + "]");
 		return processes.toArray(new ProcessDescriptor[] {});
 		
 	}
-	public static OsResult executeJdkBinCmd(Path jdkHome, String jdkCmd) throws Snail4jException {
+	public static OsResult executeJdkBinCmd(String jdkCmd) throws Snail4jException {
+		Path jdkBinDir = JdkUtils.getDirectoryOfJavaCompiler();
 		OsResult osResult = null;
 		Messages m = DefaultFactory.getFactory().getMessages();
 		
-		if (jdkHome.toFile().exists() && jdkHome.toFile().isDirectory() ) {
-			String jdkBinCommand = jdkHome.toFile().getAbsolutePath().toString() + File.separator + "bin" + File.separator + jdkCmd;
+		if (jdkBinDir.toFile().exists() && jdkBinDir.toFile().isDirectory() ) {
+			String jdkBinCommand = jdkBinDir.toFile().getAbsolutePath().toString() + File.separator + jdkCmd;
 			osResult = OsUtils.executeProcess(jdkBinCommand);
 		} else {
-			throw new Snail4jException( m.javaHomeFolderDoesNotExistOrLackingPermissions(jdkHome.toFile()));
+			throw new Snail4jException( m.javaHomeFolderDoesNotExistOrLackingPermissions(jdkBinDir.toFile()));
 		}
 		
 		return osResult;

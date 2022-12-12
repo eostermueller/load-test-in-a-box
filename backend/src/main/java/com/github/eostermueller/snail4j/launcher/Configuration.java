@@ -135,6 +135,8 @@ public interface Configuration {
 	void setDefaultHostname(String hostname) throws Snail4jException;
 	int getWorkbenchAgentPort();
 	void setWorkbenchAgentPort(int workbenchAgentPort);
+	String getSutClassName();
+	void setSutClassName(String className);
 
 
 

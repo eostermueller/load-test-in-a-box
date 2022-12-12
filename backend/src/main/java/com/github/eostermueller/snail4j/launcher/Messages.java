@@ -73,4 +73,6 @@ public interface Messages {
 
 	String unableToRecursivelyDeleteFolder(String strSutAppFolder);
 
+	String unableToFindPidForCommandLineContaining(String criteria);
+
 }

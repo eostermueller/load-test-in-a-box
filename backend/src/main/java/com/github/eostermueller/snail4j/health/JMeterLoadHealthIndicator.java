@@ -28,7 +28,7 @@ public class JMeterLoadHealthIndicator implements HealthIndicator {
 		
 		try {
 			cfg = DefaultFactory.getFactory().getConfiguration();
-			ProcessDescriptor[] processes = JdkUtils.getJavaProcesses( cfg.getJavaHome() );
+			ProcessDescriptor[] processes = JdkUtils.getJavaProcesses();
 			
 			for(ProcessDescriptor desc : processes) {
 				
