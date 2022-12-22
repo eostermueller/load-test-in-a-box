@@ -4,7 +4,7 @@
 # If snail4j's uber jar is balooning in size and you don't know why, this comment is for you!!!
 # snail4j's pom inadvertently sticks of LARGE copy of the uber jar into the local maven repo.
 # The following is used to hunt down and delted it, so we don't zip a copy of the uber.jar inside the uber.jar!!!!!!
-SNAIL4J_MVN_DIR=com/github/eostermueller/backend/0.0.2-SNAPSHOT
+SNAIL4J_MVN_DIR=com/github/eostermueller/backend/0.0.3
 
 
 
@@ -56,4 +56,4 @@ MVN_URL=https://downloads.apache.org/maven/maven-3/${MVN_VERSION}/binaries/${MVN
 JMETER_ZIP_NAME=apache-jmeter-5.2.1.zip
 JMETER_URL=https://archive.apache.org/dist/jmeter/binaries/${JMETER_ZIP_NAME}
 
-
+BUILD_TEMP=$(realpath $SRC_DIR/load-test-in-a-box/build/temp)

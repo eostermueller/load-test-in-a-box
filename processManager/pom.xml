@@ -40,12 +40,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
       <artifactId>slf4j-simple</artifactId>
       <version>${slf4jVersion}</version>
     </dependency>
-	<!-- https://mvnrepository.com/artifact/org.glowroot/glowroot-agent -->
-	<dependency>
-	    <groupId>org.glowroot</groupId>
-	    <artifactId>glowroot-agent</artifactId>
-	    <version>0.13.5</version>
-	</dependency>
 	<dependency>
 		<groupId>org.junit.jupiter</groupId>
 		<artifactId>junit-jupiter-api</artifactId>
@@ -84,7 +78,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 				<sutApp.cmd.08>/E:ON</sutApp.cmd.08> <!-- benign filler arg -->
 				<sutApp.cmd.09>/E:ON</sutApp.cmd.09> <!-- benign filler arg -->
 				<sutApp.cmd.10>/C</sutApp.cmd.10>
-				<sutApp.cmd.11>..${file.separator}apache-maven-3.6.3${file.separator}bin${file.separator}mvn${script.extension} -e -X ${snail4j.maven.offline.passthru} ${snail4j.maven.repo.passthru} -Dspring-boot.run.fork=true -Dspring-boot.run.jvmArguments="-Dsnail4j.wiremock.hostname=${snail4j.wiremock.hostname} -Dsnail4j.h2.port=${snail4j.h2.port} -Dsnail4j.h2.hostname=${snail4j.h2.hostname} -Dsnail4j.wiremock.port=${snail4j.wiremock.port} -Dglowroot.agent.port=${snail4j.glowroot.port} ${snail4j.sut.jvmArguments}" -Dspring-boot.run.agents=${user.home}/.load-test-in-a-box/glowroot/glowroot/glowroot.jar -Dspring-boot.run.arguments=--server.port=${snail4j.sut.port} spring-boot:run</sutApp.cmd.11>
+				<sutApp.cmd.11>..${file.separator}apache-maven-3.6.3${file.separator}bin${file.separator}mvn${script.extension} -e -X ${snail4j.maven.offline.passthru} ${snail4j.maven.repo.passthru} -Dspring-boot.run.fork=true -Dspring-boot.run.jvmArguments="-Dsnail4j.wiremock.hostname=${snail4j.wiremock.hostname} -Dsnail4j.h2.port=${snail4j.h2.port} -Dsnail4j.h2.hostname=${snail4j.h2.hostname} -Dsnail4j.wiremock.port=${snail4j.wiremock.port} -Dglowroot.agent.port=${snail4j.glowroot.port} ${snail4j.sut.jvmArguments}" -Dspring-boot.run.agents=${user.home}/.load-test-in-a-box/glowroot/glowroot.jar -Dspring-boot.run.arguments=--server.port=${snail4j.sut.port} spring-boot:run</sutApp.cmd.11>
 			</properties>
 		</profile>
 		<profile>
