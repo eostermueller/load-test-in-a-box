@@ -6,6 +6,4 @@ gwmi win32_Process -Filter "CommandLine LIKE '%org.h2.tools.Server -tcp -tcpPort
 gwmi win32_Process -Filter "CommandLine LIKE '%backend-0.0.2-SNAPSHOT.jar%'" | Invoke-WmiMethod -Name Terminate
 gwmi win32_Process -Filter "CommandLine LIKE '%PerformanceSandboxApp%'" | Invoke-WmiMethod -Name Terminate
 gwmi win32_Process -Filter "CommandLine LIKE '%surefire%surefirebooter%'" | Invoke-WmiMethod -Name Terminate
-
-
-
+gwmi win32_Process -Filter "CommandLine LIKE '%wiremock:run%'" | Invoke-WmiMethod -Name Terminate
