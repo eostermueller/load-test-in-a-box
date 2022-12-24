@@ -30,7 +30,7 @@ Here are a few more [Architecture](https://github.com/eostermueller/performanceA
 
 
 # Motivation
-This project challenges end users (java developers) to [solicit predictions](https://blog.upperlinecode.com/stop-teaching-code-a1039983b39) on software performance experiments with main types of software defects:  
+This project challenges end users (java developers) to [solicit predictions](https://blog.upperlinecode.com/stop-teaching-code/) on software performance experiments with main types of software defects:  
  * Persistence
  * Alien systems
  * Threads
