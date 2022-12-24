@@ -1,5 +1,13 @@
 The Performance Analysis Workbench is the only Java load-test-in-a-box that (gulp) aims to educate all Java developers on software performance.
-Packaged as a Spring Boot uber jar (zip actually), it enables you to re-live datacenter performance firefights on your own desktop.  The download takes forever, but it installs in less than a minute or so.
+Packaged as a Spring Boot uber jar, it enables you to re-live datacenter performance firefights on your own desktop.  The download takes forever, but it installs in less than a minute or so.
+
+# How it Works
+Via the uber jar's UI at http://localhost:8675 you can 
+* Select which code runs under load - your selection is processed instantaneously, making for easy performance comparisons.  
+* View a menu of available code....and the menu consists of all code with a particular java annotation
+* Launch monitoring, provided by glowroot.org, or just use jdk tools like jstack, jmap, jstat, jcmd, etc...
+* Follow sample performance curriculum and interact with sample performance code.  For example:  "Click here to run this code, click there to run that code." -- (this is called 'click-to-fail').
+* Curriculum is delivered via markdown that you can change/enhance.
 
 # Performance Analysis Workbench Intro
 
