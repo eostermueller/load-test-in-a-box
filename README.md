@@ -14,7 +14,7 @@ The [Quickstart](https://github.com/eostermueller/performanceAnalysisWorkbench/w
 [Road Map](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Road-Map) shows the general direction.
 
 # Architecture
-The uber jar's browser UI allows you to start/stop the system under test and the load generator, which are both installed to a folder on your file system (%USERPROFILE%\.load-test-in-a-box or $HOME/.load-test-in-a-box).
+The uber jar's browser UI (aka the 'agent') allows you to start/stop the system under test and the load generator, which are both installed to a folder on your file system (%USERPROFILE%\\.load-test-in-a-box or $HOME/.load-test-in-a-box).
 
 ![load-test-in-a-box architecture](https://user-images.githubusercontent.com/175773/204170426-54f26911-f35b-49db-9dcb-8f6183dfe8c9.jpg)
 
