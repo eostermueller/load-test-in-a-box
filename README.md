@@ -9,7 +9,7 @@ Via the uber jar's UI at http://localhost:8675 you can
 * Follow sample performance curriculum and interact with sample performance code.  For example:  "Click here to run this code, click there to run that code." -- (this is called 'click-to-fail').
 * Curriculum is delivered via markdown that you can change/enhance.
 
-# Performance Analysis Workbench Intro
+# Links
 
 The [Quickstart](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Quickstart). Download/install/run to run the pre-packaged java code showing performance defects and fixes.
 
