@@ -3,18 +3,22 @@ Packaged as a Spring Boot uber jar (zip actually), it enables you to re-live dat
 
 # Performance Analysis Workbench Intro
 
-
 The [Quickstart](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Quickstart). Download/install/run to run the pre-packaged java code showing performance defects and fixes.
 
 [Run your own code](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Run-Your-Own-Code) inside the Workbench.
-
-[Architecture](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Architecture).
 
 [Build](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Build) the Workbench's uber jar.
 
 [Contribute](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Contributing) enhancements/fixes to the Workbench.
 
 [Road Map](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Road-Map) shows the general direction.
+
+# Architecture
+The uber jar's browser UI allows you to start/stop the system under test and the load generator, which are both installed to a folder on your file system (%USERPROFILE%\.load-test-in-a-box or $HOME/.load-test-in-a-box).
+
+![load-test-in-a-box architecture](https://user-images.githubusercontent.com/175773/204170426-54f26911-f35b-49db-9dcb-8f6183dfe8c9.jpg)
+
+Here are a few more [Architecture](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Architecture) details.
 
 
 # Motivation
