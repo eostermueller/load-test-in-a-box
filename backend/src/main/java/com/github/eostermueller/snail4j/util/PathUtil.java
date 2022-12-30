@@ -155,6 +155,32 @@ public class PathUtil {
 		        }
 		    }
 		}
+		/**
+		 * Link [1] says that the method {@link java.nio.file.Path#subpath(int, int)}  "Returns the subsequence of the Path (not including a root element) as specified by the beginning and ending indexes."
+		 * I think it's great that it's so specific saying the root is omitted!
+		 * 
+		 * Unfortunately, the phrasing in the javadoc -- link [2] -- says "Returns a relative Path that is a subsequence of the name elements of this path."
+		 * IMHO,  Link [2] should include the "not including a root element" phrase (or similar) found in [2].
+		 * [1] https://docs.oracle.com/javase/tutorial/essential/io/pathOps.html
+		 * [2] https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/nio/file/Path.html#subpath(int,int)
+		 * 
+		 * @param searchPath
+		 * @param pathElementCriteria
+		 * @return
+		 */
+		public static Path getParentOfSpecificPathElement(Path searchPath, String pathElementCriteria) {
+			Path rc = null;
+			if (searchPath!=null) {
+				for(int i = searchPath.getNameCount() -1; i > 0 ; i--) {
+					if (searchPath.getName(i).toString().contentEquals(pathElementCriteria)) {
+						rc = searchPath.getRoot().resolve( searchPath.subpath(0, i) );
+						break;
+					}
+				}
+			}
+			return rc;
+		}
+	   
 	  public void delete(File f) throws IOException {
 		   if (f.isDirectory()) {
 		     for (File c : f.listFiles())

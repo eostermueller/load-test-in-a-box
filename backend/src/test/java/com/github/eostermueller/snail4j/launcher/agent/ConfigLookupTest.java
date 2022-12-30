@@ -23,21 +23,21 @@ public class ConfigLookupTest {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	
 	TestConfiguration cfg = null;
-	String expectedJavaHome = null;
+	String expectedMavenHome = null;
 	@TempDir File tmpFolder;
 
 	 @BeforeEach
 	public void setup(@TempDir File tmpFolder) throws IOException, Snail4jException  {
 		LOGGER.debug("in ConfigLookupTest#setup() b");
-    	this.expectedJavaHome = tmpFolder.getAbsolutePath().toString();
+    	this.expectedMavenHome = tmpFolder.getAbsolutePath().toString();
 		LOGGER.debug("in ConfigLookupTest#setup() c");
     	
-    	Path p = Paths.get(this.expectedJavaHome);
+    	Path p = Paths.get(this.expectedMavenHome);
 		LOGGER.debug("in ConfigLookupTest#setup() d");
     	    	
 		cfg = new TestConfiguration();
 		LOGGER.debug("in ConfigLookupTest#setup() e");
-		cfg.setJavaHome(p);
+		cfg.setMavenHome(p);
 		LOGGER.debug("in ConfigLookupTest#setup() f");
 
 	}
@@ -76,22 +76,28 @@ public class ConfigLookupTest {
 		String actualZipFileName = configLookup.getValue("jmeterFilesZipFileName");
 		assertEquals(expectedZipFileName, actualZipFileName);
 	}
+	/**
+	 * Won't enhance this to test an ACTUAL maven home folder.
+	 * Instead, this test just stuffs a temporary folder name into MavenHome and insures correct serialization when we read it from the confile.
+	 * @throws ConfigVariableNotFoundException
+	 * @throws Snail4jException
+	 */
 	@Test
 	public void canResolvePathVariable() throws ConfigVariableNotFoundException, Snail4jException {
 		ConfigLookup configLookup = DefaultFactory.getFactory().createConfigLookup();
 		configLookup.setConfiguration(cfg);
 		
-		String actualJavaHome = configLookup.getValue("javaHome");
+		String actualMavenHome = configLookup.getValue("mavenHome");
 		
-		String myExpectedJavaHome = this.expectedJavaHome;
+		String myExpectedMavenHome = this.expectedMavenHome;
     	if (OS.getOs().getOsFamily()==OS.OsFamily.Windows) {
-    		myExpectedJavaHome = myExpectedJavaHome.replace("\\", "/");
-    		myExpectedJavaHome = "/" + myExpectedJavaHome;
+    		myExpectedMavenHome = myExpectedMavenHome.replace("\\", "/");
+    		myExpectedMavenHome = "/" + myExpectedMavenHome;
     	}
 		
 		assertEquals(
-				myExpectedJavaHome, 
-				actualJavaHome);
+				myExpectedMavenHome, 
+				actualMavenHome);
 	}
 
 }

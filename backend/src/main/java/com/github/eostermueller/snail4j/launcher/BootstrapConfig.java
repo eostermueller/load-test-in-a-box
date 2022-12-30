@@ -22,7 +22,7 @@ public class BootstrapConfig {
 		
 		this(
 				Application.INSTALL_ROOT,
-				"snail4j.json");
+				Application.CONFIG_FILE_NAME);
 	}
 	  public void createSnail4jHomeIfNotExist() throws CannotFindSnail4jFactoryClass {
 		  File snail4jHomeDir = getSnail4jHome().toFile();

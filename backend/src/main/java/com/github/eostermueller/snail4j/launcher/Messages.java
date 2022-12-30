@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface Messages {
 
+	String warning();
 	String testMustBeStoppedBeforeAttemptingToStart(String name);
 
 	String testMustBeStartedBeforeAttemptingToStop(String name, State state, State stopped);
@@ -49,7 +50,6 @@ public interface Messages {
 
 	String javaHomeEnvVarNotSet();
 
-	String javaHomeFolderDoesNotExistOrLackingPermissions(File javaHomeFolder);
 
 	String startInstallMessage();
 
@@ -59,7 +59,7 @@ public interface Messages {
 
 	String unsupportedJavaVersion(String currentJavaSpecificationVersion, Path javaLocation, String[] listOfUnsupportedVersions);
 
-	String jreIsNotEnough(Path currentJavaPath);
+	String jreIsNotEnough(String whereFoundPath, Path currentJavaPath);
 
 	String startupAborted(int countOfFailedPreChecks);
 
@@ -74,5 +74,14 @@ public interface Messages {
 	String unableToRecursivelyDeleteFolder(String strSutAppFolder);
 
 	String unableToFindPidForCommandLineContaining(String criteria);
+
+	String currentJvm_jreIsNotEnough(Path currentJavaPath);
+	String JAVA_HOME_jreIsNotEnough(Path javaHomePath, Path currentJvm);
+	String noJAVA_HOMEenvVarFound(Path p);
+	String sutProcessesWillUseJAVA_HOME_Jdk(Path firstCandidate);
+	String sutProcessesWillUseCurrentJdk(Path firstCandidate);
+	String failedToFindJdk();
+	String jdkFolderDoesNotExistOrLackingPermissions(File file);
+	String javaHomeFolderDoesNotExistOrLackingPermissions_withAlternatives(File javaHomeFolder, Path currentJdkPath);
 
 }

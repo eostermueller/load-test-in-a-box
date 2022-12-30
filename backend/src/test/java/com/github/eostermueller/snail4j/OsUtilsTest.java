@@ -85,16 +85,14 @@ Active Connections
 	void testMacCommandExecution() throws Snail4jException {
 		
 		//WARNING:  Without -n and -P, it takes a long time
-		String myMacCommand = "sudo lsof -iUDP -P -n";
+		//String myMacCommand = "lsof -iUDP -P -n";
+		String myMacCommand = "echo hello foobar";
 		OsResult osResult = OsUtils.executeProcess_bash(myMacCommand,null);
 		
 		assertEquals(0,osResult.exitCode);
 		
-		int foundUDP = osResult.stdout.toLowerCase().indexOf("UDP");
+		int foundUDP = osResult.stdout.toLowerCase().indexOf("foobar");
 		assertTrue( foundUDP > -1  );
-
-		int foundColon = osResult.stdout.indexOf(":");
-		assertTrue( foundColon > -1  );
 		
 	}
 	/**

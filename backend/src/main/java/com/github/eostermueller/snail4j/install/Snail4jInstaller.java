@@ -44,7 +44,6 @@ public class Snail4jInstaller implements InstallAdvice.StartupLogger {
 	Messages messages = null;
 	public Snail4jInstaller() throws CannotFindSnail4jFactoryClass {
 		messages = DefaultFactory.getFactory().getMessages();
-
 	}
 
 	/**
@@ -61,52 +60,25 @@ public class Snail4jInstaller implements InstallAdvice.StartupLogger {
 	 * @throws Snail4jException 
 	 */
 	public int preInstallJavaValidation(Configuration cfg) throws MalformedURLException, Snail4jException {
-		int errorCount = 0;
 		
 		InstallAdvice ia = new InstallAdvice((InstallAdvice.StartupLogger)this);
 		
-		if (!ia.isJavaSpecificationVersionOk() )
-			errorCount++;	//Unlikely this will happen, because 1.7 or before JDK won't run a 1.8 or higher jar file.
-
-		Path javac_dir = JdkUtils.getDirectoryOfJavaCompiler();
-		if (javac_dir!=null) {
-			cfg.setJavaHome( javac_dir.getParent() );
-		} else {
-			Path pathOfThisJvm = Paths.get(JdkUtils.getInstallPathOfThisJvm() );
-			info( messages.jreIsNotEnough( pathOfThisJvm ) );
-			Path java_home_from_env = new NonStaticOsUtils().get_JAVA_HOME();
-			info( messages.attemptingToUseJavaHomeToFindJavaCompiler( java_home_from_env ) );
-			
-			if (!ia.isJavaHomeDirExists(java_home_from_env) )
-				errorCount++;
-			else {
-
-				if( JdkUtils.pointsToCurrentJava(java_home_from_env) ) {
-					cfg.setJavaHome(java_home_from_env);
-					javac_dir = JdkUtils.getDirectoryOfJavaCompiler(java_home_from_env);
-					if (javac_dir==null ) {
-						info( messages.jreIsNotEnough( java_home_from_env ) );
-						errorCount++;
-					} else {
-						cfg.setJavaHome(javac_dir.getParent() );
-					}
-				} else {
-					error( messages.JAVA_HOME_mustPointToCurrentJava(java_home_from_env, pathOfThisJvm));
-					errorCount++;
-				}
-			}
+		ia.validateThisJvmIsJdk();//this agent regularly uses jcmd, probably other jdk cmds.
+		
+		ia.validateJavaSpecificationVersion();
+		Path sutJdk = ia.getJdkForSUT();
+		if (sutJdk!=null) {
+			cfg.setSutJDK(sutJdk);
 		}
 		
-
-		LOGGER.debug(LOG_PREFIX+String.format("Detected [%d] JDK issues",errorCount));
-		return errorCount;
+		return ia.getErrorCount();
 	}
+	
 	public int preInstallValidation(Configuration cfg) throws MalformedURLException, Snail4jException {
 		InstallAdvice ia = new InstallAdvice((InstallAdvice.StartupLogger)this);
 		int errorCount = 0;
 		
 		errorCount += preInstallJavaValidation(cfg);
-		//errorCount += ia.sutPortsAreAvailable(cfg);
 		
 		int countOfUnavailablePorts = ia.sutPortsAreAvailable(cfg);
 		switch(countOfUnavailablePorts) {
@@ -585,6 +557,11 @@ protected void installProcessManager() throws Snail4jException {
 	public void debug(String msg) {
 		if (LOGGER.isDebugEnabled())
 			System.out.println(LOG_PREFIX+"DEBUG: "+msg);
+	}
+
+	@Override
+	public void warn(String msg) {
+		System.out.println(LOG_PREFIX+ "WARN:  " + msg);		
 	}  
 
 }

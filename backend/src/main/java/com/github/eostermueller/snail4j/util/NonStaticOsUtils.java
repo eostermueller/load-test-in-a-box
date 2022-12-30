@@ -30,16 +30,9 @@ public class NonStaticOsUtils {
 	
 	public Path get_JAVA_HOME() throws Snail4jException {
 		String javaHomeEnvVar = getEnv().get(JAVA_HOME);
-		Messages m = DefaultFactory.getFactory().getMessages();
 		Path p = null;
 		if (javaHomeEnvVar!=null && javaHomeEnvVar.trim().length()>0) {
 			p = Paths.get(javaHomeEnvVar);
-			
-			if (!p.toFile().exists() || !p.toFile().isDirectory() ) {
-				throw new Snail4jException( m.javaHomeFolderDoesNotExistOrLackingPermissions(p.toFile()) );
-			}
-		} else {
-			throw new Snail4jException(m.javaHomeEnvVarNotSet());
 		}
 		return p;
 	}

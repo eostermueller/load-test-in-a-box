@@ -15,6 +15,7 @@ import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.Event;
 import com.github.eostermueller.snail4j.launcher.Messages;
 import com.github.eostermueller.snail4j.util.JdkUtils;
+import com.github.eostermueller.snail4j.util.NonStaticOsUtils;
 import com.github.eostermueller.snail4j.util.OsUtils;
 
 /**
@@ -23,8 +24,9 @@ import com.github.eostermueller.snail4j.util.OsUtils;
  */
 public class InstallAdvice {
 	public StartupLogger startupLogger;
+	Messages messages = DefaultFactory.getFactory().getMessages();
+	private int errorCount = 0;
 	public InstallAdvice(StartupLogger val) throws Snail4jException {
-		messages = DefaultFactory.getFactory().getMessages();
 		this.startupLogger = val;
 		if (this.startupLogger==null)
 			throw new Snail4jException("Bug.  expectied StartupErrorLogger object");
@@ -33,7 +35,16 @@ public class InstallAdvice {
 		public void error(String msg);
 		public void info(String msg);
 		public void debug(String msg);
+		public void warn(String msg);
 	}
+	public void error(String msg) { 
+		this.errorCount++;
+		this.startupLogger.error(msg); 
+	}
+	public void info(String msg) { this.startupLogger.info(msg); }
+	public void warn(String msg) { this.startupLogger.warn(msg); }
+	public void debug(String msg) { this.startupLogger.debug(msg); }
+	
 	private static final String WIREMOCK_PORT_PROPERTY = "wiremockPort";
 
 	private static final String H2_PORT_PROPERTY = "h2Port";
@@ -42,7 +53,6 @@ public class InstallAdvice {
 
 	private static final String GLOWROOT_PORT_PROPERTY = "glowrootPort";
 	
-	Messages messages = null;
 	private static String[] UNSUPPORTED_JAVA_SPECIFICATION_VERSIONS = new String[]{ "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7" };
 	static class TcpTarget {
 		static TcpTarget create(String hostname, int port, String name, String snail4jPropertyName, boolean alsoCheckLocalhost) {
@@ -73,6 +83,36 @@ public class InstallAdvice {
 		}
 	}
 	
+	public Path getJdkForSUT() throws Snail4jException {
+		Path rc = null;
+
+		Path firstCandidate = new NonStaticOsUtils().get_JAVA_HOME();
+		Path secondCandidate = JdkUtils.getJavaHomeFromSunBootLibraryPath();
+
+		if (firstCandidate==null) {
+			info(messages.noJAVA_HOMEenvVarFound(secondCandidate) );
+		} else if (!firstCandidate.toFile().exists() || !firstCandidate.toFile().isDirectory() ) {
+			warn (messages.javaHomeFolderDoesNotExistOrLackingPermissions_withAlternatives(firstCandidate.toFile(),secondCandidate));
+		} else if (JdkUtils.isJdk(firstCandidate)) {
+			info(messages.sutProcessesWillUseJAVA_HOME_Jdk(firstCandidate));
+			rc = firstCandidate;
+		} else {
+			warn(messages.JAVA_HOME_jreIsNotEnough(firstCandidate,secondCandidate));
+			
+			//Could not find acceptable JAVA_HOME, so try to use current JVM
+			if (JdkUtils.isJdk(secondCandidate)) {
+				rc = secondCandidate;
+				info(messages.sutProcessesWillUseCurrentJdk(firstCandidate));
+			} else {
+				error(messages.failedToFindJdk() );
+			}
+				
+		}
+		
+		return rc;		
+		
+	}
+	
 	public int sutPortsAreAvailable(Configuration cfg) throws CannotFindSnail4jFactoryClass, Snail4jMultiException {
 		List<String> errors = new ArrayList<String>();
 		int timeoutMs = 20000;
@@ -95,10 +135,10 @@ public class InstallAdvice {
 			if (t.active) {
 				String error = DefaultFactory.getFactory().getMessages()
 						.tcpPortConflict(t.name,hostname,t.port,t.snail4jPropertyName);
-				this.startupLogger.error(error);
+				this.error(error);
 				errors.add(error);
 			}
-			startupLogger.debug( "Snail4j Port status: " + t.toString() );
+			debug( "Snail4j Port status: " + t.toString() );
 		}
 		String portInitStatus = DefaultFactory.getFactory().getMessages()
 				.portInitStatus(errors);
@@ -107,36 +147,27 @@ public class InstallAdvice {
 				Event.create(portInitStatus) );
 
 		if (errors.size() > 0)
-			this.startupLogger.error(portInitStatus);
+			error(portInitStatus);
 		else
-			this.startupLogger.debug(portInitStatus);
+			debug(portInitStatus);
 
 		return errors.size();
 	}
 
 
-	public boolean isJdk() throws Snail4jException {
-		boolean rc = true;
-		
-		rc = JdkUtils.isJdk();
+	public void validateThisJvmIsJdk() throws Snail4jException {
 
-		Path pathOfJava = JdkUtils.getCurrentJavaPath();
-		
+		Path pathOfJava = JdkUtils.getJavaHomeFromSunBootLibraryPath();
 		if (pathOfJava==null || pathOfJava.toFile().getAbsolutePath()==null) {
 			throw new Snail4jException("Unable to find sun.boot.library.path");
 		}
-		
-		String errorMsg = messages.jreIsNotEnough (pathOfJava );
-		if (errorMsg==null || "".equals(errorMsg)) {
-			throw new Snail4jException("Bug:  could not create error message showing location of java.");
-		}
-		if (!rc)
-			startupLogger.error( errorMsg );
-			
-		return rc;
+
+		String errorMsg = messages.currentJvm_jreIsNotEnough (pathOfJava );
+		if (!JdkUtils.isJdk())
+			error( errorMsg );
 	}
 	
-	public boolean isJavaSpecificationVersionOk() throws Snail4jException {
+	public void validateJavaSpecificationVersion() throws Snail4jException {
 		String currentJavaSpecificationVersion = System.getProperty("java.specification.version");
 		
 		if (currentJavaSpecificationVersion==null || "".equals(currentJavaSpecificationVersion)) {
@@ -147,9 +178,9 @@ public class InstallAdvice {
 				currentJavaSpecificationVersion,
 				UNSUPPORTED_JAVA_SPECIFICATION_VERSIONS);
 		
-		Path p = JdkUtils.getCurrentJavaPath();
+		Path p = JdkUtils.getJavaHomeFromSunBootLibraryPath();
 		if (ynOnTheUnsupportedList)
-			startupLogger.error( 
+			error( 
 					
 					messages.unsupportedJavaVersion ( 
 					currentJavaSpecificationVersion, 
@@ -157,35 +188,10 @@ public class InstallAdvice {
 					UNSUPPORTED_JAVA_SPECIFICATION_VERSIONS 
 					)
 				);
-			
-		return !ynOnTheUnsupportedList;
 	}
-	/**
-	 * 
-	 * @return
-	 * @throws CannotFindSnail4jFactoryClass 
-	 * @throws MalformedURLException 
-	 */
-	public boolean isJavaHomeDirExists(Path java_home) throws CannotFindSnail4jFactoryClass, MalformedURLException {
-		boolean rc = false;
-		
-		if (java_home!=null) {
-			File javaHomeFolder = java_home.toFile();
-			if (!javaHomeFolder.exists() || !javaHomeFolder.isDirectory()) {
-				startupLogger.error( 
-						messages.javaHomeFolderDoesNotExistOrLackingPermissions(javaHomeFolder) );
-			} else {
-				rc = true;
-			}
 
-			if (!rc) {
-				startupLogger.error( 
-						new DocumentationLinks().getJdkInstallAdvice().toString() );
-			}
-			
-		}
-		
-		return rc;
+	public int getErrorCount() {
+		return errorCount;
 	}
 
 }

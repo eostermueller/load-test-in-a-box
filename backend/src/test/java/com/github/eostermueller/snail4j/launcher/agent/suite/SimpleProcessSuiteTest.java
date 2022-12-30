@@ -20,6 +20,7 @@ import com.github.eostermueller.snail4j.launcher.Suite;
 import com.github.eostermueller.snail4j.launcher.agent.DoNothingProcessRunner;
 import com.github.eostermueller.snail4j.launcher.agent.MockServerProcess;
 import com.github.eostermueller.snail4j.launcher.agent.TestConfiguration;
+import com.github.eostermueller.snail4j.util.JdkUtils;
 
 public class SimpleProcessSuiteTest {
 		
@@ -52,9 +53,9 @@ public class SimpleProcessSuiteTest {
 		
 		TestConfiguration t = new TestConfiguration();
 		
-		MockServerProcess testOne = new MockServerProcess(tmpFolder,t.getJavaHome(),keyOne.getTinyId());
-		MockServerProcess testTwo = new MockServerProcess(tmpFolder,t.getJavaHome(),keyTwo.getTinyId());
-		MockServerProcess testThree = new MockServerProcess(tmpFolder,t.getJavaHome(),keyThree.getTinyId());
+		MockServerProcess testOne = new MockServerProcess(tmpFolder,t.getSutJDK(),keyOne.getTinyId());
+		MockServerProcess testTwo = new MockServerProcess(tmpFolder,t.getSutJDK(),keyTwo.getTinyId());
+		MockServerProcess testThree = new MockServerProcess(tmpFolder,t.getSutJDK(),keyThree.getTinyId());
 
 		one.setProcessBuilder(testOne.getProcessBuilder());
 		two.setProcessBuilder(testTwo.getProcessBuilder());
@@ -105,12 +106,12 @@ public class SimpleProcessSuiteTest {
 		
 		TestConfiguration t = new TestConfiguration();
 		
-		MockServerProcess testOne = new MockServerProcess(tmpFolder,t.getJavaHome(),keyOne.getTinyId());
+		MockServerProcess testOne = new MockServerProcess(tmpFolder,JdkUtils.getJavaHomeFromSunBootLibraryPath(),keyOne.getTinyId());
 		testOne.compile();
 		
-		MockServerProcess testTwo = new MockServerProcess(tmpFolder,t.getJavaHome(),keyTwo.getTinyId());
+		MockServerProcess testTwo = new MockServerProcess(tmpFolder,JdkUtils.getJavaHomeFromSunBootLibraryPath(),keyTwo.getTinyId());
 		testTwo.compile();
-		MockServerProcess testThree = new MockServerProcess(tmpFolder,t.getJavaHome(),keyThree.getTinyId());
+		MockServerProcess testThree = new MockServerProcess(tmpFolder,JdkUtils.getJavaHomeFromSunBootLibraryPath(),keyThree.getTinyId());
 		testThree.compile();
 		
 		StdoutProcessRunnerJdk8 one = new StdoutProcessRunnerJdk8(keyOne);  

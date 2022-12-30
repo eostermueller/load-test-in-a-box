@@ -42,7 +42,7 @@ public class BasicProcessManagementTest_twice {
 		
 		TestConfiguration t = new TestConfiguration();
 		
-		MockServerProcess testOne = new MockServerProcess(tmpDir.toFile(),t.getJavaHome(),key.getTinyId());
+		MockServerProcess testOne = new MockServerProcess(tmpDir.toFile(),t.getSutJDK(),key.getTinyId());
 		testOne.setSleepMsAfterStartup(0);
 		testOne.setSleepMsBeforeStartup(0);
 		testOne.compile();

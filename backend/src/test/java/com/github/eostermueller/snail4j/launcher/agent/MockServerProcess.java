@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Assertions;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
+import com.github.eostermueller.snail4j.util.JdkUtils;
 import com.github.eostermueller.snail4j.util.OS;
 
 
@@ -121,7 +122,7 @@ public class MockServerProcess {
 		
 		writeTextToFile(getSourceFileText(), mySourceFile);
 		
-		Path javaHome = DefaultFactory.getFactory().getConfiguration().getJavaHome();
+		Path javaHome = JdkUtils.getJavaHomeFromSunBootLibraryPath();
 		
 		Assertions.assertNotNull( javaHome );
 		

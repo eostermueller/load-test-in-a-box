@@ -126,8 +126,8 @@ public class Messages_en_US implements Messages {
 	}
 
 	@Override
-	public String javaHomeFolderDoesNotExistOrLackingPermissions(File javaHomeFolder) {
-		return String.format("JAVA_HOME env is set to [%s].  This path does not exist or you're lacking permissions to access it. Snail4j uses JAVA_HOME to locate java, jcmd and other tools.",javaHomeFolder.getAbsolutePath().toString());
+	public String javaHomeFolderDoesNotExistOrLackingPermissions_withAlternatives(File javaHomeFolder, Path currentJdkPath) {
+		return String.format("JAVA_HOME env is set to [%s].  The path does not exist or you're lacking permissions to access it. Will attempt to use current JVM path [%s] for SUT JDK.",javaHomeFolder.getAbsolutePath().toString());
 	}
 
 	@Override
@@ -156,9 +156,18 @@ public class Messages_en_US implements Messages {
 		
 	}
 
-	public String jreIsNotEnough(Path currentJavaPath) {
+	@Override
+	public String JAVA_HOME_jreIsNotEnough(Path javaHomePath, Path currentJvm) {
+		return String.format("the JAVA_HOME path is a JRE and not a full blown JDK.  SUT processes will attempt to use current JVM for JDK: [%s].",javaHomePath,currentJvm);
+	}
+	
+	@Override
+	public String currentJvm_jreIsNotEnough(Path currentJavaPath) {
+		return jreIsNotEnough("the currently running JVM",currentJavaPath);
+	}
+	public String jreIsNotEnough(String whereFound, Path currentJavaPath) {
 		String path = currentJavaPath.toFile().getAbsolutePath();
-		return String.format("Sure looks like you launched a JRE.  Snail4j requires a JDK.  Path to JRE that was used:: \n#### \t\t\t%s", path );
+		return String.format("The path found for [%s] is not a JDK:: \n#### \t\t\t%s", whereFound, path );
 	}
 
 	@Override
@@ -205,5 +214,34 @@ public class Messages_en_US implements Messages {
 	@Override
 	public String unableToFindPidForCommandLineContaining(String criteria) {
 		return String.format("Unable to find process id using JDK's jcmd command line tool.  Unable to find cmd line that contains [%s]",criteria);
+	}
+
+	@Override
+	public String warning() {
+		return "WARNING";
+	}
+
+	@Override
+	public String noJAVA_HOMEenvVarFound(Path p) {
+		return "No JAVA_HOME environment variable found. Will attempt to use [%s] for the SUT JDK";
+	}
+
+	@Override
+	public String sutProcessesWillUseJAVA_HOME_Jdk(Path firstCandidate) {
+		return String.format("SUT processes will be launched with the JDK at the JAVA_HOME env variable [%s}",firstCandidate);
+	}
+	@Override
+	public String sutProcessesWillUseCurrentJdk(Path firstCandidate) {
+		return String.format("SUT processes will be launched with this JDK [%s}",firstCandidate);
+	}
+
+	@Override
+	public String failedToFindJdk() {
+		return "Failed to find JDK. To fix, either launch load-test-in-a-box uber jar with a JDK (a JRE is not sufficient) or point to a JDK using JAVA_HOME environment variable."; 
+	}
+
+	@Override
+	public String jdkFolderDoesNotExistOrLackingPermissions(File file) {
+		return String.format("The JDK path [%] does not exist or you're lacking permissions to access it.",file.getAbsolutePath().toString());	
 	}
 }

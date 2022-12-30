@@ -23,8 +23,135 @@ import com.github.eostermueller.snail4j.util.OsUtils.OsResult;
 
 public class JdkUtils {
 	private static final Logger LOGGER = LoggerFactory.getLogger(JdkUtils.class);
-	
-	public static Path getCurrentJavaPath() throws Snail4jException {
+
+	/**
+	 * I'll define "java home" as the path in the JDK that is parent to the bin folder where javac or javac.exe resides.
+	 * 
+	 * sun.boot.library.path is defined as: 
+	 * The Java Virtual Machine (JVM) uses the sun.boot.library.path property in order to locate native libraries. This property is part of the system environment used by Java, in order to locate and load native libraries used by an application.  Note that sun.boot.library.path is searched before java.library.path.
+	 * 
+	 * penJDK:
+	 * 
+	 * Win:
+	 * 
+	 *     sun.boot.library.path	C:\Program Files (x86)\Java\jre7\bin
+	 *     per http://mirc.luriechildrens.org/system
+	 *     
+	 *     
+	 *     sun.boot.library.path: D:\eclipse\workspace\main\jre\bin
+	 *     https://discussions.apple.com/thread/5848338
+	 *     
+	 *     sun.boot.library.path=c:\program files\java\jre-9.0.1\bin
+	 *     per https://community.atlassian.com/t5/Bamboo-questions/Error-when-trying-to-install-with-Java-9/qaq-p/691819
+	 *     
+	 *     sun.boot.library.path   C:\Program Files (x86)\Java\jre6\bin
+	 *     per https://studylibfr.com/doc/2783759/se-runtime-environment-sun.boot.library.path-c--program-f...
+	 *     
+	 *     sun.boot.library.path	C:\Program Files\Java\jre8\bin
+	 *     per https://www.mindprod.com/jgloss/properties.html
+	 *     
+	 *     sun.boot.library.path:C:\opt\Java\jdk-10\bin
+	 *     pr https://mkyong.com/java/how-to-list-all-system-properties-key-and-value-in-java/
+	 *     
+	 *     sun.boot.library.path	C:\Program Files (x86)\Java\jre1.8.0_241\bin
+	 *     per http://mirc.rosalindfranklin.edu/system
+	 *     
+	 *     
+	 * Linux:
+	 *      sun.boot.library.path	/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.261-2.6.22.2.el7_8.x86_64/jre/lib/amd64
+	 *      per https://mistrprodnew.usask.ca:8443/system
+	 * 	   sun.boot.library.path = /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64
+	 *     per https://www.eclipse.org/forums/index.php/t/1068254/
+	 *  
+	 *     sun.boot.library.path: /usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0.x86_64/jre/lib/amd64
+	 *     per https://fedoraproject.org/wiki/Java/Troubleshooting
+	 *     
+	 *     sun.boot.library.path  /oracle_local/u01/jdk1.8.0_191/jre/lib/amd64
+	 *     per https://prodenv.dep.state.fl.us/DepNexus/public/systemproperties
+	 *     
+	 *     sun.boot.library.path=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.345.b01-1.el7_9.x86_64/jre/lib/amd64
+	 *     per https://meme-suite.org/meme/opal2/happyaxis.jsp
+	 *     
+	 *     sun.boot.library.path=/home/ianhudson/Development/jdk1.8.0_73/jre/lib/amd64
+	 *     per https://community.jitsi.org/t/jitsi-dev-problems-running-libjitsi-examples-no-audio-video/10448
+	 *     
+	 *     sun.boot.library.path = /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.242.b08-0.fc30.x86_64/jre/lib/amd64
+	 *     per https://bugzilla.redhat.com/show_bug.cgi?id=1805105
+	 *     
+	 *     sun.boot.library.path: /usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0.x86_64/jre/lib/amd64
+	 *     per https://fedoraproject.org/wiki/User:Brunovernay/Java/Troubleshooting
+	 *     
+	 *     sun.boot.library.path /usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/amd64
+	 *     per https://issues.jenkins.io/browse/JENKINS-18017?page=com.atlassian.jira.plugin.system.issuetabpanels%3Aall-tabpanel
+	 *     
+	 *     
+	 *  Mac:
+	 *  	sun.boot.library.path=/Library/Java/JavaVirtualMachines/jdk1.8.0_321.jdk/Contents/Home/jre/lib
+	 *      per https://github.com/jitsi/libjitsi/issues/557
+	 *      
+	 *      sun.boot.library.path=/Applications/YourKit-Java-Profiler-2019.1.app/Contents/jdk/Contents/Home/jre/lib
+	 *      per https://www.yourkit.com/forum/viewtopic.php?t=40702
+	 *      
+	 *       sun.boot.library.path = /Users/bradley/Library/Java/JavaVirtualMachines/openjdk-18.0.1.1/Contents/Home/lib
+	 *       per https://stackoverflow.com/q/72942063/2377579
+	 *      
+	 *  IBM JDK:
+	 *  
+	 *  Linux:
+	 *  
+	 *     sun.boot.library.path = /opt/ibm/java/jre/lib/amd64/compressedrefs
+     *     /opt/ibm/java/jre/lib/amd64
+     *     per https://knowledge.broadcom.com/external/article/229283/uma-liberty-agent-not-deploying-to-conta.html
+	 *     
+	 *     
+	 * @param currentPath -- value of system property sun.boot.library.path
+	 * @return
+	 * @throws Snail4jException
+	 */
+	public static Path getJavaHomeFromSunBootLibraryPath(Path currentPath ) throws Snail4jException {
+		
+		Path rc = null;
+		
+		OS.OsFamily osFamily = OS.getOs().getOsFamily();
+		
+		switch(osFamily) {
+		case Mac:
+		case Linux:
+			//Example:  /Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/jre/lib
+			rc = PathUtil.getParentOfSpecificPathElement(currentPath, "jre");
+			/*
+			 * 
+			 */
+			break;
+		case Windows:
+			//Example: C:\java\jdk-14.0.2\bin
+			rc = currentPath.getParent();
+			break;
+				//Example:  /usr/lib/jvm/java-1.8.0-amazon-corretto.x86_64/jre/lib/amd64
+			default:
+		}
+		if (OS.getOs().getOsFamily()==OS.OsFamily.Mac) {
+			/**
+			 * Example input from mac:
+			 *   /Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/jre/lib
+			 */
+			
+		}
+		return rc;
+	}
+	public static Path getJavaHomeFromSunBootLibraryPath() throws Snail4jException {
+		Path currentPath  = getCurrentSunBootLibraryPath();
+		return getJavaHomeFromSunBootLibraryPath(currentPath);
+	}
+
+	/**  I wish geting java_home was as simple as doing "system.getProperties("java.home")
+	 * ....but is isn't.
+	 * The "load-test-in-a-box" definition java java_home is "The folder from which you can execute 'bin/javac' or 'bin\javac.exe'.
+	 * ....and for my macbook, the java.home system property doesn't match up -- whoops!!
+	 * 			 *  java.home = /Library/Java/JavaVirtualMachines/jdk1.8.0_202.jdk/Contents/Home/jre
+
+	 */
+	public static Path getCurrentSunBootLibraryPath() throws Snail4jException {
 		String pathOfRunningJava = System.getProperty("sun.boot.library.path");
 		
 		Path p = Paths.get(pathOfRunningJava);
@@ -38,7 +165,7 @@ public class JdkUtils {
 
 		javaHome = javaHome.normalize();
 		
-		Path currentJava = getCurrentJavaPath().normalize();
+		Path currentJava = getCurrentSunBootLibraryPath().normalize();
 				
 		if (currentJava.endsWith( Paths.get("bin") ))
 			currentJava = currentJava.getParent();
@@ -46,8 +173,13 @@ public class JdkUtils {
 		return currentJava.startsWith(javaHome);
 	}
 
+	public static boolean isJdk(Path p) {
+		Path c = getDirectoryOfJavaCompiler(p);
+		return c != null;
+	}
 	public static boolean isJdk() {
-		return !(getDirectoryOfJavaCompiler() == null);
+		String path = getInstallPathOfThisJvm();
+		return !(getDirectoryOfJavaCompiler(Paths.get(path)) == null);
 		
 	}
 	/*
@@ -174,6 +306,7 @@ public class JdkUtils {
 		return processes.toArray(new ProcessDescriptor[] {});
 		
 	}
+	
 	public static OsResult executeJdkBinCmd(String jdkCmd) throws Snail4jException {
 		Path jdkBinDir = JdkUtils.getDirectoryOfJavaCompiler();
 		OsResult osResult = null;
@@ -183,9 +316,8 @@ public class JdkUtils {
 			String jdkBinCommand = jdkBinDir.toFile().getAbsolutePath().toString() + File.separator + jdkCmd;
 			osResult = OsUtils.executeProcess(jdkBinCommand);
 		} else {
-			throw new Snail4jException( m.javaHomeFolderDoesNotExistOrLackingPermissions(jdkBinDir.toFile()));
+			throw new Snail4jException( m.jdkFolderDoesNotExistOrLackingPermissions(jdkBinDir.toFile()));
 		}
-		
 		return osResult;
 	}
 	public static class ProcessDescriptor {

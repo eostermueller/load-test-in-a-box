@@ -1,15 +1,19 @@
 package com.github.eostermueller.snail4j;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import com.github.eostermueller.snail4j.util.JdkUtils;
 import com.github.eostermueller.snail4j.util.JdkUtils.ProcessDescriptor;
+import com.github.eostermueller.snail4j.util.OsUtils;
 import com.github.eostermueller.snail4j.util.OsUtils.OsResult;
+import com.github.eostermueller.snail4j.util.PathUtil;
 
 
 class JdkUtilsTest {
@@ -18,7 +22,7 @@ class JdkUtilsTest {
 	@Test
 	void canDetectActualJavaPath() throws Snail4jException {
 		
-		Path currentJavaPath = JdkUtils.getCurrentJavaPath();
+		Path currentJavaPath = JdkUtils.getJavaHomeFromSunBootLibraryPath();
 		assertNotNull(currentJavaPath);
 		assertTrue( currentJavaPath.toFile().exists() );
 
@@ -95,7 +99,6 @@ class JdkUtilsTest {
 		}
 		assertTrue(ynFoundJCmd);
 	}
-	
 
 	
 

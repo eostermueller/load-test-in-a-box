@@ -43,7 +43,6 @@ public class ConfigWriteAndReadTest {
 		int loadGenDuration = 2539;
 		cfg.setLoadGenerationDurationInSeconds(loadGenDuration);
 		
-		cfg.setJavaHome(path);
 		cfg.setMavenHome(path);
 		cfg.setMavenZipFileNameWithoutExtension(somePath);
 		cfg.setMaxExceptionCountPerEvent(c0unt);
@@ -60,7 +59,6 @@ public class ConfigWriteAndReadTest {
 			
 			cfg = configWriter.read(cfgFile,DefaultConfiguration.class);
 			
-			assertEquals(somePath,cfg.getJavaHome().toAbsolutePath().toString());
 			assertEquals(somePath,cfg.getMavenHome().toAbsolutePath().toString());
 			assertEquals(somePath,cfg.getSnail4jHome().toAbsolutePath().toString());
 			assertEquals(somePath,cfg.getSutAppHome().toAbsolutePath().toString());

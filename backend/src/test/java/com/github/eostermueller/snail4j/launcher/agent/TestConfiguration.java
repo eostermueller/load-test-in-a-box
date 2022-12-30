@@ -32,19 +32,19 @@ public class TestConfiguration extends DefaultConfiguration implements Configura
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	 
 	Path tjpHome = null;
-	Path javaHome = null;
+	Path sutJava = null;
 	
 	
 	public TestConfiguration() throws Snail4jException {
 		LOGGER.debug("start of TestConfiguration ctor 1");
-		this.setJavaHome( new NonStaticOsUtils().get_JAVA_HOME()  );
+		this.setSutJDK( JdkUtils.getJavaHomeFromSunBootLibraryPath()  );
 		
 		LOGGER.debug("stop of TestConfiguration ctor 1");
 	}
 	public TestConfiguration(Path pgHome, Path javaHome) throws Snail4jException {
 		LOGGER.debug("start of TestConfiguration ctor 2");
 		this.setSnail4jHome(pgHome);
-		this.setJavaHome(javaHome);
+		this.setSutJDK(javaHome);
 		LOGGER.debug("stop of TestConfiguration ctor 2");
 
 	}
@@ -56,14 +56,14 @@ public class TestConfiguration extends DefaultConfiguration implements Configura
 
 
 	@Override
-	public Path getJavaHome() throws Snail4jException {
-		return this.javaHome;
+	public Path getSutJDK() {
+		return this.sutJava;
 	}
 
 
 	@Override
-	public void setJavaHome(Path p) {
-		this.javaHome = p;
+	public void setSutJDK(Path p) {
+		this.sutJava = p;
 	}
 
 	@Override

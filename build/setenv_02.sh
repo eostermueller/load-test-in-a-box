@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+realpath() (
+  OURPWD=$PWD
+  cd "$(dirname "$1")"
+  LINK=$(readlink "$(basename "$1")")
+  while [ "$LINK" ]; do
+    cd "$(dirname "$LINK")"
+    LINK=$(readlink "$(basename "$1")")
+  done
+  REALPATH="$PWD/$(basename "$1")"
+  cd "$OURPWD"
+  echo "$REALPATH"
+)
+
 
 # If snail4j's uber jar is balooning in size and you don't know why, this comment is for you!!!
 # snail4j's pom inadvertently sticks of LARGE copy of the uber jar into the local maven repo.

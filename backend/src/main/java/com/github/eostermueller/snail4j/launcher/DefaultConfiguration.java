@@ -116,9 +116,8 @@ public class DefaultConfiguration implements Configuration {
 				throw new Snail4jException(e);
 			}
 		
-    		this.setUserHomeDir(		Paths.get( getUserHomeDirString() )	);
+    		this.setUserHomeDir( Paths.get( getUserHomeDirString() )	);
 
-			this.setJavaHome( 			new NonStaticOsUtils().get_JAVA_HOME() );
 			this.setSnail4jHome(		Paths.get( this.getUserHomeDirString(), Application.INSTALL_ROOT));
 			this.setGlowrootHome(			Paths.get( this.getSnail4jHome().toString() , "glowroot") );
 			this.setGlowrootZipFileName ("glowroot-0.14.0-beta.3-dist.zip");
@@ -626,7 +625,6 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 		return this.sutAppZipFileName;
 	}
 
-	private Path javaHome = null;
 	private Path sutAppHomePath;
 	private Path mavenHome;
 	private Path userHomeDir;
@@ -697,6 +695,8 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	 */
 	private String sutClassName;
 
+	private Path sutJava;
+
 
 	@Override
 	public String getWindowsKillerProcess() {
@@ -751,9 +751,8 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	}
 
 
-	public DefaultConfiguration(Path pgHome, Path javaHome) {
+	public DefaultConfiguration(Path pgHome) {
 		this.setSnail4jHome(pgHome);
-		this.setJavaHome(javaHome);
 	}
 
 	@Override
@@ -806,16 +805,6 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	@Override
 	public void setSnail4jHome(Path  val) {
 		this.Snail4jHomeDir = val;
-	}
-
-	@Override
-	public Path getJavaHome() throws Snail4jException {
-		return this.javaHome;
-	}
-
-	@Override
-	public void setJavaHome(Path p) {
-		this.javaHome = p;
 	}
 
 	@Override
@@ -1093,6 +1082,14 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	@Override
 	public void setSutClassName(String className) {
 		this.sutClassName = className;
+	}
+	@Override
+	public Path getSutJDK() {
+		return sutJava;
+	}
+	@Override
+	public void setSutJDK(Path p) {
+		sutJava = p;
 	}
 
 }

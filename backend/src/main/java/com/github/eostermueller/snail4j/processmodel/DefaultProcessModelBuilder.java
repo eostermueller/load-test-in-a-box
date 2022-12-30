@@ -36,19 +36,19 @@ public class DefaultProcessModelBuilder implements ProcessModelBuilder {
 	private static final String PROC_TYPE_SUT = "SystemUnderTest";
 	private static final String PROC_TYPE_WIREMOCK = "Wiremock";
 	private static final String PROC_TYPE_DB = "H2Db";
-	private Path javaHome;
-	public Path getJavaHome() {
-		return javaHome;
-	}
-	public void setJavaHome(Path javaHome) {
-		this.javaHome = javaHome;
-	}
+//	private Path javaHome;
+//	public Path getJavaHome() {
+//		return javaHome;
+//	}
+//	public void setJavaHome(Path javaHome) {
+//		this.javaHome = javaHome;
+//	}
 	
 	private Configuration cfg = null;
 
 	public DefaultProcessModelBuilder(Configuration val) throws Snail4jException {
 		this.cfg = val;
-		this.setJavaHome( cfg.getJavaHome() );
+//		this.setJavaHome( cfg.getJavaHome() );
 	}
 	public Configuration getConfiguration() {
 		return this.cfg;
