@@ -53,9 +53,9 @@ public class SimpleProcessSuiteTest {
 		
 		TestConfiguration t = new TestConfiguration();
 		
-		MockServerProcess testOne = new MockServerProcess(tmpFolder,t.getSutJDK(),keyOne.getTinyId());
-		MockServerProcess testTwo = new MockServerProcess(tmpFolder,t.getSutJDK(),keyTwo.getTinyId());
-		MockServerProcess testThree = new MockServerProcess(tmpFolder,t.getSutJDK(),keyThree.getTinyId());
+		MockServerProcess testOne = new MockServerProcess(tmpFolder,JdkUtils.getJavaHomeFromSunBootLibraryPath(),keyOne.getTinyId());
+		MockServerProcess testTwo = new MockServerProcess(tmpFolder,JdkUtils.getJavaHomeFromSunBootLibraryPath(),keyTwo.getTinyId());
+		MockServerProcess testThree = new MockServerProcess(tmpFolder,JdkUtils.getJavaHomeFromSunBootLibraryPath(),keyThree.getTinyId());
 
 		one.setProcessBuilder(testOne.getProcessBuilder());
 		two.setProcessBuilder(testTwo.getProcessBuilder());

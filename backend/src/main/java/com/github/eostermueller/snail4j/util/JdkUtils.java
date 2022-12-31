@@ -2,6 +2,7 @@ package com.github.eostermueller.snail4j.util;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -94,6 +95,9 @@ public class JdkUtils {
 	 *      
 	 *       sun.boot.library.path = /Users/bradley/Library/Java/JavaVirtualMachines/openjdk-18.0.1.1/Contents/Home/lib
 	 *       per https://stackoverflow.com/q/72942063/2377579
+	 *       
+	 *       sun.boot.library.path is /Library/Java/JavaVirtualMachines/jdk-14.0.2.jdk/Contents/Home/lib
+	 *       Erik's macbook pro
 	 *      
 	 *  IBM JDK:
 	 *  
@@ -119,6 +123,12 @@ public class JdkUtils {
 		case Linux:
 			//Example:  /Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/jre/lib
 			rc = PathUtil.getParentOfSpecificPathElement(currentPath, "jre");
+			
+			if (rc==null) {
+				//Example:  /Library/Java/JavaVirtualMachines/jdk-14.0.2.jdk/Contents/Home/lib
+				rc = PathUtil.getParentOfSpecificPathElement(currentPath, "lib");
+				LOGGER.debug( String.format("jre path not found in JDK path [%s].  Parent of lib [%s].", currentPath, rc));
+			}
 			/*
 			 * 
 			 */
@@ -173,14 +183,13 @@ public class JdkUtils {
 		return currentJava.startsWith(javaHome);
 	}
 
-	public static boolean isJdk(Path p) {
-		Path c = getDirectoryOfJavaCompiler(p);
+	public static boolean isJdk(Path p) throws Snail4jException {
+		Path c = getDirectoryOfJavaCompilerGivenJavaHome(p);
 		return c != null;
 	}
-	public static boolean isJdk() {
-		String path = getInstallPathOfThisJvm();
-		return !(getDirectoryOfJavaCompiler(Paths.get(path)) == null);
-		
+	public static boolean isJdk() throws Snail4jException {
+		Path path = getJavaHomeFromSunBootLibraryPath();
+		return !(getDirectoryOfJavaCompilerGivenJavaHome(path) == null);
 	}
 	/*
 	 * @stolenFrom: https://stackoverflow.com/a/58737549/2377579
@@ -205,20 +214,11 @@ public class JdkUtils {
 └───webstart	  
 </pre>
 	 */
-	public static Path getDirectoryOfJavaCompiler() {
+	public static Path getDirectoryOfJavaCompiler() throws Snail4jException {
 		Path pathToJavaCompiler = null;
-		String path = getInstallPathOfThisJvm();
+		Path path = getJavaHomeFromSunBootLibraryPath();
 	    if(path != null) {
-	        String javacPath = "";
-	        if(path.endsWith(File.separator + "bin") || path.endsWith(File.separator + "bin" + File.separator) ) {
-	            javacPath = path;
-	        } else {
-	            int libIndex = path.lastIndexOf(File.separator + "lib");
-	            if(libIndex > 0) {
-	                javacPath = path.substring(0, libIndex) + File.separator + "bin";
-	            }
-	        }
-	        pathToJavaCompiler = getDirectoryOfJavaCompiler( Paths.get(javacPath) );
+	    	pathToJavaCompiler = getDirectoryOfJavaCompilerGivenJavaHome( path );
 	    }
 	    if (pathToJavaCompiler==null)
 		    LOGGER.debug(String.format("Failed to locate java compiler executable. The  sun.boot.library.path is %s", path));
@@ -228,27 +228,15 @@ public class JdkUtils {
 	    return pathToJavaCompiler;
 	}
 	
-	public static String getInstallPathOfThisJvm() {
-	    String path = System.getProperty("sun.boot.library.path");
-	    LOGGER.debug(String.format("sun.boot.library.path is %s", path));
-	    return path;
-	}
-	public static Path getDirectoryOfJavaCompiler(Path path) {
-		Path pathToJavaCompiler = null;
-		String possiblePathToCompiler = path.toAbsolutePath().toString();
-        if(!possiblePathToCompiler.isEmpty()) {
-    	    LOGGER.debug(String.format("looking for javac executable in %s", possiblePathToCompiler));
+	public static Path getDirectoryOfJavaCompilerGivenJavaHome(Path pathToJavaHome) throws Snail4jException {
+		Path pathToJavaCompiler = pathToJavaHome.resolve("bin");
+        if(pathToJavaCompiler!=null) {
+    	    LOGGER.debug(String.format("looking for javac executable in %s", pathToJavaCompiler.toString() ));
     	    
-            if ( new File(possiblePathToCompiler, "javac").exists() || new File(possiblePathToCompiler, "javac.exe").exists() )
-            	pathToJavaCompiler = Paths.get(possiblePathToCompiler);
-            else {
-	            /**  The above will work most of the time.
-	             *  The following addresses the OpenJDK "JRE+JDK" Packaging Scenario, detailed in method comments.
-	             */
-            	possiblePathToCompiler = possiblePathToCompiler + File.separator + ".." + File.separator + ".." + File.separator + "bin";
-	    	    LOGGER.debug(String.format("looking for javac executable in %s", possiblePathToCompiler));
-	            if ( new File(possiblePathToCompiler, "javac").exists() || new File(possiblePathToCompiler, "javac.exe").exists() )
-	            	pathToJavaCompiler = Paths.get(possiblePathToCompiler);
+    	    if ( 	!Files.exists( pathToJavaCompiler.resolve("javac"))
+    	            && !Files.exists( pathToJavaCompiler.resolve("javac.exe") ) ) {
+    	    	
+    	    	throw new Snail4jException( String.format("Given JAVA_HOME [%s], could find neither javac nor javac.exe in bin folder[%s]", pathToJavaHome,pathToJavaCompiler));
             }
         }
         return pathToJavaCompiler;
