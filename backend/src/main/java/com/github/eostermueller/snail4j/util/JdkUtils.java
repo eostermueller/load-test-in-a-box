@@ -35,6 +35,12 @@ public class JdkUtils {
 	 * 
 	 * Win:
 	 * 
+	 *     sun.boot.library.path = C:\java\jdk-19.0.1\bin
+	 *     per Erik's windows laptop.
+	 * 
+	 *     sun.boot.library.path = C:\java\jdk1.8.0_333\jre\bin
+	 *     per Erik's windows laptop.
+	 * 
 	 *     sun.boot.library.path	C:\Program Files (x86)\Java\jre7\bin
 	 *     per http://mirc.luriechildrens.org/system
 	 *     
@@ -134,8 +140,12 @@ public class JdkUtils {
 			 */
 			break;
 		case Windows:
-			//Example: C:\java\jdk-14.0.2\bin
-			rc = currentPath.getParent();
+			//example: 	 sun.boot.library.path = C:\java\jdk1.8.0_333\jre\bin
+			rc = PathUtil.getParentOfSpecificPathElement(currentPath, "jre"); //same as mac
+			if (rc == null) {
+				//Example: C:\java\jdk-14.0.2\bin
+				rc = currentPath.getParent();                                 //different than mac
+			}
 			break;
 				//Example:  /usr/lib/jvm/java-1.8.0-amazon-corretto.x86_64/jre/lib/amd64
 			default:
