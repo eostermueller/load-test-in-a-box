@@ -4,7 +4,7 @@ Spring Boot uber jar with:
 * load generator (LG)
 * 2 sample java performance scenario-puzzles with questions
 
-All you need is a 1.8+ JDK (JRE alone will not suffice).  Designed for Java Performance Curriculum/Education.
+All you need is a 1.8+ JDK (JRE alone will not suffice).  Designed for java performance curriculum/education.
 
 Each scenario-puzzle takes 15-ish minutes and have special markdown hyperlinks that launch various java workloads that run on your own box to help you understand the performance scenario.
 
