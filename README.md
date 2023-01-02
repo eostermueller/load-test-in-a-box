@@ -24,7 +24,7 @@ Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperl
 * 2 CPU cores
 * 8g RAM
 * 1.8+ JDK
-* Tested on MS-Win and Mac, but Linux should work too…..pls file a bug report with any problems found on linux.
+* Tested on MS-Win and Mac, but Linux should work too…..pls file a bug report with any problems.
 
 # Links
 
