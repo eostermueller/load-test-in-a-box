@@ -16,7 +16,8 @@ Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperl
 4. Click the check boxes to launch the SUT and the LG
 5. Click on the "Markdown Content" and select one of the two sample performance scenarios.
 6. Read the scenario and click on the hyperlinks to run the scenario code on your own machine.
-7. To understand what's going on under the covers, use JDK tools (jstack, jmap, jcmd, etc...) or glowroot which comes pre-packaged -- http://localhost:12675
+7. To understand what's going on under the covers open the pre-packaged glowroot in your favorite browser at http://localhost:12675
+8. To use JDK performance tools (jstack, jmap, jcmd, etc...) you'll need the process ID of the SUT, which you can find by hovering over 'SUT' health indicator in the bottom left of the main UI (http://localhost:8675)
 
 # System Requirements
 * Uber jar is 330mb, but a total of 1.5g disk available space is required.  SUT is unpacked to $HOME/.load-test-in-a-box
