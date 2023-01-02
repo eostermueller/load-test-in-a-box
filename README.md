@@ -9,7 +9,7 @@ All you need is a 1.8+ JDK (JRE alone will not suffice).
 Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperlinks that launch various java workloads on your own box to help you understand the performance scenario.
 
 # How it Works
-1. Download the uber jar file.
+1. [Download](https://github.com/eostermueller/load-test-in-a-box/releases/download/0.0.3/load-test-in-a-box_agent-0.0.3.jar)  the uber jar file.
 2. Using your own 1.8+ JDK, launch the uber jar like this:
    ```java -jar load-test-in-a-box_agent-0.0.3.jar``` 
 3. Navigate to http://localhost:8675 in your favorite browser.
