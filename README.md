@@ -10,7 +10,7 @@ Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperl
 
 # How it Works
 1. [Download](https://github.com/eostermueller/load-test-in-a-box/releases/download/0.0.3/load-test-in-a-box_agent-0.0.3.jar)  the uber jar file.
-2. Using your own 1.8+ JDK, launch the uber jar like this:
+2. Open a terminal or cmd.exe to the folder with the uber jar.  Using your own 1.8+ JDK, launch the uber jar like this:
    ```java -jar load-test-in-a-box_agent-0.0.3.jar``` 
 3. Navigate to http://localhost:8675 in your favorite browser.
 4. Click the check boxes to launch the SUT and the LG, will take a minute or so to launch.
