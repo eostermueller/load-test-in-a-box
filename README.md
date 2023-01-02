@@ -1,4 +1,4 @@
-Spring Boot uber jar with:
+Spring Boot uber jar for java performance training. Comes with:
 * sample java system under test (SUT), 
 * performance monitoring
 * load generator (LG)
