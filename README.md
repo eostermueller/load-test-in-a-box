@@ -34,7 +34,8 @@ The [Quickstart](https://github.com/eostermueller/performanceAnalysisWorkbench/w
 # Architecture
 The uber jar's browser UI at http://localhost:8675 (the 'agent') allows you to start/stop the system under test (SUT) and the load generator(LG).  Both the SUT and LG get installed to a folder on your file system (%USERPROFILE%\\.load-test-in-a-box or $HOME/.load-test-in-a-box) at uber jar startup.
 
-![load-test-in-a-box architecture](https://user-images.githubusercontent.com/175773/204170426-54f26911-f35b-49db-9dcb-8f6183dfe8c9.jpg)
+![load-test-in-a-box_architecture 02](https://user-images.githubusercontent.com/175773/210271052-7c4e7f9f-1964-4cbe-b710-f842c90f1e12.jpg)
+
 
 Here are a few more [Architecture](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Architecture) details.
 
