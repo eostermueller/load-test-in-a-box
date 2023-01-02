@@ -13,7 +13,7 @@ Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperl
 2. Using your own 1.8+ JDK, launch the uber jar like this:
    ```java -jar load-test-in-a-box_agent-0.0.3.jar``` 
 3. Navigate to http://localhost:8675 in your favorite browser.
-4. Click the check boxes to launch the SUT and the LG
+4. Click the check boxes to launch the SUT and the LG, will take a minute or so to launch.
 5. Click on the "Markdown Content" and select one of the two sample performance scenarios.
 6. Read the scenario and click on the hyperlinks to run the scenario code on your own machine.
 7. To understand what's going on under the covers open the pre-packaged glowroot in your favorite browser at http://localhost:12675
