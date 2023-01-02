@@ -26,6 +26,12 @@ Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperl
 * 1.8+ JDK
 * Tested on MS-Win and Mac, but Linux should work too…..pls file a bug report with any problems.
 
+# Use Cases
+* Train staff on Java Performance
+* Benchmark performance of competing java code designs
+* Great way to share/analyze performance during a code review.
+* Easy way to provide consistency when conducting interviews for java performance skills.
+
 # Links
 
 The [Quickstart](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Quickstart). Download/install/run to run the pre-packaged java code showing performance defects and fixes.
