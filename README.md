@@ -2,7 +2,7 @@ Spring Boot uber jar with:
 * sample java system under test (SUT), 
 * performance monitoring
 * load generator (LG)
-* 2 sample performance scenario-puzzles with questions
+* 2 sample java performance scenario-puzzles with questions
 
 All you need is a 1.8+ JDK (JRE alone will not suffice).  Designed for Java Performance Curriculum/Education.
 
