@@ -4,20 +4,22 @@ Spring Boot uber jar for java performance training. Comes with:
 * load generator (LG)
 * 2 sample java performance scenario-puzzles with questions
 
-All you need is a 1.8+ JDK (JRE alone will not suffice).  Designed for java performance curriculum/education.
+All you need is a 1.8+ JDK (JRE alone will not suffice).  
 
-Each scenario-puzzle takes 15-ish minutes and have special markdown hyperlinks that launch various java workloads that run on your own box to help you understand the performance scenario.
+Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperlinks that launch various java workloads on your own box to help you understand the performance scenario.
 
 Use JDK tools (jstack, jmap, etc…) or the pre-packaged glowroot.org monitoring to understand performance of the currently running java workload.
 Performance questions in the markdown test your understanding of the scenario and Java performance in general.
 
 # How it Works
-Via the uber jar's UI at http://localhost:8675 you can 
-* Select which code runs under load - your selection is processed instantaneously, making for easy performance comparisons.  
-* View a menu of available code....and the menu consists of all code in the SUT with a particular java annotation
-* Launch monitoring, provided by glowroot.org, or just use jdk tools like jstack, jmap, jstat, jcmd, etc...
-* Comes with two sample performance scenario-puzzles, delivered via Markdown, that you can change/enhance.
-* Follow sample performance curriculum and interact with sample performance code.  For example:  "Click here to run this code, click there to run that code." -- (this is called 'click-to-fail').
+1. Download the uber jar file.
+2. Using your own 1.8+ JDK, launch the uber jar like this:
+   ```java -jar load-test-in-a-box_agent-0.0.3.jar``` 
+3. Navigate to http://localhost:8675 in your favorite browser.
+4. Click the check boxes to launch the SUT and the LG
+5. Click on the "Markdown Content" and select one of the two sample performance scenarios.
+6. Read the scenario and click on the hyperlinks to run the scenario code on your own machine.
+7. To understand what's going on under the covers, use JDK tools (jstack, jmap, jcmd, etc...) or glowroot which comes pre-packaged -- http://localhost:12675
 
 # Links
 
