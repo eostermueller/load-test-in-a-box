@@ -9,7 +9,7 @@ All you need is a 1.8+ JDK (JRE alone will not suffice).
 Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperlinks that launch various java workloads on your own box to help you understand the performance scenario.
 
 # System Requirements
-* Uber jar is 330mb, but a total of 1.5g disk available space is required.  SUT is unpacked to $HOME/.load-test-in-a-box
+* Uber jar is 400mb (or less), but a total of 1.5g disk available space is required.  SUT is unpacked to $HOME/.load-test-in-a-box
 * 2 CPU cores
 * 8g RAM
 * 1.8+ JDK
