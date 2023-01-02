@@ -8,9 +8,6 @@ All you need is a 1.8+ JDK (JRE alone will not suffice).
 
 Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperlinks that launch various java workloads on your own box to help you understand the performance scenario.
 
-Use JDK tools (jstack, jmap, etc…) or the pre-packaged glowroot.org monitoring to understand performance of the currently running java workload.
-Performance questions in the markdown test your understanding of the scenario and Java performance in general.
-
 # How it Works
 1. Download the uber jar file.
 2. Using your own 1.8+ JDK, launch the uber jar like this:
@@ -20,6 +17,13 @@ Performance questions in the markdown test your understanding of the scenario an
 5. Click on the "Markdown Content" and select one of the two sample performance scenarios.
 6. Read the scenario and click on the hyperlinks to run the scenario code on your own machine.
 7. To understand what's going on under the covers, use JDK tools (jstack, jmap, jcmd, etc...) or glowroot which comes pre-packaged -- http://localhost:12675
+
+# System Requirements
+* Uber jar is 330mb, but a total of 1.5g disk available space is required.  SUT is unpacked to $HOME/.load-test-in-a-box
+* 2 CPU cores
+* 8g RAM
+* 1.8+ JDK
+* Tested on MS-Win and Mac, but Linux should work too…..pls file a bug report with any problems found on linux.
 
 # Links
 
