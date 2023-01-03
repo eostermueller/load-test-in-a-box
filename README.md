@@ -26,7 +26,7 @@ Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperl
 7. To understand what's going on under the covers open the pre-packaged glowroot in your favorite browser at http://localhost:12675
 8. To use JDK performance tools (jstack, jmap, jcmd, etc...) you'll need the process ID of the SUT, which you can find by hovering over 'SUT' health indicator in the bottom left of the main UI (http://localhost:8675)
 
-That should be enough to get you started.
+The above should be enough to get you started.
 For a little more background, here's a 15 minute video that shows the process:
 [![load-test-in-a-box](http://img.youtube.com/vi/fz7uVe4H58o/0.jpg)](http://www.youtube.com/watch?v=fz7uVe4H58o "load-test-in-a-box")
 
