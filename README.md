@@ -28,7 +28,7 @@ Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperl
 
 That should be enough to get you started.
 For a little more background, here's a 15 minute video that shows the process:
-[![Download and run load-test-in-a-box](https://www.youtube.com/watch?v=fz7uVe4H58o](https://www.youtube.com/watch?v=fz7uVe4H58o "Download and run load-test-in-a-box")
+[![load-test-in-a-box](http://img.youtube.com/vi/fz7uVe4H58o/0.jpg)](http://www.youtube.com/watch?v=fz7uVe4H58o "load-test-in-a-box")
 
 
 # Use Cases
