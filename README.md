@@ -14,6 +14,7 @@ Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperl
 * 8g RAM
 * 1.8+ JDK
 * Tested on MS-Win and Mac, but Linux should work too…..pls file a bug report with any problems.
+* Currently Chrome has been tested and works fine but Firefox does NOT currently work.  See [this bug](https://github.com/eostermueller/load-test-in-a-box/issues/92) for details
 
 # How it Works
 1. [Download](https://github.com/eostermueller/load-test-in-a-box/releases/download/0.0.3/load-test-in-a-box_agent-0.0.3.jar)  the uber jar file.
