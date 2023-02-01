@@ -9,11 +9,12 @@ All you need is a 1.8+ JDK (JRE alone will not suffice).
 Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperlinks that launch various java workloads on your own box to help you understand the performance scenario.
 
 # System Requirements
-* Uber jar is 330mb, but a total of 1.5g disk available space is required.  SUT is unpacked to $HOME/.load-test-in-a-box
+* Uber jar is 400mb (or less), but a total of 1.5g disk available space is required.  SUT is unpacked to $HOME/.load-test-in-a-box
 * 2 CPU cores
 * 8g RAM
 * 1.8+ JDK
 * Tested on MS-Win and Mac, but Linux should work too…..pls file a bug report with any problems.
+* Currently Chrome has been tested and works fine but Firefox does NOT currently work.  See [this bug](https://github.com/eostermueller/load-test-in-a-box/issues/92) for details
 
 # How it Works
 1. [Download](https://github.com/eostermueller/load-test-in-a-box/releases/download/0.0.3/load-test-in-a-box_agent-0.0.3.jar)  the uber jar file.
@@ -25,6 +26,11 @@ Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperl
 6. Read the scenario and click on the hyperlinks to run the scenario code on your own machine.
 7. To understand what's going on under the covers open the pre-packaged glowroot in your favorite browser at http://localhost:12675
 8. To use JDK performance tools (jstack, jmap, jcmd, etc...) you'll need the process ID of the SUT, which you can find by hovering over 'SUT' health indicator in the bottom left of the main UI (http://localhost:8675)
+
+The above should be enough to get you started.
+For a little more background, here's a 15 minute video that shows the process:
+[![load-test-in-a-box](http://img.youtube.com/vi/fz7uVe4H58o/0.jpg)](http://www.youtube.com/watch?v=fz7uVe4H58o "load-test-in-a-box")
+
 
 # Use Cases
 * Train staff on Java Performance
