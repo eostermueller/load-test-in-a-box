@@ -51,6 +51,7 @@ import java.util.Map;
 public class OS {
 
   
+  
   public static enum OsFamily { Windows, Linux, Mac };
   private OsInfo osInfo;
 
@@ -91,6 +92,7 @@ public class OS {
 
   }
 
+  
   public static OS getOs() {
     return SingletonHolder.instance;
   }
@@ -203,6 +205,7 @@ public class OS {
     this.osInfo = osInfo;
   }
 
+  
   private String getFileEndingWith(final File dir, final String fileEndingWith) {
     File[] fileList = dir.listFiles(new FilenameFilter() {
       public boolean accept(File dir, String filename) {
@@ -305,6 +308,7 @@ public class OS {
     public String getPlatformName() {
       return platformName;
     }
+    
   }
 
 }

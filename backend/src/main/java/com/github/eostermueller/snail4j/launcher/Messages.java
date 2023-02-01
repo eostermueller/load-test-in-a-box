@@ -82,6 +82,25 @@ public interface Messages {
 	String sutProcessesWillUseCurrentJdk(Path firstCandidate);
 	String failedToFindJdk();
 	String jdkFolderDoesNotExistOrLackingPermissions(File file);
+	String javaHomeFolderDoesNotExistOrLackingPermissions(File javaHomeFolder);
 	String javaHomeFolderDoesNotExistOrLackingPermissions_withAlternatives(File javaHomeFolder, Path currentJdkPath);
+	String exceptionReadingConfigFile(Path targetFile, Exception e);
+	String exceptionWritingConfigFile(Path targetFile, Exception e);
+	String getFluxCapacitorDoc();
+	String getDeleteSutDoc();
+	String getAvailableMemoryValidationDoc();
+	String getAvailableDiskSizeValidationDoc();
+	String getSutGitCloneUrlDoc();
+	/**
+	 * https://stackoverflow.com/a/12682507/2377579
+	 */
+	String insufficientDiskSpace(long actualDiskAvailableSizeInBytes, long minDiskAvailableSizeRequirementInBytes);
+	String wasExpectingTrueOrFalse(String trueOrFalse);
+	/**
+	 * https://stackoverflow.com/a/12682507/2377579
+	 */
+	String insufficientMemory(long actualMemoryAvailabilInBytes, long minMemoryAvailableRequirementInBytes);
+	String abortingInstall(Exception e);
+	String docForHeadlessProperty();
 
 }

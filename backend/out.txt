@@ -1,0 +1,220 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------< com.github.eostermueller:load-test-in-a-box_agent >----------
+[INFO] Building load-test-in-a-box_agent 0.0.4
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:copy-resources (copy-resources) @ load-test-in-a-box_agent ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 27 resources
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:resources (default-resources) @ load-test-in-a-box_agent ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 1 resource
+[INFO] Copying 9 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ load-test-in-a-box_agent ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:testResources (default-testResources) @ load-test-in-a-box_agent ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] skip non existing resourceDirectory C:\Users\eoste\Documents\src\jsource\ltiab_ja2\load-test-in-a-box\backend\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ load-test-in-a-box_agent ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.0.0-M5:test (default-test) @ load-test-in-a-box_agent ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.github.eostermueller.snail4j.CommandLineArgsTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.032 s - in com.github.eostermueller.snail4j.CommandLineArgsTest
+[INFO] Running com.github.eostermueller.snail4j.JdkUtilsTest
+22:03:21.797 [main] DEBUG com.github.eostermueller.snail4j.util.JdkUtils - looking for javac executable in C:\java\jdk-14.0.2\bin
+22:03:21.797 [main] DEBUG com.github.eostermueller.snail4j.util.JdkUtils - looking for javac executable in C:\java\jdk-14.0.2\bin
+22:03:21.797 [main] DEBUG com.github.eostermueller.snail4j.util.JdkUtils - Found javac executable in C:\java\jdk-14.0.2\bin
+22:03:21.984 [main] INFO com.github.eostermueller.snail4j.launcher.DefaultConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:22.204 [main] DEBUG com.github.eostermueller.snail4j.util.OsUtils - Just executed:     C:\java\jdk-14.0.2\bin\jcmd
+22:03:22.204 [main] DEBUG com.github.eostermueller.snail4j.util.OsUtils - OsResult.exitCode: 0
+jcmd command: 5168 C:\Users\eoste\AppData\Local\Temp\surefire9843420408092085495\surefirebooter3465989424826136981.jar C:\Users\eoste\AppData\Local\Temp\surefire9843420408092085495 2023-01-30T22-03-20_927-jvmRun1 surefire4696550650999989094tmp surefire_05640010712309638580tmp
+16356 org.codehaus.plexus.classworlds.launcher.Launcher package
+11928 Eclipse
+20680 jdk.jcmd/sun.tools.jcmd.JCmd
+
+22:03:22.204 [main] DEBUG com.github.eostermueller.snail4j.util.JdkUtils - looking for javac executable in C:\java\jdk-14.0.2\bin
+22:03:22.204 [main] DEBUG com.github.eostermueller.snail4j.util.JdkUtils - Found javac executable in C:\java\jdk-14.0.2\bin
+22:03:22.438 [main] DEBUG com.github.eostermueller.snail4j.util.OsUtils - Just executed:     C:\java\jdk-14.0.2\bin\jcmd
+22:03:22.438 [main] DEBUG com.github.eostermueller.snail4j.util.OsUtils - OsResult.exitCode: 0
+22:03:22.438 [main] DEBUG com.github.eostermueller.snail4j.util.JdkUtils - Count of text lines in jcmd output:  [4]
+22:03:22.438 [main] DEBUG com.github.eostermueller.snail4j.util.JdkUtils - Found this one line of text in jcmd output::  [16432 jdk.jcmd/sun.tools.jcmd.JCmd]
+22:03:22.438 [main] DEBUG com.github.eostermueller.snail4j.util.JdkUtils - Found this one line of text in jcmd output::  [5168 C:\Users\eoste\AppData\Local\Temp\surefire9843420408092085495\surefirebooter3465989424826136981.jar C:\Users\eoste\AppData\Local\Temp\surefire9843420408092085495 2023-01-30T22-03-20_927-jvmRun1 surefire4696550650999989094tmp surefire_05640010712309638580tmp]
+22:03:22.438 [main] DEBUG com.github.eostermueller.snail4j.util.JdkUtils - Found this one line of text in jcmd output::  [16356 org.codehaus.plexus.classworlds.launcher.Launcher package]
+22:03:22.438 [main] DEBUG com.github.eostermueller.snail4j.util.JdkUtils - Found this one line of text in jcmd output::  [11928 Eclipse]
+22:03:22.438 [main] DEBUG com.github.eostermueller.snail4j.util.JdkUtils - Count of processes in jcmd output:  [4]
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.688 s - in com.github.eostermueller.snail4j.JdkUtilsTest
+[INFO] Running com.github.eostermueller.snail4j.JsonPatchTests
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.078 s - in com.github.eostermueller.snail4j.JsonPatchTests
+[INFO] Running com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest
+22:03:22.563 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() b
+22:03:22.563 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() c
+22:03:22.563 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() d
+22:03:22.563 [main] INFO com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:22.563 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - start of TestConfiguration ctor 1
+22:03:22.563 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - stop of TestConfiguration ctor 1
+22:03:22.563 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() e
+22:03:22.563 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() f
+22:03:22.578 [main] INFO com.github.eostermueller.snail4j.launcher.DefaultConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:22.594 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() b
+22:03:22.594 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() c
+22:03:22.594 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() d
+22:03:22.594 [main] INFO com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:22.594 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - start of TestConfiguration ctor 1
+22:03:22.594 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - stop of TestConfiguration ctor 1
+22:03:22.594 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() e
+22:03:22.594 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() f
+22:03:22.610 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() b
+22:03:22.610 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() c
+22:03:22.610 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() d
+22:03:22.610 [main] INFO com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:22.610 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - start of TestConfiguration ctor 1
+22:03:22.610 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - stop of TestConfiguration ctor 1
+22:03:22.610 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() e
+22:03:22.610 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() f
+22:03:22.610 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() b
+22:03:22.610 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() c
+22:03:22.610 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() d
+22:03:22.610 [main] INFO com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:22.610 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - start of TestConfiguration ctor 1
+22:03:22.610 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - stop of TestConfiguration ctor 1
+22:03:22.610 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() e
+22:03:22.610 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest - in ConfigLookupTest#setup() f
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.11 s - in com.github.eostermueller.snail4j.launcher.agent.ConfigLookupTest
+[INFO] Running com.github.eostermueller.snail4j.launcher.agent.ConfigSerializationTest
+22:03:22.626 [main] INFO com.github.eostermueller.snail4j.launcher.DefaultConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:22.626 [main] INFO com.github.eostermueller.snail4j.launcher.DefaultConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:22.642 [main] INFO com.github.eostermueller.snail4j.launcher.DefaultConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:22.642 [main] INFO com.github.eostermueller.snail4j.launcher.DefaultConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+[WARNING] Tests run: 5, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.016 s - in com.github.eostermueller.snail4j.launcher.agent.ConfigSerializationTest
+[INFO] Running com.github.eostermueller.snail4j.launcher.agent.ConfigWriteAndReadTest
+22:03:22.642 [main] INFO com.github.eostermueller.snail4j.launcher.DefaultConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:22.657 [main] INFO com.github.eostermueller.snail4j.launcher.DefaultConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:22.657 [main] INFO com.github.eostermueller.snail4j.launcher.DefaultConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:22.673 [main] INFO com.github.eostermueller.snail4j.launcher.DefaultConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.031 s - in com.github.eostermueller.snail4j.launcher.agent.ConfigWriteAndReadTest
+[INFO] Running com.github.eostermueller.snail4j.launcher.agent.GenericConfigWriteAndReadTest
+[ERROR] Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0 s <<< FAILURE! - in com.github.eostermueller.snail4j.launcher.agent.GenericConfigWriteAndReadTest
+[ERROR] com.github.eostermueller.snail4j.launcher.agent.GenericConfigWriteAndReadTest.canWriteAndReadGenericConfigFile(Path)  Time elapsed: 0 s  <<< ERROR!
+com.github.eostermueller.snail4j.Snail4jException: Exception writing configuration file [C:\Users\eoste\AppData\Local\Temp\junit14227798082239950429\admin.json] to disk.  Exception detail: [java.nio.file.NoSuchFileException: C:\Users\eoste\AppData\Local\Temp\junit14227798082239950429\admin.json]
+	at com.github.eostermueller.snail4j.launcher.agent.GenericConfigWriteAndReadTest.canWriteAndReadGenericConfigFile(GenericConfigWriteAndReadTest.java:37)
+Caused by: java.nio.file.NoSuchFileException: C:\Users\eoste\AppData\Local\Temp\junit14227798082239950429\admin.json
+	at com.github.eostermueller.snail4j.launcher.agent.GenericConfigWriteAndReadTest.canWriteAndReadGenericConfigFile(GenericConfigWriteAndReadTest.java:37)
+
+[INFO] Running com.github.eostermueller.snail4j.launcher.agent.InputStreamTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.125 s - in com.github.eostermueller.snail4j.launcher.agent.InputStreamTest
+[INFO] Running com.github.eostermueller.snail4j.launcher.agent.LoadTestLifecycleTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in com.github.eostermueller.snail4j.launcher.agent.LoadTestLifecycleTest
+[INFO] Running com.github.eostermueller.snail4j.launcher.agent.ProcessInfoTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in com.github.eostermueller.snail4j.launcher.agent.ProcessInfoTest
+[INFO] Running com.github.eostermueller.snail4j.launcher.agent.ProcessKeyTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in com.github.eostermueller.snail4j.launcher.agent.ProcessKeyTest
+[INFO] Running com.github.eostermueller.snail4j.launcher.agent.suite.SimpleProcessSuiteTest
+22:03:22.814 [main] INFO com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:22.814 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - start of TestConfiguration ctor 1
+22:03:22.814 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - stop of TestConfiguration ctor 1
+22:03:22.814 [main] INFO com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:22.814 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - start of TestConfiguration ctor 1
+22:03:22.814 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - stop of TestConfiguration ctor 1
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.376 s - in com.github.eostermueller.snail4j.launcher.agent.suite.SimpleProcessSuiteTest
+[INFO] Running com.github.eostermueller.snail4j.launcher.agent.TestTheTestConfiguration
+22:03:24.174 [main] INFO com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:24.174 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - start of TestConfiguration ctor 2
+22:03:24.174 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - stop of TestConfiguration ctor 2
+22:03:24.174 [main] INFO com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:24.174 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - start of TestConfiguration ctor 2
+22:03:24.174 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - stop of TestConfiguration ctor 2
+22:03:24.174 [main] INFO com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:24.174 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - start of TestConfiguration ctor 2
+22:03:24.174 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - stop of TestConfiguration ctor 2
+ex: #{mavenExePath} -Dsnail4j.maven.repo.passthru=-Dmaven.repo.local=#{mavenRepositoryHome} -Dmaven.repo.local=#{mavenRepositoryHome} -Dsnail4j.wiremock.port=#{wiremockPort} -Dsnail4j.wiremock.hostname=#{wiremockHostname} -Dsnail4j.h2.port=#{h2Port} -Dsnail4j.h2.hostname=#{h2Hostname} -Dsnail4j.sut.port=#{sutAppPort} -Dsnail4j.glowroot.port=#{glowrootPort} -Dsnail4j.sut.jvmArguments=#{sutJvmArguments} verify
+actual:#{mavenExePath} -Dsnail4j.maven.repo.passthru=-Dmaven.repo.local=#{mavenRepositoryHome} -Dmaven.repo.local=#{mavenRepositoryHome} -Dsnail4j.wiremock.port=#{wiremockPort} -Dsnail4j.wiremock.hostname=#{wiremockHostname} -Dsnail4j.h2.port=#{h2Port} -Dsnail4j.h2.hostname=#{h2Hostname} -Dsnail4j.sut.port=#{sutAppPort} -Dsnail4j.glowroot.port=#{glowrootPort} -Dsnail4j.sut.jvmArguments=#{sutJvmArguments} verify
+22:03:24.174 [main] INFO com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:24.174 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - start of TestConfiguration ctor 2
+22:03:24.174 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - stop of TestConfiguration ctor 2
+22:03:24.174 [main] INFO com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:24.174 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - start of TestConfiguration ctor 2
+22:03:24.174 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - stop of TestConfiguration ctor 2
+22:03:24.174 [main] INFO com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:24.174 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - start of TestConfiguration ctor 2
+22:03:24.174 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - stop of TestConfiguration ctor 2
+22:03:24.174 [main] INFO com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - Detected hostname [DESKTOP-2URE8SU].  This will be written to snail4j.json configuration file.
+22:03:24.174 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - start of TestConfiguration ctor 2
+22:03:24.174 [main] DEBUG com.github.eostermueller.snail4j.launcher.agent.TestConfiguration - stop of TestConfiguration ctor 2
+[WARNING] Tests run: 9, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 0 s - in com.github.eostermueller.snail4j.launcher.agent.TestTheTestConfiguration
+[INFO] Running com.github.eostermueller.snail4j.launcher.agent.UniqueIdTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in com.github.eostermueller.snail4j.launcher.agent.UniqueIdTest
+[INFO] Running com.github.eostermueller.snail4j.launcher.agent.VariableTokenizerTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s - in com.github.eostermueller.snail4j.launcher.agent.VariableTokenizerTest
+[INFO] Running com.github.eostermueller.snail4j.OsUtilsTest
+22:03:24.267 [main] DEBUG com.github.eostermueller.snail4j.util.OsUtils - Just executed:     netstat -ano -p UDP
+22:03:24.267 [main] DEBUG com.github.eostermueller.snail4j.util.OsUtils - OsResult.exitCode: 0
+
+Active Connections
+
+  Proto  Local Address          Foreign Address        State           PID
+  UDP    0.0.0.0:3702           *:*                                    2972
+  UDP    0.0.0.0:3702           *:*                                    2972
+  UDP    0.0.0.0:5050           *:*                                    6272
+  UDP    0.0.0.0:5353           *:*                                    23048
+  UDP    0.0.0.0:5353           *:*                                    2596
+  UDP    0.0.0.0:5353           *:*                                    23048
+  UDP    0.0.0.0:5355           *:*                                    2596
+  UDP    0.0.0.0:49665          *:*                                    2972
+  UDP    0.0.0.0:50473          0.0.0.101:443                          22588
+  UDP    0.0.0.0:50712          0.0.0.94:443                           22588
+  UDP    0.0.0.0:56250          *:*                                    2596
+  UDP    0.0.0.0:59733          *:*                                    2596
+  UDP    0.0.0.0:61179          *:*                                    2596
+  UDP    127.0.0.1:1900         *:*                                    4232
+  UDP    127.0.0.1:49868        127.0.0.1:49868                        4604
+  UDP    127.0.0.1:53092        *:*                                    4232
+  UDP    192.168.1.234:137      *:*                                    4
+  UDP    192.168.1.234:138      *:*                                    4
+  UDP    192.168.1.234:1900     *:*                                    4232
+  UDP    192.168.1.234:53091    *:*                                    4232
+
+[WARNING] Tests run: 4, Failures: 0, Errors: 0, Skipped: 3, Time elapsed: 0.062 s - in com.github.eostermueller.snail4j.OsUtilsTest
+[INFO] Running com.github.eostermueller.snail4j.PathUtilsTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in com.github.eostermueller.snail4j.PathUtilsTest
+[INFO] Running com.github.eostermueller.snail4j.ProcessIdsTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in com.github.eostermueller.snail4j.ProcessIdsTest
+[INFO] Running com.github.eostermueller.snail4j.StringUtilsTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s - in com.github.eostermueller.snail4j.StringUtilsTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Errors: 
+[ERROR]   GenericConfigWriteAndReadTest.canWriteAndReadGenericConfigFile:37 » Snail4j Ex...
+[INFO] 
+[ERROR] Tests run: 82, Failures: 0, Errors: 1, Skipped: 6
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.390 s
+[INFO] Finished at: 2023-01-30T22:03:24-06:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.0.0-M5:test (default-test) on project load-test-in-a-box_agent: There are test failures.
+[ERROR] 
+[ERROR] Please refer to C:\Users\eoste\Documents\src\jsource\ltiab_ja2\load-test-in-a-box\backend\target\surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

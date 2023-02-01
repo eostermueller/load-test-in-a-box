@@ -67,8 +67,8 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 		} catch (Snail4jException | MalformedURLException e) {
 			try {
 				ProcessModelSingleton.getInstance().setCauseOfSystemFailure(e);
-				DefaultFactory.getFactory().getEventHistory().addException("Exception during snail4j startup.", e);
-				
+				String message = DefaultFactory.getFactory().getMessages().abortingInstall(e);
+				DefaultFactory.getFactory().getEventHistory().addException(message, e);
 			} catch (Snail4jException e1) {
 			}
 		}
@@ -142,7 +142,7 @@ public class SpringBootSnail4J implements ApplicationListener<ApplicationReadyEv
 			} 
 			
 		} else {
-			this.LOGGER.error("Install has been skipped!   It only runs when WindTunnel is launched with 'java -jar'. Startup: [" + path + "]" );
+			this.LOGGER.error("Install has been skipped!   It only runs when load-test-in-a-box is launched with 'java -jar'. Startup: [" + path + "]" );
 		}
 	}
 	private void dispSuccessLargeLetters() {

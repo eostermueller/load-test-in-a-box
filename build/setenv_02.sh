@@ -16,8 +16,8 @@ realpath() (
 
 # If snail4j's uber jar is balooning in size and you don't know why, this comment is for you!!!
 # snail4j's pom inadvertently sticks of LARGE copy of the uber jar into the local maven repo.
-# The following is used to hunt down and delted it, so we don't zip a copy of the uber.jar inside the uber.jar!!!!!!
-SNAIL4J_MVN_DIR=com/github/eostermueller/backend/0.0.3
+# The following is used to hunt down and delete it, so we don't zip a copy of the uber.jar inside the uber.jar!!!!!!
+SNAIL4J_MVN_DIR=com/github/eostermueller/backend/0.0.4
 
 
 

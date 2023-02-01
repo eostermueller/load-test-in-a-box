@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.eostermueller.snail4j.Application;
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
+import com.github.eostermueller.snail4j.systemproperty.Headless;
 import com.github.eostermueller.snail4j.util.NonStaticOsUtils;
 
 /**
@@ -68,9 +69,19 @@ public class DefaultConfiguration implements Configuration {
 	private String loadGeneratorShutdownCmd;
 	private String jmeterShutdownExePath;
 	private String useCaseSearchCriteria;
-
+	private boolean headless = false;
 
 	
+	@Override
+	public boolean isHeadless() {
+		return headless;
+	}
+	
+	@Override
+	public void setHeadless(boolean headless) {
+		this.headless = headless;
+	}
+
 	/**
 	 * A space-delimited set of JVM parameters that gets passed into 
 	 * -Dspring-boot.run.jvmArguments
@@ -116,11 +127,12 @@ public class DefaultConfiguration implements Configuration {
 				throw new Snail4jException(e);
 			}
 		
-    		this.setUserHomeDir( Paths.get( getUserHomeDirString() )	);
+    		this.setUserHomeDir(		Paths.get( getUserHomeDirString() )	);
 
+			this.setJavaHome( 			new NonStaticOsUtils().get_JAVA_HOME() );
 			this.setSnail4jHome(		Paths.get( this.getUserHomeDirString(), Application.INSTALL_ROOT));
 			this.setGlowrootHome(			Paths.get( this.getSnail4jHome().toString() , "glowroot") );
-			this.setGlowrootZipFileName ("glowroot-0.14.0-beta.3-dist.zip");
+			this.setGlowrootZipFileName ("glowroot.zip");
 
 			this.setMavenHome(			Paths.get( this.getSnail4jHome().toString() , this.getMavenZipFileNameWithoutExtension() )		);
 			this.setSnail4jMavenRepo(true);
@@ -229,10 +241,9 @@ public class DefaultConfiguration implements Configuration {
 			this.setWiremockPort(11675);
 			
 			this.setH2Port(10675);
-			// this.setProcessManagerLaunchCmd("#{mavenExePath} verify");
 
 			//Adding workaround for closing threads in Windows OS
-			this.setWindowsKillerProcess("#{mavenExePath} antrun:run initialize");
+			this.setWindowsKillerProcess("#{mavenExePath} -Dmaven.repo.local=#{mavenRepositoryHome} antrun:run initialize");
 
 			if (getOsName().contains("windows")) {
 				this.setOsWin(true);
@@ -247,19 +258,21 @@ public class DefaultConfiguration implements Configuration {
 			                  sb3.append("-Xmx1024m");
 			sb3.append(SPACE);sb3.append("-XX:NewSize=512m");
 			sb3.append(SPACE);sb3.append("-XX:MaxNewSize=512m");
-//			sb3.append(SPACE);sb3.append("-Xloggc:gc.log");
-//			sb3.append(SPACE);sb3.append("-verbose:gc");
-//			sb3.append(SPACE);sb3.append("-XX:+PrintGCDetails");
-//			sb3.append(SPACE);sb3.append("-XX:+PrintGCDateStamps");
-//			sb3.append(SPACE);sb3.append("-XX:+PrintGCTimeStamps");
-//			sb3.append(SPACE);sb3.append("-XX:+UseGCLogFileRotation");
-//			sb3.append(SPACE);sb3.append("-XX:NumberOfGCLogFiles=5");
-//			sb3.append(SPACE);sb3.append("-XX:GCLogFileSize=1m");
 			this.setSutJvmArguments( sb3.toString() );
 			
 			this.setSutClassName("com.github.eostermueller.tjp2.PerformanceSandboxApp");
-	//		
 			
+			this.setMinDiskSpaceAvailableRequirementInBytes(3*1024*1024*1024 /* 3g */);
+			
+			/** When I tested with Shawn's 4G linux vm, it failed.
+			 * Let's assume that 1 of those g was for linux.
+			 * ...and so if he had a 5g VM with 4g free, we probably would have been ok.
+			 */
+			this.setMinMemoryAvailableRequirementInBytes   (4*1024*1024*1024 /* 4g */);
+			
+			this.setHeadless(
+					DefaultFactory.getFactory().getSystemPropertyMgr().getBoolean( new Headless() )
+					);
 
 	}
 	/*
@@ -625,6 +638,7 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 		return this.sutAppZipFileName;
 	}
 
+	private Path javaHome = null;
 	private Path sutAppHomePath;
 	private Path mavenHome;
 	private Path userHomeDir;
@@ -695,6 +709,10 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	 */
 	private String sutClassName;
 
+	private long minDiskSpaceAvailableRequirementInBytes;
+
+	private long minMemoryAvailableRequirementInBytes;
+
 	private Path sutJava;
 
 
@@ -751,8 +769,9 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	}
 
 
-	public DefaultConfiguration(Path pgHome) {
+	public DefaultConfiguration(Path pgHome, Path javaHome) {
 		this.setSnail4jHome(pgHome);
+		this.setJavaHome(javaHome);
 	}
 
 	@Override
@@ -805,6 +824,16 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	@Override
 	public void setSnail4jHome(Path  val) {
 		this.Snail4jHomeDir = val;
+	}
+
+	@Override
+	public Path getJavaHome() throws Snail4jException {
+		return this.javaHome;
+	}
+
+	@Override
+	public void setJavaHome(Path p) {
+		this.javaHome = p;
 	}
 
 	@Override
@@ -1084,6 +1113,23 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 		this.sutClassName = className;
 	}
 	@Override
+	public long getMinDiskSpaceAvailableRequirementInBytes() {
+		return this.minDiskSpaceAvailableRequirementInBytes;
+	}
+	@Override
+	public void setMinDiskSpaceAvailableRequirementInBytes(long val) {
+		this.minDiskSpaceAvailableRequirementInBytes = val;
+	}
+	@Override
+	public void setMinMemoryAvailableRequirementInBytes(long m) {
+		this.minMemoryAvailableRequirementInBytes = m;
+		
+	}
+	@Override
+	public long getMinMemoryAvailableRequirementInBytes() {
+		return 		this.minMemoryAvailableRequirementInBytes;
+	}
+	@Override
 	public Path getSutJDK() {
 		return sutJava;
 	}
@@ -1091,5 +1137,4 @@ operating system.  mvn.cmd for windows, plain old mvn for unix-like os's
 	public void setSutJDK(Path p) {
 		sutJava = p;
 	}
-
 }

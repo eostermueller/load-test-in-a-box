@@ -6,7 +6,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.github.eostermueller.snail4j.config.DefaultGenericConfigFileReaderWriter;
+import com.github.eostermueller.snail4j.config.GenericConfigFileReaderWriter;
+import com.github.eostermueller.snail4j.install.AvailableMemoryValidator;
+import com.github.eostermueller.snail4j.install.AvailableMemoryValidatorImpl;
 import com.github.eostermueller.snail4j.install.DefaultSutInstaller;
+import com.github.eostermueller.snail4j.install.DiskSpaceValidator;
+import com.github.eostermueller.snail4j.install.DiskSpaceValidatorImpl;
 import com.github.eostermueller.snail4j.install.Installer;
 import com.github.eostermueller.snail4j.install.Snail4jInstaller;
 import com.github.eostermueller.snail4j.launcher.BootstrapConfig;
@@ -29,6 +35,9 @@ import com.github.eostermueller.snail4j.processmodel.DefaultSystemUnderTest;
 import com.github.eostermueller.snail4j.processmodel.LoadGenerator;
 import com.github.eostermueller.snail4j.processmodel.ProcessModelBuilder;
 import com.github.eostermueller.snail4j.processmodel.SystemUnderTest;
+import com.github.eostermueller.snail4j.systemproperty.AvailableDiskSpaceValidation;
+import com.github.eostermueller.snail4j.systemproperty.SystemPropertyManager;
+import com.github.eostermueller.snail4j.systemproperty.SystemPropertyManagerImpl;
 import com.google.common.flogger.FluentLogger;
 
 public class DefaultFactory implements Factory {
@@ -55,6 +64,22 @@ public class DefaultFactory implements Factory {
 	
 	static EventHistory eventHistory = new EventHistory();
 	static Factory FACTORY_INSTANCE = null;
+	static SystemPropertyManager SYSTEM_PROPERTY_MGR_SINGLETON = new SystemPropertyManagerImpl();
+	
+	@Override
+	public SystemPropertyManager getSystemPropertyMgr() {
+		return SYSTEM_PROPERTY_MGR_SINGLETON;
+	}
+	/**
+	 * Must only be called during JUnit tests!!!!
+	 * @param testRepo
+	 */
+	@Override
+	public void setSystemPropertyTestValueRepo(SystemPropertyManager testRepo) {
+		SystemPropertyManagerImpl impl = (SystemPropertyManagerImpl) this.getSystemPropertyMgr();
+		impl.setSystemPropertyTestValueRepository(testRepo);
+	}
+	
 	
 	/**
 	 * @stolenFrom: https://stackoverflow.com/questions/7855700/why-is-volatile-used-in-double-checked-locking
@@ -69,6 +94,10 @@ public class DefaultFactory implements Factory {
 		synchronized (this.configuration) {
 			this.configuration = cfg;
 		}
+	}
+	@Override
+	public GenericConfigFileReaderWriter getGenericConfigReaderWriter() {
+		return new DefaultGenericConfigFileReaderWriter();
 	}
 	@Override
 	   public Configuration getConfiguration() throws Snail4jException {
@@ -268,10 +297,23 @@ public class DefaultFactory implements Factory {
 	public Installer createSutInstaller() throws Snail4jException {
 		return new DefaultSutInstaller();
 	}
-	@Override
-	public NonPersistentParameters getNonPersistentParameters() {
-		return new DefaultNonPersistentParameters();
-	}
 	
-
+	@Override
+	/**
+	 * calling this is Required at the end of unit tests that invoke Factory#setSystemPropertyTestValueRepo();
+	 * ...calling this does no harm (nor provides any particular benefit) in production code.
+	 * Calling this wipes out all JUnit system properties defined by Factory#setSystemPropertyTestValueRepo() ).
+	 * 
+	 */
+	public void resetUnitTestSystemProperties() {
+		setSystemPropertyTestValueRepo(null);
+	}
+	@Override
+	public AvailableMemoryValidator getAvailableMemoryValidator() throws Snail4jException {
+		return new AvailableMemoryValidatorImpl();
+	}
+	@Override
+	public DiskSpaceValidator getDiskSpaceValidator() throws Snail4jException {
+		return new DiskSpaceValidatorImpl();
+	}
 }

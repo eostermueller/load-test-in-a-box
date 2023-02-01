@@ -14,9 +14,11 @@ import org.eclipse.jgit.api.errors.TransportException;
 import com.github.eostermueller.snail4j.Application;
 import com.github.eostermueller.snail4j.Context;
 import com.github.eostermueller.snail4j.DefaultContext;
-import com.github.eostermueller.snail4j.DefaultNonPersistentParameters;
+import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
+import com.github.eostermueller.snail4j.systemproperty.DeleteSut;
+import com.github.eostermueller.snail4j.systemproperty.SutGitCloneUrl;
 import com.github.eostermueller.snail4j.util.PathUtil;
 
 public class DefaultSutInstaller implements Installer {
@@ -29,8 +31,8 @@ public class DefaultSutInstaller implements Installer {
 	}
 	@Override
 	public void install() throws Snail4jException {
-
-		if (this.getContext().getNonPersistentParameters().deleteSut()) {
+		
+		if (DefaultFactory.getFactory().getSystemPropertyMgr().getBoolean( new DeleteSut())) {
 			File sutAppFolder = this.getContext().getConfiguration().getSutAppHome().toFile();
 			String strSutAppFolder;
 			try {
@@ -52,20 +54,19 @@ public class DefaultSutInstaller implements Installer {
 				}
 			}
 		}
+
+		String sutGitCloneRepo = DefaultFactory.getFactory().getSystemPropertyMgr().getString(new SutGitCloneUrl());
 		
-		if (this
-				.getContext()
-				.getNonPersistentParameters()
-				.sutGitCloneRemoteUrl() !=null 
-			&&	!this.getContext().getNonPersistentParameters().sutGitCloneRemoteUrl().trim().isEmpty()) {
+		if (sutGitCloneRepo !=null 
+			&&	!sutGitCloneRepo.trim().isEmpty()) {
 			getContext().getLogger().info("Found URL of git repo to use for SUT Application: " + 
-					this.getContext().getNonPersistentParameters().sutGitCloneRemoteUrl() );
+					sutGitCloneRepo );
 			if ( !this.getContext().getConfiguration().getSutAppHome().toFile().exists()  ) {
 				cloneSutGitRepo();
 				getContext().getLogger().info("After git repo has been cloned.");
 			} else {
 				getContext().getLogger().error("Will not clone repo because sutApp folder exists here: " + this.getContext().getConfiguration().getSutAppHome().toFile().toString() );
-				getContext().getLogger().info("Restart the Snail4j uber jar with -D parameter [" + DefaultNonPersistentParameters.DELETE_SUT_DASH_D_PARAMETER + "] to delete the sutApp folder.");
+				getContext().getLogger().info("Restart the Snail4j uber jar with -D parameter [" + new DeleteSut().getDashDProperty() + "] to delete the sutApp folder.");
 			}
 		} else {
 			getContext().getLogger().info("About to install the native sutApp.");
@@ -94,7 +95,7 @@ public class DefaultSutInstaller implements Installer {
 			this.getContext().getConfiguration().getSutAppHome().toFile().mkdir();
 			
 			CloneCommand cloneCommand = Git.cloneRepository();
-			cloneCommand.setURI( this.getContext().getNonPersistentParameters().sutGitCloneRemoteUrl() );
+			cloneCommand.setURI( DefaultFactory.getFactory().getSystemPropertyMgr().getString(new SutGitCloneUrl()).trim() );
 			//The following might be a nice feature enhancement in the future
 			//cloneCommand.setCredentialsProvider( new UsernamePasswordCredentialsProvider( "user", "pwd" ) );
 			cloneCommand.setDirectory(this.getContext().getConfiguration().getSutAppHome().toFile());
@@ -105,7 +106,7 @@ public class DefaultSutInstaller implements Installer {
 		} catch (GitAPIException e) {
 			String msg = getContext().getMessages()
 					.unableToCloneSutRepo(
-							this.getContext().getNonPersistentParameters().sutGitCloneRemoteUrl(),
+							DefaultFactory.getFactory().getSystemPropertyMgr().getString(new SutGitCloneUrl()).trim(),
 							this.getContext().getConfiguration().getSutAppHome().toFile().toString() );
 					
 			throw new InstallException(e, msg );

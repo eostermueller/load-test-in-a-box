@@ -14,7 +14,6 @@ public interface Context {
 	public void setConfiguration(Configuration cfg);
 	public 	Logger getLogger();
 	public Factory getFactory() throws CannotFindSnail4jFactoryClass;
-	public NonPersistentParameters getNonPersistentParameters() throws CannotFindSnail4jFactoryClass;
 	public Messages getMessages() throws CannotFindSnail4jFactoryClass;
 
 }

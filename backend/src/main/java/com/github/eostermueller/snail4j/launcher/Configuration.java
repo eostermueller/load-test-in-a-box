@@ -5,10 +5,6 @@ import java.nio.file.Path;
 import com.github.eostermueller.snail4j.Snail4jException;
 
 public interface Configuration {
-	
-	public Path getSutJDK();
-	void setSutJDK(Path p);
-	
 	/**
 	 * Path with
 	 * -- the runnable-jar file for the agent resides.
@@ -19,6 +15,14 @@ public interface Configuration {
 	public void setSutAppHome(Path val);
 	public Path getMavenHome();
 	
+	/**
+	 * Returns JAVA_HOME environment variable -- not the java.home system property.
+	 * snail4j startup will fail of JAVA_HOME isn't set.
+	 * @return
+	 * @throws Snail4jException
+	 */
+	public Path getJavaHome() throws Snail4jException;
+	public void setJavaHome(Path p);
 	Path getUserHomeDir();
 	String getUserHomeDirString();
 
@@ -133,6 +137,14 @@ public interface Configuration {
 	void setWorkbenchAgentPort(int workbenchAgentPort);
 	String getSutClassName();
 	void setSutClassName(String className);
+	public long getMinDiskSpaceAvailableRequirementInBytes();
+	void setMinDiskSpaceAvailableRequirementInBytes(long val);
+	void setMinMemoryAvailableRequirementInBytes(long m);
+	long getMinMemoryAvailableRequirementInBytes();
+	Path getSutJDK();
+	void setSutJDK(Path p);
+	boolean isHeadless();
+	void setHeadless(boolean headless);
 
 
 

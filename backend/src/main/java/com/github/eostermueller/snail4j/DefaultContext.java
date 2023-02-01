@@ -30,10 +30,6 @@ public class DefaultContext implements Context {
 		return LOGGER;
 	}
 	@Override
-	public NonPersistentParameters getNonPersistentParameters() throws CannotFindSnail4jFactoryClass {
-		return DefaultFactory.getFactory().getNonPersistentParameters();
-	}
-	@Override
 	public Messages getMessages() throws CannotFindSnail4jFactoryClass {
 		return DefaultFactory.getFactory().createMessages();
 	}

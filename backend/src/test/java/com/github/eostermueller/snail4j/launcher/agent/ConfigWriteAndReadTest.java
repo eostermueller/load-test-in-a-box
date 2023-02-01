@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import com.github.eostermueller.snail4j.Application;
 import com.github.eostermueller.snail4j.launcher.ConfigReaderWriter;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.DefaultConfigReaderWriter;
@@ -54,7 +55,7 @@ public class ConfigWriteAndReadTest {
 		if (tmpFolder!=null) {
 			ConfigReaderWriter configWriter = new DefaultConfigReaderWriter();
 			
-			File cfgFile = new File(tmpFolder.toFile(), "snail4j.json");
+			File cfgFile = new File(tmpFolder.toFile(), Application.CONFIG_FILE_NAME);
 			configWriter.write(cfgFile,cfg);
 			
 			cfg = configWriter.read(cfgFile,DefaultConfiguration.class);

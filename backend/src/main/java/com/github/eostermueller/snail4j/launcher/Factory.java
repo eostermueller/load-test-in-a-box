@@ -1,13 +1,16 @@
 package com.github.eostermueller.snail4j.launcher;
 
 
-import com.github.eostermueller.snail4j.NonPersistentParameters;
 import com.github.eostermueller.snail4j.Snail4jException;
+import com.github.eostermueller.snail4j.config.GenericConfigFileReaderWriter;
+import com.github.eostermueller.snail4j.install.AvailableMemoryValidator;
+import com.github.eostermueller.snail4j.install.DiskSpaceValidator;
 import com.github.eostermueller.snail4j.install.Installer;
 import com.github.eostermueller.snail4j.install.Snail4jInstaller;
 import com.github.eostermueller.snail4j.processmodel.LoadGenerator;
 import com.github.eostermueller.snail4j.processmodel.ProcessModelBuilder;
 import com.github.eostermueller.snail4j.processmodel.SystemUnderTest;
+import com.github.eostermueller.snail4j.systemproperty.SystemPropertyManager;
 
 public interface Factory {
 
@@ -52,7 +55,17 @@ public interface Factory {
 
 	Installer createSutInstaller() throws Snail4jException;
 
-	NonPersistentParameters getNonPersistentParameters();
-	
+	SystemPropertyManager getSystemPropertyMgr();
 
+	/**
+	 * Must only be called during JUnit tests!!!!
+	 * @param testRepo
+	 */
+	void setSystemPropertyTestValueRepo(SystemPropertyManager testRepo);
+	void resetUnitTestSystemProperties();
+	
+	AvailableMemoryValidator getAvailableMemoryValidator() throws Snail4jException;
+	DiskSpaceValidator getDiskSpaceValidator() throws Snail4jException;
+
+	GenericConfigFileReaderWriter getGenericConfigReaderWriter();
 }

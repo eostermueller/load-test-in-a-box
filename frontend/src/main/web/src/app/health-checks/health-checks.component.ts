@@ -52,12 +52,12 @@ export class HealthChecksComponent implements OnInit {
   ngOnInit() {
     //set a 3 minute timerange, because
     //locating perf changes in longer timeframes (like default 30 minutes) is really difficult
-    this.sutGlowrootUrl = 'http://localhost:' + this.config.glowrootPort + '/transaction/average?transaction-type=Web&last=180000';
+//    this.sutGlowrootUrl = 'http://localhost:' + this.config.glowrootPort + '/transaction/average?transaction-type=Web&last=180000';
 
     //The above is nice, but the glowroot link on the snail4j UI won't be correct 
     //if your browser is on a separate machine from the SUT :-(
     //To Fix that, use this line instead:
-//    this.sutGlowrootUrl = 'http://' + this.config.sutAppHostname + ':' + this.config.glowrootPort + '/transaction/average?transaction-type=Web&last=180000';
+    this.sutGlowrootUrl = 'http://' + this.config.sutAppHostname + ':' + this.config.glowrootPort + '/transaction/average?transaction-type=Web&last=180000';
      // Then the install should edit the following file:
     // $HOME/.snail4j/glowroot/glowroot/admin.json
     ///to have   "web": {

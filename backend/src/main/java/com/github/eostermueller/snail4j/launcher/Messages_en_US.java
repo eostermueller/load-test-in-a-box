@@ -1,6 +1,7 @@
 package com.github.eostermueller.snail4j.launcher;
 
 import com.github.eostermueller.snail4j.Application;
+import com.github.eostermueller.snail4j.systemproperty.SutGitCloneUrl;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -158,7 +159,7 @@ public class Messages_en_US implements Messages {
 
 	@Override
 	public String JAVA_HOME_jreIsNotEnough(Path javaHomePath, Path currentJvm) {
-		return String.format("the JAVA_HOME path is a JRE and not a full blown JDK.  SUT processes will attempt to use current JVM for JDK: [%s].",javaHomePath,currentJvm);
+		return String.format("the JAVA_HOME path points to a JRE and not a full blown JDK.  SUT processes will attempt to use current JVM for JDK: [%s].",javaHomePath,currentJvm);
 	}
 	
 	@Override
@@ -244,4 +245,80 @@ public class Messages_en_US implements Messages {
 	public String jdkFolderDoesNotExistOrLackingPermissions(File file) {
 		return String.format("The JDK path [%] does not exist or you're lacking permissions to access it.",file.getAbsolutePath().toString());	
 	}
+	@Override
+	public String abortingInstall(Exception e) {
+		return String.format("Aborting install because of exception: %s", e.getMessage());
+	}
+
+	/**
+	 * https://stackoverflow.com/a/12682507/2377579
+	 */
+	@Override
+	public String insufficientMemory(long actualMemoryAvailabilInBytes, long minMemoryAvailableRequirementInBytes) {
+		return String.format("Insufficient memory.  Consider adding more RAM or stopping programs to free up existing RAM.  \nExpected min RAM: %,d\nCurrentActual RAM: %,d\n", minMemoryAvailableRequirementInBytes, actualMemoryAvailabilInBytes);
+	}
+
+	@Override
+	public String wasExpectingTrueOrFalse(String trueOrFalse) {
+		return String.format("Was expecting the text 'true' or 'false' but instead found [%s].  leading/trailing spaces or mixed case are ok.", trueOrFalse);
+	}
+
+	/**
+	 * https://stackoverflow.com/a/12682507/2377579
+	 */
+	@Override
+	public String insufficientDiskSpace(long actualDiskAvailableSizeInBytes,
+			long minDiskAvailableSizeRequirementInBytes) {
+		return String.format("Insufficient disk space.  Consider adding more disk space or deleting some files to make space.  \nExpected min disk space: %,d\nCurrentActual disk space: %,d\n", actualDiskAvailableSizeInBytes, minDiskAvailableSizeRequirementInBytes);
+	}
+
+	@Override
+	public String getSutGitCloneUrlDoc() {
+		return "URL of a git repository with a load-test-in-a-box SUT.  Formats of URL are documented here:  https://git-scm.com/docs/git-clone that can be passed into a 'git clone' command.";
+	}
+
+	@Override
+	public String getAvailableDiskSizeValidationDoc() {
+		return "load-test-in-a-box will not allow the agent to install if there is too little disk space available.  Setting this system property to 'false' will skip the disk space validation process.";
+	}
+
+	@Override
+	public String getAvailableMemoryValidationDoc() {
+		return String.format("load-test-in-a-box will not allow the agent to install if there is too little memory available.  Setting this system property to '%s' will skip the memory validation process.","false");
+	}
+
+	@Override
+	public String getDeleteSutDoc() {
+		return String.format("Setting this to 'true' will delete the $HOME/.load-test-in-a-box/sutApp folder before starting the uber jar (aka, agent).  The property [%s] is required with this property.", new SutGitCloneUrl().getDashDProperty() );  
+	}
+
+	@Override
+	public String getFluxCapacitorDoc() {
+		return "Sample doc to show how to use self-documenting system properties";
+	}
+
+	@Override
+	public String exceptionWritingConfigFile(Path targetFile, Exception e) {
+		return String.format("Exception writing configuration file [%s] to disk.  Exception detail: [%s]",
+				targetFile.toString(),
+				e.toString());
+	}
+
+	@Override
+	public String exceptionReadingConfigFile(Path targetFile, Exception e) {
+		return String.format("Exception reading configuration file [%s] to disk.  Exception detail: [%s]",
+				targetFile.toString(),
+				e.toString());
+	}
+
+	@Override
+	public String javaHomeFolderDoesNotExistOrLackingPermissions(File javaHomeFolder) {
+		return String.format("JAVA_HOME env is set to [%s].  This path does not exist or you're lacking permissions to access it. Snail4j uses JAVA_HOME to locate java, jcmd and other tools.",javaHomeFolder.getAbsolutePath().toString());
+	}
+
+	@Override
+	public String docForHeadlessProperty() {
+		return "Remote machines can access glowroot only when set to true.  Like all properties with 'config' in the name, using this property on agent startup will permanently set the property until altered using the same system property. Corresponds to the 'headless' attribute in [" + Application.CONFIG_FILE_NAME + "]  See https://github.com/glowroot/glowroot/wiki/Agent-Installation-%28with-Embedded-Collector%29#optional-post-installation-steps";
+	}
+	
 }
