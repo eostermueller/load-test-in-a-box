@@ -7,7 +7,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>    
-    <spring.version>2.4.5</spring.version>    
+    <spring.version>2.5.12</spring.version>    
     <jackson.version>2.14.2</jackson.version>    
   </properties>  
   <parent>
