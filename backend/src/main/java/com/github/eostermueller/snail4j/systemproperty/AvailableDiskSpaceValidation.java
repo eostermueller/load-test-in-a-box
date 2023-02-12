@@ -12,12 +12,13 @@ public class AvailableDiskSpaceValidation extends BooleanSystemPropertyImpl {
 
 	@Override
 	public String getHumanReadableDocumentation() throws CannotFindSnail4jFactoryClass {
-		return DefaultFactory.getFactory().getMessages().getDeleteSutDoc();
+		return DefaultFactory.getFactory().getMessages().getAvailableDiskSizeValidationDoc();
 	}
 
 	@Override
-	public String getDashDProperty() {
-		return "com.github.eostermueller.snail4j.delete.sut";
+	public String getDashDPropertyName() {
+		return "com.github.eostermueller.snail4j.available.disk.space.validation";
 	}
+
 
 }

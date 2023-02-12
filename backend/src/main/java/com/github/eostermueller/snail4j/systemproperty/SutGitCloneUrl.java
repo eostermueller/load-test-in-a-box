@@ -12,7 +12,7 @@ public class SutGitCloneUrl extends StringSystemPropertyImpl {
 	}
 
 	@Override
-	public String getDashDProperty() {
+	public String getDashDPropertyName() {
 		return "com.github.eostermueller.snail4j.sutGitCloneUrl";
 	}
 

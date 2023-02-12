@@ -6,10 +6,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.github.eostermueller.snail4j.Application;
+import com.github.eostermueller.snail4j.systemproperty.SystemPropertyManager;
+import com.github.eostermueller.snail4j.systemproperty.SystemPropertyManagerImpl;
 
 /**
  * just the bare minimum required to find and read the snail4j.json config file.
- * Currently, user cannot change any of these settings, like ".load-test-i-a-box" folder and "snail4j.json" config file name.
+ * Currently, user cannot change any of these settings, like ".load-test-in-a-box" folder and "load-test-in-a-box.json" config file name.
  * @author erikostermueller
  *
  */
@@ -24,7 +26,30 @@ public class BootstrapConfig {
 				Application.INSTALL_ROOT,
 				Application.CONFIG_FILE_NAME);
 	}
-	  public void createSnail4jHomeIfNotExist() throws CannotFindSnail4jFactoryClass {
+	static SystemPropertyManager SYSTEM_PROPERTY_MGR_SINGLETON = new SystemPropertyManagerImpl();
+	
+	public SystemPropertyManager getSystemPropertyMgr() {
+		return SYSTEM_PROPERTY_MGR_SINGLETON;
+	}
+	/**
+	 * Must only be called during JUnit tests!!!!
+	 * @param testRepo
+	 */
+	public void setSystemPropertyTestValueRepo(SystemPropertyManager testRepo) {
+		SystemPropertyManagerImpl impl = (SystemPropertyManagerImpl) this.getSystemPropertyMgr();
+		impl.setSystemPropertyTestValueRepository(testRepo);
+	}
+	/**
+	 * calling this is Required at the end of unit tests that invoke Factory#setSystemPropertyTestValueRepo();
+	 * ...calling this does no harm (nor provides any particular benefit) in production code.
+	 * Calling this wipes out all JUnit system properties defined by Factory#setSystemPropertyTestValueRepo() ).
+	 * 
+	 */
+	public void resetUnitTestSystemProperties() {
+		setSystemPropertyTestValueRepo(null);
+	}
+	
+	  public void createLoadTestInABoxHomeIfNotExist() throws CannotFindSnail4jFactoryClass {
 		  File snail4jHomeDir = getSnail4jHome().toFile();
 		  if (!snail4jHomeDir.exists())
 			  snail4jHomeDir.mkdirs();

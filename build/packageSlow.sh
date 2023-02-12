@@ -51,5 +51,5 @@ ls -lart $TARGET/${MVN_ZIP_NAME}
 
 echo Downloading Glowroot from $GLOWROOT_BIN
 # without the -L, curl doesn't handle the REDIRECT that github uses
-curl -L -o $TARGET/${GLOWROOT_DIST_ZIP} -O $GLOWROOT_BIN
+curl -L -o $TARGET/${GLOWROOT_INSTALL_ZIP} -O $GLOWROOT_BIN
 echo CHECKPOINT: Just downloaded $TARGET/${GLOWROOT_DIST_ZIP} : $( ls -lart $TARGET/${GLOWROOT_DIST_ZIP} )

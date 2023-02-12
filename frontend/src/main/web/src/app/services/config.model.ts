@@ -12,6 +12,7 @@ export interface ConfigModel {
     sutAppHostname : string;
     mavenExePath : string;
     mavenOnline : boolean;
+    headless : boolean;    
     snail4jMavenRepo : boolean;
     wiremockHostname : string;
     wiremockPort : number;

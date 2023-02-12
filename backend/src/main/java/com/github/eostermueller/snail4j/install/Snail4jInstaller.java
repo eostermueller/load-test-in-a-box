@@ -1,6 +1,9 @@
 package com.github.eostermueller.snail4j.install;
 
 import java.io.File;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,12 +14,14 @@ import org.slf4j.LoggerFactory;
 import com.github.eostermueller.snail4j.Application;
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
+import com.github.eostermueller.snail4j.config.GenericConfigFileReaderWriter;
 import com.github.eostermueller.snail4j.install.InstallAdvice.StartupLogger;
 import com.github.eostermueller.snail4j.install.Installer;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.launcher.Configuration;
 import com.github.eostermueller.snail4j.launcher.Messages;
 import com.github.eostermueller.snail4j.util.JdkUtils;
+import com.github.eostermueller.snail4j.util.JsonPatchUtils;
 import com.github.eostermueller.snail4j.util.NonStaticOsUtils;
 import com.github.eostermueller.snail4j.util.OS;
 import com.github.eostermueller.snail4j.util.OS.OsFamily;
@@ -102,22 +107,22 @@ public class Snail4jInstaller implements InstallAdvice.StartupLogger {
 		}
 		
 		errorCount += preInstallJavaValidation(cfg);
-		int countOfUnavailablePorts = ia.sutPortsAreAvailable(cfg);
+		int countOfUnavailablePorts = ia.getCountOfUnavailableSUTTcpPorts(cfg);
 		switch(countOfUnavailablePorts) {
 		case 0:
 			//zero problems
 			break;
-		case 4:;
+		case 4:
 			info("Found processes listening on all 4 SUT ports -- assuming the SUT is up."); //not an error
 			break;
-			default:
+		default:
 				/**
 				 * assuming that either:
 				 * a) SUT is only partially up, and end user will have to force it down.
-				 * b) the ports in use are actually collisions, non-Workbench processes are using same ports at Workbench.
+				 * b) the ports in use are actually collisions, likely to be non-Workbench processes are using same ports at Workbench.
 				 */
-				errorCount += 1;
-			
+				errorCount += countOfUnavailablePorts;
+				break;
 		}
 		
 		info("Number if install issues: " + errorCount );
@@ -247,6 +252,7 @@ public class Snail4jInstaller implements InstallAdvice.StartupLogger {
 					 * glowroot agent jar needs to be extracted from zip
 					 */
 					cleansedPath = pathUtil.cleanPath(path);
+					
 			    	if ( !this.getConfiguration().getGlowrootHome().toFile().exists() ) {
 			    		LOGGER.info("About to unzip [" + this.getConfiguration().getGlowrootZipFileName() + "] from [" + cleansedPath + "] to [" + targetGlowrootZipFile + "]");
 			    		pathUtil.extractZipFromZip(cleansedPath, this.getConfiguration().getGlowrootZipFileName(), targetGlowrootZipFile.toString() );
@@ -256,6 +262,9 @@ public class Snail4jInstaller implements InstallAdvice.StartupLogger {
 			    		pathUtil.unzip(targetGlowrootZipFile.toFile(), this.getConfiguration().getGlowrootHome().toString() );
 			    		targetGlowrootZipFile.toFile().delete();
 			    	}
+			    	
+			    	optionallyCreateGlowrootAdminJson();
+			    	
 					
 				} else {
 					LOGGER.error("launch as 'java -jar <snail4j.jar> to get maven to install");
@@ -266,7 +275,63 @@ public class Snail4jInstaller implements InstallAdvice.StartupLogger {
 			
 			
 		}
-	 private void createLogDir() throws Snail4jException {
+	 /**
+	  * Makes Glowroot available from a machine other than the one where the ubar jar was launched from.
+	  * https://github.com/glowroot/glowroot/wiki/Agent-Installation-%28with-Embedded-Collector%29
+	  * 
+	  * @throws Snail4jException
+	  */
+	 private void optionallyCreateGlowrootAdminJson() throws Snail4jException {
+		 String origAdminJsonString = null;
+		 String patchedJsonString = null;
+		 String adminJsonPath = null;
+		  try {
+		    	if (this.getConfiguration().isHeadless() ) {
+		    		
+		    		if (!this.getConfiguration().getGlowrootHome().toFile().exists()) {
+		    			throw new Snail4jException("Was expecting the glowroot folder in load-test-in-a-box home folder to exist: " + this.getConfiguration().getGlowrootHome().toString() );
+		    		}
+		    		
+		    		Path adminJsonHome = Paths.get( this.getConfiguration().getGlowrootHome().toString() , "glowroot");
+		    		if (!adminJsonHome.toFile().exists()) {
+		    			throw new Snail4jException("Was expecting glowroot/glowroot folder to exist inside the load-test-in-a-box home folder: " + adminJsonHome.toString() );
+		    		}
+		    		
+		    		Path adminJson = Paths.get( adminJsonHome.toString() , "admin.json");
+		    		adminJsonPath = adminJson.toString();
+		    		
+		    		GenericConfigFileReaderWriter readerWriter = DefaultFactory.getFactory().getGenericConfigReaderWriter();
+		    		
+		    		if (adminJson.toFile().exists()) {
+		    			adminJsonPath = adminJson.toString();
+		    			origAdminJsonString = readerWriter.read(adminJson);
+		    			ObjectMapper objectMapper = new ObjectMapper();
+		    			JsonNode adminJsonNode = objectMapper.readTree(origAdminJsonString);
+		    			JsonPatchUtils utils = new JsonPatchUtils();
+
+		    			JsonNode fullyPatched = utils.setGlowrootBindAddress(adminJsonNode,"0.0.0.0");
+		    			patchedJsonString = fullyPatched.toPrettyString();
+		    			readerWriter.write(patchedJsonString, adminJson);
+		    			
+		    		} else {
+			    		String bareBonesAdminJson = "{\r\n"
+			    				+ "  \"web\": {\r\n"
+			    				+ "    \"bindAddress\": \"0.0.0.0\"\r\n"
+			    				+ "  }\r\n"
+			    				+ "}";
+			    		readerWriter.write(bareBonesAdminJson, adminJson);
+		    		}
+		    	}
+		  } catch (Exception e) {
+			  throw new Snail4jException(e,"Unsuccessful write to [" + adminJsonPath 
+			  	+ " file.  Original data [" + origAdminJsonString + "] patched data["
+			  	+ patchedJsonString + "]");
+		  }
+
+	
+}
+
+	private void createLogDir() throws Snail4jException {
 	  
 	  File logDir = this.getConfiguration().getLogDir().toFile();
 	  if (!logDir.exists())

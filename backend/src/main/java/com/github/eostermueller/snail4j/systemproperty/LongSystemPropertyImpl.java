@@ -10,7 +10,7 @@ public abstract class LongSystemPropertyImpl implements LongSystemProperty {
 	}
 	private long getLongParameter() throws Snail4jException {
 		long rc = this.getDefaultValue();
-		String value = System.getProperty(this.getDashDProperty());
+		String value = System.getProperty(this.getDashDPropertyName());
 		if (value != null && value.length() > 0) {
 			try {
 				rc = Long.parseLong(value);

@@ -4,6 +4,8 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
+import com.github.eostermueller.snail4j.systemproperty.SutGitCloneUrl;
+
 public interface Messages {
 
 	String warning();
@@ -102,5 +104,6 @@ public interface Messages {
 	String insufficientMemory(long actualMemoryAvailabilInBytes, long minMemoryAvailableRequirementInBytes);
 	String abortingInstall(Exception e);
 	String docForHeadlessProperty();
+	String getDocForDeleteSut();
 
 }

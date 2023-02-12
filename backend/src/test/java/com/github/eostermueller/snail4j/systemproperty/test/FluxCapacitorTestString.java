@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
+import com.github.eostermueller.snail4j.launcher.BootstrapConfig;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.systemproperty.StringSystemPropertyImpl;
 import com.github.eostermueller.snail4j.systemproperty.SystemPropertyTestValueRepoImpl;
@@ -13,7 +14,7 @@ public class FluxCapacitorTestString {
 	@Test
 	public void canFindDefaultFluxCapacitor() throws CannotFindSnail4jFactoryClass {
 		
-		DefaultFactory.getFactory().setSystemPropertyTestValueRepo(null);//Purge values from previous unit tests
+		new BootstrapConfig().setSystemPropertyTestValueRepo(null);//Purge values from previous unit tests
 		YourClassThatUsesSystemProperty thingy = new YourClassThatUsesSystemProperty();
 		
 		Assertions.assertEquals(FluxCapacitorName.WARP,thingy.getFluxCapacitorName());
@@ -26,7 +27,7 @@ public class FluxCapacitorTestString {
 			//Create this object where system property values for JUnit tests will be kept.
 			SystemPropertyTestValueRepoImpl repo = new SystemPropertyTestValueRepoImpl();
 			//Make the junit values available to the load-test-in-a-box code base.
-			DefaultFactory.getFactory().setSystemPropertyTestValueRepo(repo);
+			new BootstrapConfig().setSystemPropertyTestValueRepo(repo);
 			
 			repo.setString(new FluxCapacitorName(), "pink.flux.capacitor");
 			
@@ -36,7 +37,7 @@ public class FluxCapacitorTestString {
 			//Confirm that pink.flux.capacitor is found
 			Assertions.assertEquals(thingy.getFluxCapacitorName(),"pink.flux.capacitor");
 		} finally {
-			DefaultFactory.getFactory().resetUnitTestSystemProperties(); //required in unit tests, does not harm in production
+			new BootstrapConfig().resetUnitTestSystemProperties(); //required in unit tests, does not harm in production
 		}
 	}
 }
@@ -47,7 +48,7 @@ class YourClassThatUsesSystemProperty {
 	public YourClassThatUsesSystemProperty() throws CannotFindSnail4jFactoryClass {
 		setFluxCapacitorName( 
 				//This line shows how to get value of the system property.
-				DefaultFactory.getFactory().getSystemPropertyMgr().getString( new FluxCapacitorName() ) 
+				new BootstrapConfig().getSystemPropertyMgr().getString( new FluxCapacitorName() ) 
 				);
 	}
 	
@@ -84,7 +85,7 @@ class FluxCapacitorName extends StringSystemPropertyImpl {
 	}
 
 	@Override
-	public String getDashDProperty() {
+	public String getDashDPropertyName() {
 		return "com.github.eostermueller.test.snail4j.flux.capacitor.name";
 	}
 

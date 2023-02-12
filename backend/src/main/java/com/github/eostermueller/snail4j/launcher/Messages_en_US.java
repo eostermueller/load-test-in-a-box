@@ -255,7 +255,7 @@ public class Messages_en_US implements Messages {
 	 */
 	@Override
 	public String insufficientMemory(long actualMemoryAvailabilInBytes, long minMemoryAvailableRequirementInBytes) {
-		return String.format("Insufficient memory.  Consider adding more RAM or stopping programs to free up existing RAM.  \nExpected min RAM: %,d\nCurrentActual RAM: %,d\n", minMemoryAvailableRequirementInBytes, actualMemoryAvailabilInBytes);
+		return String.format("Insufficient memory.  Consider adding more RAM or stopping programs to free up existing RAM.  \nExpected min available RAM: %,d\nActual available RAM: %,d\n", minMemoryAvailableRequirementInBytes, actualMemoryAvailabilInBytes);
 	}
 
 	@Override
@@ -289,7 +289,7 @@ public class Messages_en_US implements Messages {
 
 	@Override
 	public String getDeleteSutDoc() {
-		return String.format("Setting this to 'true' will delete the $HOME/.load-test-in-a-box/sutApp folder before starting the uber jar (aka, agent).  The property [%s] is required with this property.", new SutGitCloneUrl().getDashDProperty() );  
+		return String.format("Setting this to 'true' will delete the $HOME/.load-test-in-a-box/sutApp folder before starting the uber jar (aka, agent).  The property [%s] is required with this property.", new SutGitCloneUrl().getDashDPropertyName() );  
 	}
 
 	@Override
@@ -319,6 +319,12 @@ public class Messages_en_US implements Messages {
 	@Override
 	public String docForHeadlessProperty() {
 		return "Remote machines can access glowroot only when set to true.  Like all properties with 'config' in the name, using this property on agent startup will permanently set the property until altered using the same system property. Corresponds to the 'headless' attribute in [" + Application.CONFIG_FILE_NAME + "]  See https://github.com/glowroot/glowroot/wiki/Agent-Installation-%28with-Embedded-Collector%29#optional-post-installation-steps";
+	}
+
+	@Override
+	public String getDocForDeleteSut() {
+		return "CAUTION.  When set to true, deletes $HOME/.load-test-in-a-box/sutApp -- the folder where the SUT resides."
+				+ "When [" + new SutGitCloneUrl().getDashDPropertyName() + "] is also set to true, the git URL will be put into place in sutApp AFTER the sutApp folder has been deleted. ";
 	}
 	
 }

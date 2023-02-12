@@ -37,8 +37,8 @@ public class SystemPropertyTestValueRepoImpl implements SystemPropertyManager, S
 	public boolean getBoolean(BooleanSystemProperty systemProperty) throws Snail4jException {
 		boolean rc;
 		
-		if (booleanSystemProperties.containsKey(systemProperty.getDashDProperty()))
-			rc = booleanSystemProperties.get(systemProperty.getDashDProperty()); 
+		if (booleanSystemProperties.containsKey(systemProperty.getDashDPropertyName()))
+			rc = booleanSystemProperties.get(systemProperty.getDashDPropertyName()); 
 		else
 			rc = systemProperty.getDefaultValue();
 		
@@ -49,8 +49,8 @@ public class SystemPropertyTestValueRepoImpl implements SystemPropertyManager, S
 	public long getLong(LongSystemProperty systemProperty) throws Snail4jException {
 		long rc;
 		
-		if (longSystemProperties.containsKey(systemProperty.getDashDProperty()))
-				rc = longSystemProperties.get(systemProperty.getDashDProperty());
+		if (longSystemProperties.containsKey(systemProperty.getDashDPropertyName()))
+				rc = longSystemProperties.get(systemProperty.getDashDPropertyName());
 		else
 			rc = systemProperty.getDefaultValue();
 		
@@ -61,8 +61,8 @@ public class SystemPropertyTestValueRepoImpl implements SystemPropertyManager, S
 	public String getString(StringSystemProperty systemProperty) {
 		String rc;
 		
-		if (stringSystemProperties.containsKey(systemProperty.getDashDProperty()))
-			rc = stringSystemProperties.get(systemProperty.getDashDProperty());
+		if (stringSystemProperties.containsKey(systemProperty.getDashDPropertyName()))
+			rc = stringSystemProperties.get(systemProperty.getDashDPropertyName());
 		else
 			rc = systemProperty.getDefaultValue();
 		
@@ -71,17 +71,17 @@ public class SystemPropertyTestValueRepoImpl implements SystemPropertyManager, S
 /**/
 	@Override
 	public void setBoolean(BooleanSystemProperty systemProperty, boolean val) throws Snail4jException {
-		booleanSystemProperties.put(systemProperty.getDashDProperty(),new Boolean(val) );
+		booleanSystemProperties.put(systemProperty.getDashDPropertyName(),new Boolean(val) );
 	}
 
 	@Override
 	public void setLong(LongSystemProperty systemProperty, long val) throws Snail4jException {
-		longSystemProperties.put(systemProperty.getDashDProperty(),new Long(val));
+		longSystemProperties.put(systemProperty.getDashDPropertyName(),new Long(val));
 	}
 
 	@Override
 	public void setString(StringSystemProperty systemProperty, String s) {
-		stringSystemProperties.put(systemProperty.getDashDProperty(), s);
+		stringSystemProperties.put(systemProperty.getDashDPropertyName(), s);
 	}
 	
 }

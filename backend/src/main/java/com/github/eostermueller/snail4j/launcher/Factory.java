@@ -10,8 +10,22 @@ import com.github.eostermueller.snail4j.install.Snail4jInstaller;
 import com.github.eostermueller.snail4j.processmodel.LoadGenerator;
 import com.github.eostermueller.snail4j.processmodel.ProcessModelBuilder;
 import com.github.eostermueller.snail4j.processmodel.SystemUnderTest;
+import com.github.eostermueller.snail4j.systemproperty.OneTimeConfigChanger;
 import com.github.eostermueller.snail4j.systemproperty.SystemPropertyManager;
 
+/**
+ * 	These methods 
+ * <ul>
+ * <li>SystemPropertyManager getSystemPropertyMgr(); </li>
+ * <li>void setSystemPropertyTestValueRepo(SystemPropertyManager testRepo);</li>
+ * <li>void resetUnitTestSystemProperties();</li>
+
+ * <ul>
+ used to be in here, but that created a cyclic dependency
+
+ * @author eoste
+ *
+ */
 public interface Factory {
 
 	/**
@@ -55,17 +69,12 @@ public interface Factory {
 
 	Installer createSutInstaller() throws Snail4jException;
 
-	SystemPropertyManager getSystemPropertyMgr();
 
-	/**
-	 * Must only be called during JUnit tests!!!!
-	 * @param testRepo
-	 */
-	void setSystemPropertyTestValueRepo(SystemPropertyManager testRepo);
-	void resetUnitTestSystemProperties();
 	
 	AvailableMemoryValidator getAvailableMemoryValidator() throws Snail4jException;
 	DiskSpaceValidator getDiskSpaceValidator() throws Snail4jException;
 
 	GenericConfigFileReaderWriter getGenericConfigReaderWriter();
+
+	OneTimeConfigChanger[] getOneTimeDashDSystemPropertyConfigChanges();
 }

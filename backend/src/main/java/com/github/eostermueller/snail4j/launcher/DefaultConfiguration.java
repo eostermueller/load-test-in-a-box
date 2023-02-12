@@ -13,7 +13,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.eostermueller.snail4j.Application;
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
+import com.github.eostermueller.snail4j.systemproperty.BooleanSystemProperty;
+import com.github.eostermueller.snail4j.systemproperty.BooleanSystemPropertyImpl;
 import com.github.eostermueller.snail4j.systemproperty.Headless;
+import com.github.eostermueller.snail4j.systemproperty.SystemPropertyManagerImpl;
 import com.github.eostermueller.snail4j.util.NonStaticOsUtils;
 
 /**
@@ -262,17 +265,15 @@ public class DefaultConfiguration implements Configuration {
 			
 			this.setSutClassName("com.github.eostermueller.tjp2.PerformanceSandboxApp");
 			
-			this.setMinDiskSpaceAvailableRequirementInBytes(3*1024*1024*1024 /* 3g */);
+			this.setMinDiskSpaceAvailableRequirementInBytes(2L*1024*1024*1024 /* 2g */);
 			
 			/** When I tested with Shawn's 4G linux vm, it failed.
 			 * Let's assume that 1 of those g was for linux.
 			 * ...and so if he had a 5g VM with 4g free, we probably would have been ok.
 			 */
-			this.setMinMemoryAvailableRequirementInBytes   (4*1024*1024*1024 /* 4g */);
+			this.setMinMemoryAvailableRequirementInBytes   (3L*1024*1024*1024 /* 3g */);
 			
-			this.setHeadless(
-					DefaultFactory.getFactory().getSystemPropertyMgr().getBoolean( new Headless() )
-					);
+			
 
 	}
 	/*

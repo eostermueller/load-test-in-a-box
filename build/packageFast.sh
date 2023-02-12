@@ -51,3 +51,5 @@ echo to trim uber jar size, deleting unused copies of snail4js own uber jar from
 echo Number of files to be deleted:  $( ls -lart $MAVEN_LOCAL_REPO/repository/${SNAIL4J_MVN_DIR}/*.jar 2>/dev/null | wc -l )
 echo sizes of files to be deleted:  $( ls -lart $MAVEN_LOCAL_REPO/repository/${SNAIL4J_MVN_DIR}/*.jar 2>/dev/null )
 rm -rf $MAVEN_LOCAL_REPO/repository/${SNAIL4J_MVN_DIR}/*.jar
+echo about to delete robolectric maven repo folder -- 131412304 bytes!!!  ./android-all/10-robolectric-5803371/android-all-10-robolectric-5803371.jar
+rm -rf $MAVEN_LOCAL_REPO/repository/org/robolectric

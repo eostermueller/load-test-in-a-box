@@ -5,7 +5,7 @@ public abstract class StringSystemPropertyImpl implements StringSystemProperty {
 
 	public String getValue() {
 		String rc = getStringParameter(
-				this.getDashDProperty(),
+				this.getDashDPropertyName(),
 				this.getDefaultValue()
 				);
 		return rc;

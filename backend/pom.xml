@@ -96,11 +96,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
       <version>${project.version}</version>
       <scope>runtime</scope>
     </dependency>
-	<dependency>
-		<groupId>org.eclipse.jgit</groupId>
-		<artifactId>org.eclipse.jgit</artifactId>
-		<version>6.2.0.202206071550-r</version>
-	</dependency>
+    <dependency>
+	<groupId>org.eclipse.jgit</groupId>
+	<artifactId>org.eclipse.jgit</artifactId>
+	<version>5.13.1.202206130422-r</version>
+    </dependency>
+
 	<dependency>
 	    <groupId>org.skyscreamer</groupId>
 	    <artifactId>jsonassert</artifactId>
@@ -240,7 +241,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
+	<artifactId>maven-compiler-plugin</artifactId>
+	<version>3.10.1</version>
       </plugin>
     </plugins>
   </build>

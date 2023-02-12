@@ -3,6 +3,8 @@ package com.github.eostermueller.snail4j;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -28,6 +30,10 @@ import com.github.eostermueller.snail4j.launcher.DefaultConfiguration;
 import com.github.eostermueller.snail4j.launcher.EventHistory;
 import com.github.eostermueller.snail4j.launcher.Factory;
 import com.github.eostermueller.snail4j.launcher.Messages;
+
+/**
+ * Messages_en_US is used as a default if java.util.Locale.getDefault() 
+ */
 import com.github.eostermueller.snail4j.launcher.Messages_en_US;
 import com.github.eostermueller.snail4j.processmodel.DefaultLoadGenerator;
 import com.github.eostermueller.snail4j.processmodel.DefaultProcessModelBuilder;
@@ -36,6 +42,8 @@ import com.github.eostermueller.snail4j.processmodel.LoadGenerator;
 import com.github.eostermueller.snail4j.processmodel.ProcessModelBuilder;
 import com.github.eostermueller.snail4j.processmodel.SystemUnderTest;
 import com.github.eostermueller.snail4j.systemproperty.AvailableDiskSpaceValidation;
+import com.github.eostermueller.snail4j.systemproperty.Headless;
+import com.github.eostermueller.snail4j.systemproperty.OneTimeConfigChanger;
 import com.github.eostermueller.snail4j.systemproperty.SystemPropertyManager;
 import com.github.eostermueller.snail4j.systemproperty.SystemPropertyManagerImpl;
 import com.google.common.flogger.FluentLogger;
@@ -64,21 +72,6 @@ public class DefaultFactory implements Factory {
 	
 	static EventHistory eventHistory = new EventHistory();
 	static Factory FACTORY_INSTANCE = null;
-	static SystemPropertyManager SYSTEM_PROPERTY_MGR_SINGLETON = new SystemPropertyManagerImpl();
-	
-	@Override
-	public SystemPropertyManager getSystemPropertyMgr() {
-		return SYSTEM_PROPERTY_MGR_SINGLETON;
-	}
-	/**
-	 * Must only be called during JUnit tests!!!!
-	 * @param testRepo
-	 */
-	@Override
-	public void setSystemPropertyTestValueRepo(SystemPropertyManager testRepo) {
-		SystemPropertyManagerImpl impl = (SystemPropertyManagerImpl) this.getSystemPropertyMgr();
-		impl.setSystemPropertyTestValueRepository(testRepo);
-	}
 	
 	
 	/**
@@ -96,13 +89,31 @@ public class DefaultFactory implements Factory {
 		}
 	}
 	@Override
+	public OneTimeConfigChanger[] getOneTimeDashDSystemPropertyConfigChanges() {
+		List<OneTimeConfigChanger> oneTimeConfigChangers = new ArrayList<OneTimeConfigChanger>();
+		oneTimeConfigChangers.add( new Headless() );
+		return oneTimeConfigChangers.toArray(new OneTimeConfigChanger[0]);
+//		return (OneTimeConfigChanger[]) oneTimeConfigChangers.toArray();
+	}
+	
+	
+	
+	
+	private void oneTimeConfigurationChanges(Configuration cfg) throws Snail4jException {
+		for(OneTimeConfigChanger oneTimeConfigChanger : this.getOneTimeDashDSystemPropertyConfigChanges() ) {
+			oneTimeConfigChanger.oneTimeChange(cfg);
+		}
+	}
+
+	@Override
 	public GenericConfigFileReaderWriter getGenericConfigReaderWriter() {
 		return new DefaultGenericConfigFileReaderWriter();
 	}
 	@Override
 	   public Configuration getConfiguration() throws Snail4jException {
 		   return getConfiguration( new BootstrapConfig() );
-	   }
+	}
+		
 	   @Override
 	   public Configuration getConfiguration(BootstrapConfig bootstrapConfig) throws Snail4jException {
 	        if (this.configuration == null) {
@@ -111,20 +122,22 @@ public class DefaultFactory implements Factory {
 	                	
 	                	
 	            		ConfigReaderWriter configReaderWriter = DefaultFactory.getFactory().getConfigReaderWriter();
-	            		File snail4jConfigFile = bootstrapConfig.getFullPathToConfigFile().toFile();
+	            		File loadTestInABoxConfigFile = bootstrapConfig.getFullPathToConfigFile().toFile();
 	            		
 	            			try {
 	            				Class<Configuration> configurationClass = (Class<Configuration>) Class.forName(this.getConfigurationClassName());
-	    	            		if (snail4jConfigFile.exists()) {
-	    	            			this.configuration = configReaderWriter.read(snail4jConfigFile, configurationClass);
+	    	            		if (loadTestInABoxConfigFile.exists()) {
+	    	            			this.configuration = configReaderWriter.read(loadTestInABoxConfigFile, configurationClass);
 	    	            		} else {
 		            				this.configuration = (Configuration) configurationClass.getDeclaredConstructor(null).newInstance(null);
-		            				bootstrapConfig.createSnail4jHomeIfNotExist();
-			            			configReaderWriter.write(
-			            					bootstrapConfig.getFullPathToConfigFile().toFile(),
-			            					this.configuration
-			            					);
+		            				bootstrapConfig.createLoadTestInABoxHomeIfNotExist();
 	    	            		}
+	            				this.oneTimeConfigurationChanges(this.configuration);
+		            			configReaderWriter.write(
+		            					bootstrapConfig.getFullPathToConfigFile().toFile(),
+		            					this.configuration
+		            					);
+
 	            				
 	            			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 	            					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
@@ -164,7 +177,8 @@ public class DefaultFactory implements Factory {
 	public  Locale getLocaleForMessages() {
 		return localeForMessages;
 	}
-	/* (non-Javadoc)
+	/* Override this to set a locale other than your JVM's java.util.Locale.getDefault()
+	 * (non-Javadoc)
 	 * @see com.github.eostermueller.tjp.launcher.agent.MyFactory#setLocaleForMessages(java.lang.String)
 	 */
 	@Override
@@ -185,6 +199,8 @@ public class DefaultFactory implements Factory {
 	 * dashes (-) with with underscores, so that the string
 	 * can be appended to java class names.
 	 * https://en.wikipedia.org/wiki/IETF_language_tag
+	 * The following details the Underscore character's special designation as a "JavaLetter", meaning that it is allowed in a Java Class name, and a dash is not.
+	 * https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.8
 	 * @return
 	 */
 	private String getMangledLanguageTag() {
@@ -299,18 +315,10 @@ public class DefaultFactory implements Factory {
 	}
 	
 	@Override
-	/**
-	 * calling this is Required at the end of unit tests that invoke Factory#setSystemPropertyTestValueRepo();
-	 * ...calling this does no harm (nor provides any particular benefit) in production code.
-	 * Calling this wipes out all JUnit system properties defined by Factory#setSystemPropertyTestValueRepo() ).
-	 * 
-	 */
-	public void resetUnitTestSystemProperties() {
-		setSystemPropertyTestValueRepo(null);
-	}
-	@Override
 	public AvailableMemoryValidator getAvailableMemoryValidator() throws Snail4jException {
-		return new AvailableMemoryValidatorImpl();
+		AvailableMemoryValidator validator = new AvailableMemoryValidatorImpl();
+		validator.setMinMemoryAvailableRequirementInBytes( (getConfiguration().getMinMemoryAvailableRequirementInBytes() ));
+		return validator;
 	}
 	@Override
 	public DiskSpaceValidator getDiskSpaceValidator() throws Snail4jException {

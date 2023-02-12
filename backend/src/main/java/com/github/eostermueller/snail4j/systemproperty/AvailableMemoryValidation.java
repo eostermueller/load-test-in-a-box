@@ -17,7 +17,7 @@ public class AvailableMemoryValidation extends BooleanSystemPropertyImpl {
 	}
 
 	@Override
-	public String getDashDProperty() {
+	public String getDashDPropertyName() {
 		return "com.github.eostermueller.snail4j.available.memory.size.validation";
 	}
 

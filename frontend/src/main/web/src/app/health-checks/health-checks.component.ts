@@ -50,14 +50,21 @@ export class HealthChecksComponent implements OnInit {
    * @stolenFrom: https://stackblitz.com/edit/angular-abcqen
    */
   ngOnInit() {
+
+
+    var glowrootHostName = "localhost"; //By default assume that Angular UI runs as same machine as java uber jar
+    
+    if (this.config.headless) { //Can by set by uber jar -D parameter com.github.eostermueller.config.headless=true or in the load-test-in-a-box.json file (headless property).
+      /**
+       * Insure URL to glowroot has hostname so that a machine across a network from where uber jar is deployed can load glowroot.
+       */
+      glowrootHostName = this.config.sutAppHostname;
+    }
+
     //set a 3 minute timerange, because
     //locating perf changes in longer timeframes (like default 30 minutes) is really difficult
-//    this.sutGlowrootUrl = 'http://localhost:' + this.config.glowrootPort + '/transaction/average?transaction-type=Web&last=180000';
+    this.sutGlowrootUrl = 'http://' + glowrootHostName + ':' + this.config.glowrootPort + '/transaction/average?transaction-type=Web&last=180000';
 
-    //The above is nice, but the glowroot link on the snail4j UI won't be correct 
-    //if your browser is on a separate machine from the SUT :-(
-    //To Fix that, use this line instead:
-    this.sutGlowrootUrl = 'http://' + this.config.sutAppHostname + ':' + this.config.glowrootPort + '/transaction/average?transaction-type=Web&last=180000';
      // Then the install should edit the following file:
     // $HOME/.snail4j/glowroot/glowroot/admin.json
     ///to have   "web": {

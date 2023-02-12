@@ -5,6 +5,7 @@ import java.nio.file.Path;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
+import com.github.eostermueller.snail4j.launcher.BootstrapConfig;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.systemproperty.AvailableDiskSpaceValidation;
 import com.github.eostermueller.snail4j.systemproperty.AvailableMemoryValidation;
@@ -29,7 +30,7 @@ public class DiskSpaceValidatorImpl implements DiskSpaceValidator {
 		
 		// ...but of course if they set the -D parameter for validation to true, we'll validate for them.
 		this.setAvailableDiskSpaceValidationActive( 	
-				DefaultFactory.getFactory().getSystemPropertyMgr().getBoolean(new AvailableDiskSpaceValidation()));
+				new BootstrapConfig().getSystemPropertyMgr().getBoolean(new AvailableDiskSpaceValidation()));
 
 		this.setMinDiskSpaceAvailableRequirementInBytes( 
 				DefaultFactory.getFactory().getConfiguration().getMinDiskSpaceAvailableRequirementInBytes()  );

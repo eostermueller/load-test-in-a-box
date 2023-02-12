@@ -114,7 +114,7 @@ public class InstallAdvice {
 		
 	}
 	
-	public int sutPortsAreAvailable(Configuration cfg) throws CannotFindSnail4jFactoryClass, Snail4jMultiException {
+	public int getCountOfUnavailableSUTTcpPorts(Configuration cfg) throws CannotFindSnail4jFactoryClass, Snail4jMultiException {
 		List<String> errors = new ArrayList<String>();
 		int timeoutMs = 20000;
 		List<TcpTarget> targets = new ArrayList<TcpTarget>();

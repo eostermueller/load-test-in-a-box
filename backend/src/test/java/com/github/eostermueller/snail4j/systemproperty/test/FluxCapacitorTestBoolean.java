@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
+import com.github.eostermueller.snail4j.launcher.BootstrapConfig;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
 import com.github.eostermueller.snail4j.systemproperty.BooleanSystemPropertyImpl;
 import com.github.eostermueller.snail4j.systemproperty.SystemPropertyTestValueRepoImpl;
@@ -26,7 +27,7 @@ public class FluxCapacitorTestBoolean {
 			//Create this object where system property values for JUnit tests will be kept.
 			SystemPropertyTestValueRepoImpl repo = new SystemPropertyTestValueRepoImpl();
 			//Make the junit values available to the load-test-in-a-box code base.
-			DefaultFactory.getFactory().setSystemPropertyTestValueRepo(repo);
+			new BootstrapConfig().setSystemPropertyTestValueRepo(repo);
 			
 			repo.setBoolean(new FluxCapacitorActivator(), true);
 			
@@ -37,7 +38,7 @@ public class FluxCapacitorTestBoolean {
 			Assertions.assertEquals(true,thingy.isFluxCapacitorActivated());
 			
 		} finally {
-			DefaultFactory.getFactory().resetUnitTestSystemProperties(); //required in unit tests, does not harm in production
+			new BootstrapConfig().resetUnitTestSystemProperties(); //required in unit tests, does not harm in production
 		}
 		
 	}
@@ -57,7 +58,7 @@ class YourClassThatUsesBooleanSystemProperty {
 	public YourClassThatUsesBooleanSystemProperty() throws Snail4jException {
 		setFluxCapacitorActivated( 
 				//This line shows how to get value of the system property.
-				DefaultFactory.getFactory().getSystemPropertyMgr().getBoolean( new FluxCapacitorActivator() ) 
+				new BootstrapConfig().getSystemPropertyMgr().getBoolean( new FluxCapacitorActivator() ) 
 				);
 	}
 }
@@ -85,7 +86,7 @@ class FluxCapacitorActivator extends BooleanSystemPropertyImpl {
 	}
 
 	@Override
-	public String getDashDProperty() {
+	public String getDashDPropertyName() {
 		return "com.github.eostermueller.test.snail4j.flux.capacitor.activation";
 	}
 }

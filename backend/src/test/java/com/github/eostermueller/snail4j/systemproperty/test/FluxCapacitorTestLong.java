@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import com.github.eostermueller.snail4j.DefaultFactory;
 import com.github.eostermueller.snail4j.Snail4jException;
+import com.github.eostermueller.snail4j.launcher.BootstrapConfig;
 import com.github.eostermueller.snail4j.launcher.CannotFindSnail4jFactoryClass;
-import com.github.eostermueller.snail4j.systemproperty.BooleanSystemPropertyImpl;
 import com.github.eostermueller.snail4j.systemproperty.LongSystemPropertyImpl;
 import com.github.eostermueller.snail4j.systemproperty.SystemPropertyTestValueRepoImpl;
 
@@ -28,7 +28,7 @@ public class FluxCapacitorTestLong {
 			//Create this object where system property values for JUnit tests will be kept.
 			SystemPropertyTestValueRepoImpl repo = new SystemPropertyTestValueRepoImpl();
 			//Make the junit values available to the load-test-in-a-box code base.
-			DefaultFactory.getFactory().setSystemPropertyTestValueRepo(repo);
+			new BootstrapConfig().setSystemPropertyTestValueRepo(repo);
 			
 			repo.setLong(new FluxCapacitorPowerCap(), 8675309);//rememberable number
 			
@@ -38,7 +38,7 @@ public class FluxCapacitorTestLong {
 			//Confirm that pink.flux.capacitor is found
 			Assertions.assertEquals(8675309,thingy.getFluxCapacitorPowerCap());
 		} finally {
-			DefaultFactory.getFactory().resetUnitTestSystemProperties();
+			new BootstrapConfig().resetUnitTestSystemProperties();
 		}
 	}
 }
@@ -59,7 +59,7 @@ class YourClassThatUsesLongSystemProperty {
 	public YourClassThatUsesLongSystemProperty() throws Snail4jException {
 		setFluxCapacitorPowerCap( 
 				//This line shows how to get value of the system property.
-				DefaultFactory.getFactory().getSystemPropertyMgr().getLong( new FluxCapacitorPowerCap() ) 
+				new BootstrapConfig().getSystemPropertyMgr().getLong( new FluxCapacitorPowerCap() ) 
 				);
 	}
 }
@@ -86,7 +86,7 @@ class FluxCapacitorPowerCap extends LongSystemPropertyImpl {
 	}
 
 	@Override
-	public String getDashDProperty() {
+	public String getDashDPropertyName() {
 		return "com.github.eostermueller.test.snail4j.flux.capacitor.power.cap";
 	}
 

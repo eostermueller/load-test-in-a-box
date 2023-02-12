@@ -61,7 +61,7 @@ H2_MAVEN_PLUGIN_DIR=$SRC_DIR/load-test-in-a-box_m2-plugin_h2
 GLOWROOT_VERSION=0.14.0-beta.3
 GLOWROOT_DIST_ZIP=glowroot-${GLOWROOT_VERSION}-dist.zip
 GLOWROOT_BIN=https://github.com/glowroot/glowroot/releases/download/v${GLOWROOT_VERSION}/${GLOWROOT_DIST_ZIP}
-
+GLOWROOT_INSTALL_ZIP=glowroot.zip
 MVN_VERSION=3.6.3
 MVN_ZIP_NAME=apache-maven-${MVN_VERSION}-bin.zip
 MVN_URL=https://downloads.apache.org/maven/maven-3/${MVN_VERSION}/binaries/${MVN_ZIP_NAME}
