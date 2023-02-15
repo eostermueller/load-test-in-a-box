@@ -17,9 +17,9 @@ Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperl
 * Currently Chrome has been tested and works fine but Firefox does NOT currently work.  See [this bug](https://github.com/eostermueller/load-test-in-a-box/issues/92) for details
 
 # How it Works
-1. [Download](https://github.com/eostermueller/load-test-in-a-box/releases/download/0.0.3/load-test-in-a-box_agent-0.0.3.jar)  the uber jar file.
+1. [Download](https://github.com/eostermueller/load-test-in-a-box/releases/download/0.0.4/load-test-in-a-box_agent-0.0.4.jar)  the uber jar file.
 2. Open a terminal or cmd.exe to the folder with the uber jar.  Using your own 1.8+ JDK, launch the uber jar like this:
-   ```java -jar load-test-in-a-box_agent-0.0.3.jar``` 
+   ```java -jar load-test-in-a-box_agent-0.0.4.jar``` 
 3. Navigate to http://localhost:8675 in your favorite browser.
 4. Click the check boxes to launch the SUT and the LG, will take a minute or so to launch.
 5. Click on the "Markdown Content" and select one of the two sample performance scenarios.
@@ -29,7 +29,7 @@ Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperl
 
 The above should be enough to get you started.
 For a little more background, here's a 15 minute video that shows the process:
-[![load-test-in-a-box](http://img.youtube.com/vi/fz7uVe4H58o/0.jpg)](http://www.youtube.com/watch?v=fz7uVe4H58o "load-test-in-a-box")
+[![load-test-in-a-box](http://img.youtube.com/vi/Ck7REKh3E6w/0.jpg)](https://youtu.be/Ck7REKh3E6w "load-test-in-a-box")
 
 
 # Use Cases
