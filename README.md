@@ -11,7 +11,8 @@ All you need is a 1.8+ JDK (a JRE alone will not suffice).
 Each scenario-puzzle takes 15-ish minutes and comes with special 'click-to-fail' hyperlinks that launch various java workloads on your own box to help you understand the plight of a development team in some kind of a performance pickle.
 
 # System Requirements
-Uber jar is 400-ish mb and the SUT is unpacked to $HOME/.load-test-in-a-box (or %USERPROFILE% for MS-Windows).
+The load-test-in-a-box uber jar is 400-ish mb. When launched, it unpacks the SUT to $HOME/.load-test-in-a-box (or %USERPROFILE% for MS-Windows).
+System Requirements:
 * 2 CPU cores
 * 2g available disk
 * 3g available RAM
