@@ -11,11 +11,11 @@ All you need is a 1.8+ JDK (a JRE alone will not suffice).
 Each scenario-puzzle takes 15-ish minutes and comes with special 'click-to-fail' hyperlinks that launch various java workloads on your own box to help you understand the plight of a development team in some kind of a performance pickle.
 
 # System Requirements
-* Uber jar is 400-ish mb and the SUT is unpacked to $HOME/.load-test-in-a-box (or %USERPROFILE% for MS-Windows).
+Uber jar is 400-ish mb and the SUT is unpacked to $HOME/.load-test-in-a-box (or %USERPROFILE% for MS-Windows).
 * 2 CPU cores
 * 2g available disk
 * 3g available RAM
-* 1.8+ JDK
+* 1.8+ JDK (a JRE alone will not suffice) with java in the PATH
 * Tested on MS-Win and Mac, but Linux should work too…..pls file a bug report with any problems.
 * Currently Chrome has been tested but Firefox does NOT currently work.  See [this bug](https://github.com/eostermueller/load-test-in-a-box/issues/92) for details
 
