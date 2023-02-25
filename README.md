@@ -16,7 +16,7 @@ Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperl
 * Tested on MS-Win and Mac, but Linux should work too…..pls file a bug report with any problems.
 * Currently Chrome has been tested and works fine but Firefox does NOT currently work.  See [this bug](https://github.com/eostermueller/load-test-in-a-box/issues/92) for details
 
-# How it Works
+# Getting Started
 1. [Download](https://github.com/eostermueller/load-test-in-a-box/releases/download/0.0.4/load-test-in-a-box_agent-0.0.4.jar)  the uber jar file.
 2. Open a terminal or cmd.exe to the folder with the uber jar.  Using your own 1.8+ JDK, launch the uber jar like this:
    ```java -jar load-test-in-a-box_agent-0.0.4.jar``` 
@@ -33,10 +33,16 @@ For a little more background, here's a 15 minute video that shows the process:
 
 
 # Use Cases
-* Train staff on Java Performance
+* Easy way to provide consistency when conducting interviews or hands-on training for java performance skills.
 * Benchmark performance of competing java code designs
 * Great way to share/analyze performance during a code review.
-* Easy way to provide consistency when conducting interviews for java performance skills.
+
+# How it Works
+
+You read through a scenario of a performance problem encountered by a software development team.  Throughout the text of the scenario you'll find 'click-to-fail' hyperlinks -- just click on each to launch a specific set of code on your desktop, giving you a front-row-set to understanding the problem encountered by the team in the scenario.
+
+
+load-test-in-a-box has a simple [Feature Flag]([url](https://www.optimizely.com/optimization-glossary/feature-flags/)) implementation that enables the user to read a sceario of some problem that a software team is encountering.
 
 # Links
 
