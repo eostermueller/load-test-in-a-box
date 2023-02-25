@@ -2,9 +2,11 @@ Java performance training platform in a Spring Boot uber jar; comes with:
 * sample java system under test (SUT), 
 * performance monitoring
 * load generator (LG)
+* [h2](https://h2database.com/) db with 3+ million rows
+* [wiremock](https://wiremock.org/) for http/s backend.
 * 2 sample java performance scenario-puzzles with questions
 
-All you need is a 1.8+ JDK (JRE alone will not suffice).  
+All you need is a 1.8+ JDK (a JRE alone will not suffice).  
 
 Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperlinks that launch various java workloads on your own box to help you understand the performance scenario.
 
