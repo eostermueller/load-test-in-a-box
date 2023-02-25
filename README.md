@@ -1,22 +1,23 @@
 Java performance training platform in a Spring Boot uber jar; comes with:
-* sample java system under test (SUT), 
-* performance monitoring
-* load generator (LG)
+* sample java system under test (aka SUT) 
+* performance monitoring from [glowroot.org](https://glowroot.org/)
 * [h2](https://h2database.com/) db with 3+ million rows
 * [wiremock](https://wiremock.org/) for http/s backend.
-* 2 sample java performance scenario-puzzles with questions
+* [JMeter](https://jmeter.apache.org/) load generator (aka LG) 
+* Two sample java performance scenario-puzzles with performance questions
 
 All you need is a 1.8+ JDK (a JRE alone will not suffice).  
 
-Each scenario-puzzle takes 15-ish minutes and comes with special markdown hyperlinks that launch various java workloads on your own box to help you understand the performance scenario.
+Each scenario-puzzle takes 15-ish minutes and comes with special 'click-to-fail' hyperlinks that launch various java workloads on your own box to help you understand the plight of a development team in some kind of a performance pickle.
 
 # System Requirements
-* Uber jar is 400mb (or less), but a total of 1.5g disk available space is required.  SUT is unpacked to $HOME/.load-test-in-a-box
+* Uber jar is 400-ish mb and the SUT is unpacked to $HOME/.load-test-in-a-box (or %USERPROFILE% for MS-Windows).
 * 2 CPU cores
-* 8g RAM
+* 2g available disk
+* 3g available RAM
 * 1.8+ JDK
 * Tested on MS-Win and Mac, but Linux should work too…..pls file a bug report with any problems.
-* Currently Chrome has been tested and works fine but Firefox does NOT currently work.  See [this bug](https://github.com/eostermueller/load-test-in-a-box/issues/92) for details
+* Currently Chrome has been tested but Firefox does NOT currently work.  See [this bug](https://github.com/eostermueller/load-test-in-a-box/issues/92) for details
 
 # Getting Started
 1. [Download](https://github.com/eostermueller/load-test-in-a-box/releases/download/0.0.4/load-test-in-a-box_agent-0.0.4.jar)  the uber jar file.
@@ -33,18 +34,17 @@ The above should be enough to get you started.
 For a little more background, here's a 15 minute video that shows the process:
 [![load-test-in-a-box](http://img.youtube.com/vi/Ck7REKh3E6w/0.jpg)](https://youtu.be/Ck7REKh3E6w "load-test-in-a-box")
 
-
 # Use Cases
+The load-test-in-a-box is:
 * Easy way to provide consistency when conducting interviews or hands-on training for java performance skills.
 * Benchmark performance of competing java code designs
 * Great way to share/analyze performance during a code review.
 
 # How it Works
+The SUT in load-test-in-a-box has a simple [Feature Flag]([url](https://www.optimizely.com/optimization-glossary/feature-flags/)) implementation which is a singleton that details a list of the java could that currently runs when load is applied to [the system's only url/entrypoint](https://github.com/eostermueller/load-test-in-a-box_sut_sample/blob/master/src/main/java/com/github/eostermueller/tjp2/rest/WorkloadController.java#L65-L80).
 
-You read through a scenario of a performance problem encountered by a software development team.  Throughout the text of the scenario you'll find 'click-to-fail' hyperlinks -- just click on each to launch a specific set of code on your desktop, giving you a front-row-set to understanding the problem encountered by the team in the scenario.
-
-
-load-test-in-a-box has a simple [Feature Flag]([url](https://www.optimizely.com/optimization-glossary/feature-flags/)) implementation that enables the user to read a sceario of some problem that a software team is encountering.
+When the user clicks on a 'click-to-fail' link in the scenario-puzzle, it configures the singleton to run code that illustrates that part of the puzzle scenario.
+For example, if the scenario says that the team can't figure out why the system is so slow, clicking on the 'click-to-fail' hyperlink actually runs the slow code on the end user's workstation.
 
 # Links
 
