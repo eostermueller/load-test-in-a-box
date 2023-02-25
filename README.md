@@ -1,5 +1,5 @@
 Java performance training platform in a Spring Boot uber jar; comes with:
-* sample java system under test (aka SUT) 
+* sample java system under test (aka SUT) with sample perf defects
 * performance monitoring from [glowroot.org](https://glowroot.org/)
 * [h2](https://h2database.com/) db with 3+ million rows
 * [wiremock](https://wiremock.org/) for http/s backend.
