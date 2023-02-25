@@ -41,14 +41,12 @@ The load-test-in-a-box is:
 * Great way to share/analyze performance during a code review.
 
 # How it Works
-The SUT in load-test-in-a-box has a simple [Feature Flag]([url](https://www.optimizely.com/optimization-glossary/feature-flags/)) implementation which is a singleton that details a list of the java could that currently runs when load is applied to [the system's only url/entrypoint](https://github.com/eostermueller/load-test-in-a-box_sut_sample/blob/master/src/main/java/com/github/eostermueller/tjp2/rest/WorkloadController.java#L65-L80).
+The SUT in load-test-in-a-box has a simple [feature flag](https://www.optimizely.com/optimization-glossary/feature-flags/) implementation which is a singleton that lists the java code that currently runs when load is applied to [the SUT's only url/entrypoint](https://github.com/eostermueller/load-test-in-a-box_sut_sample/blob/master/src/main/java/com/github/eostermueller/tjp2/rest/WorkloadController.java#L65-L80).
 
-When the user clicks on a 'click-to-fail' link in the scenario-puzzle, it configures the singleton to run code that illustrates that part of the puzzle scenario.
-For example, if the scenario says that the team can't figure out why the system is so slow, clicking on the 'click-to-fail' hyperlink actually runs the slow code on the end user's workstation.
+When reading through the scenario puzzle, the user clicks on a 'click-to-fail' link and it configures the singleton to run code that illustrates that part of the puzzle scenario.
+For example, if the scenario says that the team can't figure out why the system is so slow, clicking on the 'click-to-fail' hyperlink actually runs the slow code on the end user's workstation, so the user has a chance to learn how to troubleshoot and discover the root cause of the slow code.
 
 # Links
-
-The [Quickstart](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Quickstart). Download/install/run to run the pre-packaged java code showing performance defects and fixes.
 
 [Run your own code](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Run-Your-Own-Code) inside the Workbench.
 
