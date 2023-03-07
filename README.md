@@ -32,7 +32,7 @@ System Requirements:
 8. To use JDK performance tools (jstack, jmap, jcmd, etc...) you'll need the process ID of the SUT, which you can find by hovering over 'SUT' health indicator in the bottom left of the main UI (http://localhost:8675)
 
 The above should be enough to get you started.
-For a little more background, here's a 15 minute video that shows the process:
+For a little more background, here's a 6 minute video that shows the process:
 [![load-test-in-a-box](http://img.youtube.com/vi/Ck7REKh3E6w/0.jpg)](https://youtu.be/Ck7REKh3E6w "load-test-in-a-box")
 
 # Use Cases
