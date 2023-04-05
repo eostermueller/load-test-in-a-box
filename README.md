@@ -40,6 +40,7 @@ The load-test-in-a-box is:
 * Easy way to provide consistency when conducting interviews or hands-on training for java performance skills.
 * Benchmark performance of competing java code designs
 * Great way to share/analyze performance during a code review.
+* Easy way to distribute source-code-under-load with a published book.
 
 # How it Works
 The SUT in load-test-in-a-box has a simple [feature flag](https://www.optimizely.com/optimization-glossary/feature-flags/) implementation which is a singleton that lists the java code that currently runs when load is applied to [the SUT's only url/entrypoint](https://github.com/eostermueller/load-test-in-a-box_sut_sample/blob/master/src/main/java/com/github/eostermueller/tjp2/rest/WorkloadController.java#L65-L80).
