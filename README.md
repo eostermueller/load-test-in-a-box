@@ -50,7 +50,7 @@ For example, if the scenario says that the team can't figure out why the system 
 
 # Links
 
-[Run your own code](Content Creation) inside the load-test-in-a-box.  There are even a few approaches at packaging and distributing your own code, too!
+[Run your own code](https://github.com/eostermueller/load-test-in-a-box/wiki/Content-Creation) inside the load-test-in-a-box.  There are even a few approaches at packaging and distributing your own code, too!
 
 [Build](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Build) the Workbench's uber jar.
 
