@@ -50,7 +50,7 @@ For example, if the scenario says that the team can't figure out why the system 
 
 # Links
 
-[Run your own code](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Run-Your-Own-Code) inside the Workbench.
+[Run your own code](Content Creation) inside the load-test-in-a-box.  There are even a few approaches at packaging and distributing your own code, too!
 
 [Build](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Build) the Workbench's uber jar.
 
@@ -66,21 +66,6 @@ The uber jar's browser UI at http://localhost:8675 (the 'agent') allows you to s
 
 Here are a few more [Architecture](https://github.com/eostermueller/performanceAnalysisWorkbench/wiki/Architecture) details.
 
-
-# Motivation
-This project challenges end users (java developers) to [solicit predictions](https://blog.upperlinecode.com/stop-teaching-code/) on software performance experiments with main types of software defects:  
- * Persistence
- * Alien systems
- * Threads
- * Heap
-
-(the acronym is P.A.T.H.)
-
- Helpful predictions to solicit from the end user:
-
- * Does performance improve with fewer or more invocations to the database?
- * How large must a payload be to degrade transmission time?
- * How much delay is required to slow down code with a sync block?
 
 # Goals
 * Quick and easy "[No Friction](https://github.com/eostermueller/snail4j/wiki/No-Friction-Distribution)" distribution.
